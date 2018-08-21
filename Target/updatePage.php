@@ -62,14 +62,14 @@ function rerender()
 
 	<select id="jsYear" name="jsYear" onchange="return rerender();">																				<?php
 	foreach($yearList as $yearIterator)
-	{																																				?>
-		<option  value="<?php echo $yearIterator;?>"> <?php echo $yearIterator;?> </option>															<?php 
+	{																																			?>
+		<option  <?php if($yearIterator == $year) echo 'selected';?> value="<?php echo $yearIterator;?>"> <?php echo $yearIterator;?> </option>															<?php 
 	}																																				?>
 	</select>
 	<select id="jsMonth" name="jsMonth" onchange="return rerender();">																				<?php
 	for($i=1; $i<=12; $i++)
 	{																																				?>
-		<option value="<?php echo $i;?>" <?php if($month == $i) echo 'selected';?>><?php echo getMonth($i);?></option>					<?php
+		<option value="<?php echo $i;?>" <?php if($month == $i) echo 'selected';?>><?php echo getMonth($i);?></option>								<?php
 	}																																				?>
 	</select>
 	</div>
