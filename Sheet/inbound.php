@@ -15,7 +15,7 @@ $fe=$_GET['fe'];
 
 $sql="INSERT INTO sheet_requests (date, area, location, landmark, qty, customerPhone, customerName, masonPhone, masonName, fe)
 	 VALUES
-	 ('$sqlDate', '$area', '$location', $landmark, '$qty', '$customerPhone', '$customerName', '$masonPhone', '$masonName', '$fe')";
+	 ('$sqlDate', '$area', '$location', '$landmark', '$qty', '$customerPhone', '$customerName', '$masonPhone', '$masonName', '$fe')";
 
 $result = mysqli_query($con, $sql) or die(mysqli_error($con));				 
 	
