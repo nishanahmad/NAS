@@ -1,5 +1,5 @@
 <?php
-require 'connect.php';
+require '../connect.php';
 
 $area=$_GET['area'];
 $landmark=$_GET['landmark'];
