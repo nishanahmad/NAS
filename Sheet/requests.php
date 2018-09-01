@@ -1,9 +1,15 @@
 <html>
 <head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
 <title>
 Sheets
 </title>
+<style>
+.button {
+	background: rgb(28, 184, 65);
+}
+</style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
@@ -28,7 +34,10 @@ function deliver(id){
 			<p><?php echo 'Qty:'.$sheet['qty'];?></p>
 			<p><?php echo date("d-m-Y",strtotime($sheet['date']));?></p>
 			<p><?php echo $sheet['fe'];?></p>
-			<input type="button" value="Deliver" onclick="deliver(<?php echo $sheet['id'];?>)"/>			
+			<div align="center">
+				<button class="button pure-button" onclick="deliver(<?php echo $sheet['id'];?>)">Deliver</button>				
+			</div>
+			<br/><br/>
 		  </div>
 		</div>																											<?php	
 	}																													?>
