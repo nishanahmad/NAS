@@ -32,7 +32,10 @@ a{
 
 <div class="row">
 	<h1>SHEETS</h1>
-	<br><br> 
+	<br><br>
+	<a href="requests.php" class="btn lg ghost">DELIVERY PENDING</a>
+	<br><br><br>
+	
 	<a href="new.php" class="btn lg ghost">NEW DELIVERY</a>
 	<br><br><br>
 
