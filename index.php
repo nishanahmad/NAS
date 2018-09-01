@@ -15,7 +15,6 @@ a{
 </head>
 <body>
 
-
 <div class="background">
 </div>
 <div class="container">
@@ -23,10 +22,9 @@ a{
     <h1><img alt='Add' title='Add New' src='images/logo.png' width='300px' height='50px'/></h1>
     <h4></h4>
   </div>
-  <hr />
-  </div>
-  
- 
+  <hr/>
+</div>
+   
 <br><br> 
 
 	<div class="row">																	<?php
