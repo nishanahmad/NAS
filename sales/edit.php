@@ -8,10 +8,13 @@ if(isset($_SESSION["user_name"]))
 require '../connect.php';
 echo "LOGGED USER : ".$_SESSION["user_name"] ;	
 
-$arObjects = mysqli_query($con,"SELECT id,ar_name FROM ar_details") or die(mysqli_error($con));	
+$engMap[null] = null;
+$arObjects = mysqli_query($con,"SELECT id,ar_name,type FROM ar_details") or die(mysqli_error($con));	
 foreach($arObjects as $ar)
 {
 	$arMap[$ar['id']] = $ar['ar_name']; 
+	if($ar['type'] == 'Engineer' || $ar['type'] == 'Contractor')
+		$engMap[$ar['id']] = $ar['ar_name'];
 }
 
 if(count($_POST)>0) 
@@ -118,16 +121,37 @@ if(count($_POST)>0)
 							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
 	}
 	
-	
-	
-	
-	$query = mysqli_query($con,"UPDATE nas_sale SET entry_date='$newDate', ar_id='" . $_POST["ar"] . "', truck_no='" . $_POST["truck"] . "',
-								srp='" . $_POST["srp"] . "', srh='" . $_POST["srh"] . "' , f2r='" . $_POST["f2r"] . "',
-								remarks='" . $_POST["remarks"] . "', bill_no='" . $_POST["bill"] . "', address1='" . $_POST["address1"] . "', 
-								address2='" . $_POST["address2"] . "', customer_name='" . $_POST["customerName"] . "', return_bag='".$_POST["return"]."',
-								customer_phone='" . $_POST["customerPhone"] . "'
-								WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
+	$arId = $_POST['ar'];
+	$engId = $_POST['engineer'];
+	$truck = $_POST['truck'];
+	$srp = $_POST['srp'];
+	$srh = $_POST['srh'];
+	$f2r = $_POST['f2r'];
+	$return = $_POST['return'];	
+	$remarks = $_POST['remarks'];
+	$bill = $_POST['bill'];
+	$customerName = $_POST['customerName'];
+	$customerPhone = $_POST['customerPhone'];
+	$address1 = $_POST['address1'];
+	$address2 = $_POST['address2'];
+	$entered_by = $_SESSION["user_name"];
+	$entered_on = date('Y-m-d H:i:s');	
 
+	if(empty($engId))
+		$engId = 'null';	
+	if(empty($srp))
+		$srp = 'null';
+	if(empty($srh))
+		$srh = 'null';
+	if(empty($f2r))
+		$f2r = 'null';
+	if(empty($return))
+		$return = 'null';
+	
+	$query = mysqli_query($con,"UPDATE nas_sale SET entry_date='$newDate', ar_id='$arId', eng_id = $engId, truck_no='$truck',
+								srp=$srp, srh=$srh, f2r=$f2r,return_bag=$return,remarks='$remarks', bill_no='$bill', 
+								address1='$address1', address2='$address2', customer_name='$customerName', customer_phone='$customerPhone'
+								WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
 		  
 	if($_GET['clicked_from'] == 'all_sales')	
 		$url = 'list.php';
@@ -231,6 +255,19 @@ $row= mysqli_fetch_array($result,MYSQLI_ASSOC);
 
 <td><label>Return</label></td>
 <td><input type="text" name="return" class="txtField" value="<?php echo $row['return_bag']; ?>"></td>
+
+<td><label>Engineer</label></td>
+<td><select name="engineer" class="txtField">
+		<option value="<?php echo $row['eng_id'];?>"><?php echo $engMap[$row['eng_id']];?></option>																																<?php
+		foreach($engMap as $engId => $engName)
+		{	
+			if($engId != $row['eng_id'])
+			{																																			?>
+				<option value="<?php echo $engId;?>"><?php echo $engName;?></option><?php
+			}																																			?>																																						<?php		
+		}																																				?>
+      </select>
+</td>
 
 <tr>
 <td colspan="4" align = "center"><input type="submit" name="submit" value="Submit" class="btnSubmit"></td>

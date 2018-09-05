@@ -17,6 +17,8 @@ if(isset($_SESSION["user_name"]))
 	$shopNameArray = json_encode($shopNameMap);
 	$shopNameArray = str_replace('\n',' ',$shopNameArray);
 	$shopNameArray = str_replace('\r',' ',$shopNameArray);	
+	
+	$engineerObjects = mysqli_query($con,"SELECT id,ar_name,sap_code,shop_name FROM ar_details WHERE type = 'Engineer' OR type = 'Contractor' ORDER BY ar_name ASC");	
 ?>
 
 <html>
@@ -138,6 +140,21 @@ if(isset($_SESSION["user_name"]))
 				<td><label>Shop</label></td>
 				<td><input type="text" readonly name="shopName" id="shopName" class="txtField"></td>	
 			</tr>
+			
+			<tr>
+				<td></td>
+				<td></td>
+				
+				<td><label>Engineer</label></td>
+				<td><select name="engineer" id="engineer"  class="txtField">
+						<option value = "">---Select---</option>
+																													<?php
+						foreach($engineerObjects as $eng) 
+						{																							?>
+							<option value="<?php echo $eng['id'];?>"><?php echo $eng['ar_name'];?></option>			<?php	
+						}																							?>
+					</select>
+			</tr>			
 			
 			</tr>
 			<tr>

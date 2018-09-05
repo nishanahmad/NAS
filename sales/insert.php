@@ -9,6 +9,7 @@ if(isset($_SESSION["user_name"]))
 	$date = $_POST['date'];
 	$sqlDate = date("Y-m-d", strtotime($date));
 	$arId = $_POST['ar'];
+	$engId = $_POST['engineer'];
 	$truck = $_POST['truck'];
 	$srp = $_POST['srp'];
 	$srh = $_POST['srh'];
@@ -23,6 +24,8 @@ if(isset($_SESSION["user_name"]))
 	$entered_by = $_SESSION["user_name"];
 	$entered_on = date('Y-m-d H:i:s');	
 
+	if(empty($engId))
+		$engId = 'null';	
 	if(empty($srp))
 		$srp = 'null';
 	if(empty($srh))
@@ -33,9 +36,9 @@ if(isset($_SESSION["user_name"]))
 		$return = 'null';
 	
 
-	$sql="INSERT INTO nas_sale (entry_date, ar_id, truck_no, srp, srh, f2r, return_bag, remarks, bill_no, customer_name, customer_phone, address1, address2,entered_by,entered_on)
+	$sql="INSERT INTO nas_sale (entry_date, ar_id, eng_id, truck_no, srp, srh, f2r, return_bag, remarks, bill_no, customer_name, customer_phone, address1, address2,entered_by,entered_on)
 		 VALUES
-		 ('$sqlDate', '$arId', '$truck', $srp, $srh, $f2r, $return, '$remarks', '$bill', '$customerName', '$customerPhone', '$address1', '$address2', '$entered_by', '$entered_on')";
+		 ('$sqlDate', '$arId', $engId, '$truck', $srp, $srh, $f2r, $return, '$remarks', '$bill', '$customerName', '$customerPhone', '$address1', '$address2', '$entered_by', '$entered_on')";
 
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));				 
 
