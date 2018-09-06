@@ -9,16 +9,34 @@ Sheets
 .button {
 	background: rgb(28, 184, 65);
 }
+.button-error {
+            background: rgb(202, 60, 60); /* this is a maroon */
+        }
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
 <script>
 function deliver(id){
-  var qty = window.prompt("Enter number of sheets delivered to this site");		
-  
-	hrf = 'deliver.php?';
-	window.location.href = hrf +"id="+ id + "&qty=" + qty;
+	var qty = window.prompt("Enter number of sheets delivered to this site");		
+	if(isNaN(qty))
+	{
+		alert('Please enter a valid number');
+		return false;
+	}
+	else
+	{
+		hrf = 'deliver.php?';
+		window.location.href = hrf +"id="+ id + "&qty=" + qty;
+	}
+}
+function cancel(id){
+	var conf = confirm("This will cancel this request. Are you sure?");
+	if(conf)
+	{
+		hrf = 'cancel.php?';
+		window.location.href = hrf +"id="+ id;		
+	}
 }
 </script>
 																														<?php
@@ -35,7 +53,8 @@ function deliver(id){
 			<p><?php echo date("d-m-Y",strtotime($sheet['date']));?></p>
 			<p><?php echo $sheet['fe'];?></p>
 			<div align="center">
-				<button class="button pure-button" onclick="deliver(<?php echo $sheet['id'];?>)">Deliver</button>				
+				<button class="button pure-button" onclick="deliver(<?php echo $sheet['id'];?>)">Deliver</button>&nbsp;&nbsp;&nbsp;&nbsp;				
+				<button class="button-error pure-button" onclick="cancel(<?php echo $sheet['id'];?>)">Cancel</button>
 			</div>
 			<br/><br/>
 		  </div>
