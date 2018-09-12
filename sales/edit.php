@@ -12,8 +12,9 @@ $engMap[null] = null;
 $arObjects = mysqli_query($con,"SELECT id,ar_name,type FROM ar_details") or die(mysqli_error($con));	
 foreach($arObjects as $ar)
 {
-	$arMap[$ar['id']] = $ar['ar_name']; 
-	if($ar['type'] == 'Engineer' || $ar['type'] == 'Contractor')
+	if($ar['type'] != 'Engineer Only')
+		$arMap[$ar['id']] = $ar['ar_name']; 
+	if($ar['type'] == 'Engineer' || $ar['type'] == 'Contractor' || $ar['type'] == 'Engineer Only')
 		$engMap[$ar['id']] = $ar['ar_name'];
 }
 
