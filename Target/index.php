@@ -39,7 +39,7 @@ a{
 	<a href="generateDateSelectPage.php" class="btn lg ghost">GENERATE TARGET & RATE</a>
 	<br><br><br>
 
-	<a href="calculatePointsTable.php?month=<?php echo $month;?>&year=<?php echo $year;?>" class="btn lg ghost">VIEW MONTHLY POINTS</a>
+	<a href="monthlyPoints.php?month=<?php echo $month;?>&year=<?php echo $year;?>" class="btn lg ghost">VIEW MONTHLY POINTS</a>
 	<br><br><br>
 	
 	<a href="../points_full/mainPage.php?month=<?php echo $month;?>&year=<?php echo $year;?>&dateString=FULL" class="btn lg ghost">VIEW ACCUMULATED POINTS</a>
