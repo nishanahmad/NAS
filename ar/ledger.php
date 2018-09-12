@@ -29,6 +29,16 @@ if(isset($_SESSION["user_name"]))
 		$yearMap[] = $year['YEAR(entry_date)'];
 	}	
 	
+	$targetObjects = mysqli_query($con,"SELECT month, target, payment_perc,rate FROM target WHERE Year='$year' AND ar_id = '$urlId' ") or die(mysqli_error($con));		 
+	foreach($targetObjects as $target)
+	{
+		$targetMap[$target['month']]['target'] = $target['target'];
+		$targetMap[$target['month']]['rate'] = $target['rate'];
+		$targetMap[$target['month']]['payment_perc'] = $target['payment_perc'];
+	}
+	
+	$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$year' = year(`entry_date`) AND '$month' = month(`entry_date`) AND ar_id IN ('$arIds') GROUP BY ar_id") or die(mysqli_error($con));	
+	
 	$salesMap = array();	
 	$salesList = mysqli_query($con, "SELECT SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag),MONTH(entry_date) FROM nas_sale WHERE YEAR(entry_date) = '$urlYear' AND ar_id = '$urlId' GROUP BY MONTH(entry_date) ORDER BY MONTH(entry_date) ASC" ) or die(mysqli_error($con));
 	foreach($salesList as $sale) 
