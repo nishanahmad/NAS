@@ -6,6 +6,7 @@ if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
 	require '../functions/monthMap.php';			
+	require '../functions/targetFormula.php';	
 
 	if(isset($_GET['id']))
 		$urlId = $_GET['id'];
@@ -29,7 +30,7 @@ if(isset($_SESSION["user_name"]))
 		$yearMap[] = $year['YEAR(entry_date)'];
 	}	
 	
-	$targetObjects = mysqli_query($con,"SELECT month, target, payment_perc,rate FROM target WHERE Year='$year' AND ar_id = '$urlId' ") or die(mysqli_error($con));		 
+	$targetObjects = mysqli_query($con,"SELECT month, target, payment_perc,rate FROM target WHERE Year='$urlYear' AND ar_id = '$urlId' ") or die(mysqli_error($con));		 
 	foreach($targetObjects as $target)
 	{
 		$targetMap[$target['month']]['target'] = $target['target'];
@@ -37,13 +38,34 @@ if(isset($_SESSION["user_name"]))
 		$targetMap[$target['month']]['payment_perc'] = $target['payment_perc'];
 	}
 	
-	$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$year' = year(`entry_date`) AND '$month' = month(`entry_date`) AND ar_id IN ('$arIds') GROUP BY ar_id") or die(mysqli_error($con));	
-	
 	$salesMap = array();	
 	$salesList = mysqli_query($con, "SELECT SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag),MONTH(entry_date) FROM nas_sale WHERE YEAR(entry_date) = '$urlYear' AND ar_id = '$urlId' GROUP BY MONTH(entry_date) ORDER BY MONTH(entry_date) ASC" ) or die(mysqli_error($con));
 	foreach($salesList as $sale) 
 	{
 		$saleMap[$sale['MONTH(entry_date)']] = $sale['SUM(srp)'] + $sale['SUM(srh)'] + $sale['SUM(f2r)'] - $sale['SUM(return_bag)'];
+	}
+	
+	$mainArray = array();
+	foreach($saleMap as $month => $total)
+	{
+		if(isset($targetMap[$month]))
+		{
+			$points = round($total * $targetMap[$month]['rate'],0);
+			$actual_perc = round($total * 100 / $targetMap[$month]['target'],0);
+			$point_perc = getPointPercentage($actual_perc,$urlYear,$month);			 
+			$achieved_points = round($points * $point_perc/100,0);
+			
+			if($total > 0)		
+				$payment_points = round($achieved_points * $targetMap[$month]['payment_perc']/100,0);
+			else
+				$payment_points = 0;			
+
+			$mainArray[$month]['points'] = $points;
+			$mainArray[$month]['actual_perc'] = $actual_perc;
+			$mainArray[$month]['point_perc'] = $point_perc;
+			$mainArray[$month]['achieved_points'] = $achieved_points;
+			$mainArray[$month]['payment_points'] = $payment_points;			
+		}		
 	}
 ?>
 
@@ -89,13 +111,15 @@ function rerender()
 <h1><?php echo $arMap[$urlId] . ', ' .$urlYear ;?></h1>
 </div>
 <table align="center" class="responstable" style="width:25%;">
-<tr><th style="text-align:left;width:60%">Month</th><th style="text-align:center;">Total Sale</th></tr>
+<tr><th style="text-align:left;width:60%">Month</th><th>Target</th><th>Sale</th><th>Points</th></tr>
 <?php
 foreach($saleMap as $month => $sale) 
 {																																		?>
 	<tr>
 		<td style="text-align:left;"><?php echo getMonth($month);?></th>
+		<td><?php echo $targetMap[$month]['target'];?></th>
 		<td><?php echo $sale;?></th>
+		<td><?php echo $mainArray[$month]['payment_points'];?></th>
 	</tr>																													<?php																		
 }																															?>
 </table>
