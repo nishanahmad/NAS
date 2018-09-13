@@ -4,10 +4,9 @@ if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
 	require '../functions/monthMap.php';
-	require 'getSaleMap.php';
 	
 	$mainArray = array();
-	if(isset($_GET['year']) && isset($_GET['month']) && isset($_GET['dateString']))
+	if(isset($_GET['year']) && isset($_GET['month']))
 	{
 		$year = (int)$_GET['year'];
 		$month = (int)$_GET['month'];
@@ -95,22 +94,20 @@ function rerender()
 	<div align="center">
 		<a href="../index.php" class="link"><img alt='home' title='home' src='../images/home.png' width='50px' height='50px'/> </a>
 		<br><br>
-		<select id="jsMonth" name="jsMonth" class="textarea" onchange="return rerender();">	
-			<option value = "<?php echo $month;?>"><?php echo getMonth($month);?></option>																						<?php	
-			$monthList = mysqli_query($con, "SELECT DISTINCT month FROM target WHERE month <> $month ORDER BY month ASC" ) or die(mysqli_error($con));	
+		<select id="jsMonth" name="jsMonth" class="textarea" onchange="return rerender();">																								<?php	
+			$monthList = mysqli_query($con, "SELECT DISTINCT month FROM target ORDER BY month ASC" ) or die(mysqli_error($con));	
 			foreach($monthList as $monthObj) 
 			{	
-	?>			<option value="<?php echo $monthObj['month'];?>"><?php echo getMonth($monthObj['month']);?></option>															<?php	
+	?>			<option <?php if($month == (int)$monthObj['month']) echo 'selected';?> value="<?php echo $monthObj['month'];?>"><?php echo getMonth($monthObj['month']);?></option>															<?php	
 			}
 	?>	</select>					
 			&nbsp;&nbsp;
 
-		<select id="jsYear" name="jsYear" class="textarea" onchange="return rerender();">
-			<option value = "<?php echo $year;?>"><?php echo $year;?></option>																									<?php	
-			$yearList = mysqli_query($con, "SELECT DISTINCT year FROM target  WHERE year <> $year ORDER BY year DESC") or die(mysqli_error($con));	
+		<select id="jsYear" name="jsYear" class="textarea" onchange="return rerender();">																				<?php	
+			$yearList = mysqli_query($con, "SELECT DISTINCT year FROM target ORDER BY year DESC") or die(mysqli_error($con));	
 			foreach($yearList as $yearObj) 
 			{
-?>				<option value="<?php echo $yearObj['year'];?>"><?php echo $yearObj['year'];?></option>																			<?php	
+?>				<option <?php if($year == (int)$yearObj['year']) echo 'selected';?> value="<?php echo $yearObj['year'];?>"><?php echo $yearObj['year'];?></option>																			<?php	
 			}
 ?>		</select>
 

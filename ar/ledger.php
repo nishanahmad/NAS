@@ -111,7 +111,7 @@ function rerender()
 <h1><?php echo $arMap[$urlId] . ', ' .$urlYear ;?></h1>
 </div>
 <table align="center" class="responstable" style="width:25%;">
-<tr><th style="text-align:left;width:60%">Month</th><th>Target</th><th>Sale</th><th>Points</th></tr>
+<tr><th style="text-align:left;width:40%">Month</th><th>Target</th><th>Sale</th><th>Points</th></tr>
 <?php
 foreach($saleMap as $month => $sale) 
 {																																		?>
