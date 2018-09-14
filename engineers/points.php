@@ -193,11 +193,11 @@ function getPrevPoints($engList,$endYear,$endMonth)
 		
 		$engIds = implode("','",array_keys($engMap));	
 		
-		$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$startDate' AND entry_date <= '$endDate' AND (ar_id IN ('$engIds') OR eng_id IN ('$engIds')) GROUP BY ar_id" ) or die(mysqli_error($con));		 	 
+		$sales = mysqli_query($con,"SELECT ar_id,eng_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$startDate' AND entry_date <= '$endDate' AND (ar_id IN ('$engIds') OR eng_id IN ('$engIds')) GROUP BY ar_id" ) or die(mysqli_error($con));		 	 
 		foreach($sales as $sale)
 		{
 			if(empty($sale['eng_id']))
-				$engId = $sale['ar_id'];
+				$engId = $sale['ar_id'];				
 			else
 				$engId = $sale['eng_id'];
 			
