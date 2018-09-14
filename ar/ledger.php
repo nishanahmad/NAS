@@ -19,10 +19,11 @@ if(isset($_SESSION["user_name"]))
 		$urlYear = date("Y");	
 	
 	$arMap = array();
-	$arList = mysqli_query($con, "SELECT id,ar_name FROM ar_details ORDER BY ar_name ASC" ) or die(mysqli_error($con));		
+	$arList = mysqli_query($con, "SELECT id,ar_name,isActive FROM ar_details ORDER BY ar_name ASC" ) or die(mysqli_error($con));		
 	foreach($arList as $ar) 
 	{
-		$arMap[$ar['id']] = $ar['ar_name'];
+		$arName = $ar['ar_name'];
+		$isActive = $ar['isActive'];
 	}
 	$yearList = mysqli_query($con, "SELECT DISTINCT YEAR(entry_date) FROM nas_sale WHERE ar_id = '$urlId' ORDER BY entry_date DESC" ) or die(mysqli_error($con));
 	foreach($yearList as $year) 
@@ -38,7 +39,7 @@ if(isset($_SESSION["user_name"]))
 		$targetMap[$target['month']]['payment_perc'] = $target['payment_perc'];
 	}
 	
-	$salesMap = array();	
+	$saleMap = array();	
 	$salesList = mysqli_query($con, "SELECT SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag),MONTH(entry_date) FROM nas_sale WHERE YEAR(entry_date) = '$urlYear' AND ar_id = '$urlId' GROUP BY MONTH(entry_date) ORDER BY MONTH(entry_date) ASC" ) or die(mysqli_error($con));
 	foreach($salesList as $sale) 
 	{
@@ -48,7 +49,13 @@ if(isset($_SESSION["user_name"]))
 	$mainArray = array();
 	foreach($saleMap as $month => $total)
 	{
-		if(isset($targetMap[$month]))
+		$mainArray[$month]['points'] = null;
+		$mainArray[$month]['actual_perc'] = null;
+		$mainArray[$month]['point_perc'] = null;
+		$mainArray[$month]['achieved_points'] = null;
+		$mainArray[$month]['payment_points'] = null;					
+
+		if(isset($targetMap[$month]) && $isActive)
 		{
 			$points = round($total * $targetMap[$month]['rate'],0);
 			$actual_perc = round($total * 100 / $targetMap[$month]['target'],0);
