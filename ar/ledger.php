@@ -127,7 +127,7 @@ foreach($saleMap as $month => $sale)
 {																																		?>
 	<tr>
 		<td style="text-align:left;"><?php echo getMonth($month);?></th>
-		<td><?php echo $targetMap[$month]['target'];?></th>
+		<td><?php if(isset($targetMap[$month]['target'])) echo $targetMap[$month]['target'];?></th>
 		<td><?php echo $sale;?></th>
 		<td><?php echo $mainArray[$month]['payment_points'];?></th>
 	</tr>																													<?php																		
