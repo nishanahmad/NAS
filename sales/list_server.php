@@ -94,7 +94,7 @@ if( !empty($requestData['columns'][1]['search']['value']) )
 if( !empty($requestData['columns'][2]['search']['value']) )
 {  //ar
 	$searchString = $requestData['columns'][2]['search']['value'];
-	$arList =  mysqli_query($con, "SELECT id FROM ar_details WHERE ar_name LIKE '%".$searchString."%' ") or die(mysqli_error($con).' LINE 97');	
+	$arList =  mysqli_query($con, "SELECT id FROM ar_details WHERE name LIKE '%".$searchString."%' ") or die(mysqli_error($con).' LINE 97');	
 	$firstEntry  = true;
 	foreach($arList as $ar)
 	{
@@ -156,7 +156,7 @@ fclose($fp);
 */
 
 
-$arObjects =  mysqli_query($con,"SELECT id,ar_name FROM ar_details ORDER BY ar_name ASC ") or die(mysqli_error($con));		 
+$arObjects =  mysqli_query($con,"SELECT id,name FROM ar_details ORDER BY name ASC ") or die(mysqli_error($con));		 
 foreach($arObjects as $ar)
 {
 	$arMap[$ar['id']] = $ar['name'];

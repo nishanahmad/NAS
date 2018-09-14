@@ -14,7 +14,7 @@ if(isset($_SESSION["user_name"]))
 	else
 		$toDate = date("Y-m-d");		
 
-	$arObjects = mysqli_query($con, "SELECT * FROM ar_details order by ar_name ASC" ) or die(mysqli_error($con));	
+	$arObjects = mysqli_query($con, "SELECT * FROM ar_details order by name ASC" ) or die(mysqli_error($con));	
 	foreach($arObjects as $ar)
 	{
 		$arNameMap[$ar['id']] = $ar['name'];

@@ -6,7 +6,7 @@ if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
 	
-	$arObjects = mysqli_query($con,"SELECT id,ar_name,shop_name FROM ar_details WHERE ar_name IS NOT NULL AND shop_name IS NOT NULL");
+	$arObjects = mysqli_query($con,"SELECT id,name,shop_name FROM ar_details WHERE name IS NOT NULL AND shop_name IS NOT NULL");
 	foreach($arObjects as $ar)
 	{
 		$arNameMap[$ar['id']] = $ar['name'];

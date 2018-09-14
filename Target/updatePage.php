@@ -10,7 +10,7 @@ if(isset($_SESSION["user_name"]))
 	$year = $_GET['year'];
 	$month = $_GET['month'];
 
-	$arObjects = mysqli_query($con, "SELECT * FROM ar_details WHERE isActive = 1 ORDER BY ar_name ASC") or die(mysqli_error($con));
+	$arObjects = mysqli_query($con, "SELECT * FROM ar_details WHERE isActive = 1 ORDER BY name ASC") or die(mysqli_error($con));
 	foreach($arObjects as $ar)
 	{
 		$arMap[$ar['id']] = $ar['name'];

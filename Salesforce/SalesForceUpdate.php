@@ -28,7 +28,7 @@ $fp = fopen('../sfdc_date.json', 'w');
 fwrite($fp, json_encode($date));
 fclose($fp);
 
-$ar_query = mysqli_query($con,"SELECT ar_name,salesforce_id FROM ar_details WHERE salesforce_id NOT LIKE '%GENERAL%' ") or die(mysqli_error($con));	
+$ar_query = mysqli_query($con,"SELECT name,salesforce_id FROM ar_details WHERE salesforce_id NOT LIKE '%GENERAL%' ") or die(mysqli_error($con));	
 while($row = mysqli_fetch_array($ar_query,MYSQLI_ASSOC))
 {
 	$detailArray = array();
@@ -36,7 +36,7 @@ while($row = mysqli_fetch_array($ar_query,MYSQLI_ASSOC))
 	$lpp = 0;
 	$hdpe = 0;
 	$cstl = 0;
-	$ar = $row["ar_name"];
+	$ar = $row["name"];
 	$salesforce_id = $row["salesforce_id"];
 	$sum_query = mysqli_query($con,"SELECT srp,srh,f2r,return_bag FROM nas_sale WHERE entry_date = '$date' AND ar = '$ar' ") or die(mysqli_error($con));	
 	while($sales = mysqli_fetch_array($sum_query,MYSQLI_ASSOC))

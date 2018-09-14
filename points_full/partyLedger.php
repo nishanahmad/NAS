@@ -19,7 +19,7 @@ if(isset($_SESSION["user_name"]))
 		$arId = 1;
 	}
 	
-	$arObjects =  mysqli_query($con,"SELECT id,ar_name,mobile,shop_name,sap_code FROM ar_details WHERE isActive = 1") or die(mysqli_error($con));		 
+	$arObjects =  mysqli_query($con,"SELECT id,name,mobile,shop_name,sap_code FROM ar_details WHERE isActive = 1") or die(mysqli_error($con));		 
 	foreach($arObjects as $ar)
 	{
 		$pickList[$ar['id']] = $ar['name'];

@@ -5,7 +5,7 @@ if(isset($_SESSION["user_name"]))
 	require '../connect.php';
     
 // Populate maps for SAP CODE and SHOP NAME
-	$arObjects = mysqli_query($con,"SELECT id,ar_name,sap_code,shop_name,type FROM ar_details WHERE type <> 'Engineer Only' OR type IS NULL ORDER BY ar_name ASC");
+	$arObjects = mysqli_query($con,"SELECT id,name,sap_code,shop_name,type FROM ar_details WHERE type <> 'Engineer Only' OR type IS NULL ORDER BY name ASC");
 	foreach($arObjects as $arObject)
 	{
 		$arId = $arObject['id'];
@@ -18,7 +18,7 @@ if(isset($_SESSION["user_name"]))
 	$shopNameArray = str_replace('\n',' ',$shopNameArray);
 	$shopNameArray = str_replace('\r',' ',$shopNameArray);	
 	
-	$engineerObjects = mysqli_query($con,"SELECT id,ar_name,sap_code,shop_name FROM ar_details WHERE type LIKE '%Engineer%' OR type = 'Contractor' ORDER BY ar_name ASC");	
+	$engineerObjects = mysqli_query($con,"SELECT id,name,sap_code,shop_name FROM ar_details WHERE type LIKE '%Engineer%' OR type = 'Contractor' ORDER BY name ASC");	
 ?>
 
 <html>

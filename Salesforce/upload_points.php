@@ -43,13 +43,13 @@ if ((isset($_FILES["ip_file"])) && ($_FILES["ip_file"]["error"] <= 0))
 	while (!feof($file_handle) ) 
 	{
 		$line_of_text = fgetcsv($file_handle);
-		$ar_name = trim($line_of_text[0]);
+		$name = trim($line_of_text[0]);
 		$phone = trim($line_of_text[1]);
 		$points = trim($line_of_text[2]);
 		$balance_points = trim($line_of_text[3]);
 
 		$sObject = new stdclass();
-		$sObject->AR_Name__c = $ar_name;
+		$sObject->AR_Name__c = $name;
 		$sObject->Phone__c = $phone;
 		$sObject->Points__c = $points;
 		$sObject->Balance_Points__c = $balance_points;

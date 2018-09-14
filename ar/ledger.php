@@ -19,7 +19,7 @@ if(isset($_SESSION["user_name"]))
 		$urlYear = date("Y");	
 	
 	$arMap = array();
-	$arList = mysqli_query($con, "SELECT id,ar_name,isActive FROM ar_details ORDER BY ar_name ASC" ) or die(mysqli_error($con));		
+	$arList = mysqli_query($con, "SELECT id,name,isActive FROM ar_details ORDER BY name ASC" ) or die(mysqli_error($con));		
 	foreach($arList as $ar) 
 	{
 		$arName = $ar['name'];

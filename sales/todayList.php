@@ -7,7 +7,7 @@ if(isset($_SESSION["user_name"]))
 
 	$urlId = $_GET['ar'];
 	
-	$arObjects = mysqli_query($con,"SELECT id,ar_name FROM ar_details ORDER BY ar_name ASC") or die(mysqli_error($con));	
+	$arObjects = mysqli_query($con,"SELECT id,name FROM ar_details ORDER BY name ASC") or die(mysqli_error($con));	
 	foreach($arObjects as $ar)
 	{
 		$arMap[$ar['id']] = $ar['name']; 

@@ -31,7 +31,7 @@ if(isset($_SESSION["user_name"]))
 <?php
 foreach($areaMap as $area => $number) 
 {	
-	$sql = "SELECT id,ar_name, mobile, shop_name, sap_code, area, isActive FROM ar_details WHERE area='".$area."' order by ar_name asc ";
+	$sql = "SELECT id,name, mobile, shop_name, sap_code, area, isActive FROM ar_details WHERE area='".$area."' order by name asc ";
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));?>
 	<tr><th colspan="6" style="text-align:center;"><?php echo $area;?></th></tr>
 	<tr>
