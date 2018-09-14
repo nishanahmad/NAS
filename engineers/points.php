@@ -8,13 +8,13 @@ if(isset($_SESSION["user_name"]))
 	$mainArray = array();
 	if(isset($_GET['year']) && isset($_GET['month']))
 	{
-		$year = (int)$_GET['year'];
-		$month = (int)$_GET['month'];
+		$urlYear = (int)$_GET['year'];
+		$urlMonth = (int)$_GET['month'];
 	}	
 	else
 	{
-		$year = (int)date("Y");
-		$month = (int)date("m");
+		$urlYear = (int)date("Y");
+		$urlMonth = (int)date("m");
 	}
 	
 	$engObjects =  mysqli_query($con,"SELECT id,ar_name,mobile,shop_name,sap_code FROM ar_details WHERE type LIKE '%Engineer%' ORDER BY ar_name ASC ") or die(mysqli_error($con));		 
@@ -26,21 +26,25 @@ if(isset($_SESSION["user_name"]))
 		$engMap[$eng['id']]['sap'] = $eng['sap_code'];
 	}				
 	
-	$prevMap = getPrevPoints(array_keys($engMap),$year,$month);
+	$prevMap = getPrevPoints(array_keys($engMap),$urlYear,$urlMonth);
 	
 	//var_dump($prevMap);
 	
 	$engIds = implode("','",array_keys($engMap));
 	
-	$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$year' = year(`entry_date`) AND '$month' = month(`entry_date`) AND (ar_id IN ('$engIds') OR eng_id IN ('$engIds')) GROUP BY ar_id") or die(mysqli_error($con));	
+	$sales = mysqli_query($con,"SELECT ar_id,eng_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND (ar_id IN ('$engIds') OR eng_id IN ('$engIds')) GROUP BY ar_id") or die(mysqli_error($con));	
 	foreach($sales as $sale)
 	{
-		$engId = $sale['ar_id'];
+		if(empty($sale['eng_id']))
+			$engId = $sale['ar_id'];
+		else
+			$engId = $sale['eng_id'];
+		
 		$total = $sale['SUM(srp)'] + $sale['SUM(srh)'] + $sale['SUM(f2r)'] - $sale['SUM(return_bag)'];
 		$pointMap[$engId]['points'] = $total;
 	}			
 	
-	$currentRedemption = mysqli_query($con,"SELECT ar_id,SUM(points) FROM redemption WHERE '$year' = year(`date`) AND '$month' = month(`date`) AND ar_id IN ('$engIds') GROUP BY ar_id") or die(mysqli_error($con));	
+	$currentRedemption = mysqli_query($con,"SELECT ar_id,SUM(points) FROM redemption WHERE '$urlYear' = year(`date`) AND '$urlMonth' = month(`date`) AND ar_id IN ('$engIds') GROUP BY ar_id") or die(mysqli_error($con));	
 	foreach($currentRedemption as $redemption)
 	{
 		$redemptionMap[$redemption['ar_id']] = $redemption['SUM(points)'];
@@ -81,7 +85,7 @@ function rerender()
 }
 </script>
 
-<title><?php echo getMonth($month); echo " "; echo $year; ?></title>
+<title><?php echo getMonth($urlMonth); echo " "; echo $urlYear; ?></title>
 </head>
 <body>
 	<div id="loader" class="loader" align="center" style="background : #161616 url('../images/pattern_40.gif') top left repeat;height:100%">
@@ -96,18 +100,18 @@ function rerender()
 		<br><br>
 		<select id="jsMonth" name="jsMonth" class="textarea" onchange="return rerender();">																								<?php	
 			$monthList = mysqli_query($con, "SELECT DISTINCT month FROM target ORDER BY month ASC" ) or die(mysqli_error($con));	
-			foreach($monthList as $monthObj) 
+			foreach($monthList as $month) 
 			{	
-	?>			<option <?php if($month == (int)$monthObj['month']) echo 'selected';?> value="<?php echo $monthObj['month'];?>"><?php echo getMonth($monthObj['month']);?></option>															<?php	
+	?>			<option <?php if($urlMonth == (int)$month['month']) echo 'selected';?> value="<?php echo $month['month'];?>"><?php echo getMonth($month['month']);?></option>															<?php	
 			}
 	?>	</select>					
 			&nbsp;&nbsp;
 
 		<select id="jsYear" name="jsYear" class="textarea" onchange="return rerender();">																				<?php	
 			$yearList = mysqli_query($con, "SELECT DISTINCT year FROM target ORDER BY year DESC") or die(mysqli_error($con));	
-			foreach($yearList as $yearObj) 
+			foreach($yearList as $year) 
 			{
-?>				<option <?php if($year == (int)$yearObj['year']) echo 'selected';?> value="<?php echo $yearObj['year'];?>"><?php echo $yearObj['year'];?></option>																			<?php	
+?>				<option <?php if($urlYear == (int)$year['year']) echo 'selected';?> value="<?php echo $year['year'];?>"><?php echo $year['year'];?></option>																			<?php	
 			}
 ?>		</select>
 
@@ -167,8 +171,6 @@ function getPrevPoints($engList,$endYear,$endMonth)
 	require '../connect.php';
 	
 	$startDate = date("Y-m-d",strtotime('2018-01-01'));
-	$days = cal_days_in_month(CAL_GREGORIAN,$endMonth,$endYear);
-	$endDate = date("Y-m-d",strtotime($endYear.'-'.$endMonth.'-'.$days));
 	
 	foreach($engList as $engId)
 	{
@@ -176,23 +178,41 @@ function getPrevPoints($engList,$endYear,$endMonth)
 		$engMap[$engId]['prevRedemption'] = 0;			
 	}
 	
-	$engIds = implode("','",array_keys($engMap));	
-	
-	$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE ar_id IN ('$engIds') AND entry_date >= '$startDate' AND entry_date <= '$endDate' GROUP BY ar_id" ) or die(mysqli_error($con));		 	 
-	foreach($sales as $sale)
+	if($endYear >= 2018)
 	{
-		$total = $sale['SUM(srp)'] + $sale['SUM(srh)'] + $sale['SUM(f2r)'] - $sale['SUM(return_bag)'];
-		$engMap[$engId]['prevPoints'] = $engMap[$engId]['prevPoints'] + $total;	
+		if($endMonth > 1)
+			$endMonth = $endMonth - 1;
+		else
+		{
+			$endMonth = 12;
+			$endYear = $endYear - 1;
+		}
+
+		$days = cal_days_in_month(CAL_GREGORIAN,$endMonth,$endYear);
+		$endDate = date("Y-m-d",strtotime($endYear.'-'.$endMonth.'-'.$days));
+		
+		$engIds = implode("','",array_keys($engMap));	
+		
+		$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$startDate' AND entry_date <= '$endDate' AND (ar_id IN ('$engIds') OR eng_id IN ('$engIds')) GROUP BY ar_id" ) or die(mysqli_error($con));		 	 
+		foreach($sales as $sale)
+		{
+			if(empty($sale['eng_id']))
+				$engId = $sale['ar_id'];
+			else
+				$engId = $sale['eng_id'];
+			
+			$total = $sale['SUM(srp)'] + $sale['SUM(srh)'] + $sale['SUM(f2r)'] - $sale['SUM(return_bag)'];
+			$engMap[$engId]['prevPoints'] = $engMap[$engId]['prevPoints'] + $total;	
+		}
+		
+		
+		$redMonth = $endMonth - 1;
+		$redemptionList = mysqli_query($con,"SELECT ar_id,SUM(points) FROM redemption WHERE  ( (YEAR(date) = '$endYear' AND MONTH(date) < '$redMonth') OR (YEAR(date) < '$endYear')) AND ar_id IN('$engIds') GROUP BY ar_id") or die(mysqli_error($con));		 	
+		foreach($redemptionList as $redemption)
+		{
+			$engMap[$redemption['ar_id']]['prevRedemption'] = $engMap[$redemption['ar_id']]['prevRedemption'] + $redemption['SUM(points)'];			
+		}
 	}
-	
-	
-	$redMonth = $endMonth - 1;
-	$redemptionList = mysqli_query($con,"SELECT ar_id,SUM(points) FROM redemption WHERE  ( (YEAR(date) = '$endYear' AND MONTH(date) < '$redMonth') OR (YEAR(date) < '$endYear')) AND ar_id IN('$engIds') GROUP BY ar_id") or die(mysqli_error($con));		 	
-	foreach($redemptionList as $redemption)
-	{
-		$engMap[$redemption['ar_id']]['prevRedemption'] = $engMap[$redemption['ar_id']]['prevRedemption'] + $redemption['SUM(points)'];			
-	}
-	
 	return $engMap;
 }
 ?>
