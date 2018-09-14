@@ -22,8 +22,11 @@ if(isset($_SESSION["user_name"]))
 	$arList = mysqli_query($con, "SELECT id,name,isActive FROM ar_details ORDER BY name ASC" ) or die(mysqli_error($con));		
 	foreach($arList as $ar) 
 	{
-		$arName = $ar['name'];
-		$isActive = $ar['isActive'];
+		if($ar['id'] == $urlId)
+		{
+			$arName = $ar['name'];
+			$isActive = $ar['isActive'];			
+		}
 	}
 	$yearList = mysqli_query($con, "SELECT DISTINCT YEAR(entry_date) FROM nas_sale WHERE ar_id = '$urlId' ORDER BY entry_date DESC" ) or die(mysqli_error($con));
 	foreach($yearList as $year) 
@@ -115,7 +118,7 @@ function rerender()
 	}																																									?>	
 	</select>						
 <br/><br/>	
-<h1><?php echo $arMap[$urlId] . ', ' .$urlYear ;?></h1>
+<h1><?php echo $arName . ', ' .$urlYear ;?></h1>
 </div>
 <table align="center" class="responstable" style="width:25%;">
 <tr><th style="text-align:left;width:40%">Month</th><th>Target</th><th>Sale</th><th>Points</th></tr>
