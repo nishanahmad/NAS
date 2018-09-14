@@ -46,7 +46,7 @@ foreach($areaMap as $area => $number)
 	while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) 
 	{
 		$arId = $row['id'];
-		$arname = $row['ar_name'];
+		$arname = $row['name'];
 		$shopName = $row['shop_name'];
 		$sapCode = $row['sap_code'];
 		$area = $row['area'];

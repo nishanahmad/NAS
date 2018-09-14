@@ -9,7 +9,7 @@ if(isset($_SESSION["user_name"]))
 	// Populate maps for SAP CODE and AR NAME
 	foreach($arObjects as $ar)
 	{
-		$arNameMap[$ar['id']] = $ar['ar_name'];
+		$arNameMap[$ar['id']] = $ar['name'];
 		$shopNameMap[$ar['id']] = $ar['shop_name'];			
 		$sapCodeMap[$ar['id']] = $ar['sap_code'];			
 	}

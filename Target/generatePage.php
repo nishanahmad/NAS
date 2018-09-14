@@ -13,7 +13,7 @@ if(isset($_SESSION["user_name"]))
 	$arObjects = mysqli_query($con, "SELECT id,ar_name FROM ar_details WHERE isActive = 1 ORDER BY ar_name asc") or die(mysqli_error($con).' LINE 13');
 	foreach($arObjects as $ar)
 	{
-		$arMap[$ar['id']] = $ar['ar_name'];
+		$arMap[$ar['id']] = $ar['name'];
 	}
 	
 	$array = implode("','",array_keys($arMap));	

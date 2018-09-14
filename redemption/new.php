@@ -92,7 +92,7 @@ if(isset($_SESSION["user_name"]))
 					<option value = "">---Select---</option>																															<?php
 					foreach($arObjects as $ar) 
 					{																																									?>
-						<option value="<?php echo $ar['id'];?>"><?php echo $ar['ar_name'];?></option>																					<?php	
+						<option value="<?php echo $ar['id'];?>"><?php echo $ar['name'];?></option>																					<?php	
 					}																																									?>
                   </select>
                 </div>

@@ -20,7 +20,7 @@ if(isset($_SESSION["user_name"]))
 	$engObjects =  mysqli_query($con,"SELECT id,ar_name,mobile,shop_name,sap_code FROM ar_details WHERE type LIKE '%Engineer%' ORDER BY ar_name ASC ") or die(mysqli_error($con));		 
 	foreach($engObjects as $eng)
 	{
-		$engMap[$eng['id']]['name'] = $eng['ar_name'];
+		$engMap[$eng['id']]['name'] = $eng['name'];
 		$engMap[$eng['id']]['mobile'] = $eng['mobile'];
 		$engMap[$eng['id']]['shop'] = $eng['shop_name'];
 		$engMap[$eng['id']]['sap'] = $eng['sap_code'];

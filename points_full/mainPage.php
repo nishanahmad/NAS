@@ -26,7 +26,7 @@ if(isset($_SESSION["user_name"]))
 	$arObjects =  mysqli_query($con,"SELECT id,ar_name,mobile,shop_name,sap_code FROM ar_details WHERE isActive = 1 ORDER BY ar_name ASC ") or die(mysqli_error($con));		 
 	foreach($arObjects as $ar)
 	{
-		$arMap[$ar['id']]['name'] = $ar['ar_name'];
+		$arMap[$ar['id']]['name'] = $ar['name'];
 		$arMap[$ar['id']]['mobile'] = $ar['mobile'];
 		$arMap[$ar['id']]['shop'] = $ar['shop_name'];
 		$arMap[$ar['id']]['sap'] = $ar['sap_code'];

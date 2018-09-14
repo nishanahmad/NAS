@@ -22,7 +22,7 @@ if(isset($_SESSION["user_name"]))
 	$arList = mysqli_query($con, "SELECT id,ar_name,isActive FROM ar_details ORDER BY ar_name ASC" ) or die(mysqli_error($con));		
 	foreach($arList as $ar) 
 	{
-		$arName = $ar['ar_name'];
+		$arName = $ar['name'];
 		$isActive = $ar['isActive'];
 	}
 	$yearList = mysqli_query($con, "SELECT DISTINCT YEAR(entry_date) FROM nas_sale WHERE ar_id = '$urlId' ORDER BY entry_date DESC" ) or die(mysqli_error($con));
@@ -102,9 +102,9 @@ function rerender()
 <a href="../index.php" class="link"><img alt='home' title='home' src='../images/home.png' width='60px' height='60px'/> </a>
 <br><br>
 	<select id="ar" name="ar" onchange="return rerender();">																							<?php	
-	foreach($arMap as $arId => $arName) 
+	foreach($arList as $ar) 
 	{																																										?>			
-		<option <?php if($urlId == $arId) echo 'selected';?> value="<?php echo $arId;?>"><?php echo $arName;?></option>															<?php	
+		<option <?php if($urlId == $ar['id']) echo 'selected';?> value="<?php echo $ar['id'];?>"><?php echo $ar['name'];?></option>															<?php	
 	}																																									?>	
 	</select>					
 	&nbsp;&nbsp;

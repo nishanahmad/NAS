@@ -62,7 +62,7 @@ if(isset($_SESSION["user_name"]))
 	$arList = mysqli_query($con,"SELECT id, ar_name, mobile, shop_name, user_id FROM ar_details WHERE isActive = 1 AND id NOT IN ('$zeroTargetIds') ") or die(mysqli_error($con));		 
 	foreach($arList as $arObject)
 	{
-		$arNameMap[$arObject['id']] = $arObject['ar_name'];
+		$arNameMap[$arObject['id']] = $arObject['name'];
 		$arMobileMap[$arObject['id']] = $arObject['mobile'];
 		$arUserMap[$arObject['id']] = $arObject['user_id'];
 		$arShopMap[$arObject['id']] = $arObject['shop_name'];

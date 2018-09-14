@@ -50,7 +50,7 @@ if(isset($_SESSION["user_name"]))
 		foreach($arObjects as $ar) 
 		{									?>				
 			<tr>
-				<td><label align="center"><?php echo $ar['ar_name']; ?></td>	
+				<td><label align="center"><?php echo $ar['name']; ?></td>	
 				<td style="text-align:center;"><input type="text" style="text-align:center;width:70px;border:0px;background-color: transparent;" name="<?php echo $ar['id'];?>" value="0"></td>	
 			</tr>																												<?php
 		}																								?>

@@ -17,7 +17,7 @@ if(isset($_SESSION["user_name"]))
 	$arObjects = mysqli_query($con, "SELECT * FROM ar_details order by ar_name ASC" ) or die(mysqli_error($con));	
 	foreach($arObjects as $ar)
 	{
-		$arNameMap[$ar['id']] = $ar['ar_name'];
+		$arNameMap[$ar['id']] = $ar['name'];
 		$arCodeMap[$ar['id']] = $ar['sap_code'];
 		$arShopMap[$ar['id']] = $ar['shop_name'];
 		$arPhoneMap[$ar['id']] = $ar['mobile'];

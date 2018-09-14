@@ -10,7 +10,7 @@ if(isset($_SESSION["user_name"]))
 	$arObjects = mysqli_query($con,"SELECT id,ar_name FROM ar_details ORDER BY ar_name ASC") or die(mysqli_error($con));	
 	foreach($arObjects as $ar)
 	{
-		$arMap[$ar['id']] = $ar['ar_name']; 
+		$arMap[$ar['id']] = $ar['name']; 
 	}
 
 	if($_GET['ar'] != 'all')

@@ -9,7 +9,7 @@ if(isset($_SESSION["user_name"]))
 	$arObjects = mysqli_query($con,"SELECT id,ar_name,shop_name FROM ar_details WHERE ar_name IS NOT NULL AND shop_name IS NOT NULL");
 	foreach($arObjects as $ar)
 	{
-		$arNameMap[$ar['id']] = $ar['ar_name'];
+		$arNameMap[$ar['id']] = $ar['name'];
 		$shopNameMap[$ar['id']] = $ar['shop_name'];
 	}	
 	

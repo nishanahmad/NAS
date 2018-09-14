@@ -92,7 +92,7 @@ if(isset($_SESSION["user_name"]))
 																													<?php
 						foreach($arObjects as $ar) 
 						{																							?>
-							<option value="<?php echo $ar['id'];?>"><?php echo $ar['ar_name'];?></option>			<?php	
+							<option value="<?php echo $ar['id'];?>"><?php echo $ar['name'];?></option>			<?php	
 						}																							?>
 					</select>
 				</td>
@@ -151,7 +151,7 @@ if(isset($_SESSION["user_name"]))
 																													<?php
 						foreach($engineerObjects as $eng) 
 						{																							?>
-							<option value="<?php echo $eng['id'];?>"><?php echo $eng['ar_name'];?></option>			<?php	
+							<option value="<?php echo $eng['id'];?>"><?php echo $eng['name'];?></option>			<?php	
 						}																							?>
 					</select>
 			</tr>			

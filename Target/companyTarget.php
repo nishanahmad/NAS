@@ -105,7 +105,7 @@ function rerender()
 <?php		$arObjects =  mysqli_query($con,"SELECT id,ar_name,mobile,shop_name,sap_code FROM ar_details WHERE  isActive = 1 ORDER BY ar_name ASC ") or die(mysqli_error($con));		 
 			foreach($arObjects as $ar)
 			{
-				$arMap[$ar['id']] = $ar['ar_name'];
+				$arMap[$ar['id']] = $ar['name'];
 				$mobileMap[$ar['id']] = $ar['mobile'];
 				$shopMap[$ar['id']] = $ar['shop_name'];
 				$sapMap[$ar['id']] = $ar['sap_code'];
