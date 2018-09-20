@@ -170,7 +170,7 @@ function getPrevPoints($engList,$endYear,$endMonth)
 {
 	require '../connect.php';
 	
-	$startDate = date("Y-m-d",strtotime('2018-01-01'));
+	$startDate = date("Y-m-d",strtotime('2018-04-01'));
 	
 	foreach($engList as $engId)
 	{
