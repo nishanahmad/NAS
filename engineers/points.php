@@ -17,7 +17,7 @@ if(isset($_SESSION["user_name"]))
 		$urlMonth = (int)date("m");
 	}
 	
-	$engObjects =  mysqli_query($con,"SELECT id,name,mobile,shop_name,sap_code FROM ar_details WHERE type LIKE '%Engineer%' ORDER BY name ASC ") or die(mysqli_error($con));		 
+	$engObjects =  mysqli_query($con,"SELECT id,name,mobile,shop_name,sap_code FROM ar_details WHERE type LIKE '%Engineer%' AND isActive = 1 ORDER BY name ASC ") or die(mysqli_error($con));		 
 	foreach($engObjects as $eng)
 	{
 		$engMap[$eng['id']]['name'] = $eng['name'];
