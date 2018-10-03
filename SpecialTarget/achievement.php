@@ -229,46 +229,32 @@ if(isset($_SESSION["user_name"]))
 		</select>		
 		<br><br>
 		
-		<select id="jsYear" name="jsYear" class="textarea" onchange="return refreshYear();">
-			<option value = "<?php echo $year;?>"><?php echo $year;?></option>																									<?php	
+		<select id="jsYear" name="jsYear" class="textarea" onchange="return refreshYear();">																<?php	
 			$yearList = getYears();	
-
 			foreach($yearList as $yr)
-			{
-				if($year != $yr)
-				{																																			?>
-					<option value="<?php echo $yr;?>"><?php echo $yr;?></option>																			<?php										
-				}
+			{																																				?>
+				<option value="<?php echo $yr;?>" <?php if($year == $yr) echo 'selected';?>><?php echo $yr;?></option>									<?php										
 			} 			
 ?>		</select>
 			&nbsp;&nbsp;
 			
-		<select id="jsMonth" name="jsMonth" class="textarea" onchange="return refreshMonth();">	
-			<option value = "<?php echo $month;?>"><?php echo getMonth($month);?></option>																						<?php	
+		<select id="jsMonth" name="jsMonth" class="textarea" onchange="return refreshMonth();">																<?php	
 			if(!isset($monthList))
 				$monthList = getMonths($year);	
 			foreach($monthList as $mnth) 
-			{	
-				if($month != $mnth)
-				{																																			?>			
-					<option value="<?php echo $mnth;?>"><?php echo getMonth($mnth);?></option>																<?php						
-				}
+			{																																				?>			
+				<option value="<?php echo $mnth;?>" <?php if($month == $mnth) echo 'selected';?>><?php echo getMonth($mnth);?></option>																<?php						
 			}
 	?>	</select>					
 			&nbsp;&nbsp;
 
-		<select id="jsDateString" name="jsDateString" class="textarea" onchange="return refreshString();">
-			<option value = "<?php echo $dateString;?>"><?php echo $dateString;?></option>																									<?php	
+		<select id="jsDateString" name="jsDateString" class="textarea" onchange="return refreshString();">																	<?php	
 			if(!isset($stringList))
 				$stringList = getStrings($year,$month);
 			foreach($stringList as $string) 
-			{
-				if($dateString != $string)
-				{																																															?>
-					<option value="<?php echo $string;?>"><?php echo $string;?></option>																			<?php						
-				}
-			}																																					?>
-																														
+			{																																															?>
+				<option value="<?php echo $string;?>" <?php if($dateString == $string) echo 'selected';?>><?php echo $string;?></option>																			<?php						
+			}																																					?>																										
 		</select>
 		<br><br>
 		

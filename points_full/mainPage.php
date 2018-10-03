@@ -8,6 +8,7 @@ if(isset($_SESSION["user_name"]))
 	require 'getTargetMap.php';
 	require 'getSaleMap.php';
 	require 'getSpecialTargetMap.php';	
+	require '../SpecialTarget/dropDownGenerator.php';
 	
 	$mainArray = array();
 	if(isset($_GET['year']) && isset($_GET['month']) && isset($_GET['dateString']))
@@ -113,6 +114,7 @@ if(isset($_SESSION["user_name"]))
 	}
 	
 // Populate dateStringArray for dropdown view	
+	/*
 	$dateStringArray = array();
 	$dateList = mysqli_query($con, "SELECT from_date,to_date FROM special_target_date WHERE YEAR(from_date) = $year AND MONTH(from_date) = $month" ) or die(mysqli_error($con));	
 	foreach($dateList as $dateObj) 
@@ -120,6 +122,7 @@ if(isset($_SESSION["user_name"]))
 		$dateStringArray[] = date('d', strtotime($dateObj['from_date'])).' to '.date('d', strtotime($dateObj['to_date']));
 	}
 	$dateStringArray[] = 'FULL';
+	*/
 ?>
 <html>
 <head>
@@ -197,11 +200,13 @@ function rerender2()
 			&nbsp;&nbsp;
 		
 		<select id="jsDateString" name="jsDateString" class="textarea" onchange="return rerender2();">											<?php	
-			foreach($dateStringArray as $row) 
-			{
-?>				<option value="<?php echo $row;?>" <?php if($row == $dateString) echo 'selected';?>><?php echo $row;?></option>																			<?php	
-			}
-?>
+			if(!isset($stringList))
+				$stringList = getStrings($year,$month);
+				$stringList[] = 'FULL';
+			foreach($stringList as $string) 
+			{																																															?>
+				<option value="<?php echo $string;?>" <?php if($dateString == $string) echo 'selected';?>><?php echo $string;?></option>																			<?php						
+			}																																					?>																								
 		</select>
 		<br><br>
 		
