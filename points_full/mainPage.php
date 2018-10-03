@@ -111,6 +111,15 @@ if(isset($_SESSION["user_name"]))
 	{
 		$redemptionMap[$redemption['ar_id']] = $redemption['SUM(points)'];
 	}
+	
+// Populate dateStringArray for dropdown view	
+	$dateStringArray = array();
+	$dateList = mysqli_query($con, "SELECT from_date,to_date FROM special_target_date WHERE YEAR(from_date) = $year AND MONTH(from_date) = $month" ) or die(mysqli_error($con));	
+	foreach($dateList as $dateObj) 
+	{
+		$dateStringArray[] = date('d', strtotime($dateObj['from_date'])).' to '.date('d', strtotime($dateObj['to_date']));
+	}
+	$dateStringArray[] = 'FULL';
 ?>
 <html>
 <head>
@@ -169,35 +178,30 @@ function rerender2()
 	<div align="center">
 		<a href="../index.php" class="link"><img alt='home' title='home' src='../images/home.png' width='50px' height='50px'/> </a>
 		<br><br>
-		<select id="jsMonth" name="jsMonth" class="textarea" onchange="return rerender();">	
-			<option value = "<?php echo $month;?>"><?php echo getMonth($month);?></option>																						<?php	
-			$monthList = mysqli_query($con, "SELECT DISTINCT month FROM target WHERE month <> $month ORDER BY month ASC" ) or die(mysqli_error($con));	
+		<select id="jsMonth" name="jsMonth" class="textarea" onchange="return rerender();">																				<?php	
+			$monthList = mysqli_query($con, "SELECT DISTINCT month FROM target ORDER BY month ASC" ) or die(mysqli_error($con));	
 			foreach($monthList as $monthObj) 
 			{	
-	?>			<option value="<?php echo $monthObj['month'];?>"><?php echo getMonth($monthObj['month']);?></option>															<?php	
+	?>			<option value="<?php echo $monthObj['month'];?>" <?php if($monthObj['month'] == $month) echo 'selected';?>><?php echo getMonth($monthObj['month']);?></option>															<?php	
 			}
 	?>	</select>					
 			&nbsp;&nbsp;
 
-		<select id="jsYear" name="jsYear" class="textarea" onchange="return rerender();">
-			<option value = "<?php echo $year;?>"><?php echo $year;?></option>																									<?php	
-			$yearList = mysqli_query($con, "SELECT DISTINCT year FROM target  WHERE year <> $year ORDER BY year DESC") or die(mysqli_error($con));	
+		<select id="jsYear" name="jsYear" class="textarea" onchange="return rerender();">																				<?php	
+			$yearList = mysqli_query($con, "SELECT DISTINCT year FROM target ORDER BY year DESC") or die(mysqli_error($con));	
 			foreach($yearList as $yearObj) 
 			{
-?>				<option value="<?php echo $yearObj['year'];?>"><?php echo $yearObj['year'];?></option>																			<?php	
+?>				<option value="<?php echo $yearObj['year'];?>" <?php if($yearObj['year'] == $year) echo 'selected';?>><?php echo $yearObj['year'];?></option>																			<?php	
 			}
 ?>		</select>
 			&nbsp;&nbsp;
-
-		<select id="jsDateString" name="jsDateString" class="textarea" onchange="return rerender2();">
-			<option value = "<?php echo $dateString;?>"><?php echo $dateString;?></option>																									<?php	
-			$dateList = mysqli_query($con, "SELECT from_date,to_date FROM special_target_date WHERE YEAR(from_date) = $year AND MONTH(from_date) = $month" ) or die(mysqli_error($con));	
-			foreach($dateList as $dateObj) 
+		
+		<select id="jsDateString" name="jsDateString" class="textarea" onchange="return rerender2();">											<?php	
+			foreach($dateStringArray as $row) 
 			{
-?>				<option value="<?php echo date('d', strtotime($dateObj['from_date'])).' to '.date('d', strtotime($dateObj['to_date']));?>"><?php echo date('d', strtotime($dateObj['from_date'])).' to '.date('d', strtotime($dateObj['to_date']));?></option>																			<?php	
+?>				<option value="<?php echo $row;?>" <?php if($row == $dateString) echo 'selected';?>><?php echo $row;?></option>																			<?php	
 			}
-			if($dateString != 'FULL')?>
-				<option value = "FULL">FULL</option>																										
+?>
 		</select>
 		<br><br>
 		
