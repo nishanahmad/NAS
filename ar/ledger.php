@@ -121,17 +121,40 @@ function rerender()
 <h1><?php echo $arName . ', ' .$urlYear ;?></h1>
 </div>
 <table align="center" class="responstable" style="width:25%;">
-<tr><th style="text-align:left;width:40%">Month</th><th>Target</th><th>Sale</th><th>Points</th></tr>
+<tr>
+	<th style="text-align:left;width:40%">Month</th>
+	<th>Target</th>
+	<th>Sale</th>
+	<th>Points</th>
+	<th></th>	
+</tr>
 <?php
+$totalPercentage =0;
+$count =0;
 foreach($saleMap as $month => $sale) 
 {																																		?>
 	<tr>
 		<td style="text-align:left;"><?php echo getMonth($month);?></th>
 		<td><?php if(isset($targetMap[$month]['target'])) echo $targetMap[$month]['target'];?></th>
 		<td><?php echo $sale;?></th>
-		<td><?php echo $mainArray[$month]['payment_points'];?></th>
+		<td><?php echo $mainArray[$month]['payment_points'];?></td>															<?php 
+		if(isset($targetMap[$month]['target']))
+		{			
+			$count++;
+			$totalPercentage = 	$totalPercentage + $sale/$targetMap[$month]['target'] *100;									?>
+			<td><?php echo round($sale/$targetMap[$month]['target'] *100,0);?>%</td>													<?php
+		}
+		else
+		{																													?>
+			<td></td>																										<?php
+		}																													?>
+
 	</tr>																													<?php																		
 }																															?>
+	<tr>
+		<td colspan="4"></td>
+		<td><b><?php if($count >0 ) echo round($totalPercentage/$count,0);?>%</b></td>
+	<tr>
 </table>
 <br><br>
 </div>
