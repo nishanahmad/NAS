@@ -58,7 +58,7 @@ if(isset($_SESSION["user_name"]))
 		$mainArray[$month]['achieved_points'] = null;
 		$mainArray[$month]['payment_points'] = null;					
 
-		if(isset($targetMap[$month]) && $isActive)
+		if(isset($targetMap[$month]['target']) && $isActive && $targetMap[$month]['target'] >0)
 		{
 			$points = round($total * $targetMap[$month]['rate'],0);
 			$actual_perc = round($total * 100 / $targetMap[$month]['target'],0);
@@ -138,7 +138,7 @@ foreach($saleMap as $month => $sale)
 		<td><?php if(isset($targetMap[$month]['target'])) echo $targetMap[$month]['target'];?></th>
 		<td><?php echo $sale;?></th>
 		<td><?php echo $mainArray[$month]['payment_points'];?></td>															<?php 
-		if(isset($targetMap[$month]['target']))
+		if(isset($targetMap[$month]['target']) && $targetMap[$month]['target'] >0)
 		{			
 			$count++;
 			$totalPercentage = 	$totalPercentage + $sale/$targetMap[$month]['target'] *100;									?>
