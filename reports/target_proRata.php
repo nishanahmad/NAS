@@ -18,7 +18,7 @@ if(isset($_SESSION["user_name"]))
 	if($month == date("m") && $year == date("Y"))
 		$day = (int)date("d");
 
-	$arObjects = mysqli_query($con, "SELECT * FROM ar_details WHERE isActive = 1 ORDER BY name ASC" ) or die(mysqli_error($con));	
+	$arObjects = mysqli_query($con, "SELECT * FROM ar_details WHERE isActive = 1 AND type LIKE 'AR%' ORDER BY name ASC" ) or die(mysqli_error($con));	
 	foreach($arObjects as $ar)
 	{
 		$arNameMap[$ar['id']] = $ar['name'];
@@ -145,7 +145,7 @@ if(isset($_SESSION["user_name"]))
 			<td><?php echo $arCodeMap[$ar['id']];?></td>			
 			<td><?php echo $arPhoneMap[$ar['id']];?></td>
 			<td><?php echo $arShopMap[$ar['id']];?></td>
-			<td><?php echo $mainarray[$ar['id']][0];?></td>
+			<td><?php echo $targetMap[$ar['id']];?></td>
 			<td><?php echo $mainarray[$ar['id']][1];?></td>
 			<td><?php echo $mainarray[$ar['id']][0] - $mainarray[$ar['id']][1];?></td>
 			<td><?php echo $mainarray[$ar['id']][2];?></td>
