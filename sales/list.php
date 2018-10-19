@@ -95,7 +95,8 @@ F2R : <span class='f2r'></span><br><br>
 			<input type="text" data-column="5" style="width:50px" class="search-input-text textarea" placeholder="srh">&nbsp&nbsp
 			<input type="text" data-column="6" style="width:50px" class="search-input-text textarea" placeholder="f2r">&nbsp&nbsp
 			<input type="text" data-column="8"  class="search-input-text textarea" placeholder="Customer">&nbsp&nbsp
-			<input type="text" data-column="9"  class="search-input-text textarea" placeholder="Remarks">
+			<input type="text" data-column="9"  class="search-input-text textarea" placeholder="Engineer">&nbsp&nbsp
+			<input type="text" data-column="10"  class="search-input-text textarea" placeholder="Remarks">
 
 		<br><br>
 			<table id="sales-table" class="display cell-border no-wrap" >
@@ -110,6 +111,7 @@ F2R : <span class='f2r'></span><br><br>
 							<th>F2R</th>							
 							<th>BILL NO</th>							
 							<th>CSTMR NAME</th>							
+							<th>Engineer</th>							
 							<th>REMARKS</th>							
 						</tr>
 					</thead>

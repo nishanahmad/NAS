@@ -21,14 +21,14 @@ if(isset($_SESSION["user_name"]))
 
 // getting total number records without any search
 
-	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,srp,srh,f2r,bill_no,customer_name,remarks";
+	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,srp,srh,f2r,bill_no,customer_name,eng_id,remarks";
 	$sql.=" FROM nas_sale";
 	$query=mysqli_query($con, $sql) or die(mysqli_error($con).' LINE 26');	
 	$totalData = mysqli_num_rows($query);
 	$totalFiltered = $totalData;  // when there is no search parameter then total number rows = total number filtered rows.
 
 
-	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,srp,srh,f2r,bill_no,customer_name,remarks";
+	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,srp,srh,f2r,bill_no,customer_name,eng_id,remarks";
 	$sql.=" FROM nas_sale where 1=1  ";
 
 
@@ -139,8 +139,25 @@ if( !empty($requestData['columns'][8]['search']['value']) )
 }
 
 if( !empty($requestData['columns'][9]['search']['value']) )
+{  //ar
+	$searchString = $requestData['columns'][9]['search']['value'];
+	$arList =  mysqli_query($con, "SELECT id FROM ar_details WHERE name LIKE '%".$searchString."%' ") or die(mysqli_error($con).' LINE 97');	
+	$firstEntry  = true;
+	foreach($arList as $ar)
+	{
+		if($firstEntry)
+			$sql.=" AND (eng_id = '".$ar['id']."' ";		
+		else
+			$sql.=" OR eng_id = '".$ar['id']."' ";		
+		
+		$firstEntry = false;
+	}
+			$sql.=")";		
+}
+
+if( !empty($requestData['columns'][10]['search']['value']) )
 { //remarks
-	$sql.=" AND remarks LIKE '".$requestData['columns'][9]['search']['value']."%' ";
+	$sql.=" AND remarks LIKE '".$requestData['columns'][10]['search']['value']."%' ";
 }
 
 $query=mysqli_query($con, $sql) or die(mysqli_error($con).' LINE 139');	
@@ -182,6 +199,10 @@ while( $row=mysqli_fetch_array($query) )
 		$f2r = $f2r + $row["f2r"];
 	$nestedData[] = $row["bill_no"];
 	$nestedData[] = $row["customer_name"];
+	if(isset($arMap[$row['eng_id']]))
+		$nestedData[] = $arMap[$row['eng_id']];
+	else
+		$nestedData[] = null;
 	$nestedData[] = $row["remarks"];
 
 	$data[] = $nestedData;
