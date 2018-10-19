@@ -32,17 +32,26 @@ if(isset($_SESSION["user_name"]))
 	
 	$engIds = implode("','",array_keys($engMap));
 	
-	$sales = mysqli_query($con,"SELECT ar_id,eng_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND (ar_id IN ('$engIds') OR eng_id IN ('$engIds')) GROUP BY ar_id") or die(mysqli_error($con));	
+	$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND ar_id IN ('$engIds') GROUP BY ar_id") or die(mysqli_error($con));	
 	foreach($sales as $sale)
 	{
-		if(empty($sale['eng_id']))
-			$engId = $sale['ar_id'];
-		else
-			$engId = $sale['eng_id'];
+		$engId = $sale['ar_id'];
 		
 		$total = $sale['SUM(srp)'] + $sale['SUM(srh)'] + $sale['SUM(f2r)'] - $sale['SUM(return_bag)'];
 		$pointMap[$engId]['points'] = $total;
 	}			
+	
+	$sales = mysqli_query($con,"SELECT eng_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND eng_id IN ('$engIds') GROUP BY eng_id") or die(mysqli_error($con));	
+	foreach($sales as $sale)
+	{
+		$engId = $sale['eng_id'];
+		
+		$total = $sale['SUM(srp)'] + $sale['SUM(srh)'] + $sale['SUM(f2r)'] - $sale['SUM(return_bag)'];
+		if(isset($pointMap[$engId]['points']))
+			$pointMap[$engId]['points'] = $pointMap[$engId]['points'] + $total;
+		else
+			$pointMap[$engId]['points'] = $total;
+	}				
 	
 	$currentRedemption = mysqli_query($con,"SELECT ar_id,SUM(points) FROM redemption WHERE '$urlYear' = year(`date`) AND '$urlMonth' = month(`date`) AND ar_id IN ('$engIds') GROUP BY ar_id") or die(mysqli_error($con));	
 	foreach($currentRedemption as $redemption)
