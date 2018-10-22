@@ -126,7 +126,7 @@ if(isset($_SESSION["user_name"]))
 
 	<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/jquery.floatThead.min.js"></script>
-	<script type="text/javascript" src="../js/jquery.tablesorter.min"></script> 
+	<script type="text/javascript" src="../js/jquery.tablesorter.min.js"></script> 
 	<script type="text/javascript" language="javascript" >
 	$(document).ready(function() {
 		$("#loader").hide();	
