@@ -126,10 +126,13 @@ if(isset($_SESSION["user_name"]))
 
 	<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/jquery.floatThead.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.tablesorter.min"></script> 
 	<script type="text/javascript" language="javascript" >
 	$(document).ready(function() {
 		$("#loader").hide();	
 		
+		$("#achtable").tablesorter(); 
+
 		var checkbox = getUrlParameter('removeToday');
 		if(checkbox =='true')
 			$('#removeToday').prop('checked', true);
@@ -264,7 +267,7 @@ if(isset($_SESSION["user_name"]))
 			<input type="checkbox" name="removeToday" id="removeToday" onchange="refresh();">Show yesterday's closing</input>									<?php	
 		}																																						?>
 		<br><br>
-		<table class="responstable" style="width:65% !important;overflow-x:auto;">
+		<table class="responstable" id="achtable" style="width:65% !important;overflow-x:auto;">
 			<thead>
 				<tr>
 					<th style="text-align:left;width:24%;">AR</th>
@@ -303,7 +306,6 @@ if(isset($_SESSION["user_name"]))
 				$balance = $spclTarget-$sale-$extraBags;
 				if($balance < 0)
 					$balance = 0;																													?>
-				
 				<tr align="center">
 					<td style="text-align:left;"><?php echo $arName;?></td>
 					<td style="text-align:left;"><?php echo $arShopMap[$arId];?></td>
@@ -318,16 +320,18 @@ if(isset($_SESSION["user_name"]))
 				$saleTotal = $saleTotal + $sale;
 				$extraTotal = $extraTotal + $arExtraMap[$arId];
 				$balanceTotal = $balanceTotal + $balance;																														
-			}
-			$percentageTotal = round(  ($saleTotal + $extraTotal) * 100 / $targetTotal,0);																?>
-			<tr style="line-height:50px;background-color:#BEBEBE !important;font-family: Arial Black;">
-				<td colspan="3" style="text-align:right;font-size:20px;">Total</td>
-				<td style="font-size:15px;"><?php echo $targetTotal;?></td>
-				<td style="font-size:15px;"><?php echo $saleTotal;?></td>
-				<td style="font-size:15px;"><?php echo $balanceTotal;?></td>
-				<td style="font-size:15px;"><?php echo $percentageTotal.'%';?></td>
-				<td style="font-size:15px;"><?php echo $extraTotal;?></td>				
-			</tr>
+		}
+		$percentageTotal = round(  ($saleTotal + $extraTotal) * 100 / $targetTotal,0);																?>
+				<thead>
+					<tr style="line-height:50px;background-color:#BEBEBE !important;font-family: Arial Black;">
+						<td colspan="3" style="text-align:right;font-size:20px;">Total</td>
+						<td style="font-size:15px;"><?php echo $targetTotal;?></td>
+						<td style="font-size:15px;"><?php echo $saleTotal;?></td>
+						<td style="font-size:15px;"><?php echo $balanceTotal;?></td>
+						<td style="font-size:15px;"><?php echo $percentageTotal.'%';?></td>
+						<td style="font-size:15px;"><?php echo $extraTotal;?></td>				
+					</tr>
+				</thead>
 		</table>
 		<br><br><br><br>
 		</div>
