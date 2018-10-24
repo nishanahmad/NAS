@@ -18,6 +18,7 @@ if(isset($_SESSION["user_name"]))
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css" href="../css/loader.css">
 <link rel="stylesheet" type="text/css" href="../css/responstable.css">
+<link href="../css/font-awesome.min.css" rel="stylesheet">		
 <script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
 <title>AR List</title>
 </head>
@@ -33,8 +34,9 @@ foreach($areaMap as $area => $number)
 {	
 	$sql = "SELECT id,name, mobile, shop_name, sap_code, area, isActive FROM ar_details WHERE area='".$area."' order by name asc ";
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));?>
-	<tr><th colspan="6" style="text-align:center;"><?php echo $area;?></th></tr>
+	<tr><th colspan="7" style="text-align:center;"><?php echo $area;?></th></tr>
 	<tr>
+		<th style="width:3%"></th>
 		<th style="width:20%">Name</th>
 		<th style="width:20%">Shop</th>
 		<th style="text-align:center;width:8%">SAP</th>
@@ -54,12 +56,13 @@ foreach($areaMap as $area => $number)
 		$status = $row['isActive'];
 	?>	
 	<tr>
-	<td><?php echo $arname; ?></td>	
-	<td><?php echo $shopName; ?></td>	
-	<td style="text-align:center;width:8%"><label align="center"><?php echo $sapCode; ?></td>	
-	<td style="text-align:center;width:10%"><?php echo $mobile;?></td>		
-	<td style=""><?php echo $area;?></td>	
-	<td style="text-align:center;width:8%"><?php if($status == 1 ) echo 'Active'; else echo 'InActive';?></td>
+		<td><a style="color:grey;" href="view.php?id=<?php echo $row['id'];?>"><i class="fa fa-pencil"></a></td>	
+		<td><?php echo $arname; ?></td>	
+		<td><?php echo $shopName; ?></td>	
+		<td style="text-align:center;width:8%"><label align="center"><?php echo $sapCode; ?></td>	
+		<td style="text-align:center;width:10%"><?php echo $mobile;?></td>		
+		<td style=""><?php echo $area;?></td>	
+		<td style="text-align:center;width:8%"><?php if($status == 1 ) echo 'Active'; else echo 'InActive';?></td>
 	</tr>																													<?php
 	}																														
 }																															?>
