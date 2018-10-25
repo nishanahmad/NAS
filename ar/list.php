@@ -5,12 +5,6 @@ session_start();
 if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
-	$queryAreas = "SELECT area, number FROM area order by number asc ";
-	$areaObjects = mysqli_query($con, $queryAreas) or die(mysqli_error($con));
-	foreach($areaObjects as $areaObj)
-	{
-		$areaMap[$areaObj['area']] = $areaObj['number'];
-	}	
 ?>
 
 <html>
@@ -30,11 +24,8 @@ if(isset($_SESSION["user_name"]))
 </div>
 <table align="center" class="responstable" style="width:90%;">
 <?php
-foreach($areaMap as $area => $number) 
-{	
-	$sql = "SELECT id,name, mobile, shop_name, sap_code, area, isActive FROM ar_details WHERE area='".$area."' order by name asc ";
+	$sql = "SELECT * FROM ar_details ORDER BY name ASC ";
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));?>
-	<tr><th colspan="7" style="text-align:center;"><?php echo $area;?></th></tr>
 	<tr>
 		<th style="width:3%"></th>
 		<th style="width:20%">Name</th>
@@ -64,8 +55,7 @@ foreach($areaMap as $area => $number)
 		<td style=""><?php echo $area;?></td>	
 		<td style="text-align:center;width:8%"><?php if($status == 1 ) echo 'Active'; else echo 'InActive';?></td>
 	</tr>																													<?php
-	}																														
-}																															?>
+	}																																																										?>
 </table>
 <br><br>
 <div align="center"><input type="submit" name="submit" value="Submit" onclick=" return showLoader()"></div>		
