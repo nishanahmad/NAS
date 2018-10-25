@@ -59,7 +59,7 @@
 								</div>
 								<div class="panel-more1" style="float:right;margin-right:100px;">
 									<br/>
-									<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn btn-primary" style="width:100px;">Edit</a><br/><br/>								
+									<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn btn-primary" style="width:100px;">Edit</a>&nbsp;&nbsp;								
 									<button class="btn btn-danger" style="width:100px;" onclick="closeRequest(<?php echo $sheet['id'];?>)">Close</button>				
 								</div>
 							</div>
