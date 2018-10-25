@@ -17,7 +17,7 @@ if(isset($_SESSION["user_name"]))
 
 	$sql="INSERT INTO gifts (date, ar_id, category, item, qty, remarks)
 		 VALUES
-		 ('$sqlDate', '$arId', '$category', '$item', $qty, '$remarks')";
+		 ('$sqlDate', '$arId', '$category', '$item', '$qty', '$remarks')";
 
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));				 
 

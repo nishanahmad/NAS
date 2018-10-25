@@ -40,7 +40,7 @@ a{
 	<a href="new.php" class="btn lg ghost">NEW DELIVERY</a>
 	<br><br><br>
 
-	<a href="list.php" class="btn lg ghost">LIST ALL SHEETS</a>
+	<a href="list.php" class="btn lg ghost">DELIVERED SHEETS</a>
 	<br><br><br>
 
 </div>
