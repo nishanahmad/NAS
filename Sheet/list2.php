@@ -57,12 +57,13 @@
 									<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['date']));?></p>
 									<p><i class="fa fa-truck"></i> Delivered by <?php echo $userMap[$sheet['delivered_by']];?></p>
 								</div>
-								<div class="panel-more1" style="float:right;margin-right:100px;">
-									<br/>
-									<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn btn-primary" style="width:100px;">Edit</a>&nbsp;&nbsp;								
-									<button class="btn btn-danger" style="width:100px;" onclick="closeRequest(<?php echo $sheet['id'];?>)">Close</button>				
-								</div>
+								<br/>
 							</div>
+							<div align="center">
+								<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn btn-primary" style="width:100px;">Edit</a>&nbsp;&nbsp;								
+								<button class="btn btn-danger" style="width:100px;" onclick="closeRequest(<?php echo $sheet['id'];?>)">Close</button>				
+							</div>
+							<br/><br/>
 						</div>
 					</li>																					<?php				
 				}																							?>
