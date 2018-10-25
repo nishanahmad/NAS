@@ -196,27 +196,27 @@ input:focus, textarea:focus {
 </head>
 	<div id="form-main">
 	<div id="form-div">
-	<form class="form" id="form1" method="post" action="insert.php">
-
+	<form class="form" id="form1" method="post" action="update.php">
+	<input name="id" type="hidden" value="<?php echo $request['id'];?>"/>
 	<p class="name">
-	<input name="name" type="text" class="validate[required,length[0,100]] feedback-input" placeholder="Name" id="name" />
+	<input name="name" type="text" class="validate[required,length[0,100]] feedback-input" id="name" value="<?php echo $request['masonName'];?>"/>
 	</p>
 
 	<p class="phone">
-	<input name="phone" type="text" class="validate[required] feedback-input" id="phone" placeholder="Phone" />
+	<input name="phone" type="text" class="validate[required] feedback-input" id="phone" value="<?php echo $request['masonPhone'];?>"/>
 	</p>
 	
 	<p class="qty">
-	<input name="qty" type="text" class="validate[required] feedback-input" id="qty" placeholder="Number of Sheets" />
+	<input name="qty" type="text" class="validate[required] feedback-input" id="qty"  value="<?php echo $request['qty'];?>"/>
 	</p>	
 
 	<p class="area">
-	<textarea name="area" class="validate[required,length[6,200]] feedback-input" id="area" placeholder="Area & Location"></textarea>
+	<textarea name="area" class="validate[required,length[6,200]] feedback-input" id="area"><?php echo $request['area'];?></textarea>
 	</p>
-
+	
 
 	<div class="submit">
-	<input type="submit" value="DELIVER" id="button-blue"/>
+	<input type="submit" value="UPDATE" id="button-blue"/>
 	<div class="ease"></div>
 	</div>
 	</form>
