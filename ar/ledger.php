@@ -5,8 +5,8 @@ session_start();
 if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
-	require '../functions/monthMap.php';			
-	require '../functions/targetFormula.php';	
+	require '../functions/monthMap.php';
+	require '../functions/targetFormula.php';
 
 	if(isset($_GET['id']))
 		$urlId = $_GET['id'];
@@ -16,19 +16,19 @@ if(isset($_SESSION["user_name"]))
 	if(isset($_GET['year']))
 		$urlYear = $_GET['year'];
 	else
-		$urlYear = date("Y");	
+		$urlYear = date("Y");
 	
 	$arMap = array();
 	$arList = mysqli_query($con, "SELECT id,name,isActive FROM ar_details ORDER BY name ASC" ) or die(mysqli_error($con));		
-	foreach($arList as $ar) 
+	foreach($arList as $ar)
 	{
 		if($ar['id'] == $urlId)
 		{
 			$arName = $ar['name'];
-			$isActive = $ar['isActive'];			
+			$isActive = $ar['isActive'];
 		}
 	}
-	$yearList = mysqli_query($con, "SELECT DISTINCT YEAR(entry_date) FROM nas_sale WHERE ar_id = '$urlId' ORDER BY entry_date DESC" ) or die(mysqli_error($con));
+	$yearList = mysqli_query($con, "SELECT DISTINCT YEAR(entry_date) FROM nas_sale ORDER BY entry_date DESC" ) or die(mysqli_error($con));
 	foreach($yearList as $year) 
 	{
 		$yearMap[] = $year['YEAR(entry_date)'];
