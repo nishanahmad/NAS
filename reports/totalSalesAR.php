@@ -77,7 +77,7 @@ if(isset($_SESSION["user_name"]))
 		<th style="text-align:left;">Shop</th>	
 		<th style="width:12%;">SAP</th>	
 		<th style="width:15%;">Phone</th>
-		<th style="width:7%;">SRP</th>
+		<th style="width:10%;">SRP</th>
 		<th style="width:7%;">SRH</th>
 		<th style="width:7%;">F2R</th>
 		<th style="width:10%;">Total</th>
