@@ -9,7 +9,7 @@ if(isset($_SESSION["user_name"]))
 	$sqlDate = date("Y-m-d");
 	$id = $_GET['id'];
 	$qty = $_GET['qty'];
-	$delivered_by = (int)$_SESSION['user_id'];
+	$delivered_by = $_SESSION['user_name'];
 
 	$updateQuery = mysqli_query($con,"UPDATE sheet_requests SET status ='delivered', delivered_by ='$delivered_by' WHERE id=$id ") or die(mysqli_error($con));			 
 	
@@ -24,7 +24,7 @@ if(isset($_SESSION["user_name"]))
 	
 	$insert="INSERT INTO sheets (date, masonName, masonphone, customerName, customerPhone, qty, area, delivered_by)
 		 VALUES
-		 ('$sqlDate', '$masonName', '$masonPhone','$customerName', '$customerPhone', $qty, '$area', $delivered_by)";
+		 ('$sqlDate', '$masonName', '$masonPhone','$customerName', '$customerPhone', $qty, '$area', '$delivered_by')";
 
 	$result = mysqli_query($con, $insert) or die(mysqli_error($con));				 		
 
