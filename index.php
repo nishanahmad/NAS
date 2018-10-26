@@ -26,14 +26,6 @@ a{
 </div>
    
 <br><br> 
-
-	<div class="row">																	<?php
-	if($_SESSION["role"] == 'admin')
-	{																					?>	
-		<a href="admin/" class="btn lg ghost">ADMIN PANEL</a>
-		<br><br><br>																	<?php	
-	}																					?>	
-	
 	<a href="sales/todayList.php?ar=all" class="btn lg ghost">TODAY SALES</a>
     <br><br><br>
 
