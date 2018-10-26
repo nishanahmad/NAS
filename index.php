@@ -26,6 +26,9 @@ a{
 </div>
    
 <br><br> 
+
+	<div class="row">
+	
 	<a href="sales/todayList.php?ar=all" class="btn lg ghost">TODAY SALES</a>
     <br><br><br>
 

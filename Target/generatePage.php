@@ -23,7 +23,7 @@ if(isset($_SESSION["user_name"]))
 	if(mysqli_num_rows($result) > 0)
 	{
 ?>  	<html>
-		<div align="center" style="font-size:40px"><br><br>Data already genrated for the month you selected. If you want to update contact admin to unlock the table
+		<div align="center" style="font-size:40px"><br><br>Data already genrated for the month you selected. Go to update page to update the values
 		<br><br>
 		<button onclick="window.location.href='generateDateSelectPage.php'">Click here to go back</button>
 		</div>
@@ -82,15 +82,9 @@ if(isset($_SESSION["user_name"]))
 		<input type="hidden" name="year" value="<?php echo $year;?>">
 		<input type="hidden" name="month" value="<?php echo $month;?>">
 	</table>
-	<br><br>																												<?php 
-	$sql = "SELECT locked FROM target_locker WHERE year='$year' AND Month='$month' ";
-	$result = mysqli_query($con, $sql) or die(mysqli_error($con));
-	$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-	if($row['locked'] != true && count($row) > 0)
-	{																														?>
-		<div align="center"><input type="submit" name="submit" value="Submit"></div>										<?php	
-	}																														?>
-<br><br>  
+	<br><br>
+		<div align="center"><input type="submit" name="submit" value="Submit"></div>																																	
+	<br><br>  
 </body>
 </html>																														<?php
 }
