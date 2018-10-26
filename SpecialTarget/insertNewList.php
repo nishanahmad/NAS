@@ -23,7 +23,6 @@ if(isset($_SESSION["user_name"]))
 				}
 
 			}
-			$lock = mysqli_query($con, "INSERT INTO special_target_locker (from_date,to_date,locked) VALUES ('$fromDate','$toDate',1)") or die(mysqli_error($con));		 											
 			header("Location:../index.php");
 		}	
 	}
