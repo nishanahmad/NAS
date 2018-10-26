@@ -12,12 +12,13 @@ if(isset($_SESSION["user_name"]))
 	$area = $_POST['area'];
 	$qty = (int)$_POST['qty'];
 	if(empty($_POST['driver']))
-		$delivered_by = (int)$_SESSION['user_id'];
+		$delivered_by = $_SESSION['user_name'];
 	else
+		$delivered_by = $_POST['driver'];
 
 	$sql="INSERT INTO sheets (date, masonName, masonPhone, qty, area, delivered_by)
 		 VALUES
-		 ('$sqlDate', '$name', '$phone', $qty, '$area', $delivered_by)";
+		 ('$sqlDate', '$name', '$phone', $qty, '$area', '$delivered_by')";
 
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));				 
 
