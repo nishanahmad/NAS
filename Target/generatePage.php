@@ -33,10 +33,9 @@ if(isset($_SESSION["user_name"]))
 	else
 	{
 		insertNewMonthPoints($month,$year);
-		$unlock = mysqli_query($con, "INSERT INTO target_locker (month,year,locked) VALUES ('$month','$year','0') ") or die(mysqli_error($con).' LINE 36');				
 		
 		$sql = "SELECT ar_id, target, rate, payment_perc FROM target WHERE year='$year' AND Month='$month'  AND ar_id IN ('$array')";
-		$result = mysqli_query($con, $sql) or die(mysqli_error($con).' LINE 39');				
+		$result = mysqli_query($con, $sql) or die(mysqli_error($con));				
 	}	
 ?>
 

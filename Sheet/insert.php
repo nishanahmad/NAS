@@ -11,7 +11,9 @@ if(isset($_SESSION["user_name"]))
 	$phone = $_POST['phone'];
 	$area = $_POST['area'];
 	$qty = (int)$_POST['qty'];
-	$delivered_by = (int)$_SESSION['user_id'];
+	if(empty($_POST['driver']))
+		$delivered_by = (int)$_SESSION['user_id'];
+	else
 
 	$sql="INSERT INTO sheets (date, masonName, masonPhone, qty, area, delivered_by)
 		 VALUES
