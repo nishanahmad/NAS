@@ -82,12 +82,15 @@ if(isset($_SESSION["user_name"]))
 <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
 <script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" language="javascript" src="../js/jquery.floatThead.min.js"></script>
+<script type="text/javascript" src="../js/jquery.tablesorter.min.js"></script> 
 <script src="../js/fileSaver.js"></script>
 <script src="../js/tableExport.js"></script>
 <script type="text/javascript" language="javascript">
 $(document).ready(function() {
 	$("#loader").hide();
 
+	$("#Points").tablesorter(); 
+	
  	$("#button").click(function(){
 		$("table").tableExport({
 				formats: ["xls"],    // (String[]), filetypes for the export
@@ -203,21 +206,23 @@ function rerender()
 					<td><?php echo '<b>'.$mainArray[$arId]['payment_points'].'</b>';?></td>
 				</tr>																															<?php
 			}																																	?>
-			<tr>
-				<th style="width:20%;"></th>
-				<th style="width:12%;"></th>
-				<th style="width:25%;"></th>
-				<th style="width:10%;"></th>
-				<th><?php echo $totalTarget;?></th>
-				<th><?php echo $totalSale?></th>
-				<th></th>
-				<th></th>
-				<th><?php echo round($totalSale/$totalTarget*100,1)?>%</th>
-				<th></th>	
-				<th></th>	
-				<th></th>
-				<th></th>	
-			</tr>																												
+			<thead>
+				<tr>
+					<th style="width:20%;"></th>
+					<th style="width:12%;"></th>
+					<th style="width:25%;"></th>
+					<th style="width:10%;"></th>
+					<th><?php echo $totalTarget;?></th>
+					<th><?php echo $totalSale?></th>
+					<th></th>
+					<th></th>
+					<th><?php echo round($totalSale/$totalTarget*100,1)?>%</th>
+					<th></th>	
+					<th></th>	
+					<th></th>
+					<th></th>	
+				</tr>	
+			</thead>	
 		</table>
 		<br/><br/><br/><br/>
 	</div>
