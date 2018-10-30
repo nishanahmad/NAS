@@ -173,7 +173,9 @@ function rerender()
 							
 																																						<?php
 			$totalTarget = 0;
-			$totalSale = 0;		
+			$totalSale = 0;	
+			$totalPoints = 0;		
+			$totalPaymentPoints = 0;					
 			foreach($targetMap as $arId => $targetArray)
 			{		
 				$target = $targetArray['target'];
@@ -189,7 +191,9 @@ function rerender()
 					$mainArray[$arId]['achieved_points'] = null;
 					$mainArray[$arId]['payment_points'] = null;
 				}																																	
-				$totalSale = $totalSale + $mainArray[$arId]['actual_sale'];																				?>
+				$totalSale = $totalSale + $mainArray[$arId]['actual_sale'];
+				$totalPoints = $totalPoints + $mainArray[$arId]['points'];
+				$totalPaymentPoints = $totalPaymentPoints + $mainArray[$arId]['payment_points'];							?>
 				<tr align="center">
 					<td style="text-align:left;"><?php echo $arMap[$arId]['name'];?></b></td>
 					<td><?php echo $arMap[$arId]['mobile'];?></b></td>
@@ -213,14 +217,14 @@ function rerender()
 					<th style="width:25%;"></th>
 					<th style="width:10%;"></th>
 					<th><?php echo $totalTarget;?></th>
-					<th><?php echo $totalSale?></th>
+					<th><?php echo $totalSale;?></th>
 					<th></th>
-					<th></th>
+					<th><?php echo $totalPoints;?></th>
 					<th><?php echo round($totalSale/$totalTarget*100,1)?>%</th>
 					<th></th>	
 					<th></th>	
 					<th></th>
-					<th></th>	
+					<th><?php echo $totalPaymentPoints;?></th>
 				</tr>	
 			</thead>	
 		</table>
