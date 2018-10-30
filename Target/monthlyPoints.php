@@ -169,11 +169,14 @@ function rerender()
 		</thead>	
 							
 																																						<?php
+			$totalTarget = 0;
+			$totalSale = 0;		
 			foreach($targetMap as $arId => $targetArray)
 			{		
 				$target = $targetArray['target'];
 				$rate = $targetArray['rate'];
 				$payment_perc = $targetArray['payment_perc'];
+				$totalTarget = $totalTarget + $target;
 				if(!isset($mainArray[$arId]))
 				{
 					$mainArray[$arId]['actual_sale'] = null;
@@ -182,24 +185,39 @@ function rerender()
 					$mainArray[$arId]['point_perc'] = null;
 					$mainArray[$arId]['achieved_points'] = null;
 					$mainArray[$arId]['payment_points'] = null;
-				}																																	?>
-				
+				}																																	
+				$totalSale = $totalSale + $mainArray[$arId]['actual_sale'];																				?>
 				<tr align="center">
-				<td style="text-align:left;"><?php echo $arMap[$arId]['name'];?></b></td>
-				<td><?php echo $arMap[$arId]['mobile'];?></b></td>
-				<td style="text-align:left;"><?php echo $arMap[$arId]['shop'];?></b></td>
-				<td><?php echo $arMap[$arId]['sap'];?></b></td>
-				<td><?php echo $target;?></td>
-				<td><?php echo $mainArray[$arId]['actual_sale'];?></td>
-				<td><?php echo $rate;?></td>
-				<td><?php echo $mainArray[$arId]['points'];?></td>
-				<td><?php echo $mainArray[$arId]['actual_perc'].'%';?></td>
-				<td><?php echo $mainArray[$arId]['point_perc'].'%';?></td>
-				<td><?php echo $payment_perc;?></td>
-				<td><?php echo $mainArray[$arId]['achieved_points'];?></td>
-				<td><?php echo '<b>'.$mainArray[$arId]['payment_points'].'</b>';?></td>
+					<td style="text-align:left;"><?php echo $arMap[$arId]['name'];?></b></td>
+					<td><?php echo $arMap[$arId]['mobile'];?></b></td>
+					<td style="text-align:left;"><?php echo $arMap[$arId]['shop'];?></b></td>
+					<td><?php echo $arMap[$arId]['sap'];?></b></td>
+					<td><?php echo $target;?></td>
+					<td><?php echo $mainArray[$arId]['actual_sale'];?></td>
+					<td><?php echo $rate;?></td>
+					<td><?php echo $mainArray[$arId]['points'];?></td>
+					<td><?php echo $mainArray[$arId]['actual_perc'].'%';?></td>
+					<td><?php echo $mainArray[$arId]['point_perc'].'%';?></td>
+					<td><?php echo $payment_perc;?></td>
+					<td><?php echo $mainArray[$arId]['achieved_points'];?></td>
+					<td><?php echo '<b>'.$mainArray[$arId]['payment_points'].'</b>';?></td>
 				</tr>																															<?php
 			}																																	?>
+			<tr>
+				<th style="width:20%;"></th>
+				<th style="width:12%;"></th>
+				<th style="width:25%;"></th>
+				<th style="width:10%;"></th>
+				<th><?php echo $totalTarget;?></th>
+				<th><?php echo $totalSale?></th>
+				<th></th>
+				<th></th>
+				<th><?php echo round($totalSale/$totalTarget*100,1)?>%</th>
+				<th></th>	
+				<th></th>	
+				<th></th>
+				<th></th>	
+			</tr>																												
 		</table>
 		<br/><br/><br/><br/>
 	</div>

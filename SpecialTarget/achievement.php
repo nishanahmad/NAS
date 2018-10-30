@@ -320,8 +320,8 @@ if(isset($_SESSION["user_name"]))
 				$saleTotal = $saleTotal + $sale;
 				$extraTotal = $extraTotal + $arExtraMap[$arId];
 				$balanceTotal = $balanceTotal + $balance;																														
-		}
-		$percentageTotal = round(  ($saleTotal + $extraTotal) * 100 / $targetTotal,0);																?>
+			}
+			$percentageTotal = round(  ($saleTotal + $extraTotal) * 100 / $targetTotal,0);																?>
 				<thead>
 					<tr style="line-height:50px;background-color:#BEBEBE !important;font-family: Arial Black;">
 						<td colspan="3" style="text-align:right;font-size:20px;">Total</td>
@@ -332,9 +332,9 @@ if(isset($_SESSION["user_name"]))
 						<td style="font-size:15px;"><?php echo $extraTotal;?></td>				
 					</tr>
 				</thead>
-		</table>
-		<br><br><br><br>
-		</div>
+			</table>
+			<br><br><br><br>
+			</div>
 </body>
 </html>
 <?php
