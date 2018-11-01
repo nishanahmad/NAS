@@ -132,10 +132,9 @@ function rerender()
 		<a href="../index.php" class="link"><img alt='home' title='home' src='../images/home.png' width='50px' height='50px'/> </a>
 		<br><br>
 		<select id="jsMonth" name="jsMonth" class="textarea" onchange="return rerender();">																				<?php	
-			$monthList = mysqli_query($con, "SELECT DISTINCT month FROM target ORDER BY month ASC" ) or die(mysqli_error($con));	
-			foreach($monthList as $monthObj) 
+			for($i=1;$i<=12;$i++) 
 			{	
-	?>			<option value="<?php echo $monthObj['month'];?>" <?php if($monthObj['month'] == $month) echo 'selected';?>><?php echo getMonth($monthObj['month']);?></option>		<?php	
+	?>			<option value="<?php echo $i;?>" <?php if($i == $month) echo 'selected';?>><?php echo getMonth($i);?></option>		<?php	
 			}
 	?>	</select>					
 			&nbsp;&nbsp;
