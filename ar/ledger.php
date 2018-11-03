@@ -62,6 +62,14 @@ if(isset($_SESSION["user_name"]))
 		$specialTargetMap[$month][$dateString]['extra'] =  $extraBags['SUM(qty)'];
 	}	
 	
+	$redemptionMap = array();
+	$redemptionObjects = mysqli_query($con,"SELECT * FROM redemption WHERE YEAR(date)='$urlYear' AND ar_id = '$urlId' ") or die(mysqli_error($con));		 
+	foreach($redemptionObjects as $redemption)
+	{
+		$redMonth = (int)date('m',strtotime($redemption['date']));
+		$redemptionMap[$redMonth][] = $redemption;
+	}
+	
 	$saleMap = array();	
 	$salesList = mysqli_query($con, "SELECT SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag),MONTH(entry_date) FROM nas_sale WHERE YEAR(entry_date) = '$urlYear' AND ar_id = '$urlId' GROUP BY MONTH(entry_date) ORDER BY MONTH(entry_date) ASC" ) or die(mysqli_error($con));
 	foreach($salesList as $sale) 
@@ -140,12 +148,13 @@ function rerender()
 <br/><br/>	
 <h1><?php echo $arName . ', ' .$urlYear ;?></h1>
 </div>
-<table align="center" class="responstable" style="width:25%;">
+<table align="center" class="responstable" style="width:50%;">
 <tr>
-	<th style="text-align:left;width:40%">Month</th>
-	<th>Target</th>
-	<th>Sale</th>
-	<th>Points</th>
+	<th style="text-align:left;">Month</th>
+	<th style="width:10%;">Target</th>
+	<th style="width:10%;">Sale</th>
+	<th style="width:10%;">Points</th>
+	<th>Remarks</th>
 </tr>
 <?php
 foreach($targetMap as $month => $target) 
@@ -159,6 +168,7 @@ foreach($targetMap as $month => $target)
 				<td><?php echo $subArray['target'];?></td>
 				<td><?php echo $subArray['sale'];?></td>
 				<td><?php if($subArray['sale'] + $subArray['extra'] >= $subArray['target']) echo $subArray['sale'];else echo '0';?></td>
+				<td></td>
 			</tr>																												<?php			
 		}	
 	}																															?>
@@ -167,9 +177,22 @@ foreach($targetMap as $month => $target)
 		<td><?php echo $target['target'];?></td>
 		<td><?php if(isset($saleMap[$month]))echo $saleMap[$month]; else echo '0';?></td>
 		<td><?php if(isset($mainArray[$month]['payment_points'])) echo $mainArray[$month]['payment_points']; else echo '0';?></td>															
-	</tr>
-	<tr><td colspan="4" style="background-color:#167F92;"></td></tr>	<?php																		
-}																															?>
+		<td></td>
+	</tr>																													<?php
+	if(isset($redemptionMap[$month]))
+	{
+		foreach($redemptionMap[$month] as $redemption)
+		{																														?>
+			<tr>
+				<td style="text-align:left;"><?php echo date('F d',strtotime($redemption['date']));?></td>
+				<td colspan="2">Redemption</td>
+				<td><?php echo $redemption['points'];?></td>
+				<td><?php echo $redemption['remarks'];?></td>
+			</tr>																												<?php			
+		}	
+	}																															?>	
+	<tr><td colspan="5" style="background-color:#167F92;"></td></tr>															<?php																		
+}																																?>
 </table>
 <br><br>
 </div>
