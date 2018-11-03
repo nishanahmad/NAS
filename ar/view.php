@@ -37,7 +37,7 @@ if(isset($_SESSION["user_name"]))
 		<div align="center" style="padding-bottom:5px;">
 			<a href="../index.php" class="link"><img alt='home' title='home' src='../images/home.png' width='50px' height='50px'/> </a>
 		</div>
-			<h2><i style="margin-left:150px;" class="fa fa-user"></i>&nbsp;<label id="name"><?php echo $ar['name'];?></label></h2>
+			<h2 style="margin-left:150px;" <label id="name"><?php echo $ar['name'];?></label></h2>
 			<div class="col-md-10 col-md-offset-1">	
 				<div class="row content-panel">
 				  <div class="col-md-6">
@@ -45,15 +45,15 @@ if(isset($_SESSION["user_name"]))
 					  <h4 style="margin-left:50px;">
 					  <table class="tbl">
 						  <tr>
-							<td>Name</td>
+							<td><i class="fa fa-user"></i> Name</td>
 							<td style="width:300px">: <b><?php echo $ar['name'];?></b></td>
 						  </tr>
 						  <tr>
-							<td>Mobile</td>
+							<td><i class="fa fa-phone"></i> Mobile</td>
 							<td>: <b><?php echo $ar['mobile'];?></b></td>
 						  </tr>							  
 						  <tr>
-							<td>Shop Name</td>
+							<td><i class="fa fa-home"></i> Shop Name</td>
 							<td>: <b><?php echo $ar['shop_name'];?></b></td>
 						  </tr>
 						  <tr>
