@@ -3,6 +3,7 @@ function getSaleMap($arIds,$startYear,$endYear)
 {
 	require '../connect.php';
 		
+	$saleMap = array();	
 	for($year=$startYear; $year<=$endYear; $year++)
 	{
 		$sales = mysqli_query($con,"SELECT ar_id,

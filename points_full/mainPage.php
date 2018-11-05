@@ -35,8 +35,6 @@ if(isset($_SESSION["user_name"]))
 	
 	$prevMap = getPrevPoints(array_keys($arMap),$year,$month,$dateString);
 	
-	//var_dump($prevMap);
-	
 	$arIds = implode("','",array_keys($arMap));
 	
 	if($dateString == 'FULL')
@@ -112,17 +110,6 @@ if(isset($_SESSION["user_name"]))
 	{
 		$redemptionMap[$redemption['ar_id']] = $redemption['SUM(points)'];
 	}
-	
-// Populate dateStringArray for dropdown view	
-	/*
-	$dateStringArray = array();
-	$dateList = mysqli_query($con, "SELECT from_date,to_date FROM special_target_date WHERE YEAR(from_date) = $year AND MONTH(from_date) = $month" ) or die(mysqli_error($con));	
-	foreach($dateList as $dateObj) 
-	{
-		$dateStringArray[] = date('d', strtotime($dateObj['from_date'])).' to '.date('d', strtotime($dateObj['to_date']));
-	}
-	$dateStringArray[] = 'FULL';
-	*/
 ?>
 <html>
 <head>
