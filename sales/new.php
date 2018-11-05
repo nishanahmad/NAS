@@ -33,20 +33,17 @@ if(isset($_SESSION["user_name"]))
 	var shopNameList = '<?php echo $shopNameArray;?>';
 	var shopName_array = JSON.parse(shopNameList);
 	var shopNameArray = shopName_array;									
-
 	function arRefresh()
 	{
 		var arId = $('#ar').val();
 		var shopName = shopNameArray[arId];
 		$('#shopName').val(shopName);
 	}								
-
 	function validateForm() 
 	{
 		var srp = parseInt(document.forms["frmUser"]["srp"].value);
 		var srh = parseInt(document.forms["frmUser"]["srh"].value);
 		var f2r = parseInt(document.forms["frmUser"]["f2r"].value);
-
 		if ( !srp && !srh && !f2r )
 		{
 			alert("Please enter a value in atleast one of these fields : srp,srh,F2R");
@@ -55,11 +52,9 @@ if(isset($_SESSION["user_name"]))
 	}
 	
 	$(function() {
-
 	var pickerOpts = { dateFormat:"dd-mm-yy"}; 
 				
 	$( "#datepicker" ).datepicker(pickerOpts);
-
 	});
 	
 	</script>
@@ -81,8 +76,8 @@ if(isset($_SESSION["user_name"]))
 				<td><label>Date</label></td>
 				<td><input type="text" id="datepicker" class="txtField" name="date" required value="<?php echo date('d-m-Y'); ?>" /></td>
 
-				<td><label>Customer Name</label></td>
-				<td><input type="text" name="customerName" class="txtField"></td>				
+				<td><label>Remarks</label></td>
+				<td><input type="text" name="remarks" class="txtField"></td>
 			</tr>
 
 			<tr>
@@ -97,8 +92,16 @@ if(isset($_SESSION["user_name"]))
 					</select>
 				</td>
 
-				<td><label>Customer Phone</label></td>
-				<td><input type="text" name="customerPhone" class="txtField"></td>
+				<td><label>Bill No</label></td>
+				<td><input type="text" name="bill" class="txtField"></td>
+			</tr>
+
+			<tr>
+				<td><label>Truck no</label></td>
+				<td><input type="text" name="truck" class="txtField"></td>
+
+				<td><label>Customer Name</label></td>
+				<td><input type="text" name="customerName" class="txtField"></td>
 			</tr>
 
 			<tr>
@@ -121,27 +124,22 @@ if(isset($_SESSION["user_name"]))
 				<td><label>F2R</label></td>
 				<td><input type="text" name="f2r" class="txtField" pattern="[0-9]+" title="Input a valid number"></td>
 
-				<td><label>Bill No</label></td>
-				<td><input type="text" name="bill" class="txtField"></td>
+				<td><label>Customer Phone</label></td>
+				<td><input type="text" name="customerPhone" class="txtField"></td>
 			</tr>
 			
 			<tr>
 				<td><label>Return</label></td>
 				<td><input type="text" name="return" class="txtField" pattern="[0-9]+" title="Input a valid number"></td>
 				
-				<td><label>Truck no</label></td>
-				<td><input type="text" name="truck" class="txtField"></td>												
+				<td><label>Shop</label></td>
+				<td><input type="text" readonly name="shopName" id="shopName" class="txtField"></td>	
 			</tr>
 			
 			<tr>
-				<td><label>Remarks</label></td>
-				<td><input type="text" name="remarks" class="txtField"></td>
-
-				<td><label>Shop</label></td>
-				<td><input type="text" readonly name="shopName" id="shopName" class="txtField"></td>	
-			</tr>			
-			
-			<tr>
+				<td></td>
+				<td></td>
+				
 				<td><label>Engineer</label></td>
 				<td><select name="engineer" id="engineer"  class="txtField">
 						<option value = "">---Select---</option>
@@ -151,7 +149,6 @@ if(isset($_SESSION["user_name"]))
 							<option value="<?php echo $eng['id'];?>"><?php echo $eng['name'];?></option>			<?php	
 						}																							?>
 					</select>
-				</td>			
 			</tr>			
 			
 			</tr>
@@ -165,8 +162,6 @@ if(isset($_SESSION["user_name"]))
 	<br>
 </body>
 </html>																		<?php
-
 }
 else
 	header("Location:../index.php");
-

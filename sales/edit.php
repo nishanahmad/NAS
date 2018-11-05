@@ -1,29 +1,13 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-
 session_start();
 if(isset($_SESSION["user_name"]))
 {
 require '../connect.php';
 echo "LOGGED USER : ".$_SESSION["user_name"] ;	
-
-// Populate maps for SAP CODE and SHOP NAME
-	$ars = mysqli_query($con,"SELECT id,name,sap_code,shop_name,type FROM ar_details WHERE type <> 'Engineer Only' OR type IS NULL ORDER BY name ASC");
-	foreach($ars as $arObject)
-	{
-		$arId = $arObject['id'];
-		
-		$shopName = strip_tags($arObject['shop_name']);
-		$shopNameMap[$arId] = $shopName;
-	}
-	
-	$shopNameArray = json_encode($shopNameMap);
-	$shopNameArray = str_replace('\n',' ',$shopNameArray);
-	$shopNameArray = str_replace('\r',' ',$shopNameArray);	
-	
 $engMap[null] = null;
-$arObjects = mysqli_query($con,"SELECT id,name,type FROM ar_details ORDER BY name ASC") or die(mysqli_error($con));	
+$arObjects = mysqli_query($con,"SELECT id,name,type FROM ar_details") or die(mysqli_error($con));	
 foreach($arObjects as $ar)
 {
 	if($ar['type'] != 'Engineer Only')
@@ -31,12 +15,10 @@ foreach($arObjects as $ar)
 	if($ar['type'] == 'Engineer' || $ar['type'] == 'Contractor' || $ar['type'] == 'Engineer Only')
 		$engMap[$ar['id']] = $ar['name'];
 }
-
 if(count($_POST)>0) 
 {	
 	$originalDate = $_POST["entryDate"];
 	$newDate = date("Y-m-d", strtotime($originalDate)); 
-
 	$result1 = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
 	$row1= mysqli_fetch_array($result1,MYSQLI_ASSOC);
 	
@@ -47,8 +29,6 @@ if(count($_POST)>0)
 		$query = mysqli_query($con,"UPDATE nas_sale SET entry_date_mod='$entry_date_mod', entry_date_dt='$entry_date_dt'
 							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
 	}	
-
-
 	if ($row1["truck_no"] != $_POST["truck"])
 	{
 		$truck_no_dt = date('Y-m-d H:i:s'); 
@@ -56,7 +36,6 @@ if(count($_POST)>0)
 		$query = mysqli_query($con,"UPDATE nas_sale SET truck_no_mod='$truck_no_mod', truck_no_dt='$truck_no_dt'
 							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
 	}
-
 	if ($row1["srp"] != $_POST["srp"])
 	{
 		$srp_dt = date('Y-m-d H:i:s'); 
@@ -66,28 +45,23 @@ if(count($_POST)>0)
 		$query = mysqli_query($con,"UPDATE nas_sale SET srp_mod='$srp_mod', srp_dt='$srp_dt'
 							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
 	}
-
 	if ($row1["srh"] != $_POST["srh"])
 	{
 		$srh_dt = date('Y-m-d H:i:s'); 
 		$srh_mod = $_SESSION["user_name"];
 		$total = $_POST["srh"] - $row1["srh"];
-
 		$query = mysqli_query($con,"UPDATE nas_sale SET srh_mod='$srh_mod', srh_dt='$srh_dt'
 							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
 	}
-
 	if ($row1["f2r"] != $_POST["f2r"])
 	{
 		$f2r_dt = date('Y-m-d H:i:s'); 
 		$f2r_mod = $_SESSION["user_name"];
 		$f2r_mod = $_SESSION["user_name"];
 		$total = $_POST["f2r"] - $row1["f2r"];
-
 		$query = mysqli_query($con,"UPDATE nas_sale SET f2r_mod='$f2r_mod', f2r_dt='$f2r_dt'
 							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
 	}
-
 	if ($row1["remarks"] != $_POST["remarks"])
 	{
 		$remarks_dt = date('Y-m-d H:i:s'); 
@@ -95,7 +69,6 @@ if(count($_POST)>0)
 		$query = mysqli_query($con,"UPDATE nas_sale SET remarks_mod='$remarks_mod', remarks_dt='$remarks_dt'
 							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
 	}
-
 	if ($row1["bill_no"] != $_POST["bill"])
 	{
 		$bill_no_dt = date('Y-m-d H:i:s'); 
@@ -103,7 +76,6 @@ if(count($_POST)>0)
 		$query = mysqli_query($con,"UPDATE nas_sale SET bill_no_mod='$bill_no_mod', bill_no_dt='$bill_no_dt'
 							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
 	}
-
 	if ($row1["customer_name"] != $_POST["customerName"])
 	{
 		$customer_name_dt = date('Y-m-d H:i:s'); 
@@ -111,7 +83,6 @@ if(count($_POST)>0)
 		$query = mysqli_query($con,"UPDATE nas_sale SET customer_name_mod='$customer_name_mod', customer_name_dt='$customer_name_dt'
 							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
 	}
-
 	if ($row1["customer_phone"] != $_POST["customerPhone"])
 	{
 		$customer_phone_dt = date('Y-m-d H:i:s'); 
@@ -119,7 +90,6 @@ if(count($_POST)>0)
 		$query = mysqli_query($con,"UPDATE nas_sale SET customer_phone_mod='$customer_phone_mod', customer_phone_dt='$customer_phone_dt'
 							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
 	}
-
 	if ($row1["address1"] != $_POST["address1"])
 	{
 		$address1_dt = date('Y-m-d H:i:s');
@@ -127,7 +97,6 @@ if(count($_POST)>0)
 		$query = mysqli_query($con,"UPDATE nas_sale SET address1_mod='$address1_mod', address1_dt='$address1_dt'
 							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
 	}
-
 	if ($row1["address2"] != $_POST["address2"])
 	{
 		$address2_dt = date('Y-m-d H:i:s');
@@ -151,7 +120,6 @@ if(count($_POST)>0)
 	$address2 = $_POST['address2'];
 	$entered_by = $_SESSION["user_name"];
 	$entered_on = date('Y-m-d H:i:s');	
-
 	if(empty($engId))
 		$engId = 'null';	
 	if(empty($srp))
@@ -172,10 +140,8 @@ if(count($_POST)>0)
 		$url = 'list.php';
 	else	
 		$url = 'todayList.php?ar=all';
-
 	header( "Location: $url" );
 }
-
 $result = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
 $row= mysqli_fetch_array($result,MYSQLI_ASSOC);
 ?>
@@ -184,20 +150,7 @@ $row= mysqli_fetch_array($result,MYSQLI_ASSOC);
 <head>
 <title>Edit Sale <?php echo $row['sales_id']; ?></title>
 <link rel="stylesheet" type="text/css" href="../css/newEdit.css" />
-<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
 <link rel="stylesheet" href="../css/button.css">
-	<script>
-	var shopNameList = '<?php echo $shopNameArray;?>';
-	var shopName_array = JSON.parse(shopNameList);
-	var shopNameArray = shopName_array;									
-
-	function arRefresh()
-	{
-		var arId = $('#ar').val();
-		var shopName = shopNameArray[arId];
-		$('#shopName').val(shopName);
-	}								
-	</script>
 </head>
 <body>
 <form name="frmUser" method="post" action="">
@@ -227,13 +180,14 @@ $row= mysqli_fetch_array($result,MYSQLI_ASSOC);
 			echo $newDate1; ?>">
 </td>
 
-<td><label>Customer Name</label></td>
-<td><input type="text" name="customerName" class="txtField" value="<?php echo $row['customer_name']; ?>"></td>
+<td><label>Remarks</label></td>
+<td><input type="text" name="remarks" class="txtField" value="<?php echo $row['remarks']; ?>"></td>
+
 
 </tr>
 <tr>
 <td><label>AR</label></td>
-<td><select name="ar" id="ar" required class="txtField" onChange="arRefresh();">
+<td><select name="ar" required class="txtField">
     <option value = "<?php echo $row['ar_id'];?>"><?php echo $arMap[$row['ar_id']];?></option>
     <?php
 		foreach($arMap as $arId => $arName)
@@ -244,21 +198,29 @@ $row= mysqli_fetch_array($result,MYSQLI_ASSOC);
       </select>
 </td>
 
-<td><label>Customer Phone</label></td>
-<td><input type="text" name="customerPhone" class="txtField" value="<?php echo $row['customer_phone']; ?>"></td>
+<td><label>Bill No </label></td>
+<td><input type="text" name="bill" class="txtField" value="<?php echo $row['bill_no']; ?>"></td>
+</tr>
+
+<td><label>Truck No </label></td>
+<td><input type="text" name="truck" class="txtField" value="<?php echo $row['truck_no']; ?>"></td>
+
+
+<td><label>Customer Name</label></td>
+<td><input type="text" name="customerName" class="txtField" value="<?php echo $row['customer_name']; ?>"></td>
 </tr>
 
 <td><label>SRP</label></td>
 <td><input type="text" name="srp" class="txtField" value="<?php $srp = $row['srp'];echo $row['srp'];?>">
+</td>
 
 <td><label>Address Part 1</label></td>
 <td><input type="text" name="address1" class="txtField" value="<?php echo $row['address1']; ?>"></td>
-
 </tr>
 
 <td><label>SRH</label></td>
+
 <td><input type="text" name="srh" class="txtField" value="<?php echo $row['srh']; ?>"></td>
-</td>
 
 <td><label>Address Part 2</label></td>
 <td><input type="text" name="address2" class="txtField" value="<?php echo $row['address2']; ?>"></td>
@@ -267,24 +229,14 @@ $row= mysqli_fetch_array($result,MYSQLI_ASSOC);
 <td><label>F2R</label></td>
 <td><input type="text" name="f2r" class="txtField" value="<?php echo $row['f2r']; ?>"></td>
 
-<td><label>Bill No </label></td>
-<td><input type="text" name="bill" class="txtField" value="<?php echo $row['bill_no']; ?>"></td>
+
+<td><label>Customer Phone</label></td>
+<td><input type="text" name="customerPhone" class="txtField" value="<?php echo $row['customer_phone']; ?>"></td>
 </tr>
 
 <td><label>Return</label></td>
 <td><input type="text" name="return" class="txtField" value="<?php echo $row['return_bag']; ?>"></td>
 
-<td><label>Truck No </label></td>
-<td><input type="text" name="truck" class="txtField" value="<?php echo $row['truck_no']; ?>"></td>
-</tr>
-
-<td><label>Remarks</label></td>
-<td><input type="text" name="remarks" class="txtField" value="<?php echo $row['remarks']; ?>"></td>
-
-	<td><label>Shop</label></td>
-	<td><input type="text" readonly name="shopName" id="shopName" class="txtField"></td>	
-
-<tr>
 <td><label>Engineer</label></td>
 <td><select name="engineer" class="txtField">
 		<option value="<?php echo $row['eng_id'];?>"><?php echo $engMap[$row['eng_id']];?></option>																																<?php
@@ -297,7 +249,6 @@ $row= mysqli_fetch_array($result,MYSQLI_ASSOC);
 		}																																				?>
       </select>
 </td>
-</tr>
 
 <tr>
 <td colspan="4" align = "center"><input type="submit" name="submit" value="Submit" class="btnSubmit"></td>
@@ -310,7 +261,6 @@ $row= mysqli_fetch_array($result,MYSQLI_ASSOC);
 </form>
 </body>
 </html>																								<?php
-
 }
 else
 	header("Location:../index.php");
