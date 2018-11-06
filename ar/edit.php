@@ -42,6 +42,12 @@ if(isset($_SESSION["user_name"]))
 							</div>
 						</div>															
 						<div class="form-group">
+							<label class="col-sm-2 col-sm-2 control-label">Shop</label>
+							<div class="col-sm-6">
+								<input type="text" name="shop" value="<?php echo $ar['shop_name'];?>" class="form-control">
+							</div>
+						</div>																					
+						<div class="form-group">
 							<label class="col-sm-2 col-sm-2 control-label">SAP</label>
 							<div class="col-sm-6">
 								<input type="text" name="sap" value="<?php echo $ar['sap_code'];?>" class="form-control">
