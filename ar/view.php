@@ -7,7 +7,6 @@ if(isset($_SESSION["user_name"]))
 	$id = $_GET['id'];
 	$sql = mysqli_query($con,"SELECT * FROM ar_details WHERE id='$id'") or die(mysqli_error($con));
 	$ar = mysqli_fetch_array($sql,MYSQLI_ASSOC);	
-	
 	$giftQuery = mysqli_query($con,"SELECT * FROM gifts WHERE ar_id='$id' ORDER BY date DESC") or die(mysqli_error($con));
 ?>
 <html>
@@ -84,7 +83,7 @@ if(isset($_SESSION["user_name"]))
 				  </div>
 				  <div class="col-md-4">
 					<br/><br/>
-					<a  href="/orders/$order->id/edit" class="btn btn-theme" style="width:120px"><i class="fa fa-pencil"></i> Edit AR</a>
+					<a  href="edit.php?id=<?php echo $ar['id'];?>" class="btn btn-theme" style="width:120px"><i class="fa fa-pencil"></i> Edit AR</a>
 					<br/><br/>
 					<a type="submit" class="btn btn-danger" id="delete" style="width:120px"><i class="fa fa-times"></i> Deactivate</a>	
 				  </div>

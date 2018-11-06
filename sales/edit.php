@@ -7,7 +7,7 @@ if(isset($_SESSION["user_name"]))
 require '../connect.php';
 echo "LOGGED USER : ".$_SESSION["user_name"] ;	
 $engMap[null] = null;
-$arObjects = mysqli_query($con,"SELECT id,name,type FROM ar_details") or die(mysqli_error($con));	
+$arObjects = mysqli_query($con,"SELECT id,name,type FROM ar_details ORDER BY name") or die(mysqli_error($con));	
 foreach($arObjects as $ar)
 {
 	if($ar['type'] != 'Engineer Only')
