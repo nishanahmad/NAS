@@ -14,7 +14,7 @@ if(isset($_SESSION["user_name"]))
 <link rel="stylesheet" type="text/css" href="../css/responstable.css">
 <link href="../css/font-awesome.min.css" rel="stylesheet">		
 <script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
-<title>AR List</title>
+<title>Engineers List</title>
 </head>
 <body>
 <div id="main" class="main">
@@ -47,7 +47,7 @@ if(isset($_SESSION["user_name"]))
 		$status = $row['isActive'];
 	?>	
 	<tr>
-		<td><a style="color:grey;" href="../ar/view.php?id=<?php echo $row['id'];?>"><i class="fa fa-pencil"></a></td>	
+		<td><a style="color:grey;" href="view.php?id=<?php echo $row['id'];?>"><i class="fa fa-pencil"></a></td>	
 		<td><?php echo $arname; ?></td>	
 		<td><?php echo $shopName; ?></td>	
 		<td style="text-align:center;width:8%"><label align="center"><?php echo $sapCode; ?></td>	

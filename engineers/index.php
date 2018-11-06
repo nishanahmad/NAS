@@ -28,14 +28,12 @@ if(isset($_SESSION["user_name"]))
 			<a href="list.php" class="btn lg ghost" >ENGINEER LIST</a>
 			<br><br><br>	
 
-			<a href="points.php?" class="btn lg ghost">POINTS</a>
+			<a href="points.php?" class="btn lg ghost">ACCUMULATED POINTS</a>
 			<br><br><br>
 			
 			<a href="../redemption" class="btn lg ghost">REDEMPTION</a>
 			<br><br><br>			
 			
-			<a href="ledger.php?" class="btn lg ghost">LEDGER</a>
-			<br><br><br>						
 		</div>
 	</body>
 </html>

@@ -24,7 +24,7 @@ if(isset($_SESSION["user_name"]))
 </div>
 <table align="center" class="responstable" style="width:90%;">
 <?php
-	$sql = "SELECT * FROM ar_details ORDER BY name ASC ";
+	$sql = "SELECT * FROM ar_details WHERE type LIKE '%AR%' ORDER BY name ASC ";
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));?>
 	<tr>
 		<th style="width:3%"></th>
