@@ -74,37 +74,37 @@ if(isset($_SESSION["user_name"]))
 					  <table class="tbl">
 						  <tr>
 							<td><i class="fa fa-user"></i> Name</td>
-							<td style="width:300px">: <b><?php echo $ar['name'];?></b></td>
+							<td style="width:300px">: <?php echo $ar['name'];?></td>
 						  </tr>
 						  <tr>
 							<td><i class="fa fa-phone"></i> Mobile</td>
-							<td>: <b><?php echo $ar['mobile'];?></b></td>
+							<td>: <?php echo $ar['mobile'];?></td>
 						  </tr>							  
 						  <tr>
 							<td><i class="fa fa-home"></i> Shop Name</td>
-							<td>: <b><?php echo $ar['shop_name'];?></b></td>
+							<td>: <?php echo $ar['shop_name'];?></td>
 						  </tr>
 						  <tr>
 							<td>SAP Code</td>
-							<td>: <b> <?php echo $ar['sap_code'];?></b></td>
+							<td>: <?php echo $ar['sap_code'];?></td>
 						  </tr>					  
 						  <tr>
 							<td>Area</td>
-							<td>: <b><?php echo $ar['area'];?></b></td>
+							<td>: <?php echo $ar['area'];?></td>
 						  </tr>					  
 						  <tr>
 							<td>Type</td>
-							<td>: <b> <?php echo $ar['type'];?></b></td>
+							<td>: <?php echo $ar['type'];?></td>
 						  </tr>					  					  
 						  <tr>
 							<td>Status</td>																								<?php
 							if($ar['isActive'])
 							{																											?>
-								<td>: <b> Active</b></td>																				<?php
+								<td>: Active</td>																				<?php
 							}
 							else
 							{																											?>
-								<td>: <b> Inactive</b></td>																				<?php
+								<td>: Inactive</td>																				<?php
 							}																											?>
 						  </tr>					  					  
 						</table>  

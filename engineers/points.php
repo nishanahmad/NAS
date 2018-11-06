@@ -95,10 +95,10 @@ function rerender()
 	window.location.href = hrf +"?year="+ year + "&month=" + month;
 }
 </script>
-
 <title><?php echo getMonth($urlMonth); echo " "; echo $urlYear; ?></title>
 </head>
 <body>
+
 	<div id="loader" class="loader" align="center" style="background : #161616 url('../images/pattern_40.gif') top left repeat;height:100%">
 		<br><br><br><br><br><br><br><br><br><br><br><br>
 		<div class="circle"></div>
