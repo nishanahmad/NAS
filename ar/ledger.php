@@ -77,16 +77,16 @@ if(isset($_SESSION["user_name"]))
 		<h1><?php echo $arName . ', ' .$urlYear ;?></h1>
 		</div>
 		<table align="center" class="responstable" style="width:50%;">
+		<?php
+		foreach($targetMap as $month => $target) 
+		{																																	?>
 		<tr>
-			<th style="text-align:left;">Month</th>
+			<th style="text-align:left;"><?php echo getMonth($month);?></th>
 			<th style="width:10%;">Target</th>
 			<th style="width:10%;">Sale</th>
 			<th style="width:10%;">Points</th>
 			<th>Remarks</th>
 		</tr>
-		<?php
-		foreach($targetMap as $month => $target) 
-		{																																	?>
 			<tr>
 				<td style="text-align:left;"><?php echo getMonth($month).' Opening';?></td>
 				<td colspan="2">OPENING</td>
@@ -115,7 +115,7 @@ if(isset($_SESSION["user_name"]))
 				}	
 			}																															?>
 			<tr>
-				<td style="text-align:left;"><?php echo getMonth($month);?></td>
+				<td style="text-align:left;"><?php echo getMonth($month).' Full';?></td>
 				<td><?php echo $target['target'];?></td>
 				<td><?php if(isset($saleMap[$month]))echo $saleMap[$month]; else echo '0';?></td>
 				<td><?php 
@@ -147,8 +147,7 @@ if(isset($_SESSION["user_name"]))
 				<td colspan="2">CLOSING</td>
 				<td><?php echo $openingPoints;?></td>
 				<td></td>
-			</tr>																												
-			<tr><td colspan="5" style="background-color:#167F92;"></td></tr>															<?php																		
+			</tr>																												<?php																		
 		}																																?>
 		</table>
 		<br><br>

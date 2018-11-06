@@ -150,7 +150,10 @@ if(isset($_SESSION["user_name"]))
 		var hrf = window.location.href;
 		hrf = hrf.slice(0,hrf.indexOf("&removeToday="));
 		
-		window.location.href = hrf + "&removeToday=" + removeToday;
+		if(hrf.includes('?'))
+			window.location.href = hrf + "&removeToday=" + removeToday;
+		else
+			window.location.href = hrf + "?removeToday=" + removeToday;
 	}
 	
 	function refreshYear()
