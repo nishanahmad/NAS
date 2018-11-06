@@ -69,9 +69,11 @@ if(isset($_SESSION["user_name"]))
 <script type="text/javascript" language="javascript" src="../js/jquery.floatThead.min.js"></script>
 <script src="../js/fileSaver.js"></script>
 <script src="../js/tableExport.js"></script>
+<script type="text/javascript" src="../js/jquery.tablesorter.min.js"></script> 
 <script type="text/javascript" language="javascript">
 $(document).ready(function() {
 	$("#loader").hide();
+	$("#Points").tablesorter(); 
  	$("#button").click(function(){
 		$("table").tableExport({
 				formats: ["xls"],    // (String[]), filetypes for the export
@@ -141,9 +143,11 @@ function rerender()
 				<th>Redeemed Pnts</th>	
 				<th>Balance</th>	
 			</tr>
-		</thead>	
-							
-																																												<?php
+		</thead>																													<?php
+			$openingTotal = 0;
+			$currentTotal = 0;
+			$redeemedTotal = 0;
+			$balanceTotal = 0;																																												
 			foreach($engMap as $arId => $detailMap)
 			{		
 				if(!isset($targetMap[$arId]))
@@ -164,7 +168,23 @@ function rerender()
 				<td><?php echo $redemptionMap[$arId];?></td>
 				<td><?php echo $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'] + $pointMap[$arId]['points'] - $redemptionMap[$arId];?></td>
 				</tr>																																							<?php
+				$openingTotal = $openingTotal + $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'];
+				$currentTotal = $currentTotal + $pointMap[$arId]['points'];
+				$redeemedTotal = $redeemedTotal + $redemptionMap[$arId];
+				$balanceTotal = $balanceTotal + $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'] + $pointMap[$arId]['points'] - $redemptionMap[$arId];			
 			}																																									?>
+			<thead>
+				<tr>
+					<th style="width:20%;text-align:left;"></th>
+					<th style="width:12%;"></th>
+					<th style="width:25%;text-align:left;"></th>
+					<th style="width:10%;"></th>
+					<th><?php echo $openingTotal;?></th>
+					<th><?php echo $currentTotal;?></th>	
+					<th><?php echo $redeemedTotal;?></th>	
+					<th><?php echo $balanceTotal;?></th>	
+				</tr>
+			</thead>																															
 		</table>
 		<br/><br/><br/><br/>
 	</div>
