@@ -28,6 +28,7 @@ if(isset($_SESSION["user_name"]))
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));?>
 	<tr>
 		<th style="width:3%"></th>
+		<th style="width:3%"></th>
 		<th style="width:20%">Name</th>
 		<th style="width:20%">Shop</th>
 		<th style="text-align:center;width:8%">SAP</th>
@@ -36,6 +37,7 @@ if(isset($_SESSION["user_name"]))
 		<th>Status</th>
 	</tr>
 	<?php
+	$count = 1;
 	while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) 
 	{
 		$arId = $row['id'];
@@ -48,6 +50,7 @@ if(isset($_SESSION["user_name"]))
 	?>	
 	<tr>
 		<td><a style="color:grey;" href="view.php?id=<?php echo $row['id'];?>"><i class="fa fa-pencil"></a></td>	
+		<td><?php echo $count; ?></td>	
 		<td><?php echo $arname; ?></td>	
 		<td><?php echo $shopName; ?></td>	
 		<td style="text-align:center;width:8%"><label align="center"><?php echo $sapCode; ?></td>	
@@ -55,6 +58,7 @@ if(isset($_SESSION["user_name"]))
 		<td style=""><?php echo $area;?></td>	
 		<td style="text-align:center;width:8%"><?php if($status == 1 ) echo 'Active'; else echo 'InActive';?></td>
 	</tr>																													<?php
+		$count++;
 	}																																																										?>
 </table>
 <br><br>
