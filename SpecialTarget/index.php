@@ -38,6 +38,8 @@ a{
 	<a href="special_target_date.php" class="btn lg ghost">INSERT SPECIAL TARGET DATE</a>
     <br><br><br>	
 
+	<a href="extraBags/" class="btn lg ghost">EXTRA BAGS</a>
+	<br><br><br>	
 </div>
 </body>
 </html>																				<?php
