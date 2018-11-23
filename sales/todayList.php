@@ -62,7 +62,7 @@ if(isset($_SESSION["user_name"]))
 			<th width="50px;">SRH</th>
 			<th width="50px;">F2R</th>
 			<th>BILL NO</th>
-			<th class="desktop">CUST. NAME</th>
+			<th>CUST. NAME</th>
 			<th class="desktop">CUST. PHONE</th>
 			<th>REMARKS</th>
 			<th class="desktop">ADDRESS1</th>
@@ -86,7 +86,7 @@ if(isset($_SESSION["user_name"]))
 			<td align="center"><?php echo $row["srh"]; ?></td>
 			<td align="center"><?php echo $row["f2r"]; ?></td>
 			<td><?php echo $row["bill_no"]; ?></td>
-			<td class="desktop"><?php echo $row["customer_name"]; ?></td>
+			<td><?php echo $row["customer_name"]; ?></td>
 			<td class="desktop"><?php echo $row["customer_phone"]; ?></td>
 			<td><?php echo $row["remarks"]; ?></td>
 			<td class="desktop"><?php echo $row["address1"]; ?></td>
