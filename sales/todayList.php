@@ -88,7 +88,7 @@ if(isset($_SESSION["user_name"]))
 			<td><?php echo $row["bill_no"]; ?></td>
 			<td class="desktop"><?php echo $row["customer_name"]; ?></td>
 			<td class="desktop"><?php echo $row["customer_phone"]; ?></td>
-			<td class="desktop"><?php echo $row["remarks"]; ?></td>
+			<td><?php echo $row["remarks"]; ?></td>
 			<td class="desktop"><?php echo $row["address1"]; ?></td>
 			<td class="desktop"><?php echo $row["address2"]; ?></td>
 		</tr>
