@@ -38,7 +38,7 @@ a{
 	<a href="reports/totalSalesAR.php" class="btn lg ghost">SALES SUMMARY</a>
     <br><br><br>
 	
-   	<a href="target/" class="btn lg ghost">TARGET</a>
+   	<a href="Target/" class="btn lg ghost">TARGET</a>
     <br><br><br>	
 	
    	<a href="SpecialTarget/" class="btn lg ghost">SPECIAL TARGET</a>
