@@ -62,7 +62,7 @@ if(isset($_SESSION["user_name"]))
 <br><br>
 <a href="../index.php" class="link"><img alt='home' title='home' src='../images/home.png' width='50px' height='50px'/> </a> &nbsp;&nbsp;&nbsp;
 <br><br><br><br>
-<form method="post" action="">
+<form method="post" action="" autocomplete="off">
 	<input type="text" id="fromDate" class="textarea" name="fromDate" required value="<?php echo date('d-m-Y',strtotime($fromDate)); ?>" />
 	&nbsp;&nbsp;to&nbsp;&nbsp;
 	<input type="text" id="toDate" class="textarea" name="toDate" required value="<?php echo date('d-m-Y',strtotime($toDate)); ?>" />
