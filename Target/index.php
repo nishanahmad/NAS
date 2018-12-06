@@ -2,11 +2,15 @@
 session_start();
 if(isset($_SESSION["user_name"]))
 {
-	$year = date("Y");
-	$month = date("m");
-	echo $year;
-	echo $month;	
-?>
+	require '../connect.php';
+	
+	$yearQuery = mysqli_query($con,"SELECT MAX(year) FROM target")  or die(mysqli_error($con));
+	$yearObj = mysqli_fetch_array($yearQuery,MYSQLI_ASSOC);
+	$year = $yearObj['MAX(year)'];	
+	
+	$monthQuery = mysqli_query($con,"SELECT MAX(month) FROM target WHERE year = $year ")  or die(mysqli_error($con));
+	$monthObj = mysqli_fetch_array($monthQuery,MYSQLI_ASSOC);
+	$month = $monthObj['MAX(month)'];?>
 
 <html>
 <head>
