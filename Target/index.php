@@ -49,7 +49,7 @@ a{
 	<a href="../points_full/mainPage.php?month=<?php echo $month;?>&year=<?php echo $year;?>&dateString=FULL" class="btn lg ghost">ACCUMULATED POINTS AR</a>
 	<br><br><br>	
 	
-	<a href="../engineers/points.php" class="btn lg ghost">ENGINEER POINTS</a>
+	<a href="../engineers/points.php?" class="btn lg ghost">ENGINEER POINTS</a>
 	<br><br><br>		
 	
 	<a href="companyTarget.php?month=<?php echo $month;?>&year=<?php echo $year;?>" class="btn lg ghost">COMPANY TARGET AR</a>
