@@ -15,133 +15,6 @@ foreach($arObjects as $ar)
 	if($ar['type'] == 'Engineer' || $ar['type'] == 'Contractor' || $ar['type'] == 'Engineer Only')
 		$engMap[$ar['id']] = $ar['name'];
 }
-if(count($_POST)>0) 
-{	
-	$originalDate = $_POST["entryDate"];
-	$newDate = date("Y-m-d", strtotime($originalDate)); 
-	$result1 = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
-	$row1= mysqli_fetch_array($result1,MYSQLI_ASSOC);
-	
-	if ($row1["entry_date"] != $newDate)
-	{   
-		$entry_date_dt = date('Y-m-d H:i:s'); 
-		$entry_date_mod = $_SESSION["user_name"];
-		$query = mysqli_query($con,"UPDATE nas_sale SET entry_date_mod='$entry_date_mod', entry_date_dt='$entry_date_dt'
-							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
-	}	
-	if ($row1["truck_no"] != $_POST["truck"])
-	{
-		$truck_no_dt = date('Y-m-d H:i:s'); 
-		$truck_no_mod = $_SESSION["user_name"];
-		$query = mysqli_query($con,"UPDATE nas_sale SET truck_no_mod='$truck_no_mod', truck_no_dt='$truck_no_dt'
-							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
-	}
-	if ($row1["srp"] != $_POST["srp"])
-	{
-		$srp_dt = date('Y-m-d H:i:s'); 
-		$srp_mod = $_SESSION["user_name"];
-		$total = $_POST["srp"] - $row1["srp"];
-		
-		$query = mysqli_query($con,"UPDATE nas_sale SET srp_mod='$srp_mod', srp_dt='$srp_dt'
-							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
-	}
-	if ($row1["srh"] != $_POST["srh"])
-	{
-		$srh_dt = date('Y-m-d H:i:s'); 
-		$srh_mod = $_SESSION["user_name"];
-		$total = $_POST["srh"] - $row1["srh"];
-		$query = mysqli_query($con,"UPDATE nas_sale SET srh_mod='$srh_mod', srh_dt='$srh_dt'
-							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
-	}
-	if ($row1["f2r"] != $_POST["f2r"])
-	{
-		$f2r_dt = date('Y-m-d H:i:s'); 
-		$f2r_mod = $_SESSION["user_name"];
-		$f2r_mod = $_SESSION["user_name"];
-		$total = $_POST["f2r"] - $row1["f2r"];
-		$query = mysqli_query($con,"UPDATE nas_sale SET f2r_mod='$f2r_mod', f2r_dt='$f2r_dt'
-							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
-	}
-	if ($row1["remarks"] != $_POST["remarks"])
-	{
-		$remarks_dt = date('Y-m-d H:i:s'); 
-		$remarks_mod = $_SESSION["user_name"];
-		$query = mysqli_query($con,"UPDATE nas_sale SET remarks_mod='$remarks_mod', remarks_dt='$remarks_dt'
-							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
-	}
-	if ($row1["bill_no"] != $_POST["bill"])
-	{
-		$bill_no_dt = date('Y-m-d H:i:s'); 
-		$bill_no_mod = $_SESSION["user_name"];
-		$query = mysqli_query($con,"UPDATE nas_sale SET bill_no_mod='$bill_no_mod', bill_no_dt='$bill_no_dt'
-							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
-	}
-	if ($row1["customer_name"] != $_POST["customerName"])
-	{
-		$customer_name_dt = date('Y-m-d H:i:s'); 
-		$customer_name_mod = $_SESSION["user_name"];
-		$query = mysqli_query($con,"UPDATE nas_sale SET customer_name_mod='$customer_name_mod', customer_name_dt='$customer_name_dt'
-							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
-	}
-	if ($row1["customer_phone"] != $_POST["customerPhone"])
-	{
-		$customer_phone_dt = date('Y-m-d H:i:s'); 
-		$customer_phone_mod = $_SESSION["user_name"];
-		$query = mysqli_query($con,"UPDATE nas_sale SET customer_phone_mod='$customer_phone_mod', customer_phone_dt='$customer_phone_dt'
-							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
-	}
-	if ($row1["address1"] != $_POST["address1"])
-	{
-		$address1_dt = date('Y-m-d H:i:s');
-		$address1_mod = $_SESSION["user_name"];
-		$query = mysqli_query($con,"UPDATE nas_sale SET address1_mod='$address1_mod', address1_dt='$address1_dt'
-							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
-	}
-	if ($row1["address2"] != $_POST["address2"])
-	{
-		$address2_dt = date('Y-m-d H:i:s');
-		$address2_mod = $_SESSION["user_name"];
-		$query = mysqli_query($con,"UPDATE nas_sale SET address2_mod='$address2_mod', address2_dt='$address2_dt'
-							        WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
-	}
-	
-	$arId = $_POST['ar'];
-	$engId = $_POST['engineer'];
-	$truck = $_POST['truck'];
-	$srp = $_POST['srp'];
-	$srh = $_POST['srh'];
-	$f2r = $_POST['f2r'];
-	$return = $_POST['return'];	
-	$remarks = $_POST['remarks'];
-	$bill = $_POST['bill'];
-	$customerName = $_POST['customerName'];
-	$customerPhone = $_POST['customerPhone'];
-	$address1 = $_POST['address1'];
-	$address2 = $_POST['address2'];
-	$entered_by = $_SESSION["user_name"];
-	$entered_on = date('Y-m-d H:i:s');	
-	if(empty($engId))
-		$engId = 'null';	
-	if(empty($srp))
-		$srp = 'null';
-	if(empty($srh))
-		$srh = 'null';
-	if(empty($f2r))
-		$f2r = 'null';
-	if(empty($return))
-		$return = 'null';
-	
-	$query = mysqli_query($con,"UPDATE nas_sale SET entry_date='$newDate', ar_id='$arId', eng_id = $engId, truck_no='$truck',
-								srp=$srp, srh=$srh, f2r=$f2r,return_bag=$return,remarks='$remarks', bill_no='$bill', 
-								address1='$address1', address2='$address2', customer_name='$customerName', customer_phone='$customerPhone'
-								WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
-		  
-	if($_GET['clicked_from'] == 'all_sales')	
-		$url = 'list.php';
-	else	
-		$url = 'todayList.php?ar=all';
-	header( "Location: $url" );
-}
 $result = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
 $row= mysqli_fetch_array($result,MYSQLI_ASSOC);
 ?>
@@ -153,7 +26,8 @@ $row= mysqli_fetch_array($result,MYSQLI_ASSOC);
 <link rel="stylesheet" href="../css/button.css">
 </head>
 <body>
-<form name="frmUser" method="post" action="">
+<form name="frmUser" method="post" action="update.php">
+<input hidden name="id" value="<?php echo $row['sales_id'];?>">
 <div style="width:100%;">
 
 <div align="center" style="padding-bottom:5px;">

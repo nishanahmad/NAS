@@ -1,34 +1,35 @@
-<script>
-function getState(val) {
-	$.ajax({
-	type: "POST",
-	url: "get_state.php",
-	data:'country_id='+val,
-	success: function(data){
-		$("#state-list").html(data);
-	}
-	});
-}
-</script>
+<?php
+require '../connect.php';
+$prevTotal = -300;
+$newTotal =  500;
 
-<div class="frmDronpDown">
-	<div class="row">
-		<label>Country:</label><br/>
-		<select name="country" id="country-list" class="demoInputBox" onChange="getState(this.value);">
-		<option value="">Select Country</option>
-		<?php
-		foreach($results as $country) {
-		?>
-		<option value="<?php echo $country["id"]; ?>"><?php echo $country["name"]; ?></option>
-		<?php
-		}
-		?>
-		</select>
-	</div>
-	<div class="row">
-		<label>State:</label><br/>
-		<select name="state" id="state-list" class="demoInputBox">
-		<option value="">Select State</option>
-		</select>
-	</div>
-</div>
+$acheivedGold = 0;
+$totalGold = 0;
+
+
+if($prevTotal > 0 && $newTotal > 0)
+{
+	if(floor($prevTotal/600) < floor($newTotal/600))
+	{
+		$acheivedGold = floor($newTotal/600) - floor($prevTotal/600);
+		$totalGold = floor($newTotal/600);
+	}		
+}
+else if($prevTotal < 0 && $newTotal > 0)
+{
+	if(floor($newTotal/600) > 0)
+	{
+		$acheivedGold = floor($newTotal/600);
+		$totalGold = floor($newTotal/600);
+	}				
+}
+
+//echo $acheivedGold;
+//echo '<br/>';
+//echo $totalGold;
+
+$sales = mysqli_query($con,"SELECT bill_no FROM nas_sale WHERE bill_no NOT LIKE 'a%' AND bill_no NOT LIKE 'A%' AND bill_no <> '' ORDER BY bill_no LIMIT 10") or die(mysqli_error($con));		 
+foreach($sales as $sale)
+{
+	var_dump($sale);
+}

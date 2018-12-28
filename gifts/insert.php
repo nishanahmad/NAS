@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-require '../../connect.php';
+require '../connect.php';
 session_start();
 if(isset($_SESSION["user_name"]))
 {
@@ -21,9 +21,9 @@ if(isset($_SESSION["user_name"]))
 
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));				 
 
-	header( "Location: ../view.php?id=".$arId );
+	header( "Location: new.php");
 
 }
 else
-	header( "Location: ../../index.php" );
+	header( "Location: ../index.php" );
 ?> 

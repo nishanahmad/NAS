@@ -34,6 +34,9 @@ a{
 
 	<a href="engineers/list.php" class="btn lg ghost">ENGINEERS</a>
     <br><br><br><br>
+	
+	<a href="redemption/" class="btn lg ghost">POINT REDEMPTION</a>
+    <br><br><br><br>	
 
 	</div>
 </body>

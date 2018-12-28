@@ -256,7 +256,7 @@ if(isset($_SESSION["user_name"]))
 							</table>
 							<br/><br/>
 							<div class="col-md-offset-4">
-								<a  href="gifts/new.php?id=<?php echo $ar['id'];?>" class="btn btn-theme"><i class="fa fa-gift"></i> New Gift</a><br/><br/>
+								<a  href="../gifts/new.php?id=<?php echo $ar['id'];?>" class="btn btn-theme"><i class="fa fa-gift"></i> New Gift</a><br/><br/>
 							</div>	
 							<br/><br/>
 						</section>

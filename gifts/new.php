@@ -2,7 +2,7 @@
 session_start();
 if(isset($_SESSION["user_name"]))
 {
-	require '../../connect.php';
+	require '../connect.php';
     
 	$id = $_GET['id'];
 	$sql = mysqli_query($con,"SELECT * FROM ar_details WHERE id='$id'") or die(mysqli_error($con));
@@ -12,14 +12,14 @@ if(isset($_SESSION["user_name"]))
 	<head>
 		<title><?php echo $ar['name'];?></title>
 		<meta charset="utf-8">
-		<link rel="stylesheet" type="text/css" href="../../css/jquery-ui.css">
-		<link href="../../css/bootstrap.min.css" rel="stylesheet">
-		<link href="../../css/dashio.css" rel="stylesheet">
-		<link href="../../css/dashio-responsive.css" rel="stylesheet">	
-		<link href="../../css/font-awesome.min.css" rel="stylesheet">		
-		<script type="text/javascript" language="javascript" src="../../js/jquery.js"></script>
-		<script type="text/javascript" language="javascript" src="../../js/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
+		<link href="../css/bootstrap.min.css" rel="stylesheet">
+		<link href="../css/dashio.css" rel="stylesheet">
+		<link href="../css/dashio-responsive.css" rel="stylesheet">	
+		<link href="../css/font-awesome.min.css" rel="stylesheet">		
+		<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
+		<script type="text/javascript" language="javascript" src="../js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="../js/bootstrap.min.js"></script>
 	</head>
 	<script>
 	$(document).ready(function() {
@@ -104,5 +104,5 @@ if(isset($_SESSION["user_name"]))
 <?php
 }
 else
-	header("Location:../../index.php");
+	header("Location:../index.php");
 ?>
