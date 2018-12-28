@@ -61,7 +61,7 @@ if(isset($_SESSION["user_name"]))
 		}
 			
 		$url = 'todayList.php?ar=all';
-		//header( "Location: $url" );
+		header( "Location: $url" );
 	}																							
 }
 else
