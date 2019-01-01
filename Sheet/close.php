@@ -13,7 +13,7 @@ if(isset($_SESSION["user_name"]))
 	$updateQuery = mysqli_query($con,"UPDATE sheets SET status ='closed', closed_on='$sqlDate', closed_by = $closed_by
 							          WHERE id=$id ") or die(mysqli_error($con));			 
 
-	header( "Location: list.php" );
+	header( "Location: index.php" );
 
 }
 else

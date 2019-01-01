@@ -72,7 +72,7 @@ function checkEngineerRedemption($engId,$points)
 
 function sendSingleSms($phone,$message)
 {
-	/*
+	
 	require '../connect.php';
 	
 	$curl = curl_init();
@@ -108,5 +108,4 @@ function sendSingleSms($phone,$message)
 	{
 		mysqli_query($con,"INSERT INTO sms_report (sent_to, message, status) VALUES ('$phone', '$message', '$response')") or die(mysqli_error($con));		 						
 	}		
-	*/
 }

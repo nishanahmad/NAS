@@ -6,19 +6,16 @@ require '../connect.php';
 session_start();
 if(isset($_SESSION["user_name"]))
 {
-	$sqlDate = date("Y-m-d");
+	$sqlDate = date("Y-m-d",strtotime($_POST['date']));
 	$name = $_POST['name'];
 	$phone = $_POST['phone'];
 	$area = $_POST['area'];
 	$qty = (int)$_POST['qty'];
-	if(empty($_POST['driver']))
-		$delivered_by = $_SESSION['user_name'];
-	else
-		$delivered_by = $_POST['driver'];
+	$requested_by = $_SESSION['user_name'];
 
-	$sql="INSERT INTO sheets (date, masonName, masonPhone, qty, area, delivered_by)
+	$sql="INSERT INTO sheets (date, masonName, masonPhone, qty, area, requested_by, status)
 		 VALUES
-		 ('$sqlDate', '$name', '$phone', $qty, '$area', '$delivered_by')";
+		 ('$sqlDate', '$name', '$phone', $qty, '$area', '$requested_by', 'requested')";
 
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));				 
 

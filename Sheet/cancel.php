@@ -10,7 +10,7 @@ if(isset($_SESSION["user_name"]))
 	$id = $_GET['id'];
 	$delivered_by = $_SESSION['user_name'];
 
-	$updateQuery = mysqli_query($con,"UPDATE sheet_requests SET status ='cancelled', delivered_by ='$delivered_by' WHERE id=$id ") or die(mysqli_error($con));
+	$updateQuery = mysqli_query($con,"UPDATE sheets SET status ='cancelled' WHERE id=$id ") or die(mysqli_error($con));
 	header( "Location: index.php" );
 }
 ?>	

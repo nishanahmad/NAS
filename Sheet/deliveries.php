@@ -1,6 +1,6 @@
 <?php
 	require '../connect.php';																															
-	$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status IS NULL ORDER BY date ASC" ) or die(mysqli_error($con));		 	 
+	$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' ORDER BY date ASC" ) or die(mysqli_error($con));		 	 
 	
 ?>	
 <html>

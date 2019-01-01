@@ -1,6 +1,6 @@
 <?php
 	require '../connect.php';																															
-	$sheets = mysqli_query($con,"SELECT * FROM sheet_requests WHERE status IS NULL ORDER BY date ASC" ) or die(mysqli_error($con));		 	 
+	$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' ORDER BY date ASC" ) or die(mysqli_error($con));		 	 
 	
 ?>	
 <html>
@@ -22,16 +22,23 @@
 		<script type="text/javascript" src="../js/bootstrap.min.js"></script> 
 		<script>
 		function deliver(id){
-			var qty = window.prompt("Enter number of sheets delivered to this site");		
-			if(isNaN(qty))
+			var qty = window.prompt("Enter number of sheets delivered to this site");
+			if(qty == null)
 			{
-				alert('Please enter a valid number');
 				return false;
 			}
 			else
 			{
-				hrf = 'deliver.php?';
-				window.location.href = hrf +"id="+ id + "&qty=" + qty;
+				if(isNaN(qty))
+				{
+					alert('Please enter a valid number');
+					return false;
+				}
+				else
+				{
+					hrf = 'deliver.php?';
+					window.location.href = hrf +"id="+ id + "&qty=" + qty;
+				}				
 			}
 		}
 		function cancel(id){
@@ -63,7 +70,7 @@
 									}																																												?>
 									<p><i class="fa fa-copy"></i> <?php echo $sheet['qty'].' Nos';?></p>
 									<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['date']));?></p>
-									<p><i class="fa fa-truck"></i> Requested by <?php echo $sheet['fe'];?></p>
+									<p><i class="fa fa-truck"></i> Requested by <?php echo $sheet['requested_by'];?></p>
 								</div>
 								<br/>
 							</div>

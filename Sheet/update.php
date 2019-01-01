@@ -1,7 +1,6 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-
 session_start();
 if(isset($_SESSION["user_name"]))
 {
@@ -17,8 +16,7 @@ if(isset($_SESSION["user_name"]))
 		$sql = "UPDATE sheets SET masonName='$masonName', masonPhone='$masonPhone',qty=$qty,area='$area' WHERE id=$id";
 		$query = mysqli_query($con,$sql) or die(mysqli_error($con));	
 			  
-		$url = 'list.php';
-
+		$url = 'index.php';
 		header( "Location: $url" );
 	}
 }	

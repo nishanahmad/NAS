@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(isset($_SESSION["user_name"]))
-{																																												?>
+{																																										?>
 	<html>
 	<head>
 	<style>
@@ -71,6 +71,20 @@ if(isset($_SESSION["user_name"]))
 	}
 
 	/* Icons ---------------------------------- */
+	#datepicker{
+		background-image: url(../images/calender.png);
+		background-size: 30px 30px;
+		background-position: 11px 8px;
+		background-repeat: no-repeat;
+	}
+
+	#datepicker:focus{
+		background-image: url(../images/calender.png);
+		background-size: 30px 30px;
+		background-position: 8px 5px;
+	  background-position: 11px 8px;
+		background-repeat: no-repeat;
+	}
 	#name{
 		background-image: url(../images/name.png);
 		background-size: 30px 30px;
@@ -201,40 +215,48 @@ if(isset($_SESSION["user_name"]))
 		}
 	}
 	</style>
+	<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
+	<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
+	<script type="text/javascript" language="javascript" src="../js/jquery-ui.min.js"></script>		
+	<script>
+		$(function() {
+		var pickerOpts = { dateFormat:"dd-mm-yy"}; 
+					
+		$( "#datepicker" ).datepicker(pickerOpts);
+		});
+	</script>	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	</head>
 		<div id="form-main">
-		<div id="form-div">
-		<form class="form" id="form1" method="post" action="insert.php">
+			<div id="form-div">
+			<form class="form" id="form1" method="post" action="insert.php" autocomplete="off">
 
-		<p class="name">
-		<input name="name" type="text" class="validate[required,length[0,100]] feedback-input" placeholder="Name" id="name" />
-		</p>
+			<p class="date">
+			<input name="date" type="text" class="feedback-input" placeholder="Date" id="datepicker" />
+			</p>
+			
+			<p class="name">
+			<input name="name" type="text" class="validate[required,length[0,100]] feedback-input" placeholder="Name" id="name" />
+			</p>
 
-		<p class="phone">
-		<input name="phone" type="text" class="validate[required] feedback-input" id="phone" placeholder="Phone" />
-		</p>
-		
-		<p class="qty">
-		<input name="qty" type="text" class="validate[required] feedback-input" id="qty" placeholder="Number of Sheets" />
-		</p>	
+			<p class="phone">
+			<input name="phone" type="text" class="validate[required] feedback-input" id="phone" placeholder="Phone" />
+			</p>
+			
+			<p class="qty">
+			<input name="qty" type="text" class="validate[required] feedback-input" id="qty" placeholder="Number of Sheets" />
+			</p>	
 
-		<p class="area">
-		<textarea name="area" class="validate[required,length[6,200]] feedback-input" id="area" placeholder="Area & Location"></textarea>
-		</p>
-		<?php 
-		if($_SESSION['role'] != 'driver')
-		{																																						?>
-			<p class="driver">
-			<input name="driver" type="text" class="feedback-input" id="driver" placeholder="Driver" />
-			</p>																																				<?php
-		}																																						?>
+			<p class="area">
+			<textarea name="area" class="validate[required,length[6,200]] feedback-input" id="area" placeholder="Area & Location"></textarea>
+			</p>
 
-		<div class="submit">
-		<input type="submit" value="DELIVER" id="button-blue"/>
-		<div class="ease"></div>
-		</div>
-		</form>
+			<div class="submit">
+			<input type="submit" value="REQUEST" id="button-blue"/>
+			<div class="ease"></div>
+			</div>
+			</form>
+			</div>
 		</div>
 	</html> 
 																										<?php
