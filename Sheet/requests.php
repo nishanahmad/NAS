@@ -61,8 +61,8 @@
 							<div class="panel-body">
 								<div class="panel-info">
 									<p><i class="fa fa-map-marker"></i><strong> <?php echo $sheet['area'];?></strong></p>
-									<p>Mason : <i class="fa fa-user"></i> <?php echo $sheet['masonName'];?>
-									, <i class="fa fa-phone"></i> <a href="tel:<?php echo $sheet['masonPhone'];?>"><?php echo $sheet['masonPhone'];?></a></p>												<?php
+									<p>Mason : <i class="fa fa-user"></i> <?php echo $sheet['name'];?>
+									, <i class="fa fa-phone"></i> <a href="tel:<?php echo $sheet['phone'];?>"><?php echo $sheet['phone'];?></a></p>												<?php
 									if(!empty($sheet['customerName']) || !empty($sheet['customerPhone']))
 									{																																							?>
 										<p>Customer : <i class="fa fa-user"></i> <?php echo $sheet['customerName'];?>

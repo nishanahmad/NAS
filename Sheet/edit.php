@@ -176,11 +176,11 @@ input:focus, textarea:focus {
 	<form class="form" id="form1" method="post" action="update.php">
 	<input name="id" type="hidden" value="<?php echo $request['id'];?>"/>
 	<p class="name">
-	<input name="name" type="text" class="validate[required,length[0,100]] feedback-input" id="name" value="<?php echo $request['masonName'];?>"/>
+	<input name="name" type="text" class="validate[required,length[0,100]] feedback-input" id="name" value="<?php echo $request['name'];?>"/>
 	</p>
 
 	<p class="phone">
-	<input name="phone" type="text" class="validate[required] feedback-input" id="phone" value="<?php echo $request['masonPhone'];?>"/>
+	<input name="phone" type="text" class="validate[required] feedback-input" id="phone" value="<?php echo $request['phone'];?>"/>
 	</p>
 	
 	<p class="qty">

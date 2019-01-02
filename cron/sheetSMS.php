@@ -1,6 +1,18 @@
 <?php
 
-$message = "Hello";
+require '../connect.php';
+
+$date = new DateTime('tomorrow');
+$date = $date ->format('Y-m-d');
+
+$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE date='$date' AND status = 'requested' ") or die(mysqli_error($con));
+foreach($sheets as $sheet)
+{
+	var_dump($sheet);
+}
+
+/*
+$message = "Hello&#xA;Hi";
 
 $curl = curl_init();
 
@@ -25,8 +37,8 @@ $err = curl_error($curl);
 
 curl_close($curl);
 
-if ($err) {
-  echo "cURL Error #:" . $err;
-} else {
-  echo $response;
-}	
+if ($err) 
+	echo "cURL Error #:" . $err;
+else
+	echo $response;
+*/

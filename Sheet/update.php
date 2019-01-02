@@ -8,12 +8,12 @@ if(isset($_SESSION["user_name"]))
 	if(count($_POST)>0) 
 	{	
 		$id = $_POST['id'];
-		$masonName = $_POST['name'];
-		$masonPhone = $_POST['phone'];
+		$name = $_POST['name'];
+		$phone = $_POST['phone'];
 		$area = $_POST['area'];
 		$qty = (int)$_POST['qty'];
 		
-		$sql = "UPDATE sheets SET masonName='$masonName', masonPhone='$masonPhone',qty=$qty,area='$area' WHERE id=$id";
+		$sql = "UPDATE sheets SET name='$name', phone='$phone',qty=$qty,area='$area' WHERE id=$id";
 		$query = mysqli_query($con,$sql) or die(mysqli_error($con));	
 			  
 		$url = 'index.php';

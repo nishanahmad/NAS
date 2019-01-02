@@ -13,7 +13,7 @@ if(isset($_SESSION["user_name"]))
 	$qty = (int)$_POST['qty'];
 	$requested_by = $_SESSION['user_name'];
 
-	$sql="INSERT INTO sheets (date, masonName, masonPhone, qty, area, requested_by, status)
+	$sql="INSERT INTO sheets (date, name, phone, qty, area, requested_by, status)
 		 VALUES
 		 ('$sqlDate', '$name', '$phone', $qty, '$area', '$requested_by', 'requested')";
 
