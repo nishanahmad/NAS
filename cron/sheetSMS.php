@@ -6,13 +6,11 @@ $date = new DateTime('tomorrow');
 $date = $date ->format('Y-m-d');
 
 $sheets = mysqli_query($con,"SELECT * FROM sheets WHERE date='$date' AND status = 'requested' ") or die(mysqli_error($con));
+$message = null;
 foreach($sheets as $sheet)
 {
-	var_dump($sheet);
-}
-
-/*
-$message = "Hello&#xA;Hi";
+	$message = $message.$sheet['name']." : ".$sheet['phone']."&#xA;".$sheet['area'].", ".$sheet['bags']." bags&#xA;&#xA;";
+}	
 
 $curl = curl_init();
 
@@ -28,7 +26,7 @@ curl_setopt_array($curl, array(
   CURLOPT_SSL_VERIFYHOST => 0,
   CURLOPT_SSL_VERIFYPEER => 0,
   CURLOPT_HTTPHEADER => array(
-    "content-type: application/xml"
+	"content-type: application/xml"
   ),
 ));
 
@@ -41,4 +39,3 @@ if ($err)
 	echo "cURL Error #:" . $err;
 else
 	echo $response;
-*/
