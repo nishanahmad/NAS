@@ -109,5 +109,3 @@ function sendSingleSms($phone,$message)
 		mysqli_query($con,"INSERT INTO sms_report (sent_to, message, status) VALUES ('$phone', '$message', '$response')") or die(mysqli_error($con));		 						
 	}		
 }
-
-sendSingleSms("9846086862","Hello&#xA;Hi");
