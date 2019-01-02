@@ -41,13 +41,8 @@
 							<div class="panel-body">
 								<div class="panel-info">
 									<p><i class="fa fa-map-marker"></i><strong> <?php echo $sheet['area'];?></strong></p>
-									<p>Mason : <i class="fa fa-user"></i> <?php echo $sheet['name'];?>
-									, <i class="fa fa-phone"></i> <a href="tel:<?php echo $sheet['phone'];?>"><?php echo $sheet['phone'];?></a></p>												<?php
-									if(!empty($sheet['customerName']) || !empty($sheet['customerPhone']))
-									{																																							?>
-										<p>Customer : <i class="fa fa-user"></i> <?php echo $sheet['customerName'];?>
-										, <i class="fa fa-phone"></i> <a href="tel:<?php echo $sheet['customerPhone'];?>"><?php echo $sheet['customerPhone'];?></a></p><?php										
-									}																																												?>
+									<p><i class="fa fa-user"></i> <?php echo $sheet['name'];?>
+									, <i class="fa fa-phone"></i> <a href="tel:<?php echo $sheet['phone'];?>"><?php echo $sheet['phone'];?></a></p>
 									<p><i class="fa fa-copy"></i> <?php echo $sheet['qty'].' Nos';?></p>
 									<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['date']));?></p>
 									<p><i class="fa fa-truck"></i> Delivered by <?php echo $sheet['delivered_by'];?></p>
