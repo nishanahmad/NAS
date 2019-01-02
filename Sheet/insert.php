@@ -10,12 +10,12 @@ if(isset($_SESSION["user_name"]))
 	$name = $_POST['name'];
 	$phone = $_POST['phone'];
 	$area = $_POST['area'];
-	$qty = (int)$_POST['qty'];
+	$bags = (int)$_POST['bags'];
 	$requested_by = $_SESSION['user_name'];
 
-	$sql="INSERT INTO sheets (date, name, phone, qty, area, requested_by, status)
+	$sql="INSERT INTO sheets (date, name, phone, bags, area, requested_by, status)
 		 VALUES
-		 ('$sqlDate', '$name', '$phone', $qty, '$area', '$requested_by', 'requested')";
+		 ('$sqlDate', '$name', '$phone', $bags, '$area', '$requested_by', 'requested')";
 
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));				 
 

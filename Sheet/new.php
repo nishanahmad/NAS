@@ -114,7 +114,7 @@ if(isset($_SESSION["user_name"]))
 		background-repeat: no-repeat;
 	}
 
-	#qty{
+	#bags{
 		background-image: url(../images/sheet.png);
 		background-size: 30px 30px;
 		background-position: 11px 8px;
@@ -135,7 +135,7 @@ if(isset($_SESSION["user_name"]))
 		background-repeat: no-repeat;
 	}
 
-	#qty:focus{
+	#bags:focus{
 		background-image: url(../images/sheet.png);
 		background-size: 30px 30px;
 	  background-position: 11px 8px;
@@ -243,8 +243,8 @@ if(isset($_SESSION["user_name"]))
 			<input name="phone" type="text" class="validate[required] feedback-input" id="phone" placeholder="Phone" />
 			</p>
 			
-			<p class="qty">
-			<input name="qty" type="text" class="validate[required] feedback-input" id="qty" placeholder="Number of Sheets" />
+			<p class="bags">
+			<input name="bags" type="text" class="validate[required] feedback-input" id="bags" placeholder="Number of Bags" />
 			</p>	
 
 			<p class="area">
