@@ -6,33 +6,47 @@ if(isset($_SESSION["user_name"]))
 	require '../functions/monthMap.php';
 	
 	$mainArray = array();
-	if(isset($_GET['year']) && isset($_GET['month']))
+	if(isset($_GET['year']) && isset($_GET['month']) && isset($_GET['block']))
 	{
 		$urlYear = (int)$_GET['year'];
 		$urlMonth = (int)$_GET['month'];
+		$urlBlock = (int)$_GET['block'];
 	}	
 	else
 	{
 		$urlYear = (int)date("Y");
 		$urlMonth = (int)date("m");
+		$urlBlock = 1;
 	}
 	
-	$engObjects =  mysqli_query($con,"SELECT id,name,mobile,shop_name,sap_code FROM ar_details WHERE type LIKE '%Engineer%' AND isActive = 1 ORDER BY name ASC ") or die(mysqli_error($con));		 
+	$engObjects =  mysqli_query($con,"SELECT id,name,mobile FROM ar_details WHERE type LIKE '%Engineer%' AND isActive = 1 ORDER BY name ASC ") or die(mysqli_error($con));
 	foreach($engObjects as $eng)
 	{
 		$engMap[$eng['id']]['name'] = $eng['name'];
 		$engMap[$eng['id']]['mobile'] = $eng['mobile'];
-		$engMap[$eng['id']]['shop'] = $eng['shop_name'];
-		$engMap[$eng['id']]['sap'] = $eng['sap_code'];
 	}				
 	
 	$prevMap = getPrevPoints(array_keys($engMap),$urlYear,$urlMonth);
 	
-	//var_dump($prevMap);
 	
 	$engIds = implode("','",array_keys($engMap));
 	
-	$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND ar_id IN ('$engIds') GROUP BY ar_id") or die(mysqli_error($con));	
+	if($urlBlock == 1)
+	{
+		$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND DAYOFMONTH(`entry_date`) <= 10 AND ar_id IN ('$engIds') GROUP BY ar_id") or die(mysqli_error($con));	
+		$engSales = mysqli_query($con,"SELECT eng_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND DAYOFMONTH(`entry_date`) <= 10 AND eng_id IN ('$engIds') GROUP BY eng_id") or die(mysqli_error($con));					
+	}
+	else if($urlBlock == 2)
+	{
+		$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND AND DAYOFMONTH(`entry_date`) <= 20 AND ar_id IN ('$engIds') GROUP BY ar_id") or die(mysqli_error($con));		
+		$engSales = mysqli_query($con,"SELECT eng_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND DAYOFMONTH(`entry_date`) <= 20 AND eng_id IN ('$engIds') GROUP BY eng_id") or die(mysqli_error($con));							
+	}		
+	else if($urlBlock == 3)
+	{
+		$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND ar_id IN ('$engIds') GROUP BY ar_id") or die(mysqli_error($con));			
+		$engSales = mysqli_query($con,"SELECT eng_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND eng_id IN ('$engIds') GROUP BY eng_id") or die(mysqli_error($con));							
+	}
+	
 	foreach($sales as $sale)
 	{
 		$engId = $sale['ar_id'];
@@ -41,8 +55,7 @@ if(isset($_SESSION["user_name"]))
 		$pointMap[$engId]['points'] = $total;
 	}			
 	
-	$sales = mysqli_query($con,"SELECT eng_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND eng_id IN ('$engIds') GROUP BY eng_id") or die(mysqli_error($con));	
-	foreach($sales as $sale)
+	foreach($engSales as $sale)
 	{
 		$engId = $sale['eng_id'];
 		
@@ -134,9 +147,8 @@ function rerender()
 		<table id="Points" class="responstable" style="width:70% !important">
 		<thead>
 			<tr>
-				<th style="width:20%;text-align:left;">AR</th>
+				<th style="width:20%;text-align:left;">Engineer</th>
 				<th style="width:12%;">Mobile</th>
-				<th style="width:25%;text-align:left;">Shop</th>
 				<th style="width:10%;">SAP</th>
 				<th>Opng Pnts</th>
 				<th>Current Pnts</th>	
