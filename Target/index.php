@@ -52,6 +52,9 @@ a{
 	<a href="../engineers/points.php?" class="btn lg ghost">ENGINEER POINTS</a>
 	<br><br><br>		
 	
+	<a href="../engineers/smsPoints.php?" class="btn lg ghost">ENGINEER SMS</a>
+	<br><br><br>			
+	
 	<a href="companyTarget.php?month=<?php echo $month;?>&year=<?php echo $year;?>" class="btn lg ghost">COMPANY TARGET AR</a>
 	<br><br><br>	
 
