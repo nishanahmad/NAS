@@ -33,18 +33,18 @@ if(isset($_SESSION["user_name"]))
 	
 	if($urlBlock == 1)
 	{
-		$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND DAYOFMONTH(`entry_date`) <= 10 AND ar_id IN ('$engIds') GROUP BY ar_id") or die(mysqli_error($con));	
-		$engSales = mysqli_query($con,"SELECT eng_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND DAYOFMONTH(`entry_date`) <= 10 AND eng_id IN ('$engIds') GROUP BY eng_id") or die(mysqli_error($con));					
+		$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND DAYOFMONTH(`entry_date`) <= 10 AND ar_id IN ('$engIds') GROUP BY ar_id") or die(mysqli_error($con)."line 36");	
+		$engSales = mysqli_query($con,"SELECT eng_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND DAYOFMONTH(`entry_date`) <= 10 AND eng_id IN ('$engIds') GROUP BY eng_id") or die(mysqli_error($con)."line 37");	
 	}
 	else if($urlBlock == 2)
 	{
-		$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND AND DAYOFMONTH(`entry_date`) <= 20 AND ar_id IN ('$engIds') GROUP BY ar_id") or die(mysqli_error($con));		
-		$engSales = mysqli_query($con,"SELECT eng_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND DAYOFMONTH(`entry_date`) <= 20 AND eng_id IN ('$engIds') GROUP BY eng_id") or die(mysqli_error($con));							
+		$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND DAYOFMONTH(`entry_date`) <= 20 AND ar_id IN ('$engIds') GROUP BY ar_id") or die(mysqli_error($con)."line 41");	
+		$engSales = mysqli_query($con,"SELECT eng_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND DAYOFMONTH(`entry_date`) <= 20 AND eng_id IN ('$engIds') GROUP BY eng_id") or die(mysqli_error($con)."line 42");	
 	}		
 	else if($urlBlock == 3)
 	{
-		$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND ar_id IN ('$engIds') GROUP BY ar_id") or die(mysqli_error($con));			
-		$engSales = mysqli_query($con,"SELECT eng_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND eng_id IN ('$engIds') GROUP BY eng_id") or die(mysqli_error($con));							
+		$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND ar_id IN ('$engIds') GROUP BY ar_id") or die(mysqli_error($con)."line 46");	
+		$engSales = mysqli_query($con,"SELECT eng_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND eng_id IN ('$engIds') GROUP BY eng_id") or die(mysqli_error($con)."line 47");	
 	}
 	
 	foreach($sales as $sale)
@@ -101,11 +101,10 @@ function rerender()
 {
 	var year = document.getElementById("jsYear").options[document.getElementById("jsYear").selectedIndex].value;
 	var month=document.getElementById("jsMonth").value;
+	var block=document.getElementById("jsBlock").value;
 	var hrf = window.location.href;
 	hrf = hrf.slice(0,hrf.indexOf("?"));
-	$("#main").hide();
-	$("#loader").show();
-	window.location.href = hrf +"?year="+ year + "&month=" + month;
+	window.location.href = hrf +"?year="+ year + "&month=" + month + "&block=" + block;
 }
 </script>
 <title><?php echo getMonth($urlMonth); echo " "; echo $urlYear; ?></title>
@@ -129,7 +128,7 @@ function rerender()
 	?>			<option <?php if($urlMonth == (int)$month['month']) echo 'selected';?> value="<?php echo $month['month'];?>"><?php echo getMonth($month['month']);?></option>															<?php	
 			}
 	?>	</select>					
-			&nbsp;&nbsp;
+		&nbsp;&nbsp;
 
 		<select id="jsYear" name="jsYear" class="textarea" onchange="return rerender();">																				<?php	
 			$yearList = mysqli_query($con, "SELECT DISTINCT year FROM target ORDER BY year DESC") or die(mysqli_error($con));	
@@ -138,18 +137,20 @@ function rerender()
 ?>				<option <?php if($urlYear == (int)$year['year']) echo 'selected';?> value="<?php echo $year['year'];?>"><?php echo $year['year'];?></option>																			<?php	
 			}
 ?>		</select>
-
+		&nbsp;&nbsp;
+		
+		<select id="jsBlock" name="block" class="textarea" onchange="return rerender();">
+			<option <?php if($urlBlock == 1) echo 'selected';?> value="1">Block 1</option>
+			<option <?php if($urlBlock == 2) echo 'selected';?> value="2">Block 2</option>
+			<option <?php if($urlBlock == 3) echo 'selected';?> value="3">Block 3</option>
+		</select>
 		<br><br>
 		
-		<img src="../images/excel.png" id="button" height="50px" width="45px" />
-		<br/><br/>
-
-		<table id="Points" class="responstable" style="width:70% !important">
+		<table id="Points" class="responstable" style="width:60% !important">
 		<thead>
 			<tr>
 				<th style="width:20%;text-align:left;">Engineer</th>
 				<th style="width:12%;">Mobile</th>
-				<th style="width:10%;">SAP</th>
 				<th>Opng Pnts</th>
 				<th>Current Pnts</th>	
 				<th>Redeemed Pnts</th>	
@@ -171,14 +172,12 @@ function rerender()
 				
 				
 				<tr align="center">
-				<td style="text-align:left;"><?php echo $detailMap['name'];?></b></td>
-				<td><?php echo $detailMap['mobile'];?></b></td>
-				<td style="text-align:left;"><?php echo $detailMap['shop'];?></b></td>
-				<td><?php echo $detailMap['sap'];?></b></td>
-				<td><?php echo $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'];?></b></td>
-				<td><?php echo $pointMap[$arId]['points'];?></td>
-				<td><?php echo $redemptionMap[$arId];?></td>
-				<td><?php echo $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'] + $pointMap[$arId]['points'] - $redemptionMap[$arId];?></td>
+					<td style="text-align:left;"><?php echo $detailMap['name'];?></b></td>
+					<td><?php echo $detailMap['mobile'];?></b></td>
+					<td><?php echo $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'];?></b></td>
+					<td><?php echo $pointMap[$arId]['points'];?></td>
+					<td><?php echo $redemptionMap[$arId];?></td>
+					<td><?php echo $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'] + $pointMap[$arId]['points'] - $redemptionMap[$arId];?></td>
 				</tr>																																							<?php
 				$openingTotal = $openingTotal + $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'];
 				$currentTotal = $currentTotal + $pointMap[$arId]['points'];
@@ -189,8 +188,6 @@ function rerender()
 				<tr>
 					<th style="width:20%;text-align:left;"></th>
 					<th style="width:12%;"></th>
-					<th style="width:25%;text-align:left;"></th>
-					<th style="width:10%;"></th>
 					<th><?php echo $openingTotal;?></th>
 					<th><?php echo $currentTotal;?></th>	
 					<th><?php echo $redeemedTotal;?></th>	
