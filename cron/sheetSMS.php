@@ -2,6 +2,8 @@
 
 require '../connect.php';
 
+mysqli_query($con,"INSERT INTO sms_report (sent_to, message, status) VALUES ('NA', 'NA', 'TEST CRON')") or die(mysqli_error($con));		 		
+
 $date = new DateTime('tomorrow');
 $date = $date ->format('Y-m-d');
 
