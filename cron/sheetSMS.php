@@ -36,6 +36,9 @@ $err = curl_error($curl);
 curl_close($curl);
 
 if ($err) 
-	echo "cURL Error #:" . $err;
+{
+	$status = "cURL Error #:" . $err;	 
+	mysqli_query($con,"INSERT INTO sms_report (sent_to, message, status) VALUES ('NA', 'NA', '$status')") or die(mysqli_error($con));		 		
+}
 else
 	echo $response;
