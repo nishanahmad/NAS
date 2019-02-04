@@ -36,7 +36,6 @@ if(isset($_SESSION["user_name"]))
 	if(empty($return))
 		$return = null;
 	
-	$qty = $srp + $srh + $f2r;	
 
 	$sql="INSERT INTO nas_sale (entry_date, ar_id, eng_id, truck_no, srp, srh, f2r, return_bag, remarks, bill_no, customer_name, customer_phone, address1, address2,entered_by,entered_on)
 		 VALUES
@@ -44,19 +43,7 @@ if(isset($_SESSION["user_name"]))
 
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));				 
 
-
-//  SEND SMS TO ENGINEER IF GOLD ACHIEVED
-	if(  !empty($bill) && !(fnmatch("A*", $bill) ||  fnmatch("a*", $bill))  )
-	{
-		$engQuery = mysqli_query($con, "SELECT type FROM ar_details WHERE id = $arId ") or die(mysqli_error($con));
-		$ar = mysqli_fetch_array($engQuery,MYSQLI_ASSOC);
-		if($ar['type'] == 'Engineer')
-			checkEngineerPoints($arId,$qty);
-		if($engId != null)
-			checkEngineerPoints($engId,$qty);
-	}
-	
-	
+		
 	header( "Location: new.php" );
 
 }
