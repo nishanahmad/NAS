@@ -5,7 +5,7 @@ if(isset($_SESSION["user_name"]))
 	require '../connect.php';
     
 // Populate maps for SAP CODE and SHOP NAME
-	$arObjects = mysqli_query($con,"SELECT id,name,sap_code,shop_name FROM ar_details");
+	$arObjects = mysqli_query($con,"SELECT id,name,sap_code,shop_name FROM ar_details ORDER BY name");
 	foreach($arObjects as $arObject)
 	{
 		$arId = $arObject['id'];
