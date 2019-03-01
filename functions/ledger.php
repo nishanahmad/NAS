@@ -186,7 +186,6 @@ function getOpeningPoints($year,$arId,$isActive)
 						
 				}				
 			}
-
 			$year--;
 		}
 	}

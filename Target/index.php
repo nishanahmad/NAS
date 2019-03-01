@@ -47,6 +47,9 @@ a{
 	<br><br><br>
 	
 	<a href="../points_full/mainPage.php?month=<?php echo $month;?>&year=<?php echo $year;?>&dateString=FULL" class="btn lg ghost">ACCUMULATED POINTS AR</a>
+	<br><br><br>
+
+	<a href="../targetBags/" class="btn lg ghost">TARGET BAGS</a>
 	<br><br><br>	
 	
 	<a href="../engineers/points.php?" class="btn lg ghost">ENGINEER POINTS</a>
