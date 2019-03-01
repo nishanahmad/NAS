@@ -52,7 +52,7 @@ if(isset($_SESSION["user_name"]))
 	foreach($sales as $sale)
 	{
 		$arId = $sale['ar_id'];
-		$targetBagsQuery = mysqli_query($con,"SELECT SUM(qty) FROM targetBags WHERE '$year' = year(`date`) AND '$month' = month(`date`) AND ar_id = $arId") or die(mysqli_error($con));
+		$targetBagsQuery = mysqli_query($con,"SELECT SUM(qty) FROM targetbags WHERE '$year' = year(`date`) AND '$month' = month(`date`) AND ar_id = $arId") or die(mysqli_error($con));
 		$row=mysqli_fetch_array($targetBagsQuery,MYSQLI_ASSOC);
 		if($row['SUM(qty)'] == null)
 			$targetBags = 0;
