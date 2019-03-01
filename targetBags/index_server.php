@@ -17,14 +17,14 @@ if(isset($_SESSION["user_name"]))
 // getting total number records without any search
 
 	$sql = "SELECT id,date,ar_id, qty,remarks";
-	$sql.=" FROM targetBags";
+	$sql.=" FROM targetbags";
 	$query=mysqli_query($con, $sql) or die(mysqli_error($con).' LINE 26');	
 	$totalData = mysqli_num_rows($query);
 	$totalFiltered = $totalData;  // when there is no search parameter then total number rows = total number filtered rows.
 
 
 	$sql = "SELECT id,date,ar_id, qty,remarks";
-	$sql.=" FROM targetBags WHERE 1 = 1";
+	$sql.=" FROM targetbags WHERE 1 = 1";
 
 
 

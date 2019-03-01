@@ -15,7 +15,7 @@ if(isset($_SESSION["user_name"]))
 	$entered_on = date('Y-m-d H:i:s');	
 
 
-	$sql="INSERT INTO targetBags (date, ar_id, qty, remarks,entered_by,entered_on)
+	$sql="INSERT INTO targetbags (date, ar_id, qty, remarks,entered_by,entered_on)
 		  VALUES
 		  ('$sqlDate', '$arId', '$qty', '$remarks', '$entered_by', '$entered_on')";
 
