@@ -24,7 +24,7 @@ if(isset($_SESSION["user_name"]))
 	<title>Redeem Points</title>
 	<link href='../css/bootstrap.min.css' rel='stylesheet' type='text/css'>
 	<link href='../css/pointsForm.css' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css"> 
+	<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
 	<link rel="stylesheet" type="text/css" href="../css/toast.css">	
 
 	<script src='../js/jquery.js' type='text/javascript'></script>
