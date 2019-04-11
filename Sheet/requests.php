@@ -23,7 +23,8 @@
 		<script>
 		function deliver(id){
 			var qty = window.prompt("Enter number of sheets delivered to this site");
-			if(qty == null)
+			var driver = window.prompt("Enter driver name");
+			if(qty == null || driver == null)
 			{
 				return false;
 			}
@@ -37,7 +38,7 @@
 				else
 				{
 					hrf = 'deliver.php?';
-					window.location.href = hrf +"id="+ id + "&qty=" + qty;
+					window.location.href = hrf +"id="+ id + "&qty=" + qty + "&driver=" + driver;
 				}				
 			}
 		}

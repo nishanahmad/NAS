@@ -3,8 +3,6 @@
 session_start();
 if(isset($_SESSION["user_name"]))
 {
-echo "LOGGED USER : ".$_SESSION["user_name"] ;	
-
 require '../connect.php';
 
 $saleQuery = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));				 

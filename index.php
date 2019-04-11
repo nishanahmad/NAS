@@ -33,7 +33,7 @@ a{
     <br><br><br>
 
 	<a href="sales/list.php" class="btn lg ghost">ALL SALES</a>
-    <br><br><br><br>
+    <br><br><br>
 		
 	<a href="reports/totalSalesAR.php" class="btn lg ghost">SALES SUMMARY</a>
     <br><br><br>
