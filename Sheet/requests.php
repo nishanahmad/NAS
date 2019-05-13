@@ -1,7 +1,8 @@
 <?php
-	require '../connect.php';																															
-	$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' ORDER BY date ASC" ) or die(mysqli_error($con));		 	 
-	
+	require '../connect.php';
+	session_start();	
+	$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' ORDER BY date ASC" ) or die(mysqli_error($con));
+	$designation = $_SESSION['role'];
 ?>	
 <html>
 	<style>
@@ -22,8 +23,13 @@
 		<script type="text/javascript" src="../js/bootstrap.min.js"></script> 
 		<script>
 		function deliver(id){
+			var designation = "<?php echo $designation;?>";				
 			var qty = window.prompt("Enter number of sheets delivered to this site");
-			var driver = window.prompt("Enter driver name");
+			if(designation != 'driver')
+				var driver = window.prompt("Enter driver name");
+			else
+				var driver = "<?php echo $_SESSION["user_name"];?>";				
+			
 			if(qty == null || driver == null)
 			{
 				return false;
