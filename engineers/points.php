@@ -240,7 +240,7 @@ function getPrevPoints($engList,$endYear,$endMonth)
 			$engMap[$engId]['prevPoints'] = $engMap[$engId]['prevPoints'] + $total;	
 		}		
 		
-		$redemptionList = mysqli_query($con,"SELECT ar_id,SUM(points) FROM redemption WHERE  ( (YEAR(date) = '$endYear' AND MONTH(date) < '$urlEndMonth') OR (YEAR(date) < '$endYear')) AND ar_id IN('$engIds') GROUP BY ar_id") or die(mysqli_error($con));		 	
+		$redemptionList = mysqli_query($con,"SELECT ar_id,SUM(points) FROM redemption WHERE  ( (YEAR(date) = '$endYear' AND MONTH(date) <= '$endMonth') OR (YEAR(date) < '$endYear')) AND ar_id IN('$engIds') GROUP BY ar_id") or die(mysqli_error($con));		 	
 		foreach($redemptionList as $redemption)
 		{
 			$engMap[$redemption['ar_id']]['prevRedemption'] = $engMap[$redemption['ar_id']]['prevRedemption'] + $redemption['SUM(points)'];			
