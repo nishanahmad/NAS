@@ -94,6 +94,7 @@ F2R : <span class='f2r'></span><br><br>
 			<input type="text" data-column="4" style="width:50px" class="search-input-text textarea" placeholder="srp">&nbsp&nbsp
 			<input type="text" data-column="5" style="width:50px" class="search-input-text textarea" placeholder="srh">&nbsp&nbsp
 			<input type="text" data-column="6" style="width:50px" class="search-input-text textarea" placeholder="f2r">&nbsp&nbsp
+			<input type="text" data-column="7"  class="search-input-text textarea" placeholder="Bill">&nbsp&nbsp
 			<input type="text" data-column="8"  class="search-input-text textarea" placeholder="Customer">&nbsp&nbsp
 			<input type="text" data-column="9"  class="search-input-text textarea" placeholder="Engineer">&nbsp&nbsp
 			<input type="text" data-column="10"  class="search-input-text textarea" placeholder="Remarks">
