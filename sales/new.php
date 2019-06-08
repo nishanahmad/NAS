@@ -49,6 +49,11 @@ if(isset($_SESSION["user_name"]))
 			alert("Please enter a value in atleast one of these fields : srp,srh,F2R");
 			return false;
 		}	
+		if ( (srp && srh) || (srp && f2r) || (srh && f2r) )
+		{
+			alert("Please enter only in one of these fields : srp,srh,F2R");
+			return false;
+		}			
 	}
 	
 	$(function() {
