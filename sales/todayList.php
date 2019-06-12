@@ -7,6 +7,12 @@ if(isset($_SESSION["user_name"]))
 
 	$urlId = $_GET['ar'];
 	
+	$brands = mysqli_query($con,"SELECT id,name FROM brand WHERE status = 1 ORDER BY id ASC");
+	foreach($brands as $brand)
+	{
+		$brandMap[$brand['id']] = $brand['name'];
+	}
+	
 	$arObjects = mysqli_query($con,"SELECT id,name FROM ar_details ORDER BY name ASC") or die(mysqli_error($con));	
 	foreach($arObjects as $ar)
 	{
@@ -14,9 +20,10 @@ if(isset($_SESSION["user_name"]))
 	}
 
 	if($_GET['ar'] != 'all')
-		$result = mysqli_query($con,"SELECT sales_id, entry_date,ar_id,truck_no,srp,srh,f2r,remarks, bill_no, customer_name, customer_phone, address1, address2 FROM nas_sale WHERE ar_id='" . $_GET['ar'] . "' and entry_date = CURDATE() order by bill_no asc  ") or die(mysqli_error($con));
+		$result = mysqli_query($con,"SELECT * FROM nas_sale WHERE ar_id='" . $_GET['ar'] . "' and entry_date = CURDATE() order by bill_no asc  ") or die(mysqli_error($con));
 	else
-		$result = mysqli_query($con,"SELECT sales_id, entry_date,ar_id,truck_no,srp,srh,f2r,remarks, bill_no, customer_name, customer_phone, address1, address2 FROM nas_sale WHERE entry_date = CURDATE() order by bill_no asc  ") or die(mysqli_error($con));
+		$result = mysqli_query($con,"SELECT * FROM nas_sale WHERE entry_date = CURDATE() order by bill_no asc  ") or die(mysqli_error($con));
+	
 ?>
 
 <html>
@@ -30,6 +37,19 @@ if(isset($_SESSION["user_name"]))
 			.desktop{
 				display: none;
 			}	
+
+		.rateTable{
+			width:50%;
+			border-collapse:collapse;
+		}
+		.rateTable th{
+			padding: 5px;
+			color : #000000;
+		}
+		.rateTable td{
+			padding: 5px;
+			color : #000000;
+		}					
 	</style>
 </head>
 <body>
@@ -54,14 +74,30 @@ if(isset($_SESSION["user_name"]))
 
 	<br>
 	<div align="center">
+	<table width="20%;" class="rateTable">																											<?php
+		$total = 0;
+		$sumQuery = mysqli_query($con,"SELECT brand,SUM(qty) FROM nas_sale WHERE entry_date = CURDATE() GROUP BY brand  ") or die(mysqli_error($con));	
+		foreach($sumQuery as $sum)
+		{	
+			$total = $total + $sum['SUM(qty)'];																												?>	
+			<tr>
+				<td><?php echo $brandMap[$sum['brand']];?></td>
+				<td><?php echo $sum['SUM(qty)'];?></td>				
+			</tr>																																<?php				
+		}																																	?>
+		<tr>
+			<th>Total</th>
+			<th><?php echo $total;?></th>
+		</tr>
+	</table>
+	<br/><br/>
 	<table width="98%" class="table-responsive">
 		<tr class="tableheader">
 			<th>AR</th>
-			<th class="desktop">TRUCK NO</th>
-			<th width="50px">SRP</th>
-			<th width="50px;">SRH</th>
-			<th width="50px;">F2R</th>
+			<th width="50px">BRAND</th>
+			<th width="50px;">QTY</th>
 			<th>BILL NO</th>
+			<th class="desktop">TRUCK NO</th>
 			<th>CUST. NAME</th>
 			<th class="desktop">CUST. PHONE</th>
 			<th>REMARKS</th>
@@ -69,36 +105,21 @@ if(isset($_SESSION["user_name"]))
 			<th class="desktop">ADDRESS2</th>
 		</tr>
 		<?php
-			$f2r=0;
-			$srp=0;
-			$srh=0;
-			$total=0;
 			while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) 
-			{
-				$f2r = $f2r + $row["f2r"];
-				$srp = $srp + $row["srp"];
-				$srh = $srh + $row["srh"];
-		?>
-		<tr>
-			<td ><a href="edit.php?sales_id=<?php echo $row['sales_id'];?>"</a><?php echo $arMap[$row["ar_id"]]; ?></td>
-			<td class="desktop"><?php echo $row["truck_no"]; ?></td>
-			<td align="center"><?php echo $row["srp"]; ?></td>
-			<td align="center"><?php echo $row["srh"]; ?></td>
-			<td align="center"><?php echo $row["f2r"]; ?></td>
-			<td><?php echo $row["bill_no"]; ?></td>
-			<td><?php echo $row["customer_name"]; ?></td>
-			<td class="desktop"><?php echo $row["customer_phone"]; ?></td>
-			<td><?php echo $row["remarks"]; ?></td>
-			<td class="desktop"><?php echo $row["address1"]; ?></td>
-			<td class="desktop"><?php echo $row["address2"]; ?></td>
-		</tr>
-		<?php
-			}
-			$total = $total + $f2r + $srp + $srh;
-			echo "<div align ='center' style ='font:20px bold;color:#000000'> SRP = $srp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp F2R = $f2r &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp SRH = $srh </div>";
-			echo "<br>";
-			echo "<div align ='center' style ='font:20px bold;color:#000000'> TOTAL = $total </div>";
-		?>
+			{																																?>
+				<tr>
+					<td ><a href="edit.php?sales_id=<?php echo $row['sales_id'];?>"</a><?php echo $arMap[$row["ar_id"]]; ?></td>
+					<td align="center"><?php echo $brandMap[$row["brand"]]; ?></td>
+					<td align="center"><?php echo $row["qty"]; ?></td>
+					<td><?php echo $row["bill_no"]; ?></td>
+					<td class="desktop"><?php echo $row["truck_no"]; ?></td>
+					<td><?php echo $row["customer_name"]; ?></td>
+					<td class="desktop"><?php echo $row["customer_phone"]; ?></td>
+					<td><?php echo $row["remarks"]; ?></td>
+					<td class="desktop"><?php echo $row["address1"]; ?></td>
+					<td class="desktop"><?php echo $row["address2"]; ?></td>
+				</tr>																														<?php
+			}																													?>
 	</table>
 </form>
 <br><br>

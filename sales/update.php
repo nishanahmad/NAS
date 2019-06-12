@@ -18,9 +18,8 @@ if(isset($_SESSION["user_name"]))
 		$arId = $_POST['ar'];
 		$engId = $_POST['engineer'];
 		$truck = $_POST['truck'];
-		$srp = $_POST['srp'];
-		$srh = $_POST['srh'];
-		$f2r = $_POST['f2r'];
+		$brand = $_POST['brand'];
+		$qty = $_POST['qty'];
 		$return = $_POST['return'];	
 		$remarks = $_POST['remarks'];
 		$bill = $_POST['bill'];
@@ -32,20 +31,13 @@ if(isset($_SESSION["user_name"]))
 		$entered_on = date('Y-m-d H:i:s');	
 		if(empty($engId))
 			$engId = null;	
-		if(empty($srp))
-			$srp = null;
-		if(empty($srh))
-			$srh = null;
-		if(empty($f2r))
-			$f2r = null;
 		if(empty($return))
 			$return = null;		
 		
-		$qty = $srp + $srh + $f2r - $return;
 		
 		$update = mysqli_query($con,"UPDATE nas_sale SET entry_date='$sqlDate', ar_id='$arId', eng_id = ".var_export($engId, true).", truck_no='$truck',
-									srp=".var_export($srp, true).", srh=".var_export($srh, true).", f2r=".var_export($f2r, true).",return_bag=".var_export($return, true).",
-									remarks='$remarks', bill_no='$bill',address1='$address1', address2='$address2', customer_name='$customerName', customer_phone='$customerPhone'
+									brand='$brand',qty='$qty',return_bag=".var_export($return, true).",remarks='$remarks', 
+									bill_no='$bill',address1='$address1', address2='$address2', customer_name='$customerName', customer_phone='$customerPhone'
 									WHERE sales_id='$id'") or die(mysqli_error($con));
 					
 		$resultNew = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id='$id'") or die(mysqli_error($con));	

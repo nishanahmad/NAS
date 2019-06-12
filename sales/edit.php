@@ -7,13 +7,21 @@ if(isset($_SESSION["user_name"]))
 require '../connect.php';
 echo "LOGGED USER : ".$_SESSION["user_name"] ;	
 $engMap[null] = null;
-$arObjects = mysqli_query($con,"SELECT id,name,type FROM ar_details ORDER BY name") or die(mysqli_error($con));	
+$brands = mysqli_query($con,"SELECT id,name FROM brand WHERE status = 1 ORDER BY id ASC");
+$arObjects = mysqli_query($con,"SELECT id,name,type,shop_name FROM ar_details ORDER BY name") or die(mysqli_error($con));	
 foreach($arObjects as $ar)
 {
 	if($ar['type'] != 'Engineer Only')
 		$arMap[$ar['id']] = $ar['name']; 
 	if($ar['type'] == 'Engineer' || $ar['type'] == 'Contractor' || $ar['type'] == 'Engineer Only')
 		$engMap[$ar['id']] = $ar['name'];
+	
+	$shopName = strip_tags($ar['shop_name']);
+	$shopNameMap[$ar['id']] = $shopName;
+
+	$shopNameArray = json_encode($shopNameMap);
+	$shopNameArray = str_replace('\n',' ',$shopNameArray);
+	$shopNameArray = str_replace('\r',' ',$shopNameArray);		
 }
 $result = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
 $row= mysqli_fetch_array($result,MYSQLI_ASSOC);
@@ -24,6 +32,29 @@ $row= mysqli_fetch_array($result,MYSQLI_ASSOC);
 <title>Edit Sale <?php echo $row['sales_id']; ?></title>
 <link rel="stylesheet" type="text/css" href="../css/newEdit.css" />
 <link rel="stylesheet" href="../css/button.css">
+<link href='../select2/dist/css/select2.min.css' rel='stylesheet' type='text/css'>
+<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
+<script src='../select2/dist/js/select2.min.js' type='text/javascript'></script>
+<script>
+var shopNameList = '<?php echo $shopNameArray;?>';
+var shopName_array = JSON.parse(shopNameList);
+var shopNameArray = shopName_array;									
+function arRefresh()
+{
+	var arId = $('#ar').val();
+	var shopName = shopNameArray[arId];
+	$('#shopName').val(shopName);
+}								
+	
+$(function() {
+	$("#ar").select2();
+	$("#engineer").select2();
+	
+	var arId = $('#ar').val();
+	var shopName = shopNameArray[arId];
+	$('#shopName').val(shopName);	
+});
+</script>
 </head>
 <body>
 <form name="frmUser" method="post" action="update.php">
@@ -54,14 +85,14 @@ $row= mysqli_fetch_array($result,MYSQLI_ASSOC);
 			echo $newDate1; ?>">
 </td>
 
-<td><label>Remarks</label></td>
-<td><input type="text" name="remarks" class="txtField" value="<?php echo $row['remarks']; ?>"></td>
+<td><label>Bill No </label></td>
+<td><input type="text" name="bill" class="txtField" value="<?php echo $row['bill_no']; ?>"></td>
 
 
 </tr>
 <tr>
 <td><label>AR</label></td>
-<td><select name="ar" required class="txtField">
+<td><select name="ar" id="ar" required class="txtField" onChange="arRefresh();">
     <option value = "<?php echo $row['ar_id'];?>"><?php echo $arMap[$row['ar_id']];?></option>
     <?php
 		foreach($arMap as $arId => $arName)
@@ -72,47 +103,14 @@ $row= mysqli_fetch_array($result,MYSQLI_ASSOC);
       </select>
 </td>
 
-<td><label>Bill No </label></td>
-<td><input type="text" name="bill" class="txtField" value="<?php echo $row['bill_no']; ?>"></td>
-</tr>
-
 <td><label>Truck No </label></td>
 <td><input type="text" name="truck" class="txtField" value="<?php echo $row['truck_no']; ?>"></td>
-
-
-<td><label>Customer Name</label></td>
-<td><input type="text" name="customerName" class="txtField" value="<?php echo $row['customer_name']; ?>"></td>
 </tr>
 
-<td><label>SRP</label></td>
-<td><input type="text" name="srp" class="txtField" value="<?php $srp = $row['srp'];echo $row['srp'];?>">
-</td>
 
-<td><label>Address Part 1</label></td>
-<td><input type="text" name="address1" class="txtField" value="<?php echo $row['address1']; ?>"></td>
-</tr>
-
-<td><label>SRH</label></td>
-
-<td><input type="text" name="srh" class="txtField" value="<?php echo $row['srh']; ?>"></td>
-
-<td><label>Address Part 2</label></td>
-<td><input type="text" name="address2" class="txtField" value="<?php echo $row['address2']; ?>"></td>
-</tr>
-
-<td><label>F2R</label></td>
-<td><input type="text" name="f2r" class="txtField" value="<?php echo $row['f2r']; ?>"></td>
-
-
-<td><label>Customer Phone</label></td>
-<td><input type="text" name="customerPhone" class="txtField" value="<?php echo $row['customer_phone']; ?>"></td>
-</tr>
-
-<td><label>Return</label></td>
-<td><input type="text" name="return" class="txtField" value="<?php echo $row['return_bag']; ?>"></td>
-
+<tr>
 <td><label>Engineer</label></td>
-<td><select name="engineer" class="txtField">
+<td><select name="engineer" id="engineer" class="txtField">
 		<option value="<?php echo $row['eng_id'];?>"><?php echo $engMap[$row['eng_id']];?></option>																																<?php
 		foreach($engMap as $engId => $engName)
 		{	
@@ -123,6 +121,45 @@ $row= mysqli_fetch_array($result,MYSQLI_ASSOC);
 		}																																				?>
       </select>
 </td>
+<td><label>Customer Name</label></td>
+<td><input type="text" name="customerName" class="txtField" value="<?php echo $row['customer_name']; ?>"></td>
+</tr>
+
+<td><label>Brand</label></td>
+<td><select name="brand" id="brand" required class="txtField">									<?php
+		foreach($brands as $brand) 
+		{																							?>
+			<option <?php if($row['brand'] == $brand['id']) echo 'selected';?> value="<?php echo $brand['id'];?>"><?php echo $brand['name'];?></option>		<?php	
+		}																							?>
+	</select>
+</td>
+
+<td><label>Address Part 1</label></td>
+<td><input type="text" name="address1" class="txtField" value="<?php echo $row['address1']; ?>"></td>
+</tr>
+
+<td><label>Qty</label></td>
+<td><input type="text" name="qty" required class="txtField" pattern="[0-9]+" value="<?php echo $row['qty'];?>" title="Input a valid number"></td>
+
+<td><label>Address Part 2</label></td>
+<td><input type="text" name="address2" class="txtField" value="<?php echo $row['address2']; ?>"></td>
+</tr>
+
+<td><label>Remarks</label></td>
+<td><input type="text" name="remarks" class="txtField" value="<?php echo $row['remarks']; ?>"></td>
+
+
+<td><label>Customer Phone</label></td>
+<td><input type="text" name="customerPhone" class="txtField" value="<?php echo $row['customer_phone']; ?>"></td>
+</tr>
+
+<tr>
+<td><label>Return</label></td>
+<td><input type="text" name="return" class="txtField" value="<?php echo $row['return_bag']; ?>"></td>
+
+<td><label>Shop</label></td>
+<td><input type="text" readonly name="shopName" id="shopName" class="txtField"></td>	
+</tr>
 
 <tr>
 <td colspan="4" align = "center"><input type="submit" name="submit" value="Submit" class="btnSubmit"></td>

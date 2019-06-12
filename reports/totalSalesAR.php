@@ -14,6 +14,12 @@ if(isset($_SESSION["user_name"]))
 	else
 		$toDate = date("Y-m-d");		
 
+	$brands = mysqli_query($con, "SELECT * FROM brand" ) or die(mysqli_error($con));	
+	foreach($brands as $brand)
+	{
+		$brandMap[$brand['id']] = $brand['name'];
+	}
+	
 	$arObjects = mysqli_query($con, "SELECT * FROM ar_details order by name ASC" ) or die(mysqli_error($con));	
 	foreach($arObjects as $ar)
 	{
@@ -40,6 +46,7 @@ if(isset($_SESSION["user_name"]))
 	<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/jquery-ui.min.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/jquery.floatThead.min.js"></script>
+	<script type="text/javascript" src="../js/jquery.tablesorter.min.js"></script>
 	<script>
 	$(function() {
 		var pickerOpts = { dateFormat:"dd-mm-yy"}; 
@@ -51,8 +58,10 @@ if(isset($_SESSION["user_name"]))
 	});
 	
 	$(document).ready(function() {	
+		$("#responstable").tablesorter(); 
 		var $table = $('.responstable');
 		$table.floatThead();	
+
 	});		
 
 	</script>	
@@ -77,17 +86,12 @@ if(isset($_SESSION["user_name"]))
 		<th style="text-align:left;">Shop</th>	
 		<th style="width:12%;">SAP</th>	
 		<th style="width:15%;">Phone</th>
-		<th style="width:10%;">SRP</th>
-		<th style="width:7%;">SRH</th>
-		<th style="width:7%;">F2R</th>
-		<th style="width:10%;">Total</th>
+		<th style="width:7%;">Brand</th>
+		<th style="width:12%;">Qty</th>
 	</tr>
 </thead>
 <?php
-	$salesList = mysqli_query($con, "SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' GROUP BY ar_id" ) or die(mysqli_error($con));
-	$srp = 0;
-	$srh = 0;
-	$f2r = 0;
+	$salesList = mysqli_query($con, "SELECT ar_id,brand,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' GROUP BY ar_id,brand" ) or die(mysqli_error($con));
 	$total = 0;
 	foreach($salesList as $arSale)
 	{
@@ -96,16 +100,11 @@ if(isset($_SESSION["user_name"]))
 			<td style="text-align:left;"><?php echo $arShopMap[$arSale['ar_id']];?></td>			
 			<td><?php echo $arCodeMap[$arSale['ar_id']];?></td>			
 			<td><?php echo $arPhoneMap[$arSale['ar_id']];?></td>
-			<td><?php echo $arSale['SUM(srp)'];?></td>
-			<td><?php echo $arSale['SUM(srh)'];?></td>
-			<td><?php echo $arSale['SUM(f2r)'];?></td>			
-			<td><b><?php echo $arSale['SUM(srp)'] + $arSale['SUM(srh)'] + $arSale['SUM(f2r)'] - $arSale['SUM(return_bag)'];?></b></td>			
+			<td><?php echo $brandMap[$arSale['brand']];?></td>			
+			<td><b><?php echo $arSale['SUM(qty)'] - $arSale['SUM(return_bag)'];?></b></td>			
 		</tr>
 <?php	
-		$srp = $srp + $arSale['SUM(srp)'];
-		$srh = $srh + $arSale['SUM(srh)'];
-		$f2r = $f2r + $arSale['SUM(f2r)'];
-		$total = $total + $arSale['SUM(srp)'] + $arSale['SUM(srh)'] + $arSale['SUM(f2r)'] + - $arSale['SUM(return_bag)'];
+		$total = $total + $arSale['SUM(qty)'] - $arSale['SUM(return_bag)'];
 	}
 ?>	
 	<tr>
@@ -113,9 +112,7 @@ if(isset($_SESSION["user_name"]))
 	</tr>
 	<tr style="line-height:50px;background-color:#BEBEBE !important;font-family: Arial Black;">
 		<td colspan="4" style="text-align:right">TOTAL</td>
-		<td><?php echo $srp;?></td>
-		<td><?php echo $srh;?></td>
-		<td><?php echo $f2r;?></td>
+		<td></td>
 		<td><?php echo $total;?></td>
 	</tr>
 </table>

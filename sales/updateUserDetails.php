@@ -3,6 +3,12 @@ function updateUserDetails($oldSale,$newSale)
 {
 	require '../connect.php';
 
+	$brands = mysqli_query($con,"SELECT id,name FROM brand WHERE status = 1 ORDER BY id ASC");
+	foreach($brands as $brand)
+	{
+		$brandMap[$brand['id']] = $brand['name'];
+	}
+	
 	$arObjects = mysqli_query($con,"SELECT id,name FROM ar_details ORDER BY name");
 	foreach($arObjects as $arObject)
 	{
@@ -58,39 +64,28 @@ function updateUserDetails($oldSale,$newSale)
 
 		$insert = mysqli_query($con, $sql) or die(mysqli_error($con));				 				
 	}	
-	if($oldSale['srp'] != $newSale['srp'])
+	if($oldSale['brand'] != $newSale['brand'])
 	{
-		$oldValue = $oldSale['srp'];
-		$newValue = $newSale['srp'];
+		$oldValue = $brandMap[$oldSale['brand']];
+		$newValue = $brandMap[$newSale['brand']];
 		
 		$sql="INSERT INTO sale_edits (sale_id, edited_on, edited_by, field, old_value, new_value)
 			 VALUES
-			 ($id, '$dateTime', '$user', 'SRP', '$oldValue', '$newValue')";
+			 ($id, '$dateTime', '$user', 'Brand', '$oldValue', '$newValue')";
 
 		$insert = mysqli_query($con, $sql) or die(mysqli_error($con));
 	}	
-	if($oldSale['srh'] != $newSale['srh'])
+	if($oldSale['qty'] != $newSale['qty'])
 	{
-		$oldValue = $oldSale['srh'];
-		$newValue = $newSale['srh'];
+		$oldValue = $oldSale['qty'];
+		$newValue = $newSale['qty'];
 		
 		$sql="INSERT INTO sale_edits (sale_id, edited_on, edited_by, field, old_value, new_value)
 			 VALUES
-			 ($id, '$dateTime', '$user', 'SRH', '$oldValue', '$newValue')";
+			 ($id, '$dateTime', '$user', 'Qty', '$oldValue', '$newValue')";
 
 		$insert = mysqli_query($con, $sql) or die(mysqli_error($con));
-	}	
-	if($oldSale['f2r'] != $newSale['f2r'])
-	{
-		$oldValue = $oldSale['f2r'];
-		$newValue = $newSale['f2r'];
-		
-		$sql="INSERT INTO sale_edits (sale_id, edited_on, edited_by, field, old_value, new_value)
-			 VALUES
-			 ($id, '$dateTime', '$user', 'F2R', '$oldValue', '$newValue')";
-
-		$insert = mysqli_query($con, $sql) or die(mysqli_error($con));
-	}	
+	}		
 	if($oldSale['return_bag'] != $newSale['return_bag'])
 	{
 		$oldValue = $oldSale['return_bag'];
