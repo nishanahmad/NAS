@@ -33,9 +33,9 @@ function getSpecialTargets($year,$arId)
 		$dateString = date('d',strtotime($target['fromDate'])). ' to ' .date('d',strtotime($target['toDate']));
 		$specialTargetMap[$month][$dateString]['target'] = $target['special_target'];
 		
-		$sql = mysqli_query($con, "SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$from' AND entry_date <= '$to' AND ar_id = '$arId'" ) or die(mysqli_error($con));
+		$sql = mysqli_query($con, "SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$from' AND entry_date <= '$to' AND ar_id = '$arId'" ) or die(mysqli_error($con));
 		$sale = mysqli_fetch_array($sql,MYSQLI_ASSOC);
-		$specialTargetMap[$month][$dateString]['sale'] = $sale['SUM(srp)'] + $sale['SUM(srh)'] + $sale['SUM(f2r)'] - $sale['SUM(return_bag)'];
+		$specialTargetMap[$month][$dateString]['sale'] = $sale['SUM(qty)'] - $sale['SUM(return_bag)'];
 		
 		$sql = mysqli_query($con, "SELECT SUM(qty) FROM extra_bags WHERE date >= '$from' AND date <= '$to' AND ar_id = '$arId'" ) or die(mysqli_error($con));
 		$extraBags = mysqli_fetch_array($sql,MYSQLI_ASSOC);		
@@ -67,10 +67,10 @@ function getSales($year,$arId)
 	require '../connect.php';
 	
 	$saleMap = array();	
-	$salesList = mysqli_query($con, "SELECT SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag),MONTH(entry_date) FROM nas_sale WHERE YEAR(entry_date) = '$year' AND ar_id = '$arId' GROUP BY MONTH(entry_date) ORDER BY MONTH(entry_date) ASC" ) or die(mysqli_error($con));
+	$salesList = mysqli_query($con, "SELECT SUM(qty),SUM(return_bag),MONTH(entry_date) FROM nas_sale WHERE YEAR(entry_date) = '$year' AND ar_id = '$arId' GROUP BY MONTH(entry_date) ORDER BY MONTH(entry_date) ASC" ) or die(mysqli_error($con));
 	foreach($salesList as $sale) 
 	{
-		$saleMap[$sale['MONTH(entry_date)']] = $sale['SUM(srp)'] + $sale['SUM(srh)'] + $sale['SUM(f2r)'] - $sale['SUM(return_bag)'];
+		$saleMap[$sale['MONTH(entry_date)']] = $sale['SUM(qty)'] - $sale['SUM(return_bag)'];
 	}
 			
 	return $saleMap;

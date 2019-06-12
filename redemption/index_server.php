@@ -97,21 +97,6 @@ if( !empty($requestData['columns'][2]['search']['value']) )
 			$sql.=")";		
 }
 
-if( !empty($requestData['columns'][4]['search']['value']) )
-{ //srp
-	$sql.=" AND srp LIKE '".$requestData['columns'][4]['search']['value']."%' ";
-}
-
-if( !empty($requestData['columns'][5]['search']['value']) )
-{ //srh
-	$sql.=" AND srh LIKE '".$requestData['columns'][5]['search']['value']."%' ";
-}
-
-if( !empty($requestData['columns'][6]['search']['value']) )
-{ //f2r
-	$sql.=" AND f2r LIKE '".$requestData['columns'][6]['search']['value']."%' ";
-}
-
 if( !empty($requestData['columns'][7]['search']['value']) )
 { //bill_no
 	$sql.=" AND bill_no LIKE '".$requestData['columns'][7]['search']['value']."%' ";

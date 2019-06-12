@@ -4,10 +4,10 @@ function checkEngineerPoints($engId,$qty)
 	require '../connect.php';
 	
 	$today = date('d-m-Y');
-	$sales = mysqli_query($con,"SELECT SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE (ar_id = '$engId' OR eng_id = '$engId') AND bill_no NOT LIKE 'a%' AND bill_no NOT LIKE 'A%' AND bill_no <> '' ") or die(mysqli_error($con));		 
+	$sales = mysqli_query($con,"SELECT SUM(qty),SUM(return_bag) FROM nas_sale WHERE (ar_id = '$engId' OR eng_id = '$engId') AND bill_no NOT LIKE 'a%' AND bill_no NOT LIKE 'A%' AND bill_no <> '' ") or die(mysqli_error($con));		 
 	$sale = mysqli_fetch_array($sales,MYSQLI_ASSOC);
 	
-	$totalSale = $sale['SUM(srp)'] + $sale['SUM(srh)'] + $sale['SUM(f2r)'] - $sale['SUM(return_bag)'];
+	$totalSale = $sale['SUM(qty)'] - $sale['SUM(return_bag)'];
 	
 	$redemptions = mysqli_query($con,"SELECT SUM(points) FROM redemption WHERE ar_id = '$engId'") or die(mysqli_error($con));		 
 	$redemption = mysqli_fetch_array($redemptions,MYSQLI_ASSOC);
@@ -51,10 +51,10 @@ function checkEngineerRedemption($engId,$points)
 	require '../connect.php';
 	
 	$today = date('d-m-Y');
-	$sales = mysqli_query($con,"SELECT SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE (ar_id = '$engId' OR eng_id = '$engId') AND bill_no NOT LIKE 'a%' AND bill_no NOT LIKE 'A%' AND bill_no <> '' ") or die(mysqli_error($con));		 
+	$sales = mysqli_query($con,"SELECT SUM(qty),SUM(return_bag) FROM nas_sale WHERE (ar_id = '$engId' OR eng_id = '$engId') AND bill_no NOT LIKE 'a%' AND bill_no NOT LIKE 'A%' AND bill_no <> '' ") or die(mysqli_error($con));		 
 	$sale = mysqli_fetch_array($sales,MYSQLI_ASSOC);
 	
-	$totalSale = $sale['SUM(srp)'] + $sale['SUM(srh)'] + $sale['SUM(f2r)'] - $sale['SUM(return_bag)'];
+	$totalSale = $sale['SUM(qty)'] - $sale['SUM(return_bag)'];
 	
 	$redemptions = mysqli_query($con,"SELECT SUM(points) FROM redemption WHERE ar_id = '$engId'") or die(mysqli_error($con));		 
 	$redemption = mysqli_fetch_array($redemptions,MYSQLI_ASSOC);
