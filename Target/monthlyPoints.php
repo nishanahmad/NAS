@@ -222,17 +222,17 @@ function rerender()
 			}																																	?>
 			<thead>
 				<tr>
-					<th style="width:20%;"></th>
-					<th style="width:12%;"></th>
-					<th style="width:25%;"></th>
-					<th style="width:10%;"></th>
+					<th style="width:20%;"><!-- AR --></th>
+					<th style="width:12%;"><!-- MOBILE --></th>
+					<th style="width:25%;"><!-- SHOP --></th>
+					<th style="width:10%;"><!-- SAP --></th>
 					<th><?php echo $totalTarget;?></th>
 					<th><?php echo $totalSale;?></th>
-					<th></th>
+					<th><!-- EXTRA BAGS --></th>
+					<th><!-- RATE --></th>
 					<th><?php echo $totalPoints;?></th>
 					<th><?php echo round($totalSale/$totalTarget*100,1)?>%</th>
 					<th></th>	
-					<!--th></th-->	
 					<th></th>
 					<th><?php echo $totalPaymentPoints;?></th>
 				</tr>	

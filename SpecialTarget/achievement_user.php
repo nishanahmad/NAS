@@ -94,7 +94,7 @@ if(isset($_SESSION["user_name"]))
 		
 	if(isset($_GET['removeToday']) && $_GET['removeToday'] == 'true')
 	{
-		$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate'
+		$sales = mysqli_query($con,"SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate'
 											AND entry_date <= '$toDate' AND entry_date < CURDATE() 
 											AND ar_id IN ('$arIds')
 											GROUP BY ar_id")
@@ -102,7 +102,7 @@ if(isset($_SESSION["user_name"]))
 	}
 	else
 	{
-		$sales = mysqli_query($con,"SELECT ar_id,SUM(srp),SUM(srh),SUM(f2r),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate'
+		$sales = mysqli_query($con,"SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate'
 											AND entry_date <= '$toDate'
 											AND ar_id IN ('$arIds')
 											GROUP BY ar_id")
@@ -110,11 +110,9 @@ if(isset($_SESSION["user_name"]))
 	}	
 	foreach($sales as $sale)
 	{
-		$lpp = $sale['SUM(srp)'];
-		$hdpe = $sale['SUM(srh)'];
-		$cstl = $sale['SUM(f2r)'];
+		$qty = $sale['SUM(qty)'];
 		$return_bag = $sale['SUM(return_bag)'];
-		$total = $lpp + $hdpe + $cstl - $return_bag;
+		$total = $qty - $return_bag;
 		
 		$arSaleMap[$sale['ar_id']] = $total;
 	}

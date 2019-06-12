@@ -11,24 +11,24 @@ if(isset($_SESSION["user_name"]))
 		1 =>'entry_date', 
 		2 =>'ar_id', 
 		3 => 'truck_no',
-		4=> 'srp',
-		5=> 'srh',
-		6=> 'f2r',
-		7=> 'bill_no',
-		8=> 'customer_name',
+		4=> 'brand',
+		5=> 'qty',
+		6=> 'bill_no',
+		7=> 'customer_name',
+		8=> 'eng_id',
 		9=> 'remarks'
 	);
 
 // getting total number records without any search
 
-	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,srp,srh,f2r,bill_no,customer_name,eng_id,remarks";
+	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,brand,qty,bill_no,customer_name,eng_id,remarks,return_bag";
 	$sql.=" FROM nas_sale";
 	$query=mysqli_query($con, $sql) or die(mysqli_error($con).' LINE 26');	
 	$totalData = mysqli_num_rows($query);
 	$totalFiltered = $totalData;  // when there is no search parameter then total number rows = total number filtered rows.
 
 
-	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,srp,srh,f2r,bill_no,customer_name,eng_id,remarks";
+	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,brand,qty,bill_no,customer_name,eng_id,remarks,return_bag";
 	$sql.=" FROM nas_sale where 1=1  ";
 
 
@@ -114,33 +114,40 @@ if( !empty($requestData['columns'][3]['search']['value']) )
 }
 
 if( !empty($requestData['columns'][4]['search']['value']) )
-{ //srp
-	$sql.=" AND srp LIKE '".$requestData['columns'][4]['search']['value']."%' ";
+{ //brand
+	$searchString = $requestData['columns'][4]['search']['value'];
+	$brandList =  mysqli_query($con, "SELECT id FROM brand WHERE name LIKE '%".$searchString."%' ") or die(mysqli_error($con).' LINE 119');	
+	$firstEntry  = true;
+	foreach($brandList as $brand)
+	{
+		if($firstEntry)
+			$sql.=" AND (brand = '".$brand['id']."' ";		
+		else
+			$sql.=" OR brand = '".$brand['id']."' ";		
+		
+		$firstEntry = false;
+	}
+			$sql.=")";		
 }
 
 if( !empty($requestData['columns'][5]['search']['value']) )
-{ //srh
-	$sql.=" AND srh LIKE '".$requestData['columns'][5]['search']['value']."%' ";
+{ //qty
+	$sql.=" AND qty LIKE '".$requestData['columns'][5]['search']['value']."%' ";
 }
 
 if( !empty($requestData['columns'][6]['search']['value']) )
-{ //f2r
-	$sql.=" AND f2r LIKE '".$requestData['columns'][6]['search']['value']."%' ";
+{ //bill_no
+	$sql.=" AND bill_no LIKE '".$requestData['columns'][6]['search']['value']."%' ";
 }
 
 if( !empty($requestData['columns'][7]['search']['value']) )
-{ //bill_no
-	$sql.=" AND bill_no LIKE '".$requestData['columns'][7]['search']['value']."%' ";
+{ //customer_name
+	$sql.=" AND customer_name LIKE '".$requestData['columns'][7]['search']['value']."%' ";
 }
 
 if( !empty($requestData['columns'][8]['search']['value']) )
-{ //customer_name
-	$sql.=" AND customer_name LIKE '".$requestData['columns'][8]['search']['value']."%' ";
-}
-
-if( !empty($requestData['columns'][9]['search']['value']) )
-{  //ar
-	$searchString = $requestData['columns'][9]['search']['value'];
+{  //eng
+	$searchString = $requestData['columns'][8]['search']['value'];
 	$arList =  mysqli_query($con, "SELECT id FROM ar_details WHERE name LIKE '%".$searchString."%' ") or die(mysqli_error($con).' LINE 97');	
 	$firstEntry  = true;
 	foreach($arList as $ar)
@@ -155,9 +162,9 @@ if( !empty($requestData['columns'][9]['search']['value']) )
 			$sql.=")";		
 }
 
-if( !empty($requestData['columns'][10]['search']['value']) )
+if( !empty($requestData['columns'][9]['search']['value']) )
 { //remarks
-	$sql.=" AND remarks LIKE '".$requestData['columns'][10]['search']['value']."%' ";
+	$sql.=" AND remarks LIKE '".$requestData['columns'][9]['search']['value']."%' ";
 }
 
 $query=mysqli_query($con, $sql) or die(mysqli_error($con).' LINE 139');	
@@ -178,11 +185,14 @@ foreach($arObjects as $ar)
 {
 	$arMap[$ar['id']] = $ar['name'];
 }			
+$brandObjects =  mysqli_query($con,"SELECT id,name FROM brand") or die(mysqli_error($con));		 
+foreach($brandObjects as $brand)
+{
+	$brandMap[$brand['id']] = $brand['name'];
+}			
 
 $data = array();
-$srp = 0;
-$srh = 0;
-$f2r = 0;
+$total = 0;
 while( $row=mysqli_fetch_array($query) ) 
 {
 	$nestedData=array(); 
@@ -191,12 +201,9 @@ while( $row=mysqli_fetch_array($query) )
 	$nestedData[] = date('d-m-Y',strtotime($row['entry_date']));
 	$nestedData[] = $arMap[$row['ar_id']];
 	$nestedData[] = $row["truck_no"];
-	$nestedData[] = $row["srp"];
-		$srp = $srp +  $row["srp"];
-	$nestedData[] = $row["srh"];
-		$srh = $srh + $row["srh"];
-	$nestedData[] = $row["f2r"];
-		$f2r = $f2r + $row["f2r"];
+	$nestedData[] = $brandMap[$row['brand']];
+	$nestedData[] = $row["qty"] - $row["return_bag"];
+		$total = $total + $row["qty"] - $row["return_bag"];
 	$nestedData[] = $row["bill_no"];
 	$nestedData[] = $row["customer_name"];
 	if(isset($arMap[$row['eng_id']]))
@@ -213,9 +220,7 @@ $json_data = array(
 			"recordsTotal"    => intval( $totalData ),  // total number of records
 			"recordsFiltered" => intval( $totalFiltered ), // total number of records after searching, if there is no searching then totalFiltered = totalData
 			"data"            => $data,   // total data array
-			"srp"			  => $srp,
-			"srh"			  => $srh,
-			"f2r"			  => $f2r,
+			"total"			  => $total,
 			"sql"			  => $sql
 			);
 

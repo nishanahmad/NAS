@@ -48,10 +48,7 @@ if(isset($_SESSION["user_name"]))
 				
    dataTable.on( 'xhr', function () {
     var json = dataTable.ajax.json();
-    $('.srp').html(json.srp);
-	$('.srh').html(json.srh);
-	$('.f2r').html(json.f2r);
-	$('.total').html(json.srp + json.srh + json.f2r);
+	$('.total').html(json.total);
 	$('.sql').html(json.sql);
 } );				
 				
@@ -82,22 +79,19 @@ if(isset($_SESSION["user_name"]))
 <font size=5>
 <br>
 <!--SQL:<span class='sql'></span><br><br-->
-SRP:<span class='srp'></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-SRH :<span class='srh'></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-F2R : <span class='f2r'></span><br><br>
+</br>
 <b>TOTAL : <span class='total'></span>
 </b></font>
-		<br><br>
+		<br><br><br><br>
 			<input type="text" data-column="1"  class="search-input-text textarea" placeholder="Date">&nbsp&nbsp
 			<input type="text" data-column="2"  class="search-input-text textarea" placeholder="AR">&nbsp&nbsp
 			<input type="text" data-column="3"  class="search-input-text textarea" placeholder="Truck">&nbsp&nbsp
-			<input type="text" data-column="4" style="width:50px" class="search-input-text textarea" placeholder="srp">&nbsp&nbsp
-			<input type="text" data-column="5" style="width:50px" class="search-input-text textarea" placeholder="srh">&nbsp&nbsp
-			<input type="text" data-column="6" style="width:50px" class="search-input-text textarea" placeholder="f2r">&nbsp&nbsp
-			<input type="text" data-column="7"  class="search-input-text textarea" placeholder="Bill">&nbsp&nbsp
-			<input type="text" data-column="8"  class="search-input-text textarea" placeholder="Customer">&nbsp&nbsp
-			<input type="text" data-column="9"  class="search-input-text textarea" placeholder="Engineer">&nbsp&nbsp
-			<input type="text" data-column="10"  class="search-input-text textarea" placeholder="Remarks">
+			<input type="text" data-column="4" style="width:50px" class="search-input-text textarea" placeholder="Brand">&nbsp&nbsp
+			<input type="text" data-column="5" style="width:50px" class="search-input-text textarea" placeholder="Qty">&nbsp&nbsp
+			<input type="text" data-column="6"  class="search-input-text textarea" placeholder="Bill">&nbsp&nbsp
+			<input type="text" data-column="7"  class="search-input-text textarea" placeholder="Customer">&nbsp&nbsp
+			<input type="text" data-column="8"  class="search-input-text textarea" placeholder="Engineer">&nbsp&nbsp
+			<input type="text" data-column="9"  class="search-input-text textarea" placeholder="Remarks">
 
 		<br><br>
 			<table id="sales-table" class="display cell-border no-wrap" >
@@ -107,9 +101,8 @@ F2R : <span class='f2r'></span><br><br>
 							<th style="width:90px !important">Date</th>
 							<th style="width:200px !important">AR</th>
 							<th>Truck</th>
-							<th>SRP</th>
-							<th>SRH</th>
-							<th>F2R</th>							
+							<th>BRAND</th>
+							<th>QTY</th>
 							<th>BILL NO</th>							
 							<th>CSTMR NAME</th>							
 							<th>Engineer</th>							
