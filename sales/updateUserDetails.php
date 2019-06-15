@@ -3,10 +3,10 @@ function updateUserDetails($oldSale,$newSale)
 {
 	require '../connect.php';
 
-	$brands = mysqli_query($con,"SELECT id,name FROM brand WHERE status = 1 ORDER BY id ASC");
-	foreach($brands as $brand)
+	$products = mysqli_query($con,"SELECT id,name FROM products WHERE status = 1 ORDER BY id ASC");
+	foreach($products as $product)
 	{
-		$brandMap[$brand['id']] = $brand['name'];
+		$productMap[$product['id']] = $product['name'];
 	}
 	
 	$arObjects = mysqli_query($con,"SELECT id,name FROM ar_details ORDER BY name");
@@ -66,8 +66,8 @@ function updateUserDetails($oldSale,$newSale)
 	}	
 	if($oldSale['brand'] != $newSale['brand'])
 	{
-		$oldValue = $brandMap[$oldSale['brand']];
-		$newValue = $brandMap[$newSale['brand']];
+		$oldValue = $productMap[$oldSale['brand']];
+		$newValue = $productMap[$newSale['brand']];
 		
 		$sql="INSERT INTO sale_edits (sale_id, edited_on, edited_by, field, old_value, new_value)
 			 VALUES

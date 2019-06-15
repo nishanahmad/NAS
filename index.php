@@ -47,6 +47,9 @@ a{
    	<a href="indexParty.php" class="btn lg ghost">PARTY</a>
     <br><br><br>			
 	
+	<a href="discounts/" class="btn lg ghost">RATE & DISCOUNTS</a>
+	<br><br><br>																																		
+	
 	<a href="Sheet/" class="btn lg ghost">SHEET DELIVERY</a>
     <br><br><br>		
 

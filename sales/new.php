@@ -5,7 +5,7 @@ if(isset($_SESSION["user_name"]))
 	require '../connect.php';
     
 // Populate maps for SAP CODE and SHOP NAME
-	$brands = mysqli_query($con,"SELECT id,name FROM brand WHERE status = 1 ORDER BY id ASC");
+	$products = mysqli_query($con,"SELECT id,name FROM products WHERE status = 1 ORDER BY id ASC");
 
 	$arObjects = mysqli_query($con,"SELECT id,name,sap_code,shop_name,type FROM ar_details WHERE type <> 'Engineer Only' OR type IS NULL ORDER BY name ASC");
 	foreach($arObjects as $arObject)
@@ -54,6 +54,114 @@ if(isset($_SESSION["user_name"]))
 		$( "#datepicker" ).datepicker(pickerOpts);
 	});
 	
+	$("#datepicker").change(function(){
+		var product = $("#product").val();
+		var client = $("#ar").val();
+		$.ajax({
+			type: "POST",
+			url: "getRate.php",
+			data:'date='+$(this).val()+'&product='+product,
+			success: function(data){
+				var rate = data.split("-")[0];
+				var wd = data.split("-")[1];
+				$("#rate").val(rate);
+				$("#wd").val(wd);
+				refreshRate();
+			}
+		});
+		$.ajax({
+			type: "POST",
+			url: "getCD.php",
+			data:'date='+$(this).val()+'&product='+product+'&client='+client,
+			success: function(data){
+				$("#cd").val(data);
+				refreshRate();
+			}
+		});		
+		$.ajax({
+			type: "POST",
+			url: "getSD.php",
+			data:'date='+$(this).val()+'&product='+product+'&client='+client,
+			success: function(data){
+				$("#sd").val(data);
+				refreshRate();
+			}
+		});		
+	});
+	
+	
+	
+	$("#product").change(function(){
+		var date = $("#datepicker").val();
+		var client = $("#ar").val();
+		$.ajax({
+			type: "POST",
+			url: "getRate.php",
+			data:'product='+$(this).val()+'&date='+date,
+			success: function(data){
+				var rate = data.split("-")[0];
+				var wd = data.split("-")[1];
+				$("#rate").val(rate);
+				$("#wd").val(wd);
+				refreshRate();
+			}
+		});
+		$.ajax({
+			type: "POST",
+			url: "getCD.php",
+			data:'product='+$(this).val()+'&date='+date+'&client='+client,
+			success: function(data){
+				$("#cd").val(data);
+				refreshRate();
+			}
+		});				
+		$.ajax({
+			type: "POST",
+			url: "getSD.php",
+			data:'product='+$(this).val()+'&date='+date+'&client='+client,
+			success: function(data){
+				$("#sd").val(data);
+				refreshRate();
+			}
+		});						
+	});
+
+
+
+	
+	$("#ar").change(function(){
+		var date = $("#datepicker").val();
+		var product = $("#product").val();
+		$.ajax({
+			type: "POST",
+			url: "getCD.php",
+			data:'client='+$(this).val()+'&date='+date+'&product='+product,
+			success: function(data){
+				$("#cd").val(data);
+				refreshRate();
+			}
+		});			
+		$.ajax({
+			type: "POST",
+			url: "getSD.php",
+			data:'client='+$(this).val()+'&date='+date+'&product='+product,
+			success: function(data){
+				$("#sd").val(data);
+				refreshRate();
+			}
+		});					
+	});	
+});
+
+function refreshRate()
+{
+	var rate=document.getElementById("rate").value;
+	var cd=document.getElementById("cd").value;
+	var sd=document.getElementById("sd").value;
+	var wd=document.getElementById("wd").value;
+	
+	$('#final').val(rate-cd-sd-wd);
+}	
 	</script>
 </head>
 <body>
@@ -112,10 +220,10 @@ if(isset($_SESSION["user_name"]))
 
 			<tr>
 				<td><label>Brand</label></td>
-				<td><select name="brand" id="brand" required class="txtField">									<?php
-						foreach($brands as $brand) 
+				<td><select name="brand" id="product" required class="txtField">									<?php
+						foreach($products as $product) 
 						{																							?>
-							<option value="<?php echo $brand['id'];?>"><?php echo $brand['name'];?></option>		<?php	
+							<option value="<?php echo $product['id'];?>"><?php echo $product['name'];?></option>		<?php	
 						}																							?>
 					</select>
 				</td>
@@ -152,6 +260,23 @@ if(isset($_SESSION["user_name"]))
 			<td colspan="4"><div align="center"><input type="submit" name="submit" value="Submit" class="btnSubmit"></div></td>
 			</tr>
 		</table>
+		
+		<!--table border="0" cellpadding="15" cellspacing="0" width="40%" align="center" style="float:center" class="tblSaveForm">
+			<tr>
+				<td><label>Rate</label></td>
+				<td><input type="text" id="rate" class="txtField" name="rate"/></td>
+			</tr>	
+			<tr>
+				<td><label>Cash Discount</label></td>
+				<td><input type="text" id="cd" class="txtField" name="cd"/></td>
+			</tr>	
+				<td><label>Special Discount</label></td>
+				<td><input type="text" id="sd" class="txtField" name="sd"/></td>				
+			<tr>	
+				<td><label>Wagon Discount</label></td>
+				<td><input type="text" id="wd" class="txtField" name="wd"/></td>								
+			</tr>
+		</table-->		
 		</div>
 	</form>
 

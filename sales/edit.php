@@ -7,7 +7,7 @@ if(isset($_SESSION["user_name"]))
 require '../connect.php';
 echo "LOGGED USER : ".$_SESSION["user_name"] ;	
 $engMap[null] = null;
-$brands = mysqli_query($con,"SELECT id,name FROM brand WHERE status = 1 ORDER BY id ASC");
+$products = mysqli_query($con,"SELECT id,name FROM products WHERE status = 1 ORDER BY id ASC");
 $arObjects = mysqli_query($con,"SELECT id,name,type,shop_name FROM ar_details ORDER BY name") or die(mysqli_error($con));	
 foreach($arObjects as $ar)
 {
@@ -127,9 +127,9 @@ $(function() {
 
 <td><label>Brand</label></td>
 <td><select name="brand" id="brand" required class="txtField">									<?php
-		foreach($brands as $brand) 
+		foreach($products as $product) 
 		{																							?>
-			<option <?php if($row['brand'] == $brand['id']) echo 'selected';?> value="<?php echo $brand['id'];?>"><?php echo $brand['name'];?></option>		<?php	
+			<option <?php if($row['brand'] == $product['id']) echo 'selected';?> value="<?php echo $product['id'];?>"><?php echo $product['name'];?></option>		<?php	
 		}																							?>
 	</select>
 </td>

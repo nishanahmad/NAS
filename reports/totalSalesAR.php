@@ -14,10 +14,10 @@ if(isset($_SESSION["user_name"]))
 	else
 		$toDate = date("Y-m-d");		
 
-	$brands = mysqli_query($con, "SELECT * FROM brand" ) or die(mysqli_error($con));	
-	foreach($brands as $brand)
+	$products = mysqli_query($con, "SELECT * FROM products" ) or die(mysqli_error($con));	
+	foreach($products as $product)
 	{
-		$brandMap[$brand['id']] = $brand['name'];
+		$productMap[$product['id']] = $product['name'];
 	}
 	
 	$arObjects = mysqli_query($con, "SELECT * FROM ar_details order by name ASC" ) or die(mysqli_error($con));	
@@ -100,7 +100,7 @@ if(isset($_SESSION["user_name"]))
 			<td style="text-align:left;"><?php echo $arShopMap[$arSale['ar_id']];?></td>			
 			<td><?php echo $arCodeMap[$arSale['ar_id']];?></td>			
 			<td><?php echo $arPhoneMap[$arSale['ar_id']];?></td>
-			<td><?php echo $brandMap[$arSale['brand']];?></td>			
+			<td><?php echo $productMap[$arSale['brand']];?></td>			
 			<td><b><?php echo $arSale['SUM(qty)'] - $arSale['SUM(return_bag)'];?></b></td>			
 		</tr>
 <?php	

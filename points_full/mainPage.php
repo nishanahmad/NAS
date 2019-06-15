@@ -9,6 +9,7 @@ if(isset($_SESSION["user_name"]))
 	require 'getTargetExtrasMap.php';
 	require 'getSaleMap.php';
 	require 'getSpecialTargetMap.php';	
+	require 'getBoosterMap.php';	
 	require '../SpecialTarget/dropDownGenerator.php';
 	
 	$mainArray = array();
@@ -90,6 +91,9 @@ if(isset($_SESSION["user_name"]))
 		$fromString = $from.'-'.$month.'-'.$year;		
 		$fromDate = date("Y-m-d",strtotime($fromString));			
 		
+		$boostQuery = mysqli_query($con,"SELECT * FROM special_target_booster WHERE  fromDate = '$fromDate' AND toDate = '$toDate'") or die(mysqli_error($con));		 
+		$boost = mysqli_fetch_array($boostQuery,MYSQLI_ASSOC);
+		
 		$specialTargetObjects = mysqli_query($con,"SELECT ar_id, fromDate, toDate,special_target FROM special_target WHERE  toDate = '$toDate' AND fromDate = '$fromDate' AND special_target >0 AND ar_id IN('$arIds')") or die(mysqli_error($con));		 
 		foreach($specialTargetObjects as $specialTarget)
 		{
@@ -104,11 +108,23 @@ if(isset($_SESSION["user_name"]))
 				$extraBags = mysqli_query($con,"SELECT ar_id,SUM(qty) FROM extra_bags WHERE date >= '$start' AND date <= '$end' AND ar_id = '$arId' GROUP BY ar_id") or die(mysqli_error($con));	
 				foreach($extraBags as $extraBag)
 					$totalWithExtra = $totalWithExtra + $extraBag['SUM(qty)'];
-
-				if($totalWithExtra >= ($specialTarget['special_target']))
+					
+				if(isset($boost))
+				{
+					$actualPercentage = round(  $total * 100 / $specialTarget['special_target'],0);
+					if($actualPercentage >= $boost['ifAchieved'])
+						$pointMap[$arId]['points'] = $total + round($total * $boost['boost']/100);
+					else if($totalWithExtra >= ($specialTarget['special_target']))
+						$pointMap[$arId]['points'] = $total;
+				}					
+				else if($totalWithExtra >= ($specialTarget['special_target']))
+				{
 					$pointMap[$arId]['points'] = $total;
+				}
 				else
+				{
 					$pointMap[$arId]['points'] = 0;			
+				}
 			}
 		}		
 	}
@@ -353,6 +369,7 @@ function getPrevPoints($arList,$endYear,$endMonth,$dateString)
 	
 	// Add points based on special targets
 	$specialTargetMap = getSpecialTargetMap($arIds,$endDate);		// arId => fromDate => special_target
+	$boosterMap = getBoosterMap($endDate);
 	
 	if($dateString != 'FULL')
 		$stDates = mysqli_query($con,"SELECT from_date,to_date FROM special_target_date WHERE to_date < '$endDate' AND from_date > '2018-01-01' ") or die(mysqli_error($con));	
@@ -376,8 +393,19 @@ function getPrevPoints($arList,$endYear,$endMonth,$dateString)
 			
 			if(isset($specialTargetMap[$arId][$start]))			
 			{
-				if($totalWithExtra >= ($specialTargetMap[$arId][$start]))
-					$arMap[$arId]['prevPoints'] = $arMap[$arId]['prevPoints'] + $total;							
+				if(isset($boosterMap[$start]))
+				{
+					$actualPercentage = round(  $total * 100 / $specialTargetMap[$arId][$start],0);
+					if($actualPercentage >= $boosterMap[$start]['achieved'])
+						$arMap[$arId]['prevPoints'] = $arMap[$arId]['prevPoints'] + $total + round($total * $boosterMap[$start]['boost']/100);												
+					else if($totalWithExtra >= ($specialTargetMap[$arId][$start]))
+						$arMap[$arId]['prevPoints'] = $arMap[$arId]['prevPoints'] + $total;												
+				}
+				else
+				{
+					if($totalWithExtra >= ($specialTargetMap[$arId][$start]))
+						$arMap[$arId]['prevPoints'] = $arMap[$arId]['prevPoints'] + $total;												
+				}	
 			}
 		}			
 	}

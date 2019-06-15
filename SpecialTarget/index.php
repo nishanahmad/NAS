@@ -40,6 +40,9 @@ a{
 
 	<a href="../extraBags/" class="btn lg ghost">EXTRA BAGS</a>
 	<br><br><br>	
+	
+	<a href="../SpecialTargetBooster/list.php" class="btn lg ghost">BOOST POINTS</a>
+	<br><br><br>		
 </div>
 </body>
 </html>																				<?php

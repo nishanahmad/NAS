@@ -7,10 +7,10 @@ if(isset($_SESSION["user_name"]))
 
 	$urlId = $_GET['ar'];
 	
-	$brands = mysqli_query($con,"SELECT id,name FROM brand WHERE status = 1 ORDER BY id ASC");
-	foreach($brands as $brand)
+	$products = mysqli_query($con,"SELECT id,name FROM products WHERE status = 1 ORDER BY id ASC");
+	foreach($products as $product)
 	{
-		$brandMap[$brand['id']] = $brand['name'];
+		$productMap[$product['id']] = $product['name'];
 	}
 	
 	$arObjects = mysqli_query($con,"SELECT id,name FROM ar_details ORDER BY name ASC") or die(mysqli_error($con));	
@@ -81,7 +81,7 @@ if(isset($_SESSION["user_name"]))
 		{	
 			$total = $total + $sum['SUM(qty)'];																												?>	
 			<tr>
-				<td><?php echo $brandMap[$sum['brand']];?></td>
+				<td><?php echo $productMap[$sum['brand']];?></td>
 				<td><?php echo $sum['SUM(qty)'];?></td>				
 			</tr>																																<?php				
 		}																																	?>
@@ -109,7 +109,7 @@ if(isset($_SESSION["user_name"]))
 			{																																?>
 				<tr>
 					<td ><a href="edit.php?sales_id=<?php echo $row['sales_id'];?>"</a><?php echo $arMap[$row["ar_id"]]; ?></td>
-					<td align="center"><?php echo $brandMap[$row["brand"]]; ?></td>
+					<td align="center"><?php echo $productMap[$row["brand"]]; ?></td>
 					<td align="center"><?php echo $row["qty"]; ?></td>
 					<td><?php echo $row["bill_no"]; ?></td>
 					<td class="desktop"><?php echo $row["truck_no"]; ?></td>

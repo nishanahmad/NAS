@@ -5,10 +5,6 @@ if(isset($_SESSION["user_name"]))
 	require '../connect.php';
 
 	$requestData= $_REQUEST;
-
-	if($requestData['draw'] == 1)	
-		$requestData['order'][0]['dir'] = 'DESC';
-	
 		
 	$columns = array( 
 		0 =>'sales_id', 
@@ -188,10 +184,10 @@ foreach($arObjects as $ar)
 {
 	$arMap[$ar['id']] = $ar['name'];
 }			
-$brandObjects =  mysqli_query($con,"SELECT id,name FROM brand") or die(mysqli_error($con));		 
-foreach($brandObjects as $brand)
+$products =  mysqli_query($con,"SELECT id,name FROM products") or die(mysqli_error($con));		 
+foreach($products as $product)
 {
-	$brandMap[$brand['id']] = $brand['name'];
+	$productMap[$product['id']] = $product['name'];
 }			
 
 $data = array();
@@ -204,7 +200,7 @@ while( $row=mysqli_fetch_array($query) )
 	$nestedData[] = date('d-m-Y',strtotime($row['entry_date']));
 	$nestedData[] = $arMap[$row['ar_id']];
 	$nestedData[] = $row["truck_no"];
-	$nestedData[] = $brandMap[$row['brand']];
+	$nestedData[] = $productMap[$row['brand']];
 	$nestedData[] = $row["qty"] - $row["return_bag"];
 		$total = $total + $row["qty"] - $row["return_bag"];
 	$nestedData[] = $row["bill_no"];

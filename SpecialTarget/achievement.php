@@ -111,6 +111,11 @@ if(isset($_SESSION["user_name"]))
 	}
 	if($noticeFlag)
 		$dateString = null;
+	
+	//Calculate boost percentage
+	$boostQuery = mysqli_query($con,"SELECT * FROM special_target_booster WHERE fromDate = '$fromDate' AND toDate = '$toDate'") or die(mysqli_error($con));	
+	$boost = mysqli_fetch_array($boostQuery,MYSQLI_ASSOC);
+	
 ?>
 <html>
 <head>
@@ -327,17 +332,25 @@ if(isset($_SESSION["user_name"]))
 					<td><?php echo $balance ?></td>			
 					<td><?php echo $actualPercentage.'%'; ?></td>			
 					<td><?php echo $extraBags;?></td>
-					<td><?php echo $percentage.'%';?></td>																<?php 
+					<td><?php echo $percentage.'%';?></td>																								<?php 
 					if($percentage >= 100)
 					{
-						$pointTotal = $pointTotal + $sale;																			?>
-						<td><?php echo $sale;?></td>																	<?php
+						if(isset($boost) && $actualPercentage >= (float)$boost['ifAchieved'])
+						{	
+							$pointTotal = $pointTotal + $sale  + ($sale * $boost['boost']/100);																												?>
+							<td><?php echo $sale + ($sale * $boost['boost']/100);?></td>																	<?php
+						}	
+						else	
+						{																																
+							$pointTotal = $pointTotal + $sale;																							?>
+							<td><?php echo $sale;?></td>																								<?php
+						}
 					}
 					else
-					{																									?>
-						<td>0</td>																						<?php
-					}																									?>
-				</tr>																									<?php
+					{																																	?>
+						<td>0</td>																														<?php
+					}																																	?>
+				</tr>																																	<?php
 				$targetTotal = $targetTotal + $spclTarget;
 				$saleTotal = $saleTotal + $sale;
 				$extraTotal = $extraTotal + $arExtraMap[$arId];
