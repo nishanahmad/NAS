@@ -7,7 +7,7 @@ if(isset($_SESSION['user_name']))
 	$boosts = mysqli_query($con,"SELECT * FROM special_target_booster ORDER BY fromDate DESC") or die(mysqli_error($con));														?>
 <html>
 	<head>
-		<title>Discount List</title>
+		<title>Booster List</title>
 		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
 		<link href="../css/bootstrap.min.css" rel="stylesheet">

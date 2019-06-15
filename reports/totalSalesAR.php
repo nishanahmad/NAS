@@ -13,11 +13,16 @@ if(isset($_SESSION["user_name"]))
 		$toDate = date("Y-m-d", strtotime($_GET['to']));		
 	else
 		$toDate = date("Y-m-d");		
+	
+	if(isset($_GET['product']))		
+		$product = (float)$_GET['product'];
+	else
+		$product = 'All';
 
 	$products = mysqli_query($con, "SELECT * FROM products" ) or die(mysqli_error($con));	
-	foreach($products as $product)
+	foreach($products as $pro)
 	{
-		$productMap[$product['id']] = $product['name'];
+		$productMap[$pro['id']] = $pro['name'];
 	}
 	
 	$arObjects = mysqli_query($con, "SELECT * FROM ar_details order by name ASC" ) or die(mysqli_error($con));	
@@ -31,7 +36,7 @@ if(isset($_SESSION["user_name"]))
 	
 	if($_POST)
 	{
-		header("Location:totalSalesAR.php?from=".$_POST['fromDate']."&to=".$_POST['toDate']);	
+		header("Location:totalSalesAR.php?from=".$_POST['fromDate']."&to=".$_POST['toDate']."&product=".$_POST['product']);	
 	}	
 ?>
 <html>
@@ -75,6 +80,14 @@ if(isset($_SESSION["user_name"]))
 	<input type="text" id="fromDate" class="textarea" name="fromDate" required value="<?php echo date('d-m-Y',strtotime($fromDate)); ?>" />
 	&nbsp;&nbsp;to&nbsp;&nbsp;
 	<input type="text" id="toDate" class="textarea" name="toDate" required value="<?php echo date('d-m-Y',strtotime($toDate)); ?>" />
+	&nbsp;&nbsp;&nbsp;&nbsp;
+	<select name="product" id="product" required class="textarea">
+		<option value="all">ALL</option>																<?php
+		foreach($products as $pro) 
+		{																								?>
+			<option <?php if($product == $pro['id']) echo 'selected';?> value="<?php echo $pro['id'];?>"><?php echo $pro['name'];?></option>		<?php	
+		}																								?>
+	</select>	
 	<br><br>
 	<input type="submit" class="btn" name="submit" value="Update">	
 </form>
@@ -86,12 +99,14 @@ if(isset($_SESSION["user_name"]))
 		<th style="text-align:left;">Shop</th>	
 		<th style="width:12%;">SAP</th>	
 		<th style="width:15%;">Phone</th>
-		<th style="width:7%;">Brand</th>
 		<th style="width:12%;">Qty</th>
 	</tr>
 </thead>
 <?php
-	$salesList = mysqli_query($con, "SELECT ar_id,brand,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' GROUP BY ar_id,brand" ) or die(mysqli_error($con));
+	if($product == 'All')
+		$salesList = mysqli_query($con, "SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' GROUP BY ar_id" ) or die(mysqli_error($con));
+	else
+		$salesList = mysqli_query($con, "SELECT ar_id,brand,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' AND brand = $product GROUP BY ar_id,brand" ) or die(mysqli_error($con));
 	$total = 0;
 	foreach($salesList as $arSale)
 	{
@@ -99,8 +114,7 @@ if(isset($_SESSION["user_name"]))
 			<td style="text-align:left;"><?php echo $arNameMap[$arSale['ar_id']];?></td>
 			<td style="text-align:left;"><?php echo $arShopMap[$arSale['ar_id']];?></td>			
 			<td><?php echo $arCodeMap[$arSale['ar_id']];?></td>			
-			<td><?php echo $arPhoneMap[$arSale['ar_id']];?></td>
-			<td><?php echo $productMap[$arSale['brand']];?></td>			
+			<td><?php echo $arPhoneMap[$arSale['ar_id']];?></td>						
 			<td><b><?php echo $arSale['SUM(qty)'] - $arSale['SUM(return_bag)'];?></b></td>			
 		</tr>
 <?php	
@@ -108,11 +122,10 @@ if(isset($_SESSION["user_name"]))
 	}
 ?>	
 	<tr>
-		<td colspan="8"></td>
+		<td colspan="6"></td>
 	</tr>
 	<tr style="line-height:50px;background-color:#BEBEBE !important;font-family: Arial Black;">
 		<td colspan="4" style="text-align:right">TOTAL</td>
-		<td></td>
 		<td><?php echo $total;?></td>
 	</tr>
 </table>
