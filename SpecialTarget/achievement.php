@@ -337,7 +337,7 @@ if(isset($_SESSION["user_name"]))
 					{
 						if(isset($boost) && $actualPercentage >= (float)$boost['ifAchieved'])
 						{	
-							$pointTotal = $pointTotal + $sale  + ($sale * $boost['boost']/100);																												?>
+							$pointTotal = $pointTotal + $sale  + round($sale * $boost['boost']/100);																												?>
 							<td><?php echo $sale + round($sale * $boost['boost']/100);?></td>																	<?php
 						}	
 						else	
