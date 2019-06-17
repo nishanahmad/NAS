@@ -9,5 +9,5 @@ foreach($result as $row)
 {
 	$id = $row['sales_id'];
 	$qty = $row['f2r'];
-	$update = mysqli_query($con,"UPDATE nas_sale SET brand=3,qty=$qty WHERE sales_id='$id'") or die(mysqli_error($con));	
+	$update = mysqli_query($con,"UPDATE nas_sale SET product=3,qty=$qty WHERE sales_id='$id'") or die(mysqli_error($con));	
 }

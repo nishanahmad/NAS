@@ -76,12 +76,12 @@ if(isset($_SESSION["user_name"]))
 	<div align="center">
 	<table width="20%;" class="rateTable">																											<?php
 		$total = 0;
-		$sumQuery = mysqli_query($con,"SELECT brand,SUM(qty) FROM nas_sale WHERE entry_date = CURDATE() GROUP BY brand  ") or die(mysqli_error($con));	
+		$sumQuery = mysqli_query($con,"SELECT product,SUM(qty) FROM nas_sale WHERE entry_date = CURDATE() GROUP BY product  ") or die(mysqli_error($con));	
 		foreach($sumQuery as $sum)
 		{	
 			$total = $total + $sum['SUM(qty)'];																												?>	
 			<tr>
-				<td><?php echo $productMap[$sum['brand']];?></td>
+				<td><?php echo $productMap[$sum['product']];?></td>
 				<td><?php echo $sum['SUM(qty)'];?></td>				
 			</tr>																																<?php				
 		}																																	?>
@@ -94,7 +94,7 @@ if(isset($_SESSION["user_name"]))
 	<table width="98%" class="table-responsive">
 		<tr class="tableheader">
 			<th>AR</th>
-			<th width="50px">BRAND</th>
+			<th width="50px">PRODUCT</th>
 			<th width="50px;">QTY</th>
 			<th>BILL NO</th>
 			<th class="desktop">TRUCK NO</th>
@@ -109,7 +109,7 @@ if(isset($_SESSION["user_name"]))
 			{																																?>
 				<tr>
 					<td ><a href="edit.php?sales_id=<?php echo $row['sales_id'];?>"</a><?php echo $arMap[$row["ar_id"]]; ?></td>
-					<td align="center"><?php echo $productMap[$row["brand"]]; ?></td>
+					<td align="center"><?php echo $productMap[$row["product"]]; ?></td>
 					<td align="center"><?php echo $row["qty"]; ?></td>
 					<td><?php echo $row["bill_no"]; ?></td>
 					<td class="desktop"><?php echo $row["truck_no"]; ?></td>

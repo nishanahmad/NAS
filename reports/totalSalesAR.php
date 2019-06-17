@@ -106,7 +106,7 @@ if(isset($_SESSION["user_name"]))
 	if($product == 'All')
 		$salesList = mysqli_query($con, "SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' GROUP BY ar_id" ) or die(mysqli_error($con));
 	else
-		$salesList = mysqli_query($con, "SELECT ar_id,brand,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' AND brand = $product GROUP BY ar_id,brand" ) or die(mysqli_error($con));
+		$salesList = mysqli_query($con, "SELECT ar_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' AND product = $product GROUP BY ar_id,product" ) or die(mysqli_error($con));
 	$total = 0;
 	foreach($salesList as $arSale)
 	{

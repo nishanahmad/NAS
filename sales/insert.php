@@ -12,7 +12,7 @@ if(isset($_SESSION["user_name"]))
 	$arId = $_POST['ar'];
 	$engId = $_POST['engineer'];
 	$truck = $_POST['truck'];
-	$brand = $_POST['brand'];
+	$product = $_POST['product'];
 	$qty = $_POST['qty'];
 	$return = $_POST['return'];	
 	$remarks = $_POST['remarks'];
@@ -30,9 +30,9 @@ if(isset($_SESSION["user_name"]))
 		$return = null;
 	
 
-	$sql="INSERT INTO nas_sale (entry_date, ar_id, eng_id, truck_no, brand, qty, return_bag, remarks, bill_no, customer_name, customer_phone, address1, address2,entered_by,entered_on)
+	$sql="INSERT INTO nas_sale (entry_date, ar_id, eng_id, truck_no, product, qty, return_bag, remarks, bill_no, customer_name, customer_phone, address1, address2,entered_by,entered_on)
 		 VALUES
-		 ('$sqlDate', '$arId', ".var_export($engId, true).", '$truck', '$brand', '$qty', ".var_export($return, true).", '$remarks', '$bill', '$customerName', '$customerPhone', '$address1', '$address2', '$entered_by', '$entered_on')";
+		 ('$sqlDate', '$arId', ".var_export($engId, true).", '$truck', '$product', '$qty', ".var_export($return, true).", '$remarks', '$bill', '$customerName', '$customerPhone', '$address1', '$address2', '$entered_by', '$entered_on')";
 
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));				 
 

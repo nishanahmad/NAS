@@ -64,14 +64,14 @@ function updateUserDetails($oldSale,$newSale)
 
 		$insert = mysqli_query($con, $sql) or die(mysqli_error($con));				 				
 	}	
-	if($oldSale['brand'] != $newSale['brand'])
+	if($oldSale['product'] != $newSale['product'])
 	{
-		$oldValue = $productMap[$oldSale['brand']];
-		$newValue = $productMap[$newSale['brand']];
+		$oldValue = $productMap[$oldSale['product']];
+		$newValue = $productMap[$newSale['product']];
 		
 		$sql="INSERT INTO sale_edits (sale_id, edited_on, edited_by, field, old_value, new_value)
 			 VALUES
-			 ($id, '$dateTime', '$user', 'Brand', '$oldValue', '$newValue')";
+			 ($id, '$dateTime', '$user', 'Product', '$oldValue', '$newValue')";
 
 		$insert = mysqli_query($con, $sql) or die(mysqli_error($con));
 	}	

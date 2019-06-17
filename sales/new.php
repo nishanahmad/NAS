@@ -219,8 +219,8 @@ function refreshRate()
 			</tr>
 
 			<tr>
-				<td><label>Brand</label></td>
-				<td><select name="brand" id="product" required class="txtField">									<?php
+				<td><label>Product</label></td>
+				<td><select name="product" id="product" required class="txtField">									<?php
 						foreach($products as $product) 
 						{																							?>
 							<option value="<?php echo $product['id'];?>"><?php echo $product['name'];?></option>		<?php	

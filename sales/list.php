@@ -87,7 +87,7 @@ if(isset($_SESSION["user_name"]))
 			<input type="text" data-column="1"  class="search-input-text textarea" placeholder="Date">&nbsp&nbsp
 			<input type="text" data-column="2"  class="search-input-text textarea" placeholder="AR">&nbsp&nbsp
 			<input type="text" data-column="3"  class="search-input-text textarea" placeholder="Truck">&nbsp&nbsp
-			<input type="text" data-column="4" style="width:50px" class="search-input-text textarea" placeholder="Brand">&nbsp&nbsp
+			<input type="text" data-column="4" style="width:50px" class="search-input-text textarea" placeholder="Product">&nbsp&nbsp
 			<input type="text" data-column="5" style="width:50px" class="search-input-text textarea" placeholder="Qty">&nbsp&nbsp
 			<input type="text" data-column="6"  class="search-input-text textarea" placeholder="Bill">&nbsp&nbsp
 			<input type="text" data-column="7"  class="search-input-text textarea" placeholder="Customer">&nbsp&nbsp
@@ -102,7 +102,7 @@ if(isset($_SESSION["user_name"]))
 							<th style="width:90px !important">Date</th>
 							<th style="width:200px !important">AR</th>
 							<th>Truck</th>
-							<th>BRAND</th>
+							<th>PRODUCT</th>
 							<th>QTY</th>
 							<th>BILL NO</th>							
 							<th>CSTMR NAME</th>							

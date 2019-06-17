@@ -125,11 +125,11 @@ $(function() {
 <td><input type="text" name="customerName" class="txtField" value="<?php echo $row['customer_name']; ?>"></td>
 </tr>
 
-<td><label>Brand</label></td>
-<td><select name="brand" id="brand" required class="txtField">									<?php
+<td><label>Product</label></td>
+<td><select name="product" id="product" required class="txtField">									<?php
 		foreach($products as $product) 
 		{																							?>
-			<option <?php if($row['brand'] == $product['id']) echo 'selected';?> value="<?php echo $product['id'];?>"><?php echo $product['name'];?></option>		<?php	
+			<option <?php if($row['product'] == $product['id']) echo 'selected';?> value="<?php echo $product['id'];?>"><?php echo $product['name'];?></option>		<?php	
 		}																							?>
 	</select>
 </td>

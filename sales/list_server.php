@@ -11,7 +11,7 @@ if(isset($_SESSION["user_name"]))
 		1 =>'entry_date', 
 		2 =>'ar_id', 
 		3 => 'truck_no',
-		4=> 'brand',
+		4=> 'product',
 		5=> 'qty',
 		6=> 'bill_no',
 		7=> 'customer_name',
@@ -21,14 +21,14 @@ if(isset($_SESSION["user_name"]))
 
 // getting total number records without any search
 
-	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,brand,qty,bill_no,customer_name,eng_id,remarks,return_bag";
+	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,product,qty,bill_no,customer_name,eng_id,remarks,return_bag";
 	$sql.=" FROM nas_sale";
 	$query=mysqli_query($con, $sql) or die(mysqli_error($con).' LINE 26');	
 	$totalData = mysqli_num_rows($query);
 	$totalFiltered = $totalData;  // when there is no search parameter then total number rows = total number filtered rows.
 
 
-	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,brand,qty,bill_no,customer_name,eng_id,remarks,return_bag";
+	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,product,qty,bill_no,customer_name,eng_id,remarks,return_bag";
 	$sql.=" FROM nas_sale where 1=1  ";
 
 
@@ -114,16 +114,16 @@ if( !empty($requestData['columns'][3]['search']['value']) )
 }
 
 if( !empty($requestData['columns'][4]['search']['value']) )
-{ //brand
+{ //product
 	$searchString = $requestData['columns'][4]['search']['value'];
-	$brandList =  mysqli_query($con, "SELECT id FROM brand WHERE name LIKE '%".$searchString."%' ") or die(mysqli_error($con).' LINE 119');	
+	$products =  mysqli_query($con, "SELECT id FROM product WHERE name LIKE '%".$searchString."%' ") or die(mysqli_error($con).' LINE 119');	
 	$firstEntry  = true;
-	foreach($brandList as $brand)
+	foreach($products as $product)
 	{
 		if($firstEntry)
-			$sql.=" AND (brand = '".$brand['id']."' ";		
+			$sql.=" AND (product = '".$product['id']."' ";		
 		else
-			$sql.=" OR brand = '".$brand['id']."' ";		
+			$sql.=" OR product = '".$product['id']."' ";		
 		
 		$firstEntry = false;
 	}
@@ -200,7 +200,7 @@ while( $row=mysqli_fetch_array($query) )
 	$nestedData[] = date('d-m-Y',strtotime($row['entry_date']));
 	$nestedData[] = $arMap[$row['ar_id']];
 	$nestedData[] = $row["truck_no"];
-	$nestedData[] = $productMap[$row['brand']];
+	$nestedData[] = $productMap[$row['product']];
 	$nestedData[] = $row["qty"] - $row["return_bag"];
 		$total = $total + $row["qty"] - $row["return_bag"];
 	$nestedData[] = $row["bill_no"];
