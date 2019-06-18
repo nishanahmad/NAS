@@ -113,7 +113,7 @@ if(isset($_SESSION["user_name"]))
 		.rateTable td{
 			padding: 5px;
 			color : #000000;
-		}					
+		}	
 	</style>
 </head>
 <body>
@@ -187,18 +187,22 @@ if(isset($_SESSION["user_name"]))
 			<th>Remarks</th>
 			<th class="desktop">Address1</th>
 			<th class="desktop">Address2</th>
-		</tr>
-		<?php
+		</tr>		
+		<?php			
+			$rateMap = array();
+			foreach($productMap as $id => $qty)
+				$rateMap[$id] = getRate(date('Y-m-d'),$id);
+
 			foreach($mainMap as $row) 
-			{			
-				$rowRate = getRate($row['entry_date'],$row['productId']);
+			{
+				$rowRate = $rateMap[$row['productId']];
 				if($rowRate == null)
 					$rowRate = 0;					
 				
 				$rowWD = getWD($row['entry_date'],$row['productId']);
 				if($rowWD == null)
-					$rowWD = 0;
-				
+					$rowWD = 0;		
+			
 				$rowCD = getCD($row['entry_date'],$row['productId'],$row['ar_id']);
 				if($rowCD == null)
 					$rowCD = 0;					

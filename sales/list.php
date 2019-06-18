@@ -34,7 +34,7 @@ if(isset($_SESSION["user_name"]))
 					"serverSide": true,
 					"responsive": true,
 					"bJQueryUI":true,
-					"iDisplayLength": 200,	
+					"iDisplayLength": 1000,	
 					"aaSorting" : [[0, 'desc']],					
 					"ajax":{
 						url :"list_server.php", // json datasource
