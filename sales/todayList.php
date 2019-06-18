@@ -190,16 +190,20 @@ if(isset($_SESSION["user_name"]))
 		</tr>		
 		<?php			
 			$rateMap = array();
+			$wdMap = array();
 			foreach($productMap as $id => $qty)
+			{
 				$rateMap[$id] = getRate(date('Y-m-d'),$id);
-
+				$wdMap[$id] = getWD(date('Y-m-d'),$id);
+			}
+								
 			foreach($mainMap as $row) 
 			{
 				$rowRate = $rateMap[$row['productId']];
 				if($rowRate == null)
 					$rowRate = 0;					
 				
-				$rowWD = getWD($row['entry_date'],$row['productId']);
+				$rowWD = $wdMap[$row['productId']];
 				if($rowWD == null)
 					$rowWD = 0;		
 			
