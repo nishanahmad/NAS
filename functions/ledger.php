@@ -45,6 +45,25 @@ function getSpecialTargets($year,$arId)
 	return $specialTargetMap;
 }	
 
+function getBoosters($year)
+{
+	require '../connect.php';
+	
+	$boosterMap = array();
+	$boosterObjects = mysqli_query($con,"SELECT * FROM special_target_booster WHERE YEAR(fromDate)='$year' ORDER BY fromDate") or die(mysqli_error($con));		 
+	foreach($boosterObjects as $booster)
+	{
+		$month = (int)date("m",strtotime($booster['fromDate']));
+		$from = date("Y-m-d",strtotime($booster['fromDate']));
+		$to = date("Y-m-d",strtotime($booster['toDate']));
+		$dateString = date('d',strtotime($booster['fromDate'])). ' to ' .date('d',strtotime($booster['toDate']));
+		$boosterMap[$month][$dateString]['achieved'] = $booster['ifAchieved'];
+		$boosterMap[$month][$dateString]['boost'] = $booster['boost'];
+	}	
+	
+	return $boosterMap;
+}	
+
 
 function getRedemptions($year,$arId)
 {
@@ -145,6 +164,7 @@ function getOpeningPoints($year,$arId,$isActive)
 			{
 				$targetMap = getTargets($year-1,$arId);
 				$specialTargetMap = getSpecialTargets($year-1,$arId);
+				$boosterMap = getBoosters($year-1);
 				$redemptionMap = getRedemptions($year-1,$arId);
 				$saleMap = getSales($year-1,$arId);
 				
@@ -170,10 +190,17 @@ function getOpeningPoints($year,$arId,$isActive)
 				{
 					foreach($subArray as $dateString => $value)
 					{
-						if($value['sale'] + $value['extra'] >= $value['target'])
+						$actual_percentage = round(  $value['sale'] * 100 / $value['target'],0);							
+						if(isset($boosterMap[$month][$dateString]['achieved'])) 
 						{
-							$opening = $opening + $value['sale'];					
+							if($actual_percentage >= (float)$boosterMap[$month][$dateString]['achieved'] )
+								$opening = $opening + $value['sale']  + round($value['sale'] * $boosterMap[$month][$dateString]['boost']/100);
+							else if($value['sale'] + $value['extra'] >= $value['target'])
+								$opening = $opening + $value['sale'];					
+							
 						}
+						else if($value['sale'] + $value['extra'] >= $value['target'])
+							$opening = $opening + $value['sale'];					
 					}
 				}			
 				

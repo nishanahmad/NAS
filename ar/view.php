@@ -21,11 +21,12 @@ if(isset($_SESSION["user_name"]))
 	
 	$targetMap = getTargets($urlYear,$urlId);
 	$specialTargetMap = getSpecialTargets($urlYear,$urlId);
+	$boosterMap = getBoosters($urlYear);
 	$redemptionMap = getRedemptions($urlYear,$urlId);
 	$saleMap = getSales($urlYear,$urlId);
 	$pointsMap = getPoints($urlYear,$saleMap,$isActive,$targetMap);
-	$openingPoints = getOpeningPoints($urlYear,$urlId,$isActive);	
-?>
+	$openingPoints = getOpeningPoints($urlYear,$urlId,$isActive);																									?>
+	
 <html>
 	<head>
 		<title><?php echo $ar['name'];?></title>
@@ -166,13 +167,32 @@ if(isset($_SESSION["user_name"]))
 												<td><?php echo $subArray['target'];?></td>
 												<td><?php echo $subArray['sale'];?></td>
 												<td><?php 
-													if($subArray['sale'] + $subArray['extra'] >= $subArray['target']) 
+													$actual_percentage = round(  $subArray['sale'] * 100 / $subArray['target'],0);							
+													if(isset($boosterMap[$month][$dateString]['achieved'])) 
 													{
-														$openingPoints = $openingPoints + $subArray['sale'];
-														echo $subArray['sale'];
-													}	
-													else 
-														echo '0';?>
+														if($actual_percentage >= (float)$boosterMap[$month][$dateString]['achieved'] )
+														{
+															$openingPoints = $openingPoints + $subArray['sale']  + round($subArray['sale'] * $boosterMap[$month][$dateString]['boost']/100);
+															echo $subArray['sale'] + round($subArray['sale'] * $boosterMap[$month][$dateString]['boost']/100);
+														}
+															
+														else if($subArray['sale'] + $subArray['extra'] >= $subArray['target'])
+														{
+															$openingPoints = $openingPoints + $subArray['sale'];					
+															echo $subArray['sale'];														
+														}
+														else
+															echo '0';
+															
+														
+													}
+													else if($subArray['sale'] + $subArray['extra'] >= $subArray['target'])
+													{
+														$openingPoints = $openingPoints + $subArray['sale'];				
+														echo $subArray['sale'];														
+													}
+													else
+														echo '0';																									?>
 												</td>
 												<td></td>
 											</tr>																												<?php			
