@@ -32,6 +32,7 @@ if(isset($_SESSION["user_name"]))
 			$rateMap[$rate['product']] = $rate['rate'];
 	}	
 	
+	$companyRateMap = array();
 	$companyRates = mysqli_query($con,"SELECT * FROM company_rate INNER JOIN products ON company_rate.product = products.id ORDER BY date DESC,products.name ASC") or die(mysqli_error($con));
 	foreach($companyRates as $cRate)
 	{
@@ -138,9 +139,9 @@ if(isset($_SESSION["user_name"]))
 	<div align="center">
 		<table class="rateTable" width="50%">
 			<tr>
+				<th>Product</th>			
 				<th>Rate</th>
 				<th style="width:20%;">Discount</th>									
-				<th>Product</th>
 				<th>Qty</th>
 				<th style="border-color:white black white black;width:7%;"></th>
 				<th style="width:15%;">Company Rate</th>
@@ -150,24 +151,26 @@ if(isset($_SESSION["user_name"]))
 		foreach($rateMap as $product=>$rate)
 		{																																		?>
 			<tr>
+				<td><?php echo $productNameMap[$product];?></td>			
 				<td><?php echo $rate.'/-';?></td>						
 				<td><?php if(isset($discountMap[$product])) echo $discountMap[$product].'/-';?></td>										
-				<td><?php echo $productNameMap[$product];?></td>
 				<td><?php if(isset($productMap[$product])) echo $productMap[$product];?></td>						
-				<td style="border-color:white black white black;"></td>
-				<td><?php if(isset($companyRateMap[$product])) echo $companyRateMap[$product]['rate'].'/-';?></td>						
-				<td><?php if(isset($companyRateMap[$product])) echo $companyRateMap[$product]['recommended'].'/-';?></td>						
+				<td style="border-color:white black white black;"></td>										<?php 
+				if(isset($companyRateMap[$product]))
+				{																							?>
+					<td> <?php echo $companyRateMap[$product]['rate'].'/-';?></td>						
+					<td><?php echo $companyRateMap[$product]['recommended'].'/-';?></td>					<?php						
+				}																							?>
+
 			</tr>
 							<?php
 		}?> 
 			<tr>
-				<th></th>						
-				<th></th>										
-				<th>Total</th>
+				<th colspan="3">Total</th>
 				<th><?php echo $total;?></th>
-				<th style="border-color:white black white black;"></th>
-				<th></th>						
-				<th></th>										
+				<th style="border-color:white white white white;"></th>
+				<th style="border-color:white white white white;"></th>
+				<th style="border-color:white white white white;"></th>
 			</tr>
 		</table>
 	<br/><br/>
@@ -181,7 +184,7 @@ if(isset($_SESSION["user_name"]))
 			<th class="desktop">Truck</th>
 			<th>Cust Name</th>
 			<th class="desktop">Cust Phone</th>
-			<th>REMARKS</th>
+			<th>Remarks</th>
 			<th class="desktop">Address1</th>
 			<th class="desktop">Address2</th>
 		</tr>
