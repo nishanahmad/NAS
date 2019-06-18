@@ -30,10 +30,12 @@ $row= mysqli_fetch_array($result,MYSQLI_ASSOC);
 <html>
 <head>
 <title>Edit Sale <?php echo $row['sales_id']; ?></title>
+<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
 <link rel="stylesheet" type="text/css" href="../css/newEdit.css" />
 <link rel="stylesheet" href="../css/button.css">
 <link href='../select2/dist/css/select2.min.css' rel='stylesheet' type='text/css'>
 <script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
+	<script type="text/javascript" language="javascript" src="../js/jquery-ui.min.js"></script>	
 <script src='../select2/dist/js/select2.min.js' type='text/javascript'></script>
 <script>
 var shopNameList = '<?php echo $shopNameArray;?>';
@@ -50,10 +52,149 @@ $(function() {
 	$("#ar").select2();
 	$("#engineer").select2();
 	
+	var pickerOpts = { dateFormat:"dd-mm-yy"}; 
+	$( "#datepicker" ).datepicker(pickerOpts);	
+	
 	var arId = $('#ar').val();
 	var shopName = shopNameArray[arId];
 	$('#shopName').val(shopName);	
+		
+	$.ajax({
+		type: "POST",
+		url: "getRate.php",
+		data:'date='+$("#datepicker").val()+'&product='+$("#product").val(),
+		success: function(data){
+			var rate = data.split("-")[0];
+			var wd = data.split("-")[1];
+			$("#rate").val(rate);
+			$("#wd").val(wd);
+			refreshRate();
+		}
+	});	
+	$.ajax({
+		type: "POST",
+		url: "getCD.php",
+		data:'date='+$("#datepicker").val()+'&product='+$("#product").val()+'&client='+$("#ar").val(),
+		success: function(data){
+			$("#cd").val(data);
+			refreshRate();
+		}
+	});		
+	$.ajax({
+		type: "POST",
+		url: "getSD.php",
+		data:'date='+$("#datepicker").val()+'&product='+$("#product").val()+'&client='+$("#ar").val(),
+		success: function(data){
+			$("#sd").val(data);
+			refreshRate();
+		}
+	});	
+
+	$("#datepicker").change(function(){
+		var product = $("#product").val();
+		var client = $("#ar").val();
+		$.ajax({
+			type: "POST",
+			url: "getRate.php",
+			data:'date='+$(this).val()+'&product='+product,
+			success: function(data){
+				var rate = data.split("-")[0];
+				var wd = data.split("-")[1];
+				$("#rate").val(rate);
+				$("#wd").val(wd);
+				refreshRate();
+			}
+		});
+		$.ajax({
+			type: "POST",
+			url: "getCD.php",
+			data:'date='+$(this).val()+'&product='+product+'&client='+client,
+			success: function(data){
+				$("#cd").val(data);
+				refreshRate();
+			}
+		});		
+		$.ajax({
+			type: "POST",
+			url: "getSD.php",
+			data:'date='+$(this).val()+'&product='+product+'&client='+client,
+			success: function(data){
+				$("#sd").val(data);
+				refreshRate();
+			}
+		});		
+	});
+	
+	
+	
+	$("#product").change(function(){
+		var date = $("#datepicker").val();
+		var client = $("#ar").val();
+		$.ajax({
+			type: "POST",
+			url: "getRate.php",
+			data:'product='+$(this).val()+'&date='+date,
+			success: function(data){
+				var rate = data.split("-")[0];
+				var wd = data.split("-")[1];
+				$("#rate").val(rate);
+				$("#wd").val(wd);
+				refreshRate();
+			}
+		});
+		$.ajax({
+			type: "POST",
+			url: "getCD.php",
+			data:'product='+$(this).val()+'&date='+date+'&client='+client,
+			success: function(data){
+				$("#cd").val(data);
+				refreshRate();
+			}
+		});				
+		$.ajax({
+			type: "POST",
+			url: "getSD.php",
+			data:'product='+$(this).val()+'&date='+date+'&client='+client,
+			success: function(data){
+				$("#sd").val(data);
+				refreshRate();
+			}
+		});						
+	});
+	
+	$("#ar").change(function(){
+		var date = $("#datepicker").val();
+		var product = $("#product").val();
+		$.ajax({
+			type: "POST",
+			url: "getCD.php",
+			data:'client='+$(this).val()+'&date='+date+'&product='+product,
+			success: function(data){
+				$("#cd").val(data);
+				refreshRate();
+			}
+		});			
+		$.ajax({
+			type: "POST",
+			url: "getSD.php",
+			data:'client='+$(this).val()+'&date='+date+'&product='+product,
+			success: function(data){
+				$("#sd").val(data);
+				refreshRate();
+			}
+		});					
+	});	
 });
+
+function refreshRate()
+{
+	var rate=document.getElementById("rate").value;
+	var cd=document.getElementById("cd").value;
+	var sd=document.getElementById("sd").value;
+	var wd=document.getElementById("wd").value;
+	
+	$('#final').val(rate-cd-sd-wd);
+}	
 </script>
 </head>
 <body>
@@ -78,7 +219,7 @@ $(function() {
 
 <tr>
 <td><label>Date</label></td>
-<td><input type="text" name="entryDate" class="txtField" 
+<td><input type="text" id="datepicker" name="entryDate" class="txtField" 
 	value="<?php 
 			$originalDate1 = $row['entry_date'];
 			$newDate1 = date("d-m-Y", strtotime($originalDate1));
@@ -160,16 +301,41 @@ $(function() {
 <td><label>Shop</label></td>
 <td><input type="text" readonly name="shopName" id="shopName" class="txtField"></td>	
 </tr>
-
+<tr>
+	<td><label>Final Rate</label></td>
+	<td><input readonly id="final" class="txtField"></td>			
+	
+	<td></td>
+	<td></td>	
+</tr>
 <tr>
 <td colspan="4" align = "center"><input type="submit" name="submit" value="Submit" class="btnSubmit"></td>
 </tr>
 
 </table>
-<br><br><br><br>	
+<br/><br/>
+<table border="0" cellpadding="5" cellspacing="0" width="30%" align="left" style="margin-left:10%">
+	<tr>
+		<td><label>Rate</label></td>
+		<td><input readonly id="rate"/></td>
+	</tr>	
+	<tr>	
+		<td><label>Wagon Discount</label></td>
+		<td><input readonly id="wd"/></td>								
+	</tr>			
+	<tr>
+		<td><label>Cash Discount</label></td>
+		<td><input readonly id="cd"/></td>
+	</tr>	
+		<td><label>Special Discount</label></td>
+		<td><input readonly id="sd"/></td>				
+</table>	
+</div>
 <a href="delete.php?sales_id=<?php echo $row['sales_id'];?>" style="float:right;width:50px;margin-right:150px;" class="btn btn-red" onclick="return confirm('Are you sure you want to permanently delete this entry ?')">DELETE</a>						
 </div>
+<br/><br/><br/><br/>		
 </form>
+<br/><br/><br/><br/>		
 </body>
 </html>																								<?php
 }

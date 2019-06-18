@@ -4,13 +4,14 @@ session_start();
 if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
+	require '../functions/rate.php';
 
 	$urlId = $_GET['ar'];
 	
 	$products = mysqli_query($con,"SELECT id,name FROM products WHERE status = 1 ORDER BY id ASC");
 	foreach($products as $product)
 	{
-		$productMap[$product['id']] = $product['name'];
+		$productNameMap[$product['id']] = $product['name'];
 	}
 	
 	$arObjects = mysqli_query($con,"SELECT id,name FROM ar_details ORDER BY name ASC") or die(mysqli_error($con));	
@@ -24,6 +25,68 @@ if(isset($_SESSION["user_name"]))
 	else
 		$result = mysqli_query($con,"SELECT * FROM nas_sale WHERE entry_date = CURDATE() order by bill_no asc  ") or die(mysqli_error($con));
 	
+	$rates = mysqli_query($con,"SELECT * FROM rate INNER JOIN products ON rate.product = products.id ORDER BY date DESC,products.name ASC") or die(mysqli_error($con));
+	foreach($rates as $rate)
+	{
+		if(!isset($rateMap[$rate['product']]))
+			$rateMap[$rate['product']] = $rate['rate'];
+	}	
+	
+	$companyRates = mysqli_query($con,"SELECT * FROM company_rate INNER JOIN products ON company_rate.product = products.id ORDER BY date DESC,products.name ASC") or die(mysqli_error($con));
+	foreach($companyRates as $cRate)
+	{
+		if(!isset($companyRateMap[$cRate['product']]))
+		{
+			$companyRateMap[$cRate['product']]['rate'] = $cRate['rate'];
+			$companyRateMap[$cRate['product']]['recommended'] = $cRate['recommended'];
+		}
+	}		
+	
+	$discountMap = array();
+	$discounts = mysqli_query($con,"SELECT * FROM discounts WHERE type = 'wd' AND date = CURDATE()") or die(mysqli_error($con));
+	foreach($discounts as $discount)
+	{
+		$discountMap[$discount['product']] = $discount['amount'];
+	}	
+
+	$i=0;
+	$productMap = array();
+	$mainMap = array();
+	$total = 0;
+	while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) 
+	{ 
+		$productId = $row['product'];
+		if($productId == 2)
+		{
+			var_dump($row);
+		}
+		if (array_key_exists($productId,$productMap))
+		{   
+			$productMap[$productId] = $productMap[$productId] + $row["qty"];
+			$total = $total + $row["qty"];
+		}	
+		else
+		{
+			$productMap[$productId] = $row["qty"];
+			$total = $total + $row["qty"];
+		}	
+
+		$mainMap[$i]['sales_id'] = $row['sales_id'];
+		$mainMap[$i]['entry_date'] = $row['entry_date'];
+		$mainMap[$i]['ar_id'] = $row['ar_id'];
+		$mainMap[$i]['truck'] = $row['truck_no'];
+		$mainMap[$i]['product'] = $productNameMap[$row['product']];
+		$mainMap[$i]['productId'] = $row['product'];
+		$mainMap[$i]['qty'] = $row['qty'];
+		$mainMap[$i]['bill'] = $row['bill_no'];
+		$mainMap[$i]['name'] = $row['customer_name'];
+		$mainMap[$i]['phone'] = $row['customer_phone'];
+		$mainMap[$i]['remarks'] = $row['remarks'];
+		$mainMap[$i]['address1'] = $row['address1'];
+		$mainMap[$i]['address2'] = $row['address2'];
+		
+		$i++;
+	}	
 ?>
 
 <html>
@@ -54,7 +117,6 @@ if(isset($_SESSION["user_name"]))
 </head>
 <body>
 <form name="frmsales" method="post" action="" >
-	<div style="width:100%;">
 	<div align="center" style="padding-bottom:5px;">
 		<a href="../index.php" class="link"><img alt='home' title='home' src='../images/home.png' width='60px' height='60px'/> </a> &nbsp;&nbsp;&nbsp;
 		<a href="new.php" class="link"><img alt='Add' title='Add New' src='../images/addnew.png' width='60px' height='60px'/></a>
@@ -74,47 +136,84 @@ if(isset($_SESSION["user_name"]))
 
 	<br>
 	<div align="center">
-	<table width="20%;" class="rateTable">																											<?php
-		$total = 0;
-		$sumQuery = mysqli_query($con,"SELECT product,SUM(qty) FROM nas_sale WHERE entry_date = CURDATE() GROUP BY product  ") or die(mysqli_error($con));	
-		foreach($sumQuery as $sum)
-		{	
-			$total = $total + $sum['SUM(qty)'];																												?>	
+		<table class="rateTable" width="50%">
 			<tr>
-				<td><?php echo $productMap[$sum['product']];?></td>
-				<td><?php echo $sum['SUM(qty)'];?></td>				
-			</tr>																																<?php				
-		}																																	?>
-		<tr>
-			<th>Total</th>
-			<th><?php echo $total;?></th>
-		</tr>
-	</table>
+				<th>Rate</th>
+				<th style="width:20%;">Discount</th>									
+				<th>Product</th>
+				<th>Qty</th>
+				<th style="border-color:white black white black;width:7%;"></th>
+				<th style="width:15%;">Company Rate</th>
+				<th style="width:15%;">Company Recommended</th>					
+			</tr>			
+		<?php				
+		foreach($rateMap as $product=>$rate)
+		{																																		?>
+			<tr>
+				<td><?php echo $rate.'/-';?></td>						
+				<td><?php if(isset($discountMap[$product])) echo $discountMap[$product].'/-';?></td>										
+				<td><?php echo $productNameMap[$product];?></td>
+				<td><?php if(isset($productMap[$product])) echo $productMap[$product];?></td>						
+				<td style="border-color:white black white black;"></td>
+				<td><?php if(isset($companyRateMap[$product])) echo $companyRateMap[$product]['rate'].'/-';?></td>						
+				<td><?php if(isset($companyRateMap[$product])) echo $companyRateMap[$product]['recommended'].'/-';?></td>						
+			</tr>
+							<?php
+		}?> 
+			<tr>
+				<th></th>						
+				<th></th>										
+				<th>Total</th>
+				<th><?php echo $total;?></th>
+				<th style="border-color:white black white black;"></th>
+				<th></th>						
+				<th></th>										
+			</tr>
+		</table>
 	<br/><br/>
 	<table width="98%" class="table-responsive">
 		<tr class="tableheader">
 			<th>AR</th>
-			<th width="50px">PRODUCT</th>
-			<th width="50px;">QTY</th>
-			<th>BILL NO</th>
-			<th class="desktop">TRUCK NO</th>
-			<th>CUST. NAME</th>
-			<th class="desktop">CUST. PHONE</th>
+			<th width="60px">Rate</th>
+			<th width="50px">Product</th>
+			<th width="50px;">Qty</th>
+			<th>Bill</th>
+			<th class="desktop">Truck</th>
+			<th>Cust Name</th>
+			<th class="desktop">Cust Phone</th>
 			<th>REMARKS</th>
-			<th class="desktop">ADDRESS1</th>
-			<th class="desktop">ADDRESS2</th>
+			<th class="desktop">Address1</th>
+			<th class="desktop">Address2</th>
 		</tr>
 		<?php
-			while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) 
-			{																																?>
+			foreach($mainMap as $row) 
+			{			
+				$rowRate = getRate($row['entry_date'],$row['productId']);
+				if($rowRate == null)
+					$rowRate = 0;					
+				
+				$rowWD = getWD($row['entry_date'],$row['productId']);
+				if($rowWD == null)
+					$rowWD = 0;
+				
+				$rowCD = getCD($row['entry_date'],$row['productId'],$row['ar_id']);
+				if($rowCD == null)
+					$rowCD = 0;					
+				
+				$rowSD = getSD($row['entry_date'],$row['productId'],$row['ar_id']);
+				if($rowSD == null)
+					$rowSD = 0;										
+
+				$finalRate = $rowRate - $rowWD - $rowCD - $rowSD;																											?>			
 				<tr>
 					<td ><a href="edit.php?sales_id=<?php echo $row['sales_id'];?>"</a><?php echo $arMap[$row["ar_id"]]; ?></td>
-					<td align="center"><?php echo $productMap[$row["product"]]; ?></td>
+					<td align="center"><?php echo $finalRate.'/-'; ?></td>
+					<td align="center"><?php echo $row["product"]; ?></td>
 					<td align="center"><?php echo $row["qty"]; ?></td>
-					<td><?php echo $row["bill_no"]; ?></td>
-					<td class="desktop"><?php echo $row["truck_no"]; ?></td>
-					<td><?php echo $row["customer_name"]; ?></td>
-					<td class="desktop"><?php echo $row["customer_phone"]; ?></td>
+					<td><?php echo $row["bill"]; ?></td>
+					<td class="desktop"><?php echo $row["truck"]; ?></td>
+					<td><?php echo $row["name"]; ?></td>
+					<td class="desktop"><?php echo $row["phone"]; ?></td>
 					<td><?php echo $row["remarks"]; ?></td>
 					<td class="desktop"><?php echo $row["address1"]; ?></td>
 					<td class="desktop"><?php echo $row["address2"]; ?></td>

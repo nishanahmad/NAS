@@ -34,7 +34,7 @@ if(isset($_SESSION["user_name"]))
 					"serverSide": true,
 					"responsive": true,
 					"bJQueryUI":true,
-					"iDisplayLength": 2000,	
+					"iDisplayLength": 200,	
 					"aaSorting" : [[0, 'desc']],					
 					"ajax":{
 						url :"list_server.php", // json datasource
@@ -73,7 +73,7 @@ if(isset($_SESSION["user_name"]))
 	<body>
 		<div align="center">
 					<a href="../index.php" class="link"><img alt='home' title='home' src='../images/home.png' width='60px' height='60px'/> </a> &nbsp;&nbsp;&nbsp;
-					<a href="new.php" class="link"><img alt='Add' title='Add New' src='../images/addnew.png' width='60px' height='60px'/></a
+					<a href="new.php" class="link"><img alt='Add' title='Add New' src='../images/addnew.png' width='60px' height='60px'/></a>
 		
 		</div>
 <div align="center" class="gradient">
@@ -84,6 +84,7 @@ if(isset($_SESSION["user_name"]))
 <b>TOTAL : <span class='total'></span>
 </b></font>
 		<br><br><br><br>
+			<input type="text" data-column="0" style="width:50px" class="search-input-text textarea" placeholder="Id">&nbsp&nbsp
 			<input type="text" data-column="1"  class="search-input-text textarea" placeholder="Date">&nbsp&nbsp
 			<input type="text" data-column="2"  class="search-input-text textarea" placeholder="AR">&nbsp&nbsp
 			<input type="text" data-column="3"  class="search-input-text textarea" placeholder="Truck">&nbsp&nbsp
@@ -102,12 +103,12 @@ if(isset($_SESSION["user_name"]))
 							<th style="width:90px !important">Date</th>
 							<th style="width:200px !important">AR</th>
 							<th>Truck</th>
-							<th>PRODUCT</th>
-							<th>QTY</th>
-							<th>BILL NO</th>							
-							<th>CSTMR NAME</th>							
+							<th>Product</th>
+							<th>Qty</th>
+							<th>Bill</th>							
+							<th>Customer</th>							
 							<th>Engineer</th>							
-							<th>REMARKS</th>							
+							<th>Remarks</th>							
 						</tr>
 					</thead>
 			</table>

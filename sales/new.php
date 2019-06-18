@@ -37,131 +37,144 @@ if(isset($_SESSION["user_name"]))
 	var shopNameList = '<?php echo $shopNameArray;?>';
 	var shopName_array = JSON.parse(shopNameList);
 	var shopNameArray = shopName_array;									
+
+	
 	function arRefresh()
 	{
 		var arId = $('#ar').val();
 		var shopName = shopNameArray[arId];
 		$('#shopName').val(shopName);
-	}								
+	}
 	
-	$(function() {
+	
+	$(document).ready(function(){
 
+		$.ajax({
+			type: "POST",
+			url: "getRate.php",
+			data:'date='+$("#datepicker").val()+'&product='+$("#product").val(),
+			success: function(data){
+				var rate = data.split("-")[0];
+				var wd = data.split("-")[1];
+				$("#rate").val(rate);
+				$("#wd").val(wd);
+				refreshRate();
+			}
+		});		
+		
 		$("#engineer").select2();
 		$("#ar").select2();
 
 		var pickerOpts = { dateFormat:"dd-mm-yy"}; 
 					
 		$( "#datepicker" ).datepicker(pickerOpts);
-	});
-	
-	$("#datepicker").change(function(){
-		var product = $("#product").val();
-		var client = $("#ar").val();
-		$.ajax({
-			type: "POST",
-			url: "getRate.php",
-			data:'date='+$(this).val()+'&product='+product,
-			success: function(data){
-				var rate = data.split("-")[0];
-				var wd = data.split("-")[1];
-				$("#rate").val(rate);
-				$("#wd").val(wd);
-				refreshRate();
-			}
+		
+		$("#datepicker").change(function(){
+			var product = $("#product").val();
+			var client = $("#ar").val();
+			$.ajax({
+				type: "POST",
+				url: "getRate.php",
+				data:'date='+$(this).val()+'&product='+product,
+				success: function(data){
+					var rate = data.split("-")[0];
+					var wd = data.split("-")[1];
+					$("#rate").val(rate);
+					$("#wd").val(wd);
+					refreshRate();
+				}
+			});
+			$.ajax({
+				type: "POST",
+				url: "getCD.php",
+				data:'date='+$(this).val()+'&product='+product+'&client='+client,
+				success: function(data){
+					$("#cd").val(data);
+					refreshRate();
+				}
+			});		
+			$.ajax({
+				type: "POST",
+				url: "getSD.php",
+				data:'date='+$(this).val()+'&product='+product+'&client='+client,
+				success: function(data){
+					$("#sd").val(data);
+					refreshRate();
+				}
+			});		
 		});
-		$.ajax({
-			type: "POST",
-			url: "getCD.php",
-			data:'date='+$(this).val()+'&product='+product+'&client='+client,
-			success: function(data){
-				$("#cd").val(data);
-				refreshRate();
-			}
-		});		
-		$.ajax({
-			type: "POST",
-			url: "getSD.php",
-			data:'date='+$(this).val()+'&product='+product+'&client='+client,
-			success: function(data){
-				$("#sd").val(data);
-				refreshRate();
-			}
-		});		
-	});
-	
-	
-	
-	$("#product").change(function(){
-		var date = $("#datepicker").val();
-		var client = $("#ar").val();
-		$.ajax({
-			type: "POST",
-			url: "getRate.php",
-			data:'product='+$(this).val()+'&date='+date,
-			success: function(data){
-				var rate = data.split("-")[0];
-				var wd = data.split("-")[1];
-				$("#rate").val(rate);
-				$("#wd").val(wd);
-				refreshRate();
-			}
+		
+		
+		
+		$("#product").change(function(){
+			var date = $("#datepicker").val();
+			var client = $("#ar").val();
+			$.ajax({
+				type: "POST",
+				url: "getRate.php",
+				data:'product='+$(this).val()+'&date='+date,
+				success: function(data){
+					var rate = data.split("-")[0];
+					var wd = data.split("-")[1];
+					$("#rate").val(rate);
+					$("#wd").val(wd);
+					refreshRate();
+				}
+			});
+			$.ajax({
+				type: "POST",
+				url: "getCD.php",
+				data:'product='+$(this).val()+'&date='+date+'&client='+client,
+				success: function(data){
+					$("#cd").val(data);
+					refreshRate();
+				}
+			});				
+			$.ajax({
+				type: "POST",
+				url: "getSD.php",
+				data:'product='+$(this).val()+'&date='+date+'&client='+client,
+				success: function(data){
+					$("#sd").val(data);
+					refreshRate();
+				}
+			});						
 		});
-		$.ajax({
-			type: "POST",
-			url: "getCD.php",
-			data:'product='+$(this).val()+'&date='+date+'&client='+client,
-			success: function(data){
-				$("#cd").val(data);
-				refreshRate();
-			}
-		});				
-		$.ajax({
-			type: "POST",
-			url: "getSD.php",
-			data:'product='+$(this).val()+'&date='+date+'&client='+client,
-			success: function(data){
-				$("#sd").val(data);
-				refreshRate();
-			}
-		});						
+		
+		$("#ar").change(function(){
+			var date = $("#datepicker").val();
+			var product = $("#product").val();
+			$.ajax({
+				type: "POST",
+				url: "getCD.php",
+				data:'client='+$(this).val()+'&date='+date+'&product='+product,
+				success: function(data){
+					$("#cd").val(data);
+					refreshRate();
+				}
+			});			
+			$.ajax({
+				type: "POST",
+				url: "getSD.php",
+				data:'client='+$(this).val()+'&date='+date+'&product='+product,
+				success: function(data){
+					$("#sd").val(data);
+					refreshRate();
+				}
+			});					
+		});		
 	});
-
-
-
 	
-	$("#ar").change(function(){
-		var date = $("#datepicker").val();
-		var product = $("#product").val();
-		$.ajax({
-			type: "POST",
-			url: "getCD.php",
-			data:'client='+$(this).val()+'&date='+date+'&product='+product,
-			success: function(data){
-				$("#cd").val(data);
-				refreshRate();
-			}
-		});			
-		$.ajax({
-			type: "POST",
-			url: "getSD.php",
-			data:'client='+$(this).val()+'&date='+date+'&product='+product,
-			success: function(data){
-				$("#sd").val(data);
-				refreshRate();
-			}
-		});					
-	});	
-});
-
-function refreshRate()
-{
-	var rate=document.getElementById("rate").value;
-	var cd=document.getElementById("cd").value;
-	var sd=document.getElementById("sd").value;
-	var wd=document.getElementById("wd").value;
 	
-	$('#final').val(rate-cd-sd-wd);
-}	
+	function refreshRate()
+	{
+		var rate=document.getElementById("rate").value;
+		var cd=document.getElementById("cd").value;
+		var sd=document.getElementById("sd").value;
+		var wd=document.getElementById("wd").value;
+		
+		$('#final').val(rate-cd-sd-wd);
+	}	
 	</script>
 </head>
 <body>
@@ -255,34 +268,41 @@ function refreshRate()
 				<td><label>Shop</label></td>
 				<td><input type="text" readonly name="shopName" id="shopName" class="txtField"></td>	
 			</tr>
+			<tr>
+				<td><label>Final Rate</label></td>
+				<td><input readonly id="final" class="txtField"></td>			
+				
+				<td></td>
+				<td></td>	
+			</tr>
 			</tr>
 			<tr>
 			<td colspan="4"><div align="center"><input type="submit" name="submit" value="Submit" class="btnSubmit"></div></td>
 			</tr>
 		</table>
-		
-		<!--table border="0" cellpadding="15" cellspacing="0" width="40%" align="center" style="float:center" class="tblSaveForm">
+		<br/><br/>
+		<table border="0" cellpadding="5" cellspacing="0" width="30%" align="left" style="margin-left:10%">
 			<tr>
 				<td><label>Rate</label></td>
-				<td><input type="text" id="rate" class="txtField" name="rate"/></td>
+				<td><input readonly id="rate"/></td>
 			</tr>	
-			<tr>
-				<td><label>Cash Discount</label></td>
-				<td><input type="text" id="cd" class="txtField" name="cd"/></td>
-			</tr>	
-				<td><label>Special Discount</label></td>
-				<td><input type="text" id="sd" class="txtField" name="sd"/></td>				
 			<tr>	
 				<td><label>Wagon Discount</label></td>
-				<td><input type="text" id="wd" class="txtField" name="wd"/></td>								
-			</tr>
-		</table-->		
+				<td><input readonly id="wd"/></td>								
+			</tr>			
+			<tr>
+				<td><label>Cash Discount</label></td>
+				<td><input readonly id="cd"/></td>
+			</tr>	
+				<td><label>Special Discount</label></td>
+				<td><input readonly id="sd"/></td>				
+		</table>	
 		</div>
+		<br/><br/><br/><br/>		
 	</form>
-
-	<br>
+	<br/><br/><br/><br/>		
 </body>
-</html>																		<?php
+</html>																																						<?php
 }
 else
 	header("Location:../index.php");
