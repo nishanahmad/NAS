@@ -4,7 +4,10 @@ if(isset($_SESSION['user_name']))
 {
 	require '../connect.php';
     
-	$status = $_GET['status'];
+	if(isset($_GET['status']))
+		$status = $_GET['status'];
+	else
+		$status = 0;
 	
 	if($status == 1)
 		$discounts = mysqli_query($con,"SELECT * FROM discounts WHERE status = 1 ORDER BY date DESC") or die(mysqli_error($con));
