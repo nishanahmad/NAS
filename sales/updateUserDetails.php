@@ -97,6 +97,17 @@ function updateUserDetails($oldSale,$newSale)
 
 		$insert = mysqli_query($con, $sql) or die(mysqli_error($con));
 	}	
+	if($oldSale['discount'] != $newSale['discount'])
+	{
+		$oldValue = $oldSale['discount'];
+		$newValue = $newSale['discount'];
+		
+		$sql="INSERT INTO sale_edits (sale_id, edited_on, edited_by, field, old_value, new_value)
+			 VALUES
+			 ($id, '$dateTime', '$user', 'Discount', '$oldValue', '$newValue')";
+
+		$insert = mysqli_query($con, $sql) or die(mysqli_error($con));
+	}		
 	if($oldSale['remarks'] != $newSale['remarks'])
 	{
 		$oldValue = $oldSale['remarks'];

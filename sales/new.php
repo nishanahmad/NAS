@@ -162,7 +162,11 @@ if(isset($_SESSION["user_name"]))
 					refreshRate();
 				}
 			});					
-		});		
+		});	
+
+		$("#bd").change(function(){
+			refreshRate();
+		});			
 	});
 	
 	
@@ -172,8 +176,9 @@ if(isset($_SESSION["user_name"]))
 		var cd=document.getElementById("cd").value;
 		var sd=document.getElementById("sd").value;
 		var wd=document.getElementById("wd").value;
+		var bd=document.getElementById("bd").value;
 		
-		$('#final').val(rate-cd-sd-wd);
+		$('#final').val(rate-cd-sd-wd-bd);
 	}	
 	</script>
 </head>
@@ -268,6 +273,13 @@ if(isset($_SESSION["user_name"]))
 				<td><label>Shop</label></td>
 				<td><input type="text" readonly name="shopName" id="shopName" class="txtField"></td>	
 			</tr>
+			<tr>
+				<td><label>Bill Discount</label></td>
+				<td><input type="text" name="bd" id="bd" class="txtField" pattern="[0-9]+" title="Input a valid number"></td>			
+				
+				<td></td>
+				<td></td>	
+			</tr>			
 			<tr>
 				<td><label>Final Rate</label></td>
 				<td><input readonly id="final" class="txtField"></td>			

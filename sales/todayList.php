@@ -79,6 +79,7 @@ if(isset($_SESSION["user_name"]))
 		$mainMap[$i]['product'] = $productNameMap[$row['product']];
 		$mainMap[$i]['productId'] = $row['product'];
 		$mainMap[$i]['qty'] = $row['qty'];
+		$mainMap[$i]['discount'] = $row['discount'];
 		$mainMap[$i]['bill'] = $row['bill_no'];
 		$mainMap[$i]['name'] = $row['customer_name'];
 		$mainMap[$i]['phone'] = $row['customer_phone'];
@@ -215,7 +216,7 @@ if(isset($_SESSION["user_name"]))
 				if($rowSD == null)
 					$rowSD = 0;										
 
-				$finalRate = $rowRate - $rowWD - $rowCD - $rowSD;																											?>			
+				$finalRate = $rowRate - $rowWD - $rowCD - $rowSD -$row['discount'];																											?>			
 				<tr>
 					<td ><a href="edit.php?sales_id=<?php echo $row['sales_id'];?>"</a><?php echo $arMap[$row["ar_id"]]; ?></td>
 					<td align="center"><?php echo $finalRate.'/-'; ?></td>

@@ -21,6 +21,7 @@ if(isset($_SESSION["user_name"]))
 		$product = $_POST['product'];
 		$qty = $_POST['qty'];
 		$return = $_POST['return'];	
+		$discount = $_POST['bd'];	
 		$remarks = $_POST['remarks'];
 		$bill = $_POST['bill'];
 		$customerName = $_POST['customerName'];
@@ -29,6 +30,9 @@ if(isset($_SESSION["user_name"]))
 		$address2 = $_POST['address2'];
 		$entered_by = $_SESSION["user_name"];
 		$entered_on = date('Y-m-d H:i:s');	
+
+		if(empty($discount))
+			$discount = null;			
 		if(empty($engId))
 			$engId = null;	
 		if(empty($return))
@@ -36,7 +40,7 @@ if(isset($_SESSION["user_name"]))
 		
 		
 		$update = mysqli_query($con,"UPDATE nas_sale SET entry_date='$sqlDate', ar_id='$arId', eng_id = ".var_export($engId, true).", truck_no='$truck',
-									product='$product',qty='$qty',return_bag=".var_export($return, true).",remarks='$remarks', 
+									product='$product',qty='$qty',return_bag=".var_export($return, true).",discount=".var_export($discount, true).",remarks='$remarks', 
 									bill_no='$bill',address1='$address1', address2='$address2', customer_name='$customerName', customer_phone='$customerPhone'
 									WHERE sales_id='$id'") or die(mysqli_error($con));
 					
