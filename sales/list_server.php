@@ -203,9 +203,10 @@ while( $row=mysqli_fetch_array($query) )
 	$nestedData[] = $arMap[$row['ar_id']];
 	
 	if(isset($rateMap[$row['product']][$row['entry_date']]))
-		$rate = $rateMap[$row['product']][$row['entry_date']];
+		$rate = $rateMap[$row['product']][$row['entry_date']];	
 	else
 		$rate = 0;
+		
 	if(isset($sdMap[$row['product']][$row['ar_id']][$row['entry_date']]))
 		$sd = $sdMap[$row['product']][$row['ar_id']][$row['entry_date']];
 	else
@@ -233,8 +234,6 @@ while( $row=mysqli_fetch_array($query) )
 		$nestedData[] = null;
 	$nestedData[] = $row["remarks"];
 		
-
-
 	$data[] = $nestedData;
 }
 
