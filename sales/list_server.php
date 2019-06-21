@@ -3,6 +3,12 @@ session_start();
 if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
+	require '../functions/discountMaps.php';
+	
+	$rateMap = getRateMap();
+	$sdMap = getSDMap();
+	$cdMap = getCDMap();
+	$wdMap = getWDMap();	
 
 	$requestData= $_REQUEST;
 		
@@ -10,25 +16,26 @@ if(isset($_SESSION["user_name"]))
 		0 =>'sales_id', 
 		1 =>'entry_date', 
 		2 =>'ar_id', 
-		3 => 'truck_no',
+		3 =>'discount',
 		4=> 'product',
 		5=> 'qty',
 		6=> 'bill_no',
-		7=> 'customer_name',
-		8=> 'eng_id',
-		9=> 'remarks'
+		7 => 'truck_no',
+		8=> 'customer_name',
+		9=> 'eng_id',
+		10=> 'remarks'
 	);
 
 // getting total number records without any search
 
-	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,product,qty,bill_no,customer_name,eng_id,remarks,return_bag";
+	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,product,qty,discount,bill_no,customer_name,eng_id,remarks,return_bag";
 	$sql.=" FROM nas_sale";
 	$query=mysqli_query($con, $sql) or die(mysqli_error($con).' LINE 26');	
 	$totalData = mysqli_num_rows($query);
 	$totalFiltered = $totalData;  // when there is no search parameter then total number rows = total number filtered rows.
 
 
-	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,product,qty,bill_no,customer_name,eng_id,remarks,return_bag";
+	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,product,qty,discount,bill_no,customer_name,eng_id,remarks,return_bag";
 	$sql.=" FROM nas_sale where 1=1  ";
 
 
@@ -109,14 +116,9 @@ if( !empty($requestData['columns'][2]['search']['value']) )
 }
 
 if( !empty($requestData['columns'][3]['search']['value']) )
-{ //truck
-	$sql.=" AND truck_no LIKE '%".$requestData['columns'][3]['search']['value']."%' ";
-}
-
-if( !empty($requestData['columns'][4]['search']['value']) )
 { //product
-	$searchString = $requestData['columns'][4]['search']['value'];
-	$products =  mysqli_query($con, "SELECT id FROM product WHERE name LIKE '%".$searchString."%' ") or die(mysqli_error($con).' LINE 119');	
+	$searchString = $requestData['columns'][3]['search']['value'];
+	$products =  mysqli_query($con, "SELECT id FROM products WHERE name LIKE '%".$searchString."%' ") or die(mysqli_error($con).' LINE 119');	
 	$firstEntry  = true;
 	foreach($products as $product)
 	{
@@ -130,14 +132,19 @@ if( !empty($requestData['columns'][4]['search']['value']) )
 			$sql.=")";		
 }
 
-if( !empty($requestData['columns'][5]['search']['value']) )
+if( !empty($requestData['columns'][4]['search']['value']) )
 { //qty
-	$sql.=" AND qty LIKE '".$requestData['columns'][5]['search']['value']."%' ";
+	$sql.=" AND qty LIKE '".$requestData['columns'][4]['search']['value']."%' ";
+}
+
+if( !empty($requestData['columns'][5]['search']['value']) )
+{ //bill_no
+	$sql.=" AND bill_no LIKE '".$requestData['columns'][5]['search']['value']."%' ";
 }
 
 if( !empty($requestData['columns'][6]['search']['value']) )
-{ //bill_no
-	$sql.=" AND bill_no LIKE '".$requestData['columns'][6]['search']['value']."%' ";
+{ //truck
+	$sql.=" AND truck_no LIKE '%".$requestData['columns'][6]['search']['value']."%' ";
 }
 
 if( !empty($requestData['columns'][7]['search']['value']) )
@@ -174,11 +181,6 @@ $sql.=" ORDER BY ". $columns[$requestData['order'][0]['column']]."   ".$requestD
 $query=mysqli_query($con, $sql) or die(mysqli_error($con).' LINE 177 --'.$sql);			
 
 
-$fp = fopen('results.json', 'w');
-fwrite($fp, json_encode($_REQUEST));
-fclose($fp);
-
-
 $arObjects =  mysqli_query($con,"SELECT id,name FROM ar_details ORDER BY name ASC ") or die(mysqli_error($con));		 
 foreach($arObjects as $ar)
 {
@@ -199,17 +201,39 @@ while( $row=mysqli_fetch_array($query) )
 	$nestedData[] = '<a href="edit.php?clicked_from=all_sales&sales_id='.$row["sales_id"].'">'.$row["sales_id"].'</a>';
 	$nestedData[] = date('d-m-Y',strtotime($row['entry_date']));
 	$nestedData[] = $arMap[$row['ar_id']];
-	$nestedData[] = $row["truck_no"];
+	
+	if(isset($rateMap[$row['product']][$row['entry_date']]))
+		$rate = $rateMap[$row['product']][$row['entry_date']];
+	else
+		$rate = 0;
+	if(isset($sdMap[$row['product']][$row['ar_id']][$row['entry_date']]))
+		$sd = $sdMap[$row['product']][$row['ar_id']][$row['entry_date']];
+	else
+		$sd = 0;
+	if(isset($cdMap[$row['product']][$row['ar_id']][$row['entry_date']]))
+		$cd = $cdMap[$row['product']][$row['ar_id']][$row['entry_date']];
+	else
+		$cd = 0;
+	if(isset($wdMap[$row['product']][$row['entry_date']]))
+		$wd = $wdMap[$row['product']][$row['entry_date']];
+	else
+		$wd = 0;
+	
+	$rate = $rate - $sd - $cd - $wd - $row['discount'];			
+	$nestedData[] = $rate.'/-';
 	$nestedData[] = $productMap[$row['product']];
 	$nestedData[] = $row["qty"] - $row["return_bag"];
 		$total = $total + $row["qty"] - $row["return_bag"];
 	$nestedData[] = $row["bill_no"];
+	$nestedData[] = $row["truck_no"];
 	$nestedData[] = $row["customer_name"];
 	if(isset($arMap[$row['eng_id']]))
 		$nestedData[] = $arMap[$row['eng_id']];
 	else
 		$nestedData[] = null;
 	$nestedData[] = $row["remarks"];
+		
+
 
 	$data[] = $nestedData;
 }
