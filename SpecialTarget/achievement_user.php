@@ -150,9 +150,8 @@ if(isset($_SESSION["user_name"]))
 		var removeToday = $('#removeToday').is(':checked');
 		
 		var hrf = window.location.href;
-		hrf = hrf.slice(0,hrf.indexOf("&removeToday="));
-		
-		window.location.href = hrf + "&removeToday=" + removeToday;
+		hrf = hrf.slice(0,hrf.indexOf("?"));
+		window.location.href = hrf + "?removeToday=" + removeToday;
 	}
 	
 	function refreshYear()
