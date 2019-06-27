@@ -14,10 +14,11 @@ if(isset($_SESSION["user_name"]))
 		$productNameMap[$product['id']] = $product['name'];
 	}
 	
-	$arObjects = mysqli_query($con,"SELECT id,name FROM ar_details ORDER BY name ASC") or die(mysqli_error($con));	
+	$arObjects = mysqli_query($con,"SELECT id,name,type FROM ar_details ORDER BY name ASC") or die(mysqli_error($con));	
 	foreach($arObjects as $ar)
 	{
-		$arMap[$ar['id']] = $ar['name']; 
+		$arMap[$ar['id']]['name'] = $ar['name']; 
+		$arMap[$ar['id']]['type'] = $ar['type']; 
 	}
 
 	if($_GET['ar'] != 'all')
@@ -127,9 +128,9 @@ if(isset($_SESSION["user_name"]))
 	<div align="center">
 		<select name="ar" id="ar" onchange="document.location.href = 'todayList.php?ar=' + this.value" class="txtField">
 			<option value = "all" <?php if($urlId == 'all') echo 'selected';?> >ALL</option>													    	<?php
-			foreach($arMap as $arId => $arName)
+			foreach($arMap as $arId => $ar)
 			{																																			?>
-				<option value="<?php echo $arId;?>" <?php if($urlId == $arId) echo 'selected';?>><?php echo $arName;?></option> 						<?php
+				<option value="<?php echo $arId;?>" <?php if($urlId == $arId) echo 'selected';?>><?php echo $ar['name'];?></option> 						<?php
 			}																																			?>
 		</select>
 			  
@@ -204,9 +205,14 @@ if(isset($_SESSION["user_name"]))
 				if($rowRate == null)
 					$rowRate = 0;					
 				
-				$rowWD = $wdMap[$row['productId']];
-				if($rowWD == null)
-					$rowWD = 0;		
+				if($arMap[$row['ar_id']]['type'] == 'AR/SR')
+				{
+					$rowWD = $wdMap[$row['productId']];
+					if($rowWD == null)
+						$rowWD = 0;							
+				}
+				else
+					$rowWD = 0;							
 			
 				$rowCD = getCD($row['entry_date'],$row['productId'],$row['ar_id']);
 				if($rowCD == null)
@@ -218,7 +224,7 @@ if(isset($_SESSION["user_name"]))
 
 				$finalRate = $rowRate - $rowWD - $rowCD - $rowSD -$row['discount'];																											?>			
 				<tr>
-					<td ><a href="edit.php?sales_id=<?php echo $row['sales_id'];?>"</a><?php echo $arMap[$row["ar_id"]]; ?></td>
+					<td ><a href="edit.php?sales_id=<?php echo $row['sales_id'];?>"</a><?php echo $arMap[$row["ar_id"]]['name']; ?></td>
 					<td align="center"><?php echo $finalRate.'/-'; ?></td>
 					<td align="center"><?php echo $row["product"]; ?></td>
 					<td align="center"><?php echo $row["qty"]; ?></td>

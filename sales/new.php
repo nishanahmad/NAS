@@ -47,47 +47,85 @@ if(isset($_SESSION["user_name"]))
 	}
 	
 	
-	$(document).ready(function(){
-
-		$.ajax({
-			type: "POST",
-			url: "getRate.php",
-			data:'date='+$("#datepicker").val()+'&product='+$("#product").val(),
-			success: function(data){
-				var rate = data.split("-")[0];
-				var wd = data.split("-")[1];
-				$("#rate").val(rate);
-				$("#wd").val(wd);
-				refreshRate();
-			}
-		});		
-		
+	$(document).ready(function()
+	{
 		$("#engineer").select2();
 		$("#ar").select2();
 
 		var pickerOpts = { dateFormat:"dd-mm-yy"}; 
-					
 		$( "#datepicker" ).datepicker(pickerOpts);
+
+
 		
-		$("#datepicker").change(function(){
-			var product = $("#product").val();
-			var client = $("#ar").val();
+		var date = $("#datepicker").val();
+		var product = $("#product").val();
+		var client = $("#ar").val();
+
+		$.ajax({
+			type: "POST",
+			url: "getRate.php",
+			data:'date='+date+'&product='+product,
+			success: function(data){
+				var rate = data;
+				$("#rate").val(rate);
+				refreshRate();
+			}
+		});		
+		
+		$.ajax({
+			type: "POST",
+			url: "getWD.php",
+			data:'product='+product+'&date='+date,
+			success: function(data){
+				$("#wd").val(data);
+				refreshRate();
+			}
+		});				
+		
+		$("#datepicker").change(function()
+		{
+			date = $(this).val();
+			product = $("#product").val();
+			client = $("#ar").val();
+			
 			$.ajax({
 				type: "POST",
 				url: "getRate.php",
-				data:'date='+$(this).val()+'&product='+product,
+				data:'date='+date+'&product='+product,
 				success: function(data){
-					var rate = data.split("-")[0];
-					var wd = data.split("-")[1];
+					var rate = data;
 					$("#rate").val(rate);
-					$("#wd").val(wd);
 					refreshRate();
 				}
 			});
 			$.ajax({
 				type: "POST",
+				url: "checkEngineer.php",
+				data:'client='+client,
+				success: function(data){
+					if(data.includes("Engineer"))
+					{
+						$("#wd").val(0);
+						refreshRate();
+					}
+					else
+					{
+						$.ajax({
+							type: "POST",
+							url: "getWD.php",
+							data:'product='+product+'&date='+date,
+							success: function(data){
+								$("#wd").val(data);
+								refreshRate();
+							}
+						});										
+					}
+				}
+			});															
+			$.ajax({
+				type: "POST",
 				url: "getCD.php",
-				data:'date='+$(this).val()+'&product='+product+'&client='+client,
+				data:'date='+date+'&product='+product+'&client='+client,
 				success: function(data){
 					$("#cd").val(data);
 					refreshRate();
@@ -96,7 +134,7 @@ if(isset($_SESSION["user_name"]))
 			$.ajax({
 				type: "POST",
 				url: "getSD.php",
-				data:'date='+$(this).val()+'&product='+product+'&client='+client,
+				data:'date='+date+'&product='+product+'&client='+client,
 				success: function(data){
 					$("#sd").val(data);
 					refreshRate();
@@ -106,25 +144,35 @@ if(isset($_SESSION["user_name"]))
 		
 		
 		
-		$("#product").change(function(){
-			var date = $("#datepicker").val();
-			var client = $("#ar").val();
+		$("#product").change(function()
+		{
+			date = $("#datepicker").val();
+			product = $(this).val();
+			client = $("#ar").val();
+			
 			$.ajax({
 				type: "POST",
 				url: "getRate.php",
-				data:'product='+$(this).val()+'&date='+date,
+				data:'product='+product+'&date='+date,
 				success: function(data){
-					var rate = data.split("-")[0];
-					var wd = data.split("-")[1];
+					var rate = data;
 					$("#rate").val(rate);
-					$("#wd").val(wd);
 					refreshRate();
 				}
-			});
+			});			
+			$.ajax({
+				type: "POST",
+				url: "getWD.php",
+				data:'product='+product+'&date='+date,
+				success: function(data){
+					$("#wd").val(data);
+					refreshRate();
+				}
+			});										
 			$.ajax({
 				type: "POST",
 				url: "getCD.php",
-				data:'product='+$(this).val()+'&date='+date+'&client='+client,
+				data:'product='+product+'&date='+date+'&client='+client,
 				success: function(data){
 					$("#cd").val(data);
 					refreshRate();
@@ -133,21 +181,47 @@ if(isset($_SESSION["user_name"]))
 			$.ajax({
 				type: "POST",
 				url: "getSD.php",
-				data:'product='+$(this).val()+'&date='+date+'&client='+client,
+				data:'product='+product+'&date='+date+'&client='+client,
 				success: function(data){
 					$("#sd").val(data);
 					refreshRate();
 				}
-			});						
+			});	
+			$.ajax({
+				type: "POST",
+				url: "checkEngineer.php",
+				data:'client='+client,
+				success: function(data){
+					if(data.includes("Engineer"))
+					{
+						$("#wd").val(0);
+						refreshRate();
+					}
+					else
+					{
+						$.ajax({
+							type: "POST",
+							url: "getWD.php",
+							data:'product='+product+'&date='+date,
+							success: function(data){
+								$("#wd").val(data);
+								refreshRate();
+							}
+						});										
+					}
+				}
+			});															
 		});
 		
-		$("#ar").change(function(){
+		$("#ar").change(function()
+		{
 			var date = $("#datepicker").val();
 			var product = $("#product").val();
+			var client = $(this).val();
 			$.ajax({
 				type: "POST",
 				url: "getCD.php",
-				data:'client='+$(this).val()+'&date='+date+'&product='+product,
+				data:'client='+client+'&date='+date+'&product='+product,
 				success: function(data){
 					$("#cd").val(data);
 					refreshRate();
@@ -156,12 +230,36 @@ if(isset($_SESSION["user_name"]))
 			$.ajax({
 				type: "POST",
 				url: "getSD.php",
-				data:'client='+$(this).val()+'&date='+date+'&product='+product,
+				data:'client='+client+'&date='+date+'&product='+product,
 				success: function(data){
 					$("#sd").val(data);
 					refreshRate();
 				}
 			});					
+			$.ajax({
+				type: "POST",
+				url: "checkEngineer.php",
+				data:'client='+client,
+				success: function(data){
+					if(data.includes("Engineer"))
+					{
+						$("#wd").val(0);
+						refreshRate();
+					}
+					else
+					{
+						$.ajax({
+							type: "POST",
+							url: "getWD.php",
+							data:'product='+product+'&date='+date,
+							success: function(data){
+								$("#wd").val(data);
+								refreshRate();
+							}
+						});										
+					}
+				}
+			});			
 		});	
 
 		$("#bd").change(function(){
@@ -171,7 +269,7 @@ if(isset($_SESSION["user_name"]))
 	
 	
 	function refreshRate()
-	{
+	{				
 		var rate=document.getElementById("rate").value;
 		var cd=document.getElementById("cd").value;
 		var sd=document.getElementById("sd").value;

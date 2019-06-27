@@ -48,7 +48,8 @@ if(isset($_SESSION["user_name"]))
 			$('#shopName').val(shopName);
 		}								
 			
-		$(function() {
+		$(document).ready(function()
+		{
 			$("#ar").select2();
 			$("#engineer").select2();
 			
@@ -59,22 +60,49 @@ if(isset($_SESSION["user_name"]))
 			var shopName = shopNameArray[arId];
 			$('#shopName').val(shopName);	
 				
+		
+			var date = $("#datepicker").val();
+			var product = $("#product").val();
+			var client = $("#ar").val();
+			
 			$.ajax({
 				type: "POST",
 				url: "getRate.php",
-				data:'date='+$("#datepicker").val()+'&product='+$("#product").val(),
+				data:'date='+date+'&product='+product,
 				success: function(data){
-					var rate = data.split("-")[0];
-					var wd = data.split("-")[1];
+					var rate = data;
 					$("#rate").val(rate);
-					$("#wd").val(wd);
 					refreshRate();
 				}
-			});	
+			});
+			$.ajax({
+				type: "POST",
+				url: "checkEngineer.php",
+				data:'client='+client,
+				success: function(data){
+					if(data.includes("Engineer"))
+					{
+						$("#wd").val(0);
+						refreshRate();
+					}
+					else
+					{
+						$.ajax({
+							type: "POST",
+							url: "getWD.php",
+							data:'product='+product+'&date='+date,
+							success: function(data){
+								$("#wd").val(data);
+								refreshRate();
+							}
+						});										
+					}
+				}
+			});
 			$.ajax({
 				type: "POST",
 				url: "getCD.php",
-				data:'date='+$("#datepicker").val()+'&product='+$("#product").val()+'&client='+$("#ar").val(),
+				data:'date='+date+'&product='+product+'&client='+client,
 				success: function(data){
 					$("#cd").val(data);
 					refreshRate();
@@ -83,32 +111,57 @@ if(isset($_SESSION["user_name"]))
 			$.ajax({
 				type: "POST",
 				url: "getSD.php",
-				data:'date='+$("#datepicker").val()+'&product='+$("#product").val()+'&client='+$("#ar").val(),
+				data:'date='+date+'&product='+product+'&client='+client,
 				success: function(data){
 					$("#sd").val(data);
 					refreshRate();
 				}
 			});	
 
-			$("#datepicker").change(function(){
+			$("#datepicker").change(function()
+			{
+				var date = $(this).val();
 				var product = $("#product").val();
 				var client = $("#ar").val();
+				
 				$.ajax({
 					type: "POST",
 					url: "getRate.php",
-					data:'date='+$(this).val()+'&product='+product,
+					data:'date='+date+'&product='+product,
 					success: function(data){
-						var rate = data.split("-")[0];
-						var wd = data.split("-")[1];
+						var rate = data;
 						$("#rate").val(rate);
-						$("#wd").val(wd);
 						refreshRate();
 					}
 				});
 				$.ajax({
 					type: "POST",
+					url: "checkEngineer.php",
+					data:'client='+client,
+					success: function(data){
+						if(data.includes("Engineer"))
+						{
+							$("#wd").val(0);
+							refreshRate();
+						}
+						else
+						{
+							$.ajax({
+								type: "POST",
+								url: "getWD.php",
+								data:'product='+product+'&date='+date,
+								success: function(data){
+									$("#wd").val(data);
+									refreshRate();
+								}
+							});										
+						}
+					}
+				});												
+				$.ajax({
+					type: "POST",
 					url: "getCD.php",
-					data:'date='+$(this).val()+'&product='+product+'&client='+client,
+					data:'date='+date+'&product='+product+'&client='+client,
 					success: function(data){
 						$("#cd").val(data);
 						refreshRate();
@@ -117,7 +170,7 @@ if(isset($_SESSION["user_name"]))
 				$.ajax({
 					type: "POST",
 					url: "getSD.php",
-					data:'date='+$(this).val()+'&product='+product+'&client='+client,
+					data:'date='+date+'&product='+product+'&client='+client,
 					success: function(data){
 						$("#sd").val(data);
 						refreshRate();
@@ -127,25 +180,35 @@ if(isset($_SESSION["user_name"]))
 			
 			
 			
-			$("#product").change(function(){
-				var date = $("#datepicker").val();
-				var client = $("#ar").val();
+			$("#product").change(function()
+			{
+				date = $("#datepicker").val();
+				product = $(this).val();
+				client = $("#ar").val();
+				
 				$.ajax({
 					type: "POST",
 					url: "getRate.php",
-					data:'product='+$(this).val()+'&date='+date,
+					data:'product='+product+'&date='+date,
 					success: function(data){
-						var rate = data.split("-")[0];
-						var wd = data.split("-")[1];
+						var rate = data;
 						$("#rate").val(rate);
-						$("#wd").val(wd);
 						refreshRate();
 					}
-				});
+				});			
+				$.ajax({
+					type: "POST",
+					url: "getWD.php",
+					data:'product='+product+'&date='+date,
+					success: function(data){
+						$("#wd").val(data);
+						refreshRate();
+					}
+				});										
 				$.ajax({
 					type: "POST",
 					url: "getCD.php",
-					data:'product='+$(this).val()+'&date='+date+'&client='+client,
+					data:'product='+product+'&date='+date+'&client='+client,
 					success: function(data){
 						$("#cd").val(data);
 						refreshRate();
@@ -154,21 +217,47 @@ if(isset($_SESSION["user_name"]))
 				$.ajax({
 					type: "POST",
 					url: "getSD.php",
-					data:'product='+$(this).val()+'&date='+date+'&client='+client,
+					data:'product='+product+'&date='+date+'&client='+client,
 					success: function(data){
 						$("#sd").val(data);
 						refreshRate();
 					}
-				});						
+				});	
+				$.ajax({
+					type: "POST",
+					url: "checkEngineer.php",
+					data:'client='+client,
+					success: function(data){
+						if(data.includes("Engineer"))
+						{
+							$("#wd").val(0);
+							refreshRate();
+						}
+						else
+						{
+							$.ajax({
+								type: "POST",
+								url: "getWD.php",
+								data:'product='+product+'&date='+date,
+								success: function(data){
+									$("#wd").val(data);
+									refreshRate();
+								}
+							});										
+						}
+					}
+				});															
 			});
 			
-			$("#ar").change(function(){
+			$("#ar").change(function()
+			{
 				var date = $("#datepicker").val();
 				var product = $("#product").val();
+				var client = $(this).val();
 				$.ajax({
 					type: "POST",
 					url: "getCD.php",
-					data:'client='+$(this).val()+'&date='+date+'&product='+product,
+					data:'client='+client+'&date='+date+'&product='+product,
 					success: function(data){
 						$("#cd").val(data);
 						refreshRate();
@@ -177,14 +266,37 @@ if(isset($_SESSION["user_name"]))
 				$.ajax({
 					type: "POST",
 					url: "getSD.php",
-					data:'client='+$(this).val()+'&date='+date+'&product='+product,
+					data:'client='+client+'&date='+date+'&product='+product,
 					success: function(data){
 						$("#sd").val(data);
 						refreshRate();
 					}
 				});					
-			});
-
+				$.ajax({
+					type: "POST",
+					url: "checkEngineer.php",
+					data:'client='+client,
+					success: function(data){
+						if(data.includes("Engineer"))
+						{
+							$("#wd").val(0);
+							refreshRate();
+						}
+						else
+						{
+							$.ajax({
+								type: "POST",
+								url: "getWD.php",
+								data:'product='+product+'&date='+date,
+								success: function(data){
+									$("#wd").val(data);
+									refreshRate();
+								}
+							});										
+						}
+					}
+				});			
+			});	
 			$("#bd").change(function(){
 				refreshRate();
 			});						

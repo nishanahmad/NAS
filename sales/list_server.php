@@ -181,10 +181,11 @@ $sql.=" ORDER BY ". $columns[$requestData['order'][0]['column']]."   ".$requestD
 $query=mysqli_query($con, $sql) or die(mysqli_error($con).' LINE 177 --'.$sql);			
 
 
-$arObjects =  mysqli_query($con,"SELECT id,name FROM ar_details ORDER BY name ASC ") or die(mysqli_error($con));		 
+$arObjects =  mysqli_query($con,"SELECT id,name,type FROM ar_details ORDER BY name ASC ") or die(mysqli_error($con));		 
 foreach($arObjects as $ar)
 {
-	$arMap[$ar['id']] = $ar['name'];
+	$arMap[$ar['id']]['name'] = $ar['name'];
+	$arMap[$ar['id']]['type'] = $ar['type'];
 }			
 $products =  mysqli_query($con,"SELECT id,name FROM products") or die(mysqli_error($con));		 
 foreach($products as $product)
@@ -200,7 +201,7 @@ while( $row=mysqli_fetch_array($query) )
 
 	$nestedData[] = '<a href="edit.php?clicked_from=all_sales&sales_id='.$row["sales_id"].'">'.$row["sales_id"].'</a>';
 	$nestedData[] = date('d-m-Y',strtotime($row['entry_date']));
-	$nestedData[] = $arMap[$row['ar_id']];
+	$nestedData[] = $arMap[$row['ar_id']]['name'];
 	
 	if(isset($rateMap[$row['product']][$row['entry_date']]))
 		$rate = $rateMap[$row['product']][$row['entry_date']];	
@@ -215,7 +216,7 @@ while( $row=mysqli_fetch_array($query) )
 		$cd = $cdMap[$row['product']][$row['ar_id']][$row['entry_date']];
 	else
 		$cd = 0;
-	if(isset($wdMap[$row['product']][$row['entry_date']]))
+	if(isset($wdMap[$row['product']][$row['entry_date']]) && $arMap[$row['ar_id']]['type'] == 'AR/SR')
 		$wd = $wdMap[$row['product']][$row['entry_date']];
 	else
 		$wd = 0;
@@ -229,7 +230,7 @@ while( $row=mysqli_fetch_array($query) )
 	$nestedData[] = $row["truck_no"];
 	$nestedData[] = $row["customer_name"];
 	if(isset($arMap[$row['eng_id']]))
-		$nestedData[] = $arMap[$row['eng_id']];
+		$nestedData[] = $arMap[$row['eng_id']]['name'];
 	else
 		$nestedData[] = null;
 	$nestedData[] = $row["remarks"];
