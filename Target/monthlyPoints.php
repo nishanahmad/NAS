@@ -84,6 +84,11 @@ if(isset($_SESSION["user_name"]))
 ?>
 <html>
 <head>
+<style>
+.selected{
+	background-color:#ffb3b3 !important;
+}
+</style>
 <link rel="stylesheet" type="text/css" href="../css/loader.css">	
 <link rel="stylesheet" type="text/css" href="../css/responstable.css">
 <link rel="stylesheet" type="text/css" href="../css/glow_box.css">
@@ -95,6 +100,14 @@ if(isset($_SESSION["user_name"]))
 <script src="../js/tableExport.js"></script>
 <script type="text/javascript" language="javascript">
 $(document).ready(function() {
+	
+	$(".responstable tr").each(function(){
+		var extra = $(this).find("td:eq(6)").text();   
+		if (extra != '0' && extra != ''){
+		  $(this).addClass('selected');
+		}
+	});
+	  
 	$("#loader").hide();
 
 	$("#Points").tablesorter(); 
