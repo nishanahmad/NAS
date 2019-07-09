@@ -14,7 +14,7 @@ if(isset($_SESSION["user_name"]))
 		$area = $_POST['area'];
 		$qty = (int)$_POST['qty'];
 		$bags = (int)$_POST['bags'];
-		$remarks = (int)$_POST['remarks'];
+		$remarks = $_POST['remarks'];
 		
 		$update = mysqli_query($con,"UPDATE sheets SET date='$sqlDate',name='$name', phone='$phone',qty=$qty,bags='$bags',area='$area',remarks='$remarks' WHERE id=$id") or die(mysqli_error($con));	
 			  
