@@ -72,11 +72,14 @@
 									, <i class="fa fa-phone"></i> <a href="tel:<?php echo $sheet['phone'];?>"><?php echo $sheet['phone'];?></a></p>
 									<p><i class="fa fa-copy"></i> <?php echo $sheet['bags'].' bags';?></p>
 									<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['date']));?></p>
+									<p><i class="fa fa-university"></i> <?php echo $sheet['shop'];?></p>
+									<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>
 									<p><i class="fa fa-truck"></i> Requested by <?php echo $sheet['requested_by'];?></p>
 								</div>
 								<br/>
 							</div>
 							<div align="center">
+								<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;								
 								<button class="btn btn-primary" onclick="deliver(<?php echo $sheet['id'];?>)">Deliver</button>&nbsp;&nbsp;&nbsp;&nbsp;				
 								<button class="btn btn-danger" onclick="cancel(<?php echo $sheet['id'];?>)">Cancel</button>				
 							</div>

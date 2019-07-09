@@ -8,9 +8,10 @@ if(isset($_SESSION["user_name"]))
 {
 	$sqlDate = date("Y-m-d");
 	$id = $_GET['id'];
-	$delivered_by = $_SESSION['user_name'];
+	$closed_by = $_SESSION['user_id'];
+	$closed_on = date("Y-m-d");
 
-	$updateQuery = mysqli_query($con,"UPDATE sheets SET status ='cancelled' WHERE id=$id ") or die(mysqli_error($con));
+	$updateQuery = mysqli_query($con,"UPDATE sheets SET status ='cancelled',closed_by = '$closed_by',closed_on='$closed_on' WHERE id=$id ") or die(mysqli_error($con));
 	header( "Location: index.php" );
 }
 ?>	

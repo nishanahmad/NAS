@@ -65,17 +65,16 @@ html{
 	border:#30aed6 solid 3px;
 }
 /* Icons ---------------------------------- */
-#name{
-	background-image: url(../images/name.png);
+#datepicker{
+	background-image: url(../images/calender.png);
 	background-size: 30px 30px;
 	background-position: 11px 8px;
 	background-repeat: no-repeat;
 }
-#name:focus{
+#name{
 	background-image: url(../images/name.png);
 	background-size: 30px 30px;
-	background-position: 8px 5px;
-  background-position: 11px 8px;
+	background-position: 11px 8px;
 	background-repeat: no-repeat;
 }
 #phone{
@@ -84,22 +83,16 @@ html{
 	background-position: 11px 8px;
 	background-repeat: no-repeat;
 }
-#phone:focus{
-	background-image: url(../images/phone.png);
-	background-size: 30px 30px;
-  background-position: 11px 8px;
-	background-repeat: no-repeat;
-}
 #qty{
 	background-image: url(../images/sheet.png);
 	background-size: 30px 30px;
 	background-position: 11px 8px;
 	background-repeat: no-repeat;
 }
-#qty:focus{
+#bags{
 	background-image: url(../images/sheet.png);
 	background-size: 30px 30px;
-  background-position: 11px 8px;
+	background-position: 11px 8px;
 	background-repeat: no-repeat;
 }
 #area{
@@ -108,10 +101,16 @@ html{
 	background-position: 11px 8px;
 	background-repeat: no-repeat;
 }
+#remarks{
+	background-image: url(../images/remarks.png);
+	background-size: 30px 30px;
+	background-position: 11px 8px;
+	background-repeat: no-repeat;
+}	
 textarea {
     width: 100%;
-    height: 150px;
-    line-height: 150%;
+    height: 100px;
+    line-height: 100%;
     resize:vertical;
 }
 input:hover, textarea:hover,
@@ -170,28 +169,69 @@ input:focus, textarea:focus {
 }
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
+<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="../js/jquery-ui.min.js"></script>		
+<script>
+	$(function() {
+	var pickerOpts = { dateFormat:"dd-mm-yy"}; 
+				
+	$( "#datepicker" ).datepicker(pickerOpts);
+	});
+</script>
+<?php
+	
+	if($request['status'] == 'requested')
+	{																													?>
+		<title>Request Edit</title><?php
+	}
+	else
+	{									 ?>
+		<title>Delivery Edit</title><?php
+	}									 ?>	
+
 </head>
 	<div id="form-main">
 	<div id="form-div">
 	<form class="form" id="form1" method="post" action="update.php">
-	<input name="id" type="hidden" value="<?php echo $request['id'];?>"/>
+	<input name="id" type="hidden" value="<?php echo $request['id'];?>"/>												<?php
+	
+	if($request['status'] == 'requested')
+	{																													?>
+		<p class="date">
+		<input name="date" type="text" class="feedback-input" placeholder="Date" id="datepicker" value="<?php echo date("d-m-Y",strtotime($request['date']));?>"/>
+		</p>																											<?php
+	}																													?>
+
 	<p class="name">
 	<input name="name" type="text" class="validate[required,length[0,100]] feedback-input" id="name" value="<?php echo $request['name'];?>"/>
 	</p>
 
 	<p class="phone">
 	<input name="phone" type="text" class="validate[required] feedback-input" id="phone" value="<?php echo $request['phone'];?>"/>
-	</p>
+	</p>																												<?php
 	
-	<p class="qty">
-	<input name="qty" type="text" class="validate[required] feedback-input" id="qty"  value="<?php echo $request['qty'];?>"/>
-	</p>	
+	if($request['status'] == 'requested')
+	{																													?>
+		<p class="bags">
+		<input name="bags" type="text" class="feedback-input" id="bags"  value="<?php echo $request['bags'];?>"/>
+		</p>																											<?php
+	}
+	else
+	{																													?>
+		<p class="qty">
+		<input name="qty" type="text" class="feedback-input" id="qty"  value="<?php echo $request['qty'];?>"/>
+		</p>																											<?php			
+	}																													?>	
 
 	<p class="area">
 	<textarea name="area" class="validate[required,length[6,200]] feedback-input" id="area"><?php echo $request['area'];?></textarea>
 	</p>
 	
-
+	<p class="remarks">
+	<textarea name="remarks" class="feedback-input" id="remarks"><?php echo $request['remarks'];?></textarea>
+	</p>	
+	
 	<div class="submit">
 	<input type="submit" value="UPDATE" id="button-blue"/>
 	<div class="ease"></div>

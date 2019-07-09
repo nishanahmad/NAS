@@ -77,82 +77,52 @@ if(isset($_SESSION["user_name"]))
 		background-position: 11px 8px;
 		background-repeat: no-repeat;
 	}
-
-	#datepicker:focus{
-		background-image: url(../images/calender.png);
-		background-size: 30px 30px;
-		background-position: 8px 5px;
-	  background-position: 11px 8px;
-		background-repeat: no-repeat;
-	}
 	#name{
 		background-image: url(../images/name.png);
 		background-size: 30px 30px;
 		background-position: 11px 8px;
 		background-repeat: no-repeat;
 	}
-
-	#name:focus{
-		background-image: url(../images/name.png);
-		background-size: 30px 30px;
-		background-position: 8px 5px;
-	  background-position: 11px 8px;
-		background-repeat: no-repeat;
-	}
-
 	#phone{
 		background-image: url(../images/phone.png);
 		background-size: 30px 30px;
 		background-position: 11px 8px;
 		background-repeat: no-repeat;
 	}
-
-	#phone:focus{
-		background-image: url(../images/phone.png);
-		background-size: 30px 30px;
-	  background-position: 11px 8px;
-		background-repeat: no-repeat;
-	}
-
 	#bags{
 		background-image: url(../images/sheet.png);
 		background-size: 30px 30px;
 		background-position: 11px 8px;
 		background-repeat: no-repeat;
 	}
-
-	#driver:focus{
-		background-image: url(../images/truck.png);
-		background-size: 30px 30px;
-	  background-position: 11px 8px;
-		background-repeat: no-repeat;
-	}
-	
 	#driver{
 		background-image: url(../images/truck.png);
 		background-size: 30px 30px;
 		background-position: 11px 8px;
 		background-repeat: no-repeat;
 	}
-
-	#bags:focus{
-		background-image: url(../images/sheet.png);
+	#shop{
+		background-image: url(../images/shop.png);
 		background-size: 30px 30px;
-	  background-position: 11px 8px;
+		background-position: 11px 8px;
 		background-repeat: no-repeat;
 	}	
-
 	#area{
 		background-image: url(../images/area.png);
 		background-size: 30px 30px;
 		background-position: 11px 8px;
 		background-repeat: no-repeat;
 	}
-
+	#remarks{
+		background-image: url(../images/remarks.png);
+		background-size: 30px 30px;
+		background-position: 11px 8px;
+		background-repeat: no-repeat;
+	}	
 	textarea {
 		width: 100%;
-		height: 150px;
-		line-height: 150%;
+		height: 100px;
+		line-height: 100%;
 		resize:vertical;
 	}
 
@@ -226,6 +196,7 @@ if(isset($_SESSION["user_name"]))
 		});
 	</script>	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>Sheet Request New</title>
 	</head>
 		<div id="form-main">
 			<div id="form-div">
@@ -247,9 +218,17 @@ if(isset($_SESSION["user_name"]))
 			<input name="bags" type="text" class="validate[required] feedback-input" id="bags" placeholder="Number of Bags" />
 			</p>	
 
+			<p class="shop">
+			<input name="shop" type="text" class="feedback-input" placeholder="Shop" id="shop"/>
+			</p>
+			
 			<p class="area">
 			<textarea name="area" class="validate[required,length[6,200]] feedback-input" id="area" placeholder="Area & Location"></textarea>
 			</p>
+			
+			<p class="remarks">
+			<textarea name="remarks" class="feedback-input" id="remarks" placeholder="Remarks"></textarea>
+			</p>			
 
 			<div class="submit">
 			<input type="submit" value="REQUEST" id="button-blue"/>
