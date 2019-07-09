@@ -14,7 +14,7 @@ if(isset($_SESSION["user_name"]))
 
 	$updateQuery = mysqli_query($con,"UPDATE sheets SET date ='$date' ,status ='delivered', delivered_by ='$delivered_by', qty = '$qty' WHERE id=$id ") or die(mysqli_error($con));			 
 	
-	header( "Location: index.php" );
+	header( "Location: requests.php" );
 
 }
 else
