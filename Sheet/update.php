@@ -16,10 +16,14 @@ if(isset($_SESSION["user_name"]))
 		$bags = (int)$_POST['bags'];
 		$remarks = (int)$_POST['remarks'];
 		
-		$sql = "UPDATE sheets SET date='$sqlDate',name='$name', phone='$phone',qty=$qty,bags='$bags',area='$area',remarks='$remarks' WHERE id=$id";
-		$query = mysqli_query($con,$sql) or die(mysqli_error($con));	
+		$update = mysqli_query($con,"UPDATE sheets SET date='$sqlDate',name='$name', phone='$phone',qty=$qty,bags='$bags',area='$area',remarks='$remarks' WHERE id=$id") or die(mysqli_error($con));	
 			  
-		$url = 'index.php';
-		header( "Location: $url" );
+		$query = mysqli_query($con,"SELECT status FROM sheets WHERE id = $id") or die(mysqli_error($con));
+		$sheet = mysqli_fetch_array($query,MYSQLI_ASSOC);
+		
+		if($sheet['status'] == 'requested')
+			header( "Location: requests.php" );
+		else
+			header( "Location: deliveries.php" );
 	}
 }	

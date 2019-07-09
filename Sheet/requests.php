@@ -1,8 +1,21 @@
 <?php
 	require '../connect.php';
 	session_start();	
-	$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' ORDER BY date ASC" ) or die(mysqli_error($con));
+	
 	$designation = $_SESSION['role'];
+	
+	if(isset($_GET['requested_by']))
+		$requested_by = $_GET['requested_by'];
+	else
+		$requested_by = 'All';
+
+	$users = mysqli_query($con,"SELECT DISTINCT(requested_by) FROM sheets WHERE status ='requested' ORDER BY requested_by ASC" ) or die(mysqli_error($con));
+	
+	if($requested_by == 'All')
+		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' ORDER BY date ASC" ) or die(mysqli_error($con));
+	else
+		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' AND requested_by = '$requested_by' ORDER BY date ASC" ) or die(mysqli_error($con));
+	
 ?>	
 <html>
 	<style>
@@ -15,12 +28,17 @@
 	}
 	</style>
 	<head>
-		<title>Sheets</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Pending Requests</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
-		<script type="text/javascript" src="../js/jquery.js"></script> 
-		<script type="text/javascript" src="../js/bootstrap.min.js"></script> 
+		<link rel="stylesheet" href="../css/navigation-dark.css">
+		<link rel="stylesheet" href="../css/slicknav.min.css">
+		<script src="../js/jquery.js"></script> 
+		<script src="../js/bootstrap.min.js"></script> 
+		<script src="../js/jquery.slicknav.min.js"></script>
 		<script>
 		function deliver(id){
 			var designation = "<?php echo $designation;?>";				
@@ -59,6 +77,24 @@
 		</script>
 	</head>
 	<body>
+		<nav class="menu-navigation-dark">
+			<a href="index.php"><i class="fa fa-home"></i><span>Home</span></a>
+			<a href="new.php"><i class="fa fa-plus"></i><span>New</span></a>
+			<a href="#" class="selected"><i class="fa fa-spinner"></i><span>Pending ...</span></a>
+			<a href="deliveries.php"><i class="fa fa-truck"></i><span>Delivered</span></a>
+		</nav>		
+		
+		<br/><br/>
+		<div align="center">
+			<select name="requested_by" id="requested_by" onchange="document.location.href = 'requests.php?requested_by=' + this.value">
+				<option value = "All" <?php if($requested_by == 'All') echo 'selected';?> >ALL</option>													    	<?php
+				foreach($users as $user)
+				{																																			?>
+					<option value="<?php echo $user['requested_by'];?>" <?php if($requested_by == $user['requested_by']) echo 'selected';?>><?php echo $user['requested_by'];?></option> 						<?php
+				}																																			?>
+			</select>			
+		</div>	 	
+		<br/><br/><br/><br/>
 		<div class="container" >
 			<ul class="list-group">																			<?php 
 				foreach($sheets as $sheet)
@@ -90,5 +126,24 @@
 
 			</ul>
 		</div>
+		<script>
+
+			$(function(){
+
+				var menu = $('.menu-navigation-dark');
+
+				menu.slicknav();
+
+				// Mark the clicked item as selected
+
+				menu.on('click', 'a', function(){
+					var a = $(this);
+
+					a.siblings().removeClass('selected');
+					a.addClass('selected');
+				});
+			});
+
+		</script>		
 	</body>
 </html>

@@ -58,7 +58,7 @@ if(isset($_SESSION["user_name"]))
 			echo $response;		
 	}
 	
-	header( "Location: new.php" );
+	header( "Location: requests.php" );
 
 }
 else
