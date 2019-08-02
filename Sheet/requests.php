@@ -54,7 +54,7 @@
 			}
 			else
 			{
-				if(isNaN(qty))
+				if(isNaN(qty) || qty <= 0)
 				{
 					alert('Please enter a valid number');
 					return false;

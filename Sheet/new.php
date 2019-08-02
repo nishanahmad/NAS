@@ -185,12 +185,18 @@ if(isset($_SESSION["user_name"]))
 		}
 	}
 	</style>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">	
 	<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
 	<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/jquery-ui.min.js"></script>	
 	<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
 	<link rel="stylesheet" href="../css/navigation-dark.css">
 	<link rel="stylesheet" href="../css/slicknav.min.css">	
+	<script src="../js/bootstrap.min.js"></script> 
+	<script src="../js/jquery.slicknav.min.js"></script>	
 	<script>
 		$(function() {
 		var pickerOpts = { dateFormat:"dd-mm-yy"}; 
@@ -248,6 +254,25 @@ if(isset($_SESSION["user_name"]))
 			</form>
 			</div>
 		</div>
+		<script>
+
+			$(function(){
+
+				var menu = $('.menu-navigation-dark');
+
+				menu.slicknav();
+
+				// Mark the clicked item as selected
+
+				menu.on('click', 'a', function(){
+					var a = $(this);
+
+					a.siblings().removeClass('selected');
+					a.addClass('selected');
+				});
+			});
+
+		</script>				
 	</body>	
 </html>
 																										<?php
