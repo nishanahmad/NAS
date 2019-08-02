@@ -2,7 +2,7 @@
 session_start();
 if(isset($_SESSION["user_name"]))
 {																																										?>
-	<html>
+<html>
 	<head>
 	<style>
 	@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
@@ -187,7 +187,10 @@ if(isset($_SESSION["user_name"]))
 	</style>
 	<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
 	<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
-	<script type="text/javascript" language="javascript" src="../js/jquery-ui.min.js"></script>		
+	<script type="text/javascript" language="javascript" src="../js/jquery-ui.min.js"></script>	
+	<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
+	<link rel="stylesheet" href="../css/navigation-dark.css">
+	<link rel="stylesheet" href="../css/slicknav.min.css">	
 	<script>
 		$(function() {
 		var pickerOpts = { dateFormat:"dd-mm-yy"}; 
@@ -198,6 +201,14 @@ if(isset($_SESSION["user_name"]))
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<title>Sheet Request New</title>
 	</head>
+	<body>
+		<nav class="menu-navigation-dark">
+			<a href="index.php"><i class="fa fa-home"></i><span>Home</span></a>
+			<a href="new.php"><i class="fa fa-plus"></i><span>New</span></a>
+			<a href="requests.php"><i class="fa fa-spinner"></i><span>Pending ...</span></a>
+			<a href="deliveries.php"><i class="fa fa-truck"></i><span>Delivered</span></a>
+		</nav>		
+		<br/>
 		<div id="form-main">
 			<div id="form-div">
 			<form class="form" id="form1" method="post" action="insert.php" autocomplete="off">
@@ -237,7 +248,8 @@ if(isset($_SESSION["user_name"]))
 			</form>
 			</div>
 		</div>
-	</html> 
+	</body>	
+</html>
 																										<?php
 }	
 else
