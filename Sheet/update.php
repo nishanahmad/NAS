@@ -14,9 +14,10 @@ if(isset($_SESSION["user_name"]))
 		$area = $_POST['area'];
 		$qty = (int)$_POST['qty'];
 		$bags = (int)$_POST['bags'];
+		$shop = $_POST['shop'];
 		$remarks = $_POST['remarks'];
 		
-		$update = mysqli_query($con,"UPDATE sheets SET date='$sqlDate',name='$name', phone='$phone',qty=$qty,bags='$bags',area='$area',remarks='$remarks' WHERE id=$id") or die(mysqli_error($con));	
+		$update = mysqli_query($con,"UPDATE sheets SET date='$sqlDate',name='$name', phone='$phone',qty=$qty,bags='$bags',shop='$shop',area='$area',remarks='$remarks' WHERE id=$id") or die(mysqli_error($con));	
 			  
 		$query = mysqli_query($con,"SELECT status FROM sheets WHERE id = $id") or die(mysqli_error($con));
 		$sheet = mysqli_fetch_array($query,MYSQLI_ASSOC);

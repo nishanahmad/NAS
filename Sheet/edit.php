@@ -95,6 +95,12 @@ html{
 	background-position: 11px 8px;
 	background-repeat: no-repeat;
 }
+#shop{
+	background-image: url(../images/shop.png);
+	background-size: 30px 30px;
+	background-position: 11px 8px;
+	background-repeat: no-repeat;
+}	
 #area{
 	background-image: url(../images/area.png);
 	background-size: 30px 30px;
@@ -240,6 +246,10 @@ input:focus, textarea:focus {
 		</p>																											<?php			
 	}																													?>	
 
+	<p class="shop">
+	<input name="shop" type="text" class="feedback-input" placeholder="Shop" id="shop" value="<?php echo $request['shop'];?>"/>
+	</p>
+			
 	<p class="area">
 	<textarea name="area" class="validate[required,length[6,200]] feedback-input" id="area"><?php echo $request['area'];?></textarea>
 	</p>
