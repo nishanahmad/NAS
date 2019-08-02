@@ -228,7 +228,7 @@ if(isset($_SESSION["user_name"]))
 			</p>
 
 			<p class="phone">
-			<input name="phone" required type="text" class="validate[required] feedback-input" id="phone" placeholder="Phone" />
+			<input name="phone" type="text" class="validate[required] feedback-input" id="phone" placeholder="Phone" />
 			</p>
 			
 			<p class="bags">
