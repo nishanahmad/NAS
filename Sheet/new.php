@@ -203,15 +203,15 @@ if(isset($_SESSION["user_name"]))
 			<form class="form" id="form1" method="post" action="insert.php" autocomplete="off">
 
 			<p class="date">
-			<input name="date" type="text" class="feedback-input" placeholder="Date" id="datepicker" />
+			<input name="date" required type="text" class="feedback-input" placeholder="Date" id="datepicker" />
 			</p>
 			
 			<p class="name">
-			<input name="name" type="text" class="validate[required,length[0,100]] feedback-input" placeholder="Name" id="name" />
+			<input name="name" required type="text" class="validate[required,length[0,100]] feedback-input" placeholder="Name" id="name" />
 			</p>
 
 			<p class="phone">
-			<input name="phone" type="text" class="validate[required] feedback-input" id="phone" placeholder="Phone" />
+			<input name="phone" required type="text" class="validate[required] feedback-input" id="phone" placeholder="Phone" />
 			</p>
 			
 			<p class="bags">
@@ -223,7 +223,7 @@ if(isset($_SESSION["user_name"]))
 			</p>
 			
 			<p class="area">
-			<textarea name="area" class="validate[required,length[6,200]] feedback-input" id="area" placeholder="Area & Location"></textarea>
+			<textarea required name="area" class="validate[required,length[6,200]] feedback-input" id="area" placeholder="Area & Location"></textarea>
 			</p>
 			
 			<p class="remarks">
