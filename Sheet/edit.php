@@ -168,10 +168,18 @@ input:focus, textarea:focus {
 	}
 }
 </style>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
-<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
-<script type="text/javascript" language="javascript" src="../js/jquery-ui.min.js"></script>		
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
+		<link rel="stylesheet" href="../css/navigation-dark.css">
+		<link rel="stylesheet" href="../css/slicknav.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
+		<script src="../js/jquery.js"></script> 
+		<script type="text/javascript" language="javascript" src="../js/jquery-ui.min.js"></script>	
+		<script src="../js/bootstrap.min.js"></script> 
+		<script src="../js/jquery.slicknav.min.js"></script>
 <script>
 	$(function() {
 	var pickerOpts = { dateFormat:"dd-mm-yy"}; 
@@ -191,6 +199,14 @@ input:focus, textarea:focus {
 	}									 ?>	
 
 </head>
+<body>
+	<nav class="menu-navigation-dark">
+		<a href="index.php"><i class="fa fa-home"></i><span>Home</span></a>
+		<a href="new.php"><i class="fa fa-plus"></i><span>New</span></a>
+		<a href="requests.php"><i class="fa fa-spinner"></i><span>Pending ...</span></a>
+		<a href="deliveries.php"><i class="fa fa-truck"></i><span>Delivered</span></a>
+	</nav>		
+		
 	<div id="form-main">
 	<div id="form-div">
 	<form class="form" id="form1" method="post" action="update.php">
@@ -238,4 +254,24 @@ input:focus, textarea:focus {
 	</div>
 	</form>
 	</div>
+		<script>
+
+			$(function(){
+
+				var menu = $('.menu-navigation-dark');
+
+				menu.slicknav();
+
+				// Mark the clicked item as selected
+
+				menu.on('click', 'a', function(){
+					var a = $(this);
+
+					a.siblings().removeClass('selected');
+					a.addClass('selected');
+				});
+			});
+
+		</script>			
+	</body>
 </html> 
