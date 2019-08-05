@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(isset($_SESSION["user_name"]) && $_SESSION["role"] != 'driver')
+if(isset($_SESSION["user_name"]) && $_SESSION["sheet_only"] != '1')
 {																						?>
 <html>
 <style type="text/css">
@@ -58,7 +58,7 @@ a{
 </html>
 <?php
 }
-else if(isset($_SESSION["user_name"]) && $_SESSION["role"] == 'driver')
+else if(isset($_SESSION["user_name"]) && $_SESSION["sheet_only"] == '1')
 	header("Location:Sheet/index.php");
 else
 	header("Location:loginPage.php");

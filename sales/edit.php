@@ -7,7 +7,7 @@ if(isset($_SESSION["user_name"]))
 	require '../connect.php';
 	echo "LOGGED USER : ".$_SESSION["user_name"] ;	
 	$engMap[null] = null;
-	$products = mysqli_query($con,"SELECT id,name FROM products WHERE status = 1 ORDER BY id ASC");
+	$products = mysqli_query($con,"SELECT id,name FROM products WHERE status = 1 ORDER BY id ASC") or die(mysqli_error($con));	
 	$arObjects = mysqli_query($con,"SELECT id,name,type,shop_name FROM ar_details ORDER BY name") or die(mysqli_error($con));	
 	foreach($arObjects as $ar)
 	{

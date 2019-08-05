@@ -14,6 +14,7 @@ if(count($_POST)>0)
 		$_SESSION['user_id'] = $user['user_id'];
 		$_SESSION['user_name'] = $user['user_name'];
 		$_SESSION['role'] = $user['role'];		
+		$_SESSION['sheet_only'] = $user['sheet_only'];		
 		header("Location:index.php");
 	}
 	else 
