@@ -138,7 +138,7 @@
 		foreach($drivers as $driver)
 		{
 			$driverId = $driver["user_id"];
-			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE assigned_to = '$driverId' AND date = '$date' AND status = 'requested' ORDER BY assign_order") or die(mysqli_error($con));?>
+			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE assigned_to = '$driverId' AND date = '$date' AND status = 'requested'") or die(mysqli_error($con));?>
 			<div class="status-card">
 				<div class="card-header">
 					<span class="card-header-text"><?php echo $driver["user_name"]; ?></span>
