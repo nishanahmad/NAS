@@ -3,6 +3,10 @@
 	session_start();	
 	
 	$designation = $_SESSION['role'];
+
+	$driversQuery = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role ='driver'" ) or die(mysqli_error($con));
+	foreach($driversQuery as $driver)
+		$drivers[$driver['user_id']] = $driver['user_name'];
 	
 	if(isset($_GET['requested_by']))
 		$requested_by = $_GET['requested_by'];
@@ -118,8 +122,11 @@
 									if($sheet['created_on'] != null)
 									{																																?>
 										<p><i class="fa fa-clock-o"></i> Requested on <?php echo date('M d, h:i A', strtotime($sheet['created_on']));?></p>			<?php
+									}
+									if($designation != 'driver' && $sheet['assigned_to'] != 0)
+									{																																?>
+										<p><i class="fa fa-share"></i> Assigned to <?php echo $drivers[$sheet['assigned_to']];?></p>			<?php										
 									}																																?>
-									
 								</div>
 								<br/>
 							</div>
