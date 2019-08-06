@@ -159,11 +159,7 @@
 			var pickerOpts = { dateFormat:"dd-mm-yy"}; 
 			$( "#datepicker" ).datepicker(pickerOpts);
 
-		
-			var old_order = null;
-			var old_sheet = null;
 			var url = 'assignment.php';
-			var orderUrl = 'order.php';
 			$('ul[id^="sort"]').sortable({
 				connectWith : ".sortable",
 				receive : function(e, ui) {
@@ -174,22 +170,7 @@
 						url : url + '?driver_id=' + driver_id + '&sheet_id=' + sheet_id,
 						success : function(response){}
 					});
-				},
-				start: function(event, ui) {
-					old_sheet = $(ui.item).data("sheet-id");
-					old_order = ui.item.index() + 1;
-				},											
-				stop: function(event, ui) {
-					console.log('stop');
-					var sheet_id = $(ui.item).data("sheet-id");
-					var driver_id = $(ui.item).parent(".sortable").data("driver-id");
-					var order = ui.item.index() + 1;
-					$.ajax({
-						url : orderUrl + '?sheet_id=' + sheet_id + '&old_sheet=' + old_sheet + '&order=' + order + '&old_order=' + old_order + '&driver_id=' + driver_id,
-						success : function(response) {
-						}
-					});						
-				}									
+				}		
 			}).disableSelection();
 		});
 	</script>
