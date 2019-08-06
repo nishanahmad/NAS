@@ -1,5 +1,6 @@
 <?php 
 require '../connect.php';
+session_start();
 $id = $_GET['id'];
 $sql = mysqli_query($con,"SELECT * FROM sheets WHERE id='$id'") or die(mysqli_error($con));
 $request = mysqli_fetch_array($sql,MYSQLI_ASSOC);
@@ -210,7 +211,11 @@ input:focus, textarea:focus {
 		<a href="index.php"><i class="fa fa-home"></i><span>Home</span></a>
 		<a href="new.php"><i class="fa fa-plus"></i><span>New</span></a>
 		<a href="requests.php"><i class="fa fa-spinner"></i><span>Pending ...</span></a>
-		<a href="deliveries.php"><i class="fa fa-truck"></i><span>Delivered</span></a>
+		<a href="deliveries.php"><i class="fa fa-truck"></i><span>Delivered</span></a><?php 
+		if($_SESSION['role'] != 'driver')
+		{?>
+			<a href="plan.php"><i class="fa fa-list-alt"></i><span>Driver Assign</span></a><?php
+		}?>
 	</nav>		
 		
 	<div id="form-main">

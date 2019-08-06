@@ -42,9 +42,13 @@ a{
 	<a href="requests.php" class="btn lg ghost">PENDING REQUESTS</a>
 	<br><br><br>
 	
-
 	<a href="deliveries.php" class="btn lg ghost">DELIVERED SHEETS</a>
-	<br><br><br>
+	<br><br><br>																						<?php 
+
+	if($_SESSION['role'] != 'driver')
+	{																									?>
+		<a href="plan.php" class="btn lg ghost">DRIVER ASSIGN</a>										<?php
+	}																									?>
 
 </div>
 
