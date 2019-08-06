@@ -44,6 +44,7 @@
 		border-radius: 3px;
 		display: inline-block;
 		vertical-align: top;
+		text-align: left;
 		font-size: 0.9em;
 	}
 
@@ -58,6 +59,7 @@
 		border-radius: 3px;
 		display: block;
 		font-weight: bold;
+		text-align: center;
 	}
 
 	.card-header-text {
@@ -125,7 +127,7 @@
 	<div class="task-board">
 		<div class="status-card">
 			<div class="card-header">
-				<span class="card-header-text">Unassigned</span>
+				<span class="card-header-text">UNASSIGNED</span>
 			</div>
 			<ul class="sortable ui-sortable" id="sort0" data-driver-id="0"><?php
 			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE assigned_to = 0 AND date = '$date' AND status = 'requested'") or die(mysqli_error($con));
@@ -146,7 +148,7 @@
 				<ul class="sortable ui-sortable" id="sort<?php echo $driverId; ?>" data-driver-id="<?php echo $driver["user_id"]; ?>"><?php
 				foreach ($sheets as $sheet) 
 				{																																?>
-					<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet["id"]; ?>"><?php echo $sheet["area"].'<br/>'.$sheet["name"]; ?></li>											<?php
+					<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet["id"]; ?>"><?php echo $sheet['area'].'<br/>'.$sheet['name'].'<br/><b>'.$sheet['requested_by'].'</b>'; ?></li>											<?php
 				}																																?>
 				</ul>
 			</div>																																<?php
