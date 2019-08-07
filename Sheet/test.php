@@ -27,14 +27,16 @@
 	<style>
 	.task-board {
 		background: #2c7cbc;
-		display: inline-block;
 		padding: 12px;
 		border-radius: 3px;
-		white-space: nowrap;
 		min-height: 300px;
 		width:100%;
+		overflow-x: scroll;
+		overflow-y: hidden;
+		white-space: nowrap;
 	}	
 	.status-card {
+		display: inline-block;
 		width: 250px;
 		margin-left: 15px;
 		background: #e2e4e6;
@@ -72,11 +74,14 @@
 		white-space: normal;
 		line-height: 20px;
 	}
+	.text-row:last-child {
+		margin-bottom:25px;
+	}	
 	</style>
 </head>
 <body>
 	<br/><br/><br/><br/>
-	<div class="task-board">
+	<div class="task-board" id="task-board">
 		<div id="shared-lists" class="row">
 			<div id="block1" class="status-card">
 				<div class="card-header">
@@ -87,7 +92,7 @@
 				{																																?>
 					<div class="text-row list-group-item" id="<?php echo $sheet['id'];?>"><?php echo $sheet['area'].'<br/>'.$sheet['name'].'<br/><b>'.$sheet['bags'].' bags<br/>'.$sheet['requested_by'].'</b>'; ?></div><?php
 				}																																?>
-				</ul>
+				</ul>		
 			</div>																																<?php			
 			$i=2;
 			foreach($drivers as $driver)
@@ -113,7 +118,49 @@
 
 
 	<!-- Latest Sortable -->
+	<script src="../js/jquery.js"></script> 
 	<script src="../js/Sortable.min.js"></script>
-	<script src="../js/Sortable-app.js"></script>
+	<!--script src="../js/Sortable-app.js"></script-->
+	<script>
+	var block1 = document.getElementById('block1'),
+		block2 = document.getElementById('block2'),
+		block3 = document.getElementById('block3');
+		block4 = document.getElementById('block4');
+		block5 = document.getElementById('block5');
+
+
+	new Sortable(block1, {
+		group: 'shared', // set both lists to same group
+		ghostClass: 'blue-background-class',
+		onStart: function (evt) {
+			console.log(evt.oldIndex);
+		},
+		animation: 150
+	});
+
+	new Sortable(block2, {
+		group: 'shared',
+		ghostClass: 'blue-background-class',
+		animation: 150
+	});
+
+	new Sortable(block3, {
+		group: 'shared',
+		ghostClass: 'blue-background-class',
+		animation: 150
+	});
+
+	new Sortable(block4, {
+		group: 'shared',
+		ghostClass: 'blue-background-class',
+		animation: 150
+	});
+
+	new Sortable(block5, {
+		group: 'shared',
+		ghostClass: 'blue-background-class',
+		animation: 150
+	});	
+	</script>
 </body>
 </html>

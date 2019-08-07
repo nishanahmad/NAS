@@ -8,6 +8,9 @@ var block1 = document.getElementById('block1'),
 new Sortable(block1, {
 	group: 'shared', // set both lists to same group
 	ghostClass: 'blue-background-class',
+	onStart: function (evt) {
+		console.log(evt.oldIndex);
+	},
 	animation: 150
 });
 
