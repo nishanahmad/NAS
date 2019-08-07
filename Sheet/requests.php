@@ -126,11 +126,8 @@
 									<p><i class="fa fa-copy"></i> <?php echo $sheet['bags'].' bags';?></p>
 									<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['date']));?></p>
 									<p><i class="fa fa-university"></i> <?php echo $sheet['shop'];?></p>
-									<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>									<?php
-									if($designation != 'driver')
-									{																										?>
-										<p><i class="fa fa-truck"></i> Requested by <?php echo $sheet['requested_by'];?></p>				<?php 
-									}
+									<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>	
+									<p><i class="fa fa-truck"></i> Requested by <?php echo $sheet['requested_by'];?></p>							<?php 
 									if($sheet['created_on'] != null && $designation != 'driver')
 									{																																?>
 										<p><i class="fa fa-clock-o"></i> Requested on <?php echo date('M d, h:i A', strtotime($sheet['created_on']));?></p>			<?php

@@ -106,7 +106,6 @@
 		float: left;
 		margin: 0 10px;
 	}
-	
 </style>
 <body>
 	<nav class="menu-navigation-dark">																		<?php 
@@ -154,10 +153,10 @@
 			</div>																																<?php
 		}																																		?>
 	</div>
+		
 	</div>
 	<script>
 		$(function() {
-
 			var pickerOpts = { dateFormat:"dd-mm-yy"}; 
 			$( "#datepicker" ).datepicker(pickerOpts);
 
