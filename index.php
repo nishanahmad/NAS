@@ -50,7 +50,7 @@ a{
 	<a href="discounts/" class="btn lg ghost">RATE & DISCOUNTS</a>
 	<br><br><br>																																		
 	
-	<a href="Sheet/" class="btn lg ghost">SHEET DELIVERY</a>
+	<a href="Sheet/requests.php" class="btn lg ghost">SHEET DELIVERY</a>
     <br><br><br>		
 
 	</div>

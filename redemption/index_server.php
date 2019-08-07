@@ -15,14 +15,14 @@ if(isset($_SESSION["user_name"]))
 
 // getting total number records without any search
 
-	$sql = "SELECT id,date, ar_id,points,remarks";
+	$sql = "SELECT id,date, ar_id,points,remarks,entered_on";
 	$sql.=" FROM redemption";
 	$query=mysqli_query($con, $sql) or die(mysqli_error($con).' LINE 26');	
 	$totalData = mysqli_num_rows($query);
 	$totalFiltered = $totalData;  // when there is no search parameter then total number rows = total number filtered rows.
 
 
-	$sql = "SELECT id,date, ar_id,points,remarks";
+	$sql = "SELECT id,date, ar_id,points,remarks,entered_on";
 	$sql.=" FROM redemption WHERE 1 = 1";
 
 
@@ -141,6 +141,7 @@ while( $row=mysqli_fetch_array($query) )
 	$nestedData[] = $arMap[$row['ar_id']];
 	$nestedData[] = $row["points"];
 	$nestedData[] = $row["remarks"];
+	$nestedData[] = date('d-m-Y',strtotime($row['entered_on']));
 
 	$data[] = $nestedData;
 }

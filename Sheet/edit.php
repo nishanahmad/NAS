@@ -207,16 +207,16 @@ input:focus, textarea:focus {
 
 </head>
 <body>
-	<nav class="menu-navigation-dark">
-		<a href="index.php"><i class="fa fa-home"></i><span>Home</span></a>
-		<a href="new.php"><i class="fa fa-plus"></i><span>New</span></a>
-		<a href="requests.php"><i class="fa fa-spinner"></i><span>Pending ...</span></a>
-		<a href="deliveries.php"><i class="fa fa-truck"></i><span>Delivered</span></a><?php 
-		if($_SESSION['role'] != 'driver')
-		{?>
-			<a href="plan.php"><i class="fa fa-list-alt"></i><span>Driver Assign</span></a><?php
-		}?>
-	</nav>		
+		<nav class="menu-navigation-dark">																		<?php 
+			if($_SESSION['role'] != 'driver')
+			{																									?>	
+				<a href="../index.php"><i class="fa fa-home"></i><span>Home</span></a>
+				<a href="new.php"><i class="fa fa-plus"></i><span>New</span></a>
+				<a href="plan.php"><i class="fa fa-list-alt"></i><span>Driver Assign</span></a>		<?php
+			}																									?>	
+			<a href="requests.php"><i class="fa fa-spinner"></i><span>Pending ...</span></a>
+			<a href="deliveries.php"><i class="fa fa-truck"></i><span>Delivered</span></a>
+		</nav>		
 		
 	<div id="form-main">
 	<div id="form-div">

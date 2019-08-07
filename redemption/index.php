@@ -68,6 +68,7 @@ if(isset($_SESSION["user_name"]))
 							<th style="width:200px !important">AR</th>
 							<th style="width:50px !important">Points</th>	
 							<th>Remarks</th>			
+							<th style="width:90px !important">Entered On</th>
 						</tr>
 					</thead>
 			</table>
