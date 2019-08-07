@@ -59,7 +59,7 @@ a{
 <?php
 }
 else if(isset($_SESSION["user_name"]) && $_SESSION["sheet_only"] == '1')
-	header("Location:Sheet/index.php");
+	header("Location:Sheet/requests.php");
 else
 	header("Location:loginPage.php");
 ?>
