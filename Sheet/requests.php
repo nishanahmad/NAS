@@ -3,22 +3,28 @@
 	session_start();	
 	
 	$designation = $_SESSION['role'];
+	$userId = $_SESSION['user_id'];
 
 	$driversQuery = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role ='driver'" ) or die(mysqli_error($con));
 	foreach($driversQuery as $driver)
 		$drivers[$driver['user_id']] = $driver['user_name'];
 	
-	if(isset($_GET['requested_by']))
-		$requested_by = $_GET['requested_by'];
-	else
-		$requested_by = 'All';
+	if($designation != 'driver')
+	{
+		if(isset($_GET['requested_by']))
+			$requested_by = $_GET['requested_by'];
+		else
+			$requested_by = 'All';
 
-	$users = mysqli_query($con,"SELECT DISTINCT(requested_by) FROM sheets WHERE status ='requested' ORDER BY requested_by ASC" ) or die(mysqli_error($con));
-	
-	if($requested_by == 'All')
-		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' ORDER BY date ASC" ) or die(mysqli_error($con));
+		$users = mysqli_query($con,"SELECT DISTINCT(requested_by) FROM sheets WHERE status ='requested' ORDER BY requested_by ASC" ) or die(mysqli_error($con));
+		
+		if($requested_by == 'All')
+			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' ORDER BY date ASC" ) or die(mysqli_error($con));
+		else
+			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' AND requested_by = '$requested_by' ORDER BY date ASC" ) or die(mysqli_error($con));		
+	}
 	else
-		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' AND requested_by = '$requested_by' ORDER BY date ASC" ) or die(mysqli_error($con));
+		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' AND assigned_to = '$userId' ORDER BY date ASC" ) or die(mysqli_error($con));		
 	
 ?>	
 <html>
@@ -86,22 +92,25 @@
 			{																									?>	
 				<a href="../index.php"><i class="fa fa-home"></i><span>Home</span></a>
 				<a href="new.php"><i class="fa fa-plus"></i><span>New</span></a>
-				<a href="plan.php"><i class="fa fa-list-alt"></i><span>Driver Assign</span></a>		<?php
+				<a href="plan.php"><i class="fa fa-list-alt"></i><span>Driver Assign</span></a>					<?php
 			}																									?>	
 			<a href="requests.php" class="selected"><i class="fa fa-spinner"></i><span>Pending ...</span></a>
 			<a href="deliveries.php"><i class="fa fa-truck"></i><span>Delivered</span></a>
 		</nav>		
 		
-		<br/><br/>
-		<div align="center">
-			<select name="requested_by" id="requested_by" onchange="document.location.href = 'requests.php?requested_by=' + this.value">
-				<option value = "All" <?php if($requested_by == 'All') echo 'selected';?> >ALL</option>													    	<?php
-				foreach($users as $user)
-				{																																			?>
-					<option value="<?php echo $user['requested_by'];?>" <?php if($requested_by == $user['requested_by']) echo 'selected';?>><?php echo $user['requested_by'];?></option> 						<?php
-				}																																			?>
-			</select>			
-		</div>	 	
+		<br/><br/>																								<?php
+		if($designation != 'driver')
+		{																										?>
+			<div align="center">
+				<select name="requested_by" id="requested_by" onchange="document.location.href = 'requests.php?requested_by=' + this.value">
+					<option value = "All" <?php if($requested_by == 'All') echo 'selected';?> >ALL</option>													    	<?php
+					foreach($users as $user)
+					{																																			?>
+						<option value="<?php echo $user['requested_by'];?>" <?php if($requested_by == $user['requested_by']) echo 'selected';?>><?php echo $user['requested_by'];?></option> 						<?php
+					}																																			?>
+				</select>			
+			</div>																							<?php	 				
+		}																									?>			
 		<br/><br/><br/><br/>
 		<div class="container" >
 			<ul class="list-group">																			<?php 
@@ -117,9 +126,12 @@
 									<p><i class="fa fa-copy"></i> <?php echo $sheet['bags'].' bags';?></p>
 									<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['date']));?></p>
 									<p><i class="fa fa-university"></i> <?php echo $sheet['shop'];?></p>
-									<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>
-									<p><i class="fa fa-truck"></i> Requested by <?php echo $sheet['requested_by'];?></p>											<?php 
-									if($sheet['created_on'] != null)
+									<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>									<?php
+									if($designation != 'driver')
+									{																										?>
+										<p><i class="fa fa-truck"></i> Requested by <?php echo $sheet['requested_by'];?></p>				<?php 
+									}
+									if($sheet['created_on'] != null && $designation != 'driver')
 									{																																?>
 										<p><i class="fa fa-clock-o"></i> Requested on <?php echo date('M d, h:i A', strtotime($sheet['created_on']));?></p>			<?php
 									}
