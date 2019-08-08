@@ -20,6 +20,7 @@
 	<link rel="stylesheet" href="../css/navigation-dark.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="../js/jquery.ui.touch-punch.min.js"></script>
 </head>
 <style>
 	body {
@@ -153,7 +154,7 @@
 			</div>																																<?php
 		}																																		?>
 	</div>
-		
+	<br/><br/><br/>	
 	</div>
 	<script>
 		$(function() {
