@@ -2,8 +2,11 @@
 
 require  '../connect.php';
 
-$driver_id = $_GET['driver_id'];
-$sheet_id = $_GET['sheet_id'];
+$driver = $_GET['driver'];
+$sheet = $_GET['sheet'];
 
-$update1 = mysqli_query($con,"UPDATE sheets SET assigned_to='$driver_id' WHERE id='$sheet_id'") or die(mysqli_error($con));
+$update = mysqli_query($con,"UPDATE sheets SET assigned_to='$driver' WHERE id='$sheet'") or die(mysqli_error($con));
+
+if($driver == 0)
+	$zeroUpdate = mysqli_query($con,"UPDATE sheets SET assign_order=0 WHERE id='$sheet'") or die(mysqli_error($con));
 ?>

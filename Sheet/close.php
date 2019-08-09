@@ -11,7 +11,10 @@ if(isset($_SESSION["user_name"]))
 	$closed_by = (int)$_SESSION['user_id'];
 
 	$updateQuery = mysqli_query($con,"UPDATE sheets SET status ='closed', closed_on='$sqlDate', closed_by = $closed_by
-							          WHERE id=$id ") or die(mysqli_error($con));			 
+							          WHERE id=$id ") or die(mysqli_error($con));
+
+	$updateInHand = mysqli_query($con,"UPDATE sheets SET status ='closed', closed_on='$sqlDate', closed_by = $closed_by
+							          WHERE id=$id ") or die(mysqli_error($con));									  
 
 	header( "Location: deliveries.php" );
 

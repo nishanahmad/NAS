@@ -14,6 +14,8 @@
 	else
 		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' AND delivered_by = '$delivered_by' ORDER BY date ASC" ) or die(mysqli_error($con));		 	 
 	
+	$agr = mysqli_query($con,"SELECT SUM(qty) FROM sheets WHERE status ='delivered'" ) or die(mysqli_error($con));
+	$onSite = (int)mysqli_fetch_Array($agr,MYSQLI_ASSOC)['SUM(qty)'];	
 ?>	
 <html>
 	<style>
@@ -69,8 +71,11 @@
 					<option value="<?php echo $user['delivered_by'];?>" <?php if($delivered_by == $user['delivered_by']) echo 'selected';?>><?php echo $user['delivered_by'];?></option> 						<?php
 				}																																			?>
 			</select>			
+		
+			<br/><br/>
+			<h2><?php echo $onSite;?> Sheets to collect</h2>
+			<br/><br/>
 		</div>	 			
-		<br/><br/><br/><br/>
 		<div class="container" >
 			<ul class="list-group">																			<?php 
 				foreach($sheets as $sheet)
@@ -86,6 +91,7 @@
 									<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['date']));?></p>
 									<p><i class="fa fa-university"></i> <?php echo $sheet['shop'];?></p>
 									<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>
+									<p><i class="fa fa-pencil"></i> Requested by <?php echo $sheet['requested_by'];?></p>
 									<p><i class="fa fa-truck"></i> Delivered by <?php echo $sheet['delivered_by'];?></p>
 								</div>
 								<br/>

@@ -160,19 +160,32 @@
 		$(function() {
 			var pickerOpts = { dateFormat:"dd-mm-yy"}; 
 			$( "#datepicker" ).datepicker(pickerOpts);
-
-			var url = 'assignment.php';
+			
+			var oldDriver,newDriver,oldOrder,newOrder,sheet;
+			var date;
+			console.log(date);
 			$('ul[id^="sort"]').sortable({
 				connectWith : ".sortable",
 				receive : function(e, ui) {
-					console.log('receive');
-					var driver_id = $(ui.item).parent(".sortable").data("driver-id");
-					var sheet_id = $(ui.item).data("sheet-id");
+					var driver = $(ui.item).parent(".sortable").data("driver-id");
+					sheet = $(ui.item).data("sheet-id");
 					$.ajax({
-						url : url + '?driver_id=' + driver_id + '&sheet_id=' + sheet_id,
+						url : 'assignment.php?driver=' + driver + '&sheet=' + sheet,
 						success : function(response){}
 					});
-				}		
+				},
+				start : function(e, ui) {
+					oldDriver = $(ui.item).parent(".sortable").data("driver-id");
+					oldOrder = ui.item.index() + 1;
+				},
+				stop : function(e, ui) {
+					newDriver = $(ui.item).parent(".sortable").data("driver-id");
+					newOrder = ui.item.index() + 1;
+					$.ajax({
+						url : 'order.php?oldDriver=' + oldDriver + '&newDriver=' + newDriver + '&oldOrder=' + oldOrder + '&newOrder=' + newOrder + '&sheet=' + sheet + '&date=2019-08-08',
+						success : function(response){}
+					});
+				}										
 			}).disableSelection();
 		});
 	</script>
