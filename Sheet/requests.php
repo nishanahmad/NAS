@@ -26,6 +26,8 @@
 	else
 		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' AND assigned_to = '$userId' ORDER BY date ASC" ) or die(mysqli_error($con));		
 	
+	$inHandQuery = mysqli_query($con,"SELECT SUM(qty) FROM sheets_in_hand" ) or die(mysqli_error($con));
+	$stockInHand = (int)mysqli_fetch_array($inHandQuery,MYSQLI_ASSOC)['SUM(qty)'];
 ?>	
 <html>
 	<style>
@@ -111,7 +113,11 @@
 				</select>			
 			</div>																							<?php	 				
 		}																									?>			
-		<br/><br/><br/><br/>
+		<br/><br/>
+		<div align="center">
+			<h2><?php echo $stockInHand;?> Sheets Available</h2>
+			<br/><br/>
+		</div>
 		<div class="container" >
 			<ul class="list-group">																			<?php 
 				foreach($sheets as $sheet)
