@@ -147,8 +147,11 @@
 							</div>
 							<div align="center">
 								<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;								
-								<button class="btn btn-primary" onclick="deliver(<?php echo $sheet['id'];?>)">Deliver</button>&nbsp;&nbsp;&nbsp;&nbsp;				
-								<button class="btn btn-danger" onclick="cancel(<?php echo $sheet['id'];?>)">Cancel</button>				
+								<button class="btn btn-primary" onclick="deliver(<?php echo $sheet['id'];?>)">Deliver</button>&nbsp;&nbsp;&nbsp;&nbsp;<?php
+								if($designation != 'driver')
+								{																														?>																																								
+									<button class="btn btn-danger" onclick="cancel(<?php echo $sheet['id'];?>)">Cancel</button>							<?php
+								}																														?>
 							</div>
 							<br/><br/>
 						</div>

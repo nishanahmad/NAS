@@ -88,7 +88,7 @@
 									<p><i class="fa fa-user"></i> <?php echo $sheet['name'];?>
 									, <i class="fa fa-phone"></i> <a href="tel:<?php echo $sheet['phone'];?>"><?php echo $sheet['phone'];?></a></p>
 									<p><i class="fa fa-copy"></i> <?php echo $sheet['qty'].' Nos';?></p>
-									<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['date']));?></p>
+									<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['delivered_on']));?></p>
 									<p><i class="fa fa-university"></i> <?php echo $sheet['shop'];?></p>
 									<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>
 									<p><i class="fa fa-pencil"></i> Requested by <?php echo $sheet['requested_by'];?></p>
