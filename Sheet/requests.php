@@ -72,19 +72,19 @@ if(isset($_SESSION["user_name"]))
 							inputOptions: [
 							{
 								text: 'Lorry',
-								value: '1',
+								value: '31',
 							},
 							{
 								text: 'Praveen',
-								value: '2',
+								value: '9',
 							},
 							{
 								text: 'Fiyas',
-								value: '3',
+								value: '13',
 							},
 							{
 								text: 'Prajith',
-								value: '4',
+								value: '14',
 							}
 							],
 							callback: function (result2) {
