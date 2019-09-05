@@ -2,6 +2,8 @@
 	require '../connect.php';	
 	session_start();	
 
+if(isset($_SESSION["user_name"]))
+{
 	if(isset($_GET['delivered_by']))
 		$delivered_by = $_GET['delivered_by'];
 	else
@@ -127,4 +129,7 @@
 
 		</script>				
 	</body>
-</html>
+</html>																								<?php
+}
+else
+	header("Location:../index.php");

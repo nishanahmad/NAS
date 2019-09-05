@@ -2,6 +2,8 @@
 	require '../connect.php';
 	session_start();	
 	
+if(isset($_SESSION["user_name"]))
+{	
 	$designation = $_SESSION['role'];
 	$userId = $_SESSION['user_id'];
 
@@ -180,4 +182,7 @@
 
 		</script>		
 	</body>
-</html>
+</html>																				<?php
+}
+else
+	header("Location:../index.php");
