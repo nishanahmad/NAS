@@ -63,43 +63,49 @@ if(isset($_SESSION["user_name"]))
 				title: "Enter number of sheets delivered to this site",
 				inputType: 'number',
 				callback: function (result1) {
-					qty = result1;
-					if(designation != 'driver')
+					if(result1)
 					{
-						bootbox.prompt({
-							title: "Select the driver",
-							inputType: 'select',
-							inputOptions: [
-							{
-								text: 'Lorry',
-								value: '31',
-							},
-							{
-								text: 'Praveen',
-								value: '9',
-							},
-							{
-								text: 'Fiyas',
-								value: '13',
-							},
-							{
-								text: 'Prajith',
-								value: '14',
-							}
-							],
-							callback: function (result2) {
-								driver = result2;
-								hrf = 'deliver.php?';
-								window.location.href = hrf +"id="+ id + "&qty=" + qty + "&driver=" + driver;								
-							}
-						});				
-					}
-					else
-					{
-						driver = "<?php echo $_SESSION["user_id"];?>";
-						hrf = 'deliver.php?';
-						window.location.href = hrf +"id="+ id + "&qty=" + qty + "&driver=" + driver;						
-					}
+						qty = result1;
+						if(designation != 'driver')
+						{
+							bootbox.prompt({
+								title: "Select the driver",
+								inputType: 'select',
+								inputOptions: [
+								{
+									text: 'Lorry',
+									value: '31',
+								},
+								{
+									text: 'Praveen',
+									value: '9',
+								},
+								{
+									text: 'Fiyas',
+									value: '13',
+								},
+								{
+									text: 'Prajith',
+									value: '14',
+								}
+								],
+								callback: function (result2) {
+									if(result2)
+									{
+										driver = result2;
+										hrf = 'deliver.php?';
+										window.location.href = hrf +"id="+ id + "&qty=" + qty + "&driver=" + driver;																		
+									}
+								}
+							});				
+						}
+						else
+						{
+							driver = "<?php echo $_SESSION["user_id"];?>";
+							hrf = 'deliver.php?';
+							window.location.href = hrf +"id="+ id + "&qty=" + qty + "&driver=" + driver;						
+						}
+					}						
 				}
 			});							
 		}
