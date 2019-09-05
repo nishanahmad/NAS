@@ -228,6 +228,13 @@ input:focus, textarea:focus {
 		<p class="date">
 		<input name="date" type="text" class="feedback-input" placeholder="Date" id="datepicker" value="<?php echo date("d-m-Y",strtotime($request['date']));?>"/>
 		</p>																											<?php
+	}																					
+
+	if($request['status'] == 'delivered' && $_SESSION['role'] != 'driver')
+	{																													?>
+		<p class="date">
+		<input name="delivered_on" type="text" class="feedback-input" placeholder="Date" id="datepicker" value="<?php echo date("d-m-Y",strtotime($request['delivered_on']));?>"/>
+		</p>																											<?php
 	}																													?>
 
 	<p class="name">

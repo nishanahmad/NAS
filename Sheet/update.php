@@ -7,8 +7,8 @@ if(isset($_SESSION["user_name"]))
 	require '../connect.php';
 	if(count($_POST)>0) 
 	{	
+		var_dump($_POST);
 		$id = $_POST['id'];
-		$sqlDate = date("Y-m-d",strtotime($_POST['date']));
 		$name = $_POST['name'];
 		$phone = $_POST['phone'];
 		$area = $_POST['area'];
@@ -17,8 +17,22 @@ if(isset($_SESSION["user_name"]))
 		$shop = $_POST['shop'];
 		$remarks = $_POST['remarks'];
 		
-		$update = mysqli_query($con,"UPDATE sheets SET date='$sqlDate',name='$name', phone='$phone',qty=$qty,bags='$bags',shop='$shop',area='$area',remarks='$remarks' WHERE id=$id") or die(mysqli_error($con));	
+		
+		$update = mysqli_query($con,"UPDATE sheets SET name='$name', phone='$phone',qty=$qty,bags='$bags',shop='$shop',area='$area',remarks='$remarks' WHERE id=$id") or die(mysqli_error($con));	
 			  
+		if(isset($_POST['date']))
+		{
+			$sqlDate = date("Y-m-d",strtotime($_POST['date']));
+			$update = mysqli_query($con,"UPDATE sheets SET date='$sqlDate' WHERE id=$id") or die(mysqli_error($con));	
+		}
+		
+		if(isset($_POST['delivered_on']))
+		{
+			$delivered_on = date("Y-m-d",strtotime($_POST['delivered_on']));
+			$update = mysqli_query($con,"UPDATE sheets SET delivered_on='$delivered_on' WHERE id=$id") or die(mysqli_error($con));	
+		}		
+			
+		
 		$query = mysqli_query($con,"SELECT status FROM sheets WHERE id = $id") or die(mysqli_error($con));
 		$sheet = mysqli_fetch_array($query,MYSQLI_ASSOC);
 		
@@ -26,5 +40,6 @@ if(isset($_SESSION["user_name"]))
 			header( "Location: requests.php" );
 		else
 			header( "Location: deliveries.php" );
+		
 	}
 }	
