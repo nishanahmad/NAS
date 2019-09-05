@@ -9,7 +9,11 @@ if(isset($_SESSION["user_name"]))
 	else
 		$delivered_by = 'All';
 	
-	$users = mysqli_query($con,"SELECT DISTINCT(delivered_by) FROM sheets WHERE status ='delivered' ORDER BY delivered_by ASC" ) or die(mysqli_error($con));	
+	$users = mysqli_query($con,"SELECT * FROM users WHERE role ='driver' ORDER BY user_name ASC" ) or die(mysqli_error($con));
+	foreach($users as $user)
+	{
+		$userMap[$user['user_id']] = $user['user_name']; 
+	}
 	
 	if($delivered_by == 'All')	
 		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' ORDER BY delivered_on ASC" ) or die(mysqli_error($con));		 	 
@@ -70,7 +74,7 @@ if(isset($_SESSION["user_name"]))
 				<option value = "All" <?php if($delivered_by == 'All') echo 'selected';?> >ALL</option>													    	<?php
 				foreach($users as $user)
 				{																																			?>
-					<option value="<?php echo $user['delivered_by'];?>" <?php if($delivered_by == $user['delivered_by']) echo 'selected';?>><?php echo $user['delivered_by'];?></option> 						<?php
+					<option value="<?php echo $user['user_id'];?>" <?php if($delivered_by == $user['user_id']) echo 'selected';?>><?php echo $user['user_name'];?></option> 						<?php
 				}																																			?>
 			</select>			
 		
@@ -94,7 +98,7 @@ if(isset($_SESSION["user_name"]))
 									<p><i class="fa fa-university"></i> <?php echo $sheet['shop'];?></p>
 									<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>
 									<p><i class="fa fa-pencil"></i> Requested by <?php echo $sheet['requested_by'];?></p>
-									<p><i class="fa fa-truck"></i> Delivered by <?php echo $sheet['delivered_by'];?></p>
+									<p><i class="fa fa-truck"></i> Delivered by <?php echo $userMap[$sheet['delivered_by']];?></p>
 								</div>
 								<br/>
 							</div>

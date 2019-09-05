@@ -52,33 +52,56 @@ if(isset($_SESSION["user_name"]))
 		<link rel="stylesheet" href="../css/slicknav.min.css">
 		<script src="../js/jquery.js"></script> 
 		<script src="../js/bootstrap.min.js"></script> 
+		<script src="../js/bootbox.min.js"></script> 		
 		<script src="../js/jquery.slicknav.min.js"></script>
 		<script>
 		function deliver(id){
+			var qty;
+			var driver;
 			var designation = "<?php echo $designation;?>";				
-			var qty = window.prompt("Enter number of sheets delivered to this site");
-			if(designation != 'driver')
-				var driver = window.prompt("Enter driver name");
-			else
-				var driver = "<?php echo $_SESSION["user_name"];?>";				
-			
-			if(qty == null || driver == null)
-			{
-				return false;
-			}
-			else
-			{
-				if(isNaN(qty) || qty <= 0)
-				{
-					alert('Please enter a valid number');
-					return false;
+			bootbox.prompt({
+				title: "Enter number of sheets delivered to this site",
+				inputType: 'number',
+				callback: function (result1) {
+					qty = result1;
+					if(designation != 'driver')
+					{
+						bootbox.prompt({
+							title: "Select the driver",
+							inputType: 'select',
+							inputOptions: [
+							{
+								text: 'Lorry',
+								value: '1',
+							},
+							{
+								text: 'Praveen',
+								value: '2',
+							},
+							{
+								text: 'Fiyas',
+								value: '3',
+							},
+							{
+								text: 'Prajith',
+								value: '4',
+							}
+							],
+							callback: function (result2) {
+								driver = result2;
+								hrf = 'deliver.php?';
+								window.location.href = hrf +"id="+ id + "&qty=" + qty + "&driver=" + driver;								
+							}
+						});				
+					}
+					else
+					{
+						driver = "<?php echo $_SESSION["user_id"];?>";
+						hrf = 'deliver.php?';
+						window.location.href = hrf +"id="+ id + "&qty=" + qty + "&driver=" + driver;						
+					}
 				}
-				else
-				{
-					hrf = 'deliver.php?';
-					window.location.href = hrf +"id="+ id + "&qty=" + qty + "&driver=" + driver;
-				}				
-			}
+			});							
 		}
 		function cancel(id){
 			var conf = confirm("This will cancel this request. Are you sure?");
@@ -87,7 +110,7 @@ if(isset($_SESSION["user_name"]))
 				hrf = 'cancel.php?';
 				window.location.href = hrf +"id="+ id;		
 			}
-		}
+		}		
 		</script>
 	</head>
 	<body>
@@ -103,6 +126,7 @@ if(isset($_SESSION["user_name"]))
 		</nav>		
 		
 		<br/><br/>																								<?php
+				
 		if($designation != 'driver')
 		{																										?>
 			<div align="center">
@@ -116,6 +140,7 @@ if(isset($_SESSION["user_name"]))
 			</div>																							<?php	 				
 		}																									?>			
 		<br/><br/>
+		
 		<div align="center">
 			<h2><?php echo $stockInHand;?> Sheets Available</h2>
 			<br/><br/>
