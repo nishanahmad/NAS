@@ -8,7 +8,7 @@ if(isset($_SESSION["user_name"]))
 {
 	$sqlDate = date("Y-m-d");
 	$id = $_GET['id'];
-	$closed_by = (int)$_SESSION['user_id'];
+	$closed_by = (int)$_GET['driver'];
 
 	$sheet = mysqli_query($con,"SELECT * FROM sheets WHERE id=$id ") or die(mysqli_error($con));
 	$qty = (int)mysqli_fetch_array($sheet,MYSQLI_ASSOC)['qty'];

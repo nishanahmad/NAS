@@ -7,7 +7,9 @@ if(isset($_SESSION["user_name"]))
 	$designation = $_SESSION['role'];
 	$userId = $_SESSION['user_id'];
 
-	$driversQuery = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role ='driver'" ) or die(mysqli_error($con));
+	$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand ORDER BY user") or die(mysqli_error($con));
+
+	$driversQuery = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role ='driver' ORDER BY user_name") or die(mysqli_error($con));
 	foreach($driversQuery as $driver)
 		$drivers[$driver['user_id']] = $driver['user_name'];
 	
@@ -40,6 +42,16 @@ if(isset($_SESSION["user_name"]))
 		float: left;
 		margin: 0 10px;
 	}
+	
+	.stockTable{
+		border: 1px solid black;
+		width:200px;
+	}	
+	.stockTable th,td {
+		padding: 5px;	
+		border: 1px solid black;
+	}
+
 	</style>
 	<head>
 		<title>Pending Requests</title>
@@ -58,7 +70,15 @@ if(isset($_SESSION["user_name"]))
 		function deliver(id){
 			var qty;
 			var driver;
-			var designation = "<?php echo $designation;?>";				
+			var designation = "<?php echo $designation;?>";			
+			
+			var arr1 = [];
+			<?php
+			foreach($driversQuery as $driver)
+			{?>
+				arr1.push({text:"<?php echo $driver['user_name'];?>", value:"<?php echo $driver['user_id'];?>"});<?php
+			}?>	
+			
 			bootbox.prompt({
 				title: "Enter number of sheets delivered to this site",
 				inputType: 'number',
@@ -71,24 +91,7 @@ if(isset($_SESSION["user_name"]))
 							bootbox.prompt({
 								title: "Select the driver",
 								inputType: 'select',
-								inputOptions: [
-								{
-									text: 'Lorry',
-									value: '31',
-								},
-								{
-									text: 'Praveen',
-									value: '9',
-								},
-								{
-									text: 'Fiyas',
-									value: '13',
-								},
-								{
-									text: 'Prajith',
-									value: '14',
-								}
-								],
+								inputOptions: arr1,
 								callback: function (result2) {
 									if(result2)
 									{
@@ -148,7 +151,19 @@ if(isset($_SESSION["user_name"]))
 		<br/><br/>
 		
 		<div align="center">
-			<h2><?php echo $stockInHand;?> Sheets Available</h2>
+			<table class="stockTable">												<?php
+				foreach($stockQuery as $stock)
+				{?>
+					<tr>
+						<td><?php echo $drivers[$stock['user']];?></td>
+						<td style="width:20%;text-align:center"><?php echo $stock['qty'];?></td>
+					</tr>																					<?php					
+				}?>	
+				<tr>
+					<th>Total</th>
+					<th style="text-align:center"><?php echo $stockInHand;?></th>
+				</tr>																										
+			</table>
 			<br/><br/>
 		</div>
 		<div class="container" >

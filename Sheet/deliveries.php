@@ -4,6 +4,10 @@
 
 if(isset($_SESSION["user_name"]))
 {
+	$designation = $_SESSION['role'];	
+	
+	$driversQuery = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role ='driver' ORDER BY user_name") or die(mysqli_error($con));
+	
 	if(isset($_GET['delivered_by']))
 		$delivered_by = $_GET['delivered_by'];
 	else
@@ -32,6 +36,12 @@ if(isset($_SESSION["user_name"]))
 		float: left;
 		margin: 0 10px;
 	}
+	
+	.modal-footer button {
+	  float:right;
+	  margin-left: 10px;
+	}
+	
 	</style>
 	<head>
 		<title>Delivered Sheets</title>
@@ -44,16 +54,58 @@ if(isset($_SESSION["user_name"]))
 		<link rel="stylesheet" href="../css/slicknav.min.css">				
 		<script type="text/javascript" src="../js/jquery.js"></script> 
 		<script type="text/javascript" src="../js/bootstrap.min.js"></script> 
+		<script src="../js/bootbox.min.js"></script>
 		<script src="../js/jquery.slicknav.min.js"></script>
 
 		<script>
 			function closeRequest(id){
-				var conf = confirm("Are you sure?");
-				if(conf)
+				var designation = "<?php echo $designation;?>";
+				if(designation != 'driver')
 				{
-					hrf = 'close.php?';
-					window.location.href = hrf +"id="+ id;		
+					var arr1 = [];
+					<?php
+					foreach($driversQuery as $driver)
+					{?>
+						arr1.push({text:"<?php echo $driver['user_name'];?>", value:"<?php echo $driver['user_id'];?>"});<?php
+					}?>						
+					bootbox.prompt({
+						title: "Select the driver",
+						inputType: 'select',
+						inputOptions: arr1,
+						callback: function (result) {
+							if(result)
+							{
+								driver = result;
+								hrf = 'close.php?';
+								window.location.href = hrf +"id="+ id + "&driver=" + driver;		
+							}
+						}
+					});				
 				}
+				else
+				{
+					driver = "<?php echo $_SESSION["user_id"];?>";
+					bootbox.confirm({
+						title: "Confirm?",
+						message: "Sheets will be added to stock.",
+						buttons: {
+							confirm: {
+								label: '<i class="fa fa-check"></i> Confirm'
+							},							
+							cancel: {
+								label: '<i class="fa fa-times"></i> Cancel'
+							}
+						},
+						callback: function (result) {
+							if(result)
+							{
+								hrf = 'close.php?';
+								window.location.href = hrf +"id="+ id + "&driver=" + driver;		
+							}
+						}
+					});					
+						
+				}				
 			}
 		</script>		
 	</head>
