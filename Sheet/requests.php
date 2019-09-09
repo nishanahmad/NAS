@@ -179,7 +179,7 @@ if(isset($_SESSION["user_name"]))
 									, <i class="fa fa-phone"></i> <a href="tel:<?php echo $sheet['phone'];?>"><?php echo $sheet['phone'];?></a></p>
 									<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['date']));?>, <i class="fa fa-shopping-bag"></i> <?php echo $sheet['bags'].' bags';?></p>
 									<p><i class="fa fa-university"></i> <?php echo $sheet['shop'];?></p>
-									<p><i class="fa fa-truck"></i> Req by <b><?php echo $sheet['requested_by']; 
+									<p><i class="fa fa-pencil"></i> Req by <b><?php echo $sheet['requested_by']; 
 									if($sheet['created_on'] != null && $designation != 'driver')
 									{																																?>
 										</b> On <?php echo date('M d, h:i A', strtotime($sheet['created_on']));?></p>			<?php
