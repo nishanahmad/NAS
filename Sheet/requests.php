@@ -177,19 +177,18 @@ if(isset($_SESSION["user_name"]))
 									<p><i class="fa fa-map-marker"></i><strong> <?php echo $sheet['area'];?></strong></p>
 									<p><i class="fa fa-user"></i> <?php echo $sheet['name'];?>
 									, <i class="fa fa-phone"></i> <a href="tel:<?php echo $sheet['phone'];?>"><?php echo $sheet['phone'];?></a></p>
-									<p><i class="fa fa-copy"></i> <?php echo $sheet['bags'].' bags';?></p>
 									<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['date']));?></p>
-									<p><i class="fa fa-university"></i> <?php echo $sheet['shop'];?></p>
-									<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>	
-									<p><i class="fa fa-truck"></i> Requested by <?php echo $sheet['requested_by'];?></p>							<?php 
+									<p><i class="fa fa-copy"></i> <?php echo $sheet['bags'].' bags';?>, <i class="fa fa-university"></i> <?php echo $sheet['shop'];?></p>
+									<p><i class="fa fa-truck"></i> Req by <b><?php echo $sheet['requested_by']; 
 									if($sheet['created_on'] != null && $designation != 'driver')
 									{																																?>
-										<p><i class="fa fa-clock-o"></i> Requested on <?php echo date('M d, h:i A', strtotime($sheet['created_on']));?></p>			<?php
+										</b> On <?php echo date('M d, h:i A', strtotime($sheet['created_on']));?></p>			<?php
 									}
 									if($designation != 'driver' && $sheet['assigned_to'] != 0)
 									{																																?>
-										<p><i class="fa fa-share"></i> Assigned to <?php echo $drivers[$sheet['assigned_to']];?></p>			<?php										
+										<p><i class="fa fa-share"></i> Assigned to <b><?php echo $drivers[$sheet['assigned_to']];?></b></p>								<?php										
 									}																																?>
+									<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>	
 								</div>
 								<br/>
 							</div>

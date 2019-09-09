@@ -149,8 +149,8 @@ if(isset($_SESSION["user_name"]))
 									<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['delivered_on']));?></p>
 									<p><i class="fa fa-university"></i> <?php echo $sheet['shop'];?></p>
 									<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>
-									<p><i class="fa fa-pencil"></i> Requested by <?php echo $sheet['requested_by'];?></p>
-									<p><i class="fa fa-truck"></i> Delivered by <?php echo $userMap[$sheet['delivered_by']];?></p>
+									<p><i class="fa fa-pencil"></i> Req by <?php echo $sheet['requested_by'];?></p>
+									<p><i class="fa fa-truck"></i> Deliv by <?php echo $userMap[$sheet['delivered_by']];?></p>
 								</div>
 								<br/>
 							</div>
