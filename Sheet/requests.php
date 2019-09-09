@@ -133,43 +133,39 @@ if(isset($_SESSION["user_name"]))
 			<a href="requests.php" class="selected"><i class="fa fa-spinner"></i><span>Pending ...</span></a>
 			<a href="deliveries.php"><i class="fa fa-truck"></i><span>Delivered</span></a>
 		</nav>		
-		
-		<br/><br/>																								<?php
-				
-		if($designation != 'driver')
-		{																										?>
-			<div align="center">
-				<select name="requested_by" id="requested_by" onchange="document.location.href = 'requests.php?requested_by=' + this.value">
-					<option value = "All" <?php if($requested_by == 'All') echo 'selected';?> >ALL</option>													    	<?php
-					foreach($users as $user)
-					{																																			?>
-						<option value="<?php echo $user['requested_by'];?>" <?php if($requested_by == $user['requested_by']) echo 'selected';?>><?php echo $user['requested_by'];?></option> 						<?php
-					}																																			?>
-				</select>			
-			</div>																							<?php	 				
-		}																									?>			
 		<br/><br/>
-		
 		<div align="center">
-			<table class="stockTable">												<?php
-				foreach($stockQuery as $stock)
-				{?>
-					<tr>
-						<td><?php echo $drivers[$stock['user']];?></td>
-						<td style="width:20%;text-align:center"><?php echo $stock['qty'];?></td>
-					</tr>																					<?php					
-				}?>	
-				<tr>
-					<th>Total</th>
-					<th style="text-align:center"><?php echo $stockInHand;?></th>
-				</tr>																										
-			</table>
-			<br/><br/>
+			<h1>Pending Requests</h1><br/>																																	<?php
+			if($designation != 'driver')
+			{																																							?>
+				<select name="requested_by" id="requested_by" onchange="document.location.href = 'requests.php?requested_by=' + this.value">
+						<option value = "All" <?php if($requested_by == 'All') echo 'selected';?> >ALL</option>													    	<?php
+						foreach($users as $user)
+						{																																				?>
+							<option value="<?php echo $user['requested_by'];?>" <?php if($requested_by == $user['requested_by']) echo 'selected';?>><?php echo $user['requested_by'];?></option> 						<?php
+						}																																			?>
+					</select>			
+					<br/><br/>
+					<table class="stockTable">																								<?php
+						foreach($stockQuery as $stock)
+						{?>
+							<tr>
+								<td><?php echo $drivers[$stock['user']];?></td>
+								<td style="width:20%;text-align:center"><?php echo $stock['qty'];?></td>
+							</tr>																											<?php					
+						}?>	
+						<tr>
+							<th>Total</th>
+							<th style="text-align:center"><?php echo $stockInHand;?></th>
+						</tr>																										
+					</table>
+					<br/><br/>																												<?php	 				
+			}																																?>
 		</div>
 		<div class="container" >
-			<ul class="list-group">																			<?php 
+			<ul class="list-group">																											<?php 
 				foreach($sheets as $sheet)
-				{																							?>
+				{																															?>
 					<li>
 						<div class="panel panel-default">
 							<div class="panel-body">
@@ -182,7 +178,7 @@ if(isset($_SESSION["user_name"]))
 									<p><i class="fa fa-pencil"></i> Req by <b><?php echo $sheet['requested_by']; 
 									if($sheet['created_on'] != null && $designation != 'driver')
 									{																																?>
-										</b> On <?php echo date('M d, h:i A', strtotime($sheet['created_on']));?></p>			<?php
+										</b> on <?php echo date('d M, h:i A', strtotime($sheet['created_on']));?></p>			<?php
 									}
 									if($designation != 'driver' && $sheet['assigned_to'] != 0)
 									{																																?>
