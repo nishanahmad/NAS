@@ -18,7 +18,7 @@ if(isset($_SESSION["user_name"]))
 		else
 			$assigned_to = 'All';
 
-		$users = mysqli_query($con,"SELECT DISTINCT(assigned_to) FROM sheets WHERE status ='requested' ORDER BY assigned_to ASC" ) or die(mysqli_error($con));
+		$users = mysqli_query($con,"SELECT DISTINCT(assigned_to) FROM sheets WHERE status ='requested' AND assigned_to > 0 ORDER BY assigned_to ASC" ) or die(mysqli_error($con));
 		
 		if($assigned_to == 'All')
 			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' ORDER BY date ASC" ) or die(mysqli_error($con));
