@@ -252,13 +252,7 @@ if(isset($_SESSION["user_name"]))
 			<p class="bags">
 			<input name="bags" type="text" class="feedback-input" id="bags"  value="<?php echo $request['bags'];?>"/>
 			</p>																											<?php
-		}
-		else
-		{																													?>
-			<p class="qty">
-			<input name="qty" type="text" class="feedback-input" id="qty"  value="<?php echo $request['qty'];?>"/>
-			</p>																											<?php			
-		}																													?>	
+		}?>
 
 		<p class="shop">
 		<input name="shop" type="text" class="feedback-input" placeholder="Shop" id="shop" value="<?php echo $request['shop'];?>"/>
