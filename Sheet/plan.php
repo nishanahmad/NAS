@@ -133,7 +133,9 @@
 			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE assigned_to = 0 AND date = '$date' AND status = 'requested' ORDER BY requested_by") or die(mysqli_error($con));
 			foreach ($sheets as $sheet) 
 			{																																?>
-				<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet['id']; ?>"><?php echo $sheet['area'].'<br/>'.$sheet['name'].'<br/><b>'.$sheet['bags'].' bags<br/>'.$sheet['requested_by'].'</b>'; ?></li>											<?php
+				<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet['id']; ?>">
+					<?php echo $sheet['area'].'<br/>'.$sheet['name'].', '.$sheet['phone'].'<br/><b>'.$sheet['bags'].' bags<br/>'.$sheet['requested_by'].'</b>'; 	?>
+				</li>																														<?php
 			}																																?>
 			</ul>
 		</div>																																<?php	
@@ -148,7 +150,7 @@
 				<ul class="sortable ui-sortable" id="sort<?php echo $driverId; ?>" data-driver-id="<?php echo $driver['user_id']; ?>"><?php
 				foreach ($sheets as $sheet) 
 				{																																?>
-					<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet['id']; ?>"><?php echo $sheet['area'].'<br/>'.$sheet['name'].'<br/>'.$sheet['phone'].'<br/><b>'.$sheet['bags'].' bags<br/>'.$sheet['requested_by'].'</b>'; ?></li>											<?php
+					<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet['id']; ?>"><?php echo $sheet['area'].'<br/>'.$sheet['name'].', '.$sheet['phone'].'<br/><b>'.$sheet['bags'].' bags<br/>'.$sheet['requested_by'].'</b>'; ?></li>											<?php
 				}																																?>
 				</ul>
 			</div>																																<?php

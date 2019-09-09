@@ -50,6 +50,10 @@ if(isset($_SESSION["user_name"]))
 		border: 1px solid black;
 	}
 
+	.modal-footer button {
+	  float:right;
+	  margin-left: 10px;
+	}
 	</style>
 	<head>
 		<title>Pending Requests</title>
