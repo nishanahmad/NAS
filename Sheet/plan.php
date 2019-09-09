@@ -5,7 +5,7 @@
 	if(isset($_GET['date']))
 		$date = date("Y-m-d", strtotime($_GET['date']));
 	else
-		$date = date("Y-m-d", strtotime("+1 day"));
+		$date = date("Y-m-d");
 	
 	$drivers = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role = 'driver' ORDER BY user_id ASC") or die(mysqli_error($con));	
 ?>
@@ -148,7 +148,7 @@
 				<ul class="sortable ui-sortable" id="sort<?php echo $driverId; ?>" data-driver-id="<?php echo $driver['user_id']; ?>"><?php
 				foreach ($sheets as $sheet) 
 				{																																?>
-					<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet['id']; ?>"><?php echo $sheet['area'].'<br/>'.$sheet['name'].'<br/><b>'.$sheet['bags'].' bags<br/>'.$sheet['requested_by'].'</b>'; ?></li>											<?php
+					<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet['id']; ?>"><?php echo $sheet['area'].'<br/>'.$sheet['name'].'<br/>'.$sheet['phone'].'<br/><b>'.$sheet['bags'].' bags<br/>'.$sheet['requested_by'].'</b>'; ?></li>											<?php
 				}																																?>
 				</ul>
 			</div>																																<?php
