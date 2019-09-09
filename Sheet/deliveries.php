@@ -24,8 +24,16 @@ if(isset($_SESSION["user_name"]))
 	else
 		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' AND delivered_by = '$delivered_by' ORDER BY delivered_on ASC" ) or die(mysqli_error($con));		 	 
 	
-	$agr = mysqli_query($con,"SELECT SUM(qty) FROM sheets WHERE status ='delivered'" ) or die(mysqli_error($con));
-	$onSite = (int)mysqli_fetch_Array($agr,MYSQLI_ASSOC)['SUM(qty)'];	
+	if($delivered_by == 'All')
+	{
+		$agr = mysqli_query($con,"SELECT SUM(qty) FROM sheets WHERE status ='delivered'" ) or die(mysqli_error($con));
+		$onSite = (int)mysqli_fetch_Array($agr,MYSQLI_ASSOC)['SUM(qty)'];			
+	}		
+	else
+	{
+		$agr = mysqli_query($con,"SELECT SUM(qty) FROM sheets WHERE status ='delivered' AND delivered_by = '$delivered_by' " ) or die(mysqli_error($con));
+		$onSite = (int)mysqli_fetch_Array($agr,MYSQLI_ASSOC)['SUM(qty)'];					
+	}
 ?>	
 <html>
 	<style>
@@ -122,7 +130,7 @@ if(isset($_SESSION["user_name"]))
 		</nav>		
 		<br/><br/>
 		<div align="center">
-			<h1>Delivered</h1><br/>
+			<h2>Delivered</h2><br/>
 			<select name="delivered_by" id="delivered_by" onchange="document.location.href = 'deliveries.php?delivered_by=' + this.value">
 				<option value = "All" <?php if($delivered_by == 'All') echo 'selected';?> >ALL</option>													    	<?php
 				foreach($users as $user)

@@ -7,25 +7,23 @@ if(isset($_SESSION["user_name"]))
 	$designation = $_SESSION['role'];
 	$userId = $_SESSION['user_id'];
 
-	$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand ORDER BY user") or die(mysqli_error($con));
-
 	$driversQuery = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role ='driver' ORDER BY user_name") or die(mysqli_error($con));
 	foreach($driversQuery as $driver)
 		$drivers[$driver['user_id']] = $driver['user_name'];
 	
 	if($designation != 'driver')
 	{
-		if(isset($_GET['requested_by']))
-			$requested_by = $_GET['requested_by'];
+		if(isset($_GET['assigned_to']))
+			$assigned_to = $_GET['assigned_to'];
 		else
-			$requested_by = 'All';
+			$assigned_to = 'All';
 
-		$users = mysqli_query($con,"SELECT DISTINCT(requested_by) FROM sheets WHERE status ='requested' ORDER BY requested_by ASC" ) or die(mysqli_error($con));
+		$users = mysqli_query($con,"SELECT DISTINCT(assigned_to) FROM sheets WHERE status ='requested' ORDER BY assigned_to ASC" ) or die(mysqli_error($con));
 		
-		if($requested_by == 'All')
+		if($assigned_to == 'All')
 			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' ORDER BY date ASC" ) or die(mysqli_error($con));
 		else
-			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' AND requested_by = '$requested_by' ORDER BY date ASC" ) or die(mysqli_error($con));		
+			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' AND assigned_to = '$assigned_to' ORDER BY date ASC" ) or die(mysqli_error($con));		
 	}
 	else
 		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' AND assigned_to = '$userId' ORDER BY date ASC" ) or die(mysqli_error($con));		
@@ -135,18 +133,19 @@ if(isset($_SESSION["user_name"]))
 		</nav>		
 		<br/><br/>
 		<div align="center">
-			<h1>Pending Requests</h1><br/>																																	<?php
+			<h2>Pending Requests</h2><br/>																																	<?php
 			if($designation != 'driver')
 			{																																							?>
-				<select name="requested_by" id="requested_by" onchange="document.location.href = 'requests.php?requested_by=' + this.value">
-						<option value = "All" <?php if($requested_by == 'All') echo 'selected';?> >ALL</option>													    	<?php
+				<select name="assigned_to" id="assigned_to" onchange="document.location.href = 'requests.php?assigned_to=' + this.value">
+						<option value = "All" <?php if($assigned_to == 'All') echo 'selected';?> >ALL</option>													    	<?php
 						foreach($users as $user)
 						{																																				?>
-							<option value="<?php echo $user['requested_by'];?>" <?php if($requested_by == $user['requested_by']) echo 'selected';?>><?php echo $user['requested_by'];?></option> 						<?php
+							<option value="<?php echo $user['assigned_to'];?>" <?php if($assigned_to == $user['assigned_to']) echo 'selected';?>><?php echo $drivers[$user['assigned_to']];?></option> 						<?php
 						}																																			?>
 					</select>			
 					<br/><br/>
 					<table class="stockTable">																								<?php
+						$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand ORDER BY user") or die(mysqli_error($con));
 						foreach($stockQuery as $stock)
 						{?>
 							<tr>
@@ -160,7 +159,13 @@ if(isset($_SESSION["user_name"]))
 						</tr>																										
 					</table>
 					<br/><br/>																												<?php	 				
-			}																																?>
+			}
+			else
+			{
+				$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user = '$userId'") or die(mysqli_error($con));
+				$stock = mysqli_fetch_array($stockQuery,MYSQLI_ASSOC);
+				echo '<b>'.$stock['qty'].' sheets in hand</b><br/><br/>';	
+			}				?>
 		</div>
 		<div class="container" >
 			<ul class="list-group">																											<?php 
