@@ -12,6 +12,20 @@ if(isset($_SESSION["user_name"]))
 	{
 		$userMap[$user['user_id']] = $user['user_name']; 
 	}
+	
+	if($_POST)
+	{
+		$from = (int)$_POST['from'];
+		$to = (int)$_POST['to'];
+		$qty = (int)$_POST['qty'];
+		$transferred_on = date('Y-m-d h:i:s');
+		
+		$updateFrom = mysqli_query($con,"UPDATE sheets_in_hand SET qty = qty - '$qty' WHERE user=$from ");
+		$updateTo = mysqli_query($con,"UPDATE sheets_in_hand SET qty = qty + '$qty' WHERE user=$to ");
+		$insertLogs = mysqli_query($con, "INSERT INTO transfer_logs (user_from, user_to, qty, transferred_on) VALUES ('$from', '$to', '$qty', '$transferred_on')");
+		
+		header("Location:requests.php");
+	}
 ?>	
 <html>
 	<style>
@@ -52,62 +66,54 @@ if(isset($_SESSION["user_name"]))
 				<a href="plan.php"><i class="fa fa-list-alt"></i><span>Driver Assign</span></a>		<?php
 			}																									?>	
 			<a href="requests.php"><i class="fa fa-spinner"></i><span>Pending ...</span></a>
-			<a href="deliveries.php" class="selected"><i class="fa fa-truck"></i><span>Delivered</span></a>
-			<a href="#" class="selected"><i class="fa fa-truck"></i><span>Transfer</span></a>					<?php
+			<a href="deliveries.php"><i class="fa fa-truck"></i><span>Delivered</span></a>
+			<a href="#" class="selected"><i class="fa fa-exchange"></i><span>Transfer</span></a>					<?php
 			if($_SESSION['role'] != 'driver')
 			{																									?>				
-				<a href="transfer_logs.php" class="selected"><i class="fa fa-truck"></i><span>Transfer Logs</span></a><?php
+				<a href="transfer_logs.php"><i class="fa fa-file-text"></i><span>Transfer Logs</span></a><?php
 			}?>	
 		</nav>		
 		<br/><br/>
 		<div align="center">
 			<h2>Tranfer Sheets</h2><br/>
-			<select name="delivered_by" id="delivered_by" onchange="document.location.href = 'deliveries.php?delivered_by=' + this.value">
-				<option value = "All" <?php if($delivered_by == 'All') echo 'selected';?> >ALL</option>													    	<?php
-				foreach($users as $user)
-				{																																			?>
-					<option value="<?php echo $user['user_id'];?>" <?php if($delivered_by == $user['user_id']) echo 'selected';?>><?php echo $user['user_name'];?></option> 						<?php
-				}																																			?>
-			</select>			
-		
-			<br/><br/>
-			<h2><?php echo $onSite;?> Sheets to collect</h2>
-			<br/><br/>
-		</div>	 			
-		<div class="container" >
-			<ul class="list-group">																			<?php 
-				foreach($sheets as $sheet)
-				{																							?>
-					<li>
-						<div class="panel panel-default">
-							<div class="panel-body">
-								<div class="panel-info">
-									<p><i class="fa fa-map-marker"></i><strong> <?php echo $sheet['area'];?></strong></p>
-									<p><i class="fa fa-user"></i> <?php echo $sheet['name'];?>
-									, <i class="fa fa-phone"></i> <a href="tel:<?php echo $sheet['phone'];?>"><?php echo $sheet['phone'];?></a></p>
-									<p><i class="fa fa-file"></i> <?php echo $sheet['qty'].' Nos';?></p>
-									<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['delivered_on']));?></p>
-									<p><i class="fa fa-university"></i> <?php echo $sheet['shop'];?></p>
-									<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>																	<?php
-									if($designation != 'driver')
-									{?>
-										<p><i class="fa fa-pencil"></i> Req by <?php echo $sheet['requested_by'];?></p>														<?php
-									}?>									
-									<p><i class="fa fa-truck"></i> Deliv by <?php echo $userMap[$sheet['delivered_by']];?></p>
-								</div>
-								<br/>
-							</div>
-							<div align="center">
-								<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn btn-primary" style="width:100px;">Edit</a>&nbsp;&nbsp;								
-								<button class="btn btn-danger" style="width:100px;" onclick="closeRequest(<?php echo $sheet['id'];?>)">Close</button>				
-							</div>
-							<br/><br/>
-						</div>
-					</li>																					<?php				
-				}																							?>
+			<form action="" method="post" style="width:400px;border:1px solid black">
+				<br/><br/>
+				<div class="form-group">
+					<div class="col-sm-5 col-md-offset-3">
+						<input type="text" name="qty" required class="form-control" placeholder="Qty" pattern="[0-9]+" title="Input a valid number"><br/><br/>
+					</div>	
+				</div>	
 
-			</ul>
-		</div>
+				<div class="form-group">
+					<div class="col-sm-5">
+						<select required name="from" id="from" class="form-control">
+							<option value="">--- FROM ---</option><?php
+							foreach($users as $user)
+							{																																			?>
+								<option value="<?php echo $user['user_id'];?>"><?php echo $user['user_name'];?></option> 						<?php
+							}																																			?>
+						</select>
+					</div>
+					<div class="col-sm-2 control-label">
+						<i class="fa fa-angle-double-right"></i><i class="fa fa-angle-double-right"></i>
+					</div>
+					<div class="col-sm-5">
+						<select required name="to" id="to" class="form-control">
+							<option value="">---- TO ----</option><?php
+							foreach($users as $user)
+							{																																			?>
+								<option value="<?php echo $user['user_id'];?>"><?php echo $user['user_name'];?></option> 						<?php
+							}																																			?>
+						</select>
+					</div>						
+				</div>						
+				<br/><br/><br/><br/><br/><br/>
+				<div class="form-group">
+					<button type="submit" class="btn btn-info">Submit</button>
+				</div>
+
+			</form>
+		</div>	 			
 		<script>
 
 			$(function(){

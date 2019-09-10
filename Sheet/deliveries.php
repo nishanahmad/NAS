@@ -127,6 +127,11 @@ if(isset($_SESSION["user_name"]))
 			}																									?>	
 			<a href="requests.php"><i class="fa fa-spinner"></i><span>Pending ...</span></a>
 			<a href="deliveries.php" class="selected"><i class="fa fa-truck"></i><span>Delivered</span></a>
+			<a href="transfer.php"><i class="fa fa-exchange"></i><span>Transfer</span></a>					<?php
+			if($_SESSION['role'] != 'driver')
+			{																									?>				
+				<a href="transfer_logs.php"><i class="fa fa-file-text"></i><span>Transfer Logs</span></a><?php
+			}?>							
 		</nav>		
 		<br/><br/>
 		<div align="center">
