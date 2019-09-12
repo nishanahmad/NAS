@@ -18,7 +18,7 @@ if(isset($_SESSION["user_name"]))
 		$from = (int)$_POST['from'];
 		$to = (int)$_POST['to'];
 		$qty = (int)$_POST['qty'];
-		$transferred_on = date('Y-m-d h:i:s');
+		$transferred_on = date('Y-m-d H:i:s');
 		
 		$updateFrom = mysqli_query($con,"UPDATE sheets_in_hand SET qty = qty - '$qty' WHERE user=$from ");
 		$updateTo = mysqli_query($con,"UPDATE sheets_in_hand SET qty = qty + '$qty' WHERE user=$to ");
