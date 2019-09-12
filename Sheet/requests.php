@@ -115,12 +115,18 @@ if(isset($_SESSION["user_name"]))
 			});							
 		}
 		function cancel(id){
-			var conf = confirm("This will cancel this request. Are you sure?");
-			if(conf)
-			{
-				hrf = 'cancel.php?';
-				window.location.href = hrf +"id="+ id;		
-			}
+			bootbox.prompt({
+				title: "Enter reason for cancellation",
+				inputType: 'text',
+				callback: function (result) {
+					if(result)
+					{
+						console.log(result);
+						hrf = 'cancel.php?';
+						window.location.href = hrf +"id="+ id + "&reason=" + result;		
+					}						
+				}
+			});										
 		}		
 		</script>
 	</head>
