@@ -19,10 +19,11 @@ if(isset($_SESSION["user_name"]))
 		$to = (int)$_POST['to'];
 		$qty = (int)$_POST['qty'];
 		$transferred_on = date('Y-m-d H:i:s');
+		$transferred_by = $_SESSION['user_id'];
 		
 		$updateFrom = mysqli_query($con,"UPDATE sheets_in_hand SET qty = qty - '$qty' WHERE user=$from ");
 		$updateTo = mysqli_query($con,"UPDATE sheets_in_hand SET qty = qty + '$qty' WHERE user=$to ");
-		$insertLogs = mysqli_query($con, "INSERT INTO transfer_logs (user_from, user_to, qty, transferred_on) VALUES ('$from', '$to', '$qty', '$transferred_on')");
+		$insertLogs = mysqli_query($con, "INSERT INTO transfer_logs (user_from, user_to, qty, transferred_on, transferred_by) VALUES ('$from', '$to', '$qty', '$transferred_on', '$transferred_by')");
 		
 		header("Location:requests.php");
 	}

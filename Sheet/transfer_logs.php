@@ -61,23 +61,25 @@ if(isset($_SESSION['user_name']))
 					<h2 style="margin-left:40%;" ><i class="fa fa-file-text"></i> Transfer Logs</i></h2><br/>
 					<section style="margin-top:40px;">
 						<form id="searchbox">
-							<table class="col-md-offset-3" style="width:40%">
+							<table class="col-md-offset-3" style="width:50%">
 								<tr>
 									<td style="width:25%;padding:2px;"><input type="text" data-column="0"  class="form-control" placeholder="Date"></td>
-									<td style="width:30%;padding:2px;"><input type="text" data-column="2"  class="form-control" placeholder="From"></td>	
-									<td style="width:30%;padding:2px;"><input type="text" data-column="3"  class="form-control" placeholder="To"></td>	
+									<td style="width:20%;padding:2px;"><input type="text" data-column="2"  class="form-control" placeholder="From"></td>	
+									<td style="width:20%;padding:2px;"><input type="text" data-column="3"  class="form-control" placeholder="To"></td>	
 									<td style="width:15%;padding:2px;"><input type="text" data-column="4"  class="form-control" placeholder="Qty"></td>	
+									<td style="width:20%;padding:2px;"><input type="text" data-column="5"  class="form-control" placeholder="Transfd By	"></td>	
 								</tr>	
 							</table>	
 						</form>																					
-						<table class="table table-bordered table-striped col-md-offset-3" style="width:40%" id="discounts">
+						<table class="table table-bordered table-striped col-md-offset-3" style="width:50%" id="logs">
 							<thead class="cf">
 								<tr>
-									<th style="width:20%;">Date</th>
-									<th style="width:20%;">Time</th>
-									<th style="width:25%;">From</th>
-									<th style="width:25%;">To</th>
+									<th style="width:15%;">Date</th>
+									<th style="width:15%;">Time</th>
+									<th style="width:20%;">From</th>
+									<th style="width:20%;">To</th>
 									<th style="width:10%;">Qty</th>
+									<th style="width:20%;">Transfd By</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -90,7 +92,8 @@ if(isset($_SESSION['user_name']))
 									<td><?php echo date('h:i A',strtotime($log['transferred_on']));?></td>
 									<td><?php echo $userMap[$log['user_from']];?></td>
 									<td><?php echo $userMap[$log['user_to']];?></td>
-									<td><?php echo $log['qty'];?></td>																									
+									<td><?php echo $log['qty'];?></td>				
+									<td><?php echo $userMap[$log['transferred_by']];?></td>									
 								</tr>																								<?php
 							}																										?>
 							</tbody>
