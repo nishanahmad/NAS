@@ -67,7 +67,7 @@ if(isset($_SESSION['user_name']))
 									<td style="width:20%;padding:2px;"><input type="text" data-column="2"  class="form-control" placeholder="From"></td>	
 									<td style="width:20%;padding:2px;"><input type="text" data-column="3"  class="form-control" placeholder="To"></td>	
 									<td style="width:15%;padding:2px;"><input type="text" data-column="4"  class="form-control" placeholder="Qty"></td>	
-									<td style="width:20%;padding:2px;"><input type="text" data-column="5"  class="form-control" placeholder="Transfd By	"></td>	
+									<td style="width:20%;padding:2px;"><input type="text" data-column="5"  class="form-control" placeholder="Transfd By"></td>	
 								</tr>	
 							</table>	
 						</form>																					
@@ -118,11 +118,11 @@ if(isset($_SESSION['user_name']))
 				a.addClass('selected');
 			});			
 			
-			var table = $('#discounts').DataTable({
+			var table = $('#logs').DataTable({
 				"iDisplayLength": 10000
 			});
 				
-			$("#discounts_filter").css("display","none");  // hiding global search box
+			$("#logs_filter").css("display","none");  // hiding global search box
 			$('.form-control').on( 'keyup click', function () {   // for text boxes
 				var i =$(this).attr('data-column');  // getting column index
 				var v =$(this).val();  // getting search input value
