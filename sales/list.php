@@ -102,7 +102,7 @@ if(isset($_SESSION["user_name"]))
 							<th>Id</th>
 							<th style="min-width:90px !important">Date</th>
 							<th style="width:200px !important">AR</th>
-							<th>Rate</th>	
+							<!--th>Rate</th-->	
 							<th>Product</th>
 							<th>Qty</th>
 							<th>Bill</th>							

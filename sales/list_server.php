@@ -195,7 +195,7 @@ foreach($products as $product)
 
 $data = array();
 $total = 0;
-while( $row=mysqli_fetch_array($query) ) 
+while( $row=mysqli_fetch_array($query)) 
 {
 	$nestedData=array(); 
 
@@ -203,6 +203,7 @@ while( $row=mysqli_fetch_array($query) )
 	$nestedData[] = date('d-m-Y',strtotime($row['entry_date']));
 	$nestedData[] = $arMap[$row['ar_id']]['name'];
 	
+	/*
 	if(isset($rateMap[$row['product']][$row['entry_date']]))
 		$rate = $rateMap[$row['product']][$row['entry_date']];	
 	else
@@ -222,7 +223,9 @@ while( $row=mysqli_fetch_array($query) )
 		$wd = 0;
 	
 	$rate = $rate - $sd - $cd - $wd - $row['discount'];			
-	$nestedData[] = $rate.'/-';
+	*/
+	
+	//$nestedData[] = $rate.'/-';
 	$nestedData[] = $productMap[$row['product']];
 	$nestedData[] = $row["qty"] - $row["return_bag"];
 		$total = $total + $row["qty"] - $row["return_bag"];
