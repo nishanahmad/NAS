@@ -135,7 +135,7 @@ if(isset($_SESSION["user_name"]))
 		</nav>		
 		<br/><br/>
 		<div align="center">
-			<h2>Delivered</h2><br/>
+			<h2><i class="fa fa-truck"></i> Delivered</h2><br/>
 			<select name="delivered_by" id="delivered_by" onchange="document.location.href = 'deliveries.php?delivered_by=' + this.value">
 				<option value = "All" <?php if($delivered_by == 'All') echo 'selected';?> >ALL</option>													    	<?php
 				foreach($users as $user)

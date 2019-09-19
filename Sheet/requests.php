@@ -30,6 +30,9 @@ if(isset($_SESSION["user_name"]))
 	
 	$inHandQuery = mysqli_query($con,"SELECT SUM(qty) FROM sheets_in_hand" ) or die(mysqli_error($con));
 	$stockInHand = (int)mysqli_fetch_array($inHandQuery,MYSQLI_ASSOC)['SUM(qty)'];
+	
+	$agr = mysqli_query($con,"SELECT SUM(qty) FROM sheets WHERE status ='delivered' " ) or die(mysqli_error($con));
+	$onSite = (int)mysqli_fetch_Array($agr,MYSQLI_ASSOC)['SUM(qty)'];	
 ?>	
 <html>
 	<style>
@@ -167,10 +170,14 @@ if(isset($_SESSION["user_name"]))
 								<td><?php echo $drivers[$stock['user']];?></td>
 								<td style="width:20%;text-align:center"><?php echo $stock['qty'];?></td>
 							</tr>																											<?php					
-						}?>	
+						}?>
+						<tr>
+							<td>On site</td>
+							<td style="width:20%;text-align:center"><?php echo $onSite;?></td>
+						</tr>						
 						<tr>
 							<th>Total</th>
-							<th style="text-align:center"><?php echo $stockInHand;?></th>
+							<th style="text-align:center"><?php echo $stockInHand + $onSite;?></th>
 						</tr>																										
 					</table>
 					<br/><br/>																												<?php	 				
