@@ -77,12 +77,12 @@ if(isset($_SESSION["user_name"]))
 		
 		</div>
 <div align="center" class="gradient">
-<!--font size=5>
+<font size=5>
 <br>
-<SQL:<span class='sql'></span><br><br>
+<!--SQL:<span class='sql'></span><br><br-->
 </br>
 <b>TOTAL : <span class='total'></span>
-</b></font-->
+</b></font>
 		<br><br><br><br>
 			<input type="text" data-column="0" style="width:50px" class="search-input-text textarea" placeholder="Id">&nbsp&nbsp
 			<input type="text" data-column="1"  class="search-input-text textarea" placeholder="Date">&nbsp&nbsp
