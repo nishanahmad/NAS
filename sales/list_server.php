@@ -29,14 +29,14 @@ if(isset($_SESSION["user_name"]))
 // getting total number records without any search
 
 	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,product,qty,discount,bill_no,customer_name,eng_id,remarks,return_bag";
-	$sql.=" FROM nas_sale";
+	$sql.=" FROM nas_sale WHERE YEAR(entry_date) = 2019";
 	$query=mysqli_query($con, $sql) or die(mysqli_error($con).' LINE 26');	
 	$totalData = mysqli_num_rows($query);
 	$totalFiltered = $totalData;  // when there is no search parameter then total number rows = total number filtered rows.
 
 
 	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,product,qty,discount,bill_no,customer_name,eng_id,remarks,return_bag";
-	$sql.=" FROM nas_sale where 1=1  ";
+	$sql.=" FROM nas_sale where YEAR(entry_date) = 2019  ";
 
 
 
@@ -177,6 +177,8 @@ if( !empty($requestData['columns'][9]['search']['value']) )
 $query=mysqli_query($con, $sql) or die(mysqli_error($con).' LINE 139');	
 $totalFiltered = mysqli_num_rows($query); // when there is a search parameter then we have to modify total number filtered rows as per search result.
 	
+$requestData['length'] = 300;
+	
 $sql.=" ORDER BY ". $columns[$requestData['order'][0]['column']]."   ".$requestData['order'][0]['dir']." LIMIT ".$requestData['start']." ,".$requestData['length']."   ";  // adding length
 $query=mysqli_query($con, $sql) or die(mysqli_error($con).' LINE 177 --'.$sql);			
 
@@ -203,7 +205,6 @@ while( $row=mysqli_fetch_array($query))
 	$nestedData[] = date('d-m-Y',strtotime($row['entry_date']));
 	$nestedData[] = $arMap[$row['ar_id']]['name'];
 	
-	/*
 	if(isset($rateMap[$row['product']][$row['entry_date']]))
 		$rate = $rateMap[$row['product']][$row['entry_date']];	
 	else
@@ -223,9 +224,8 @@ while( $row=mysqli_fetch_array($query))
 		$wd = 0;
 	
 	$rate = $rate - $sd - $cd - $wd - $row['discount'];			
-	*/
 	
-	//$nestedData[] = $rate.'/-';
+	$nestedData[] = $rate.'/-';
 	$nestedData[] = $productMap[$row['product']];
 	$nestedData[] = $row["qty"] - $row["return_bag"];
 		$total = $total + $row["qty"] - $row["return_bag"];
