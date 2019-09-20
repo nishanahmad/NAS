@@ -1,14 +1,16 @@
 <?php
 session_start();
 if(isset($_SESSION["user_name"]))
-{
+{	
 	require '../connect.php';
 	require '../functions/discountMaps.php';
 	
+	/*
 	$rateMap = getRateMap();
 	$sdMap = getSDMap();
 	$cdMap = getCDMap();
 	$wdMap = getWDMap();	
+	*/
 
 	$requestData= $_REQUEST;
 		
@@ -205,6 +207,7 @@ while( $row=mysqli_fetch_array($query))
 	$nestedData[] = date('d-m-Y',strtotime($row['entry_date']));
 	$nestedData[] = $arMap[$row['ar_id']]['name'];
 	
+	/*
 	if(isset($rateMap[$row['product']][$row['entry_date']]))
 		$rate = $rateMap[$row['product']][$row['entry_date']];	
 	else
@@ -226,6 +229,7 @@ while( $row=mysqli_fetch_array($query))
 	$rate = $rate - $sd - $cd - $wd - $row['discount'];			
 	
 	$nestedData[] = $rate.'/-';
+	*/
 	$nestedData[] = $productMap[$row['product']];
 	$nestedData[] = $row["qty"] - $row["return_bag"];
 		$total = $total + $row["qty"] - $row["return_bag"];
