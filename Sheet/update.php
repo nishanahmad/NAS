@@ -7,7 +7,6 @@ if(isset($_SESSION["user_name"]))
 	require '../connect.php';
 	if(count($_POST)>0) 
 	{	
-		var_dump($_POST);
 		$id = $_POST['id'];
 		$name = $_POST['name'];
 		$phone = $_POST['phone'];
@@ -27,7 +26,16 @@ if(isset($_SESSION["user_name"]))
 		if(isset($_POST['qty']))
 		{
 			$qty = (int)$_POST['qty'];
-			$update = mysqli_query($con,"UPDATE sheets SET qty=$qty WHERE id=$id") or die(mysqli_error($con));	
+			$oldQuery = mysqli_query($con,"SELECT * FROM sheets WHERE id=$id") or die(mysqli_error($con));
+			$old = mysqli_fetch_array($oldQuery,MYSQLI_ASSOC);
+			$oldQty = (int)$old['qty'];
+			$driver = $old['delivered_by'];
+			if($oldQty != $qty)
+			{
+				$diff = $qty - $oldQty;
+				$updateInHand = mysqli_query($con,"UPDATE sheets_in_hand SET qty = qty - $diff WHERE user = $driver") or die(mysqli_error($con));
+				$update = mysqli_query($con,"UPDATE sheets SET qty=$qty WHERE id=$id") or die(mysqli_error($con));			
+			}
 		}		
 		
 		if(isset($_POST['bags']))

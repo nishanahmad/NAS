@@ -3,6 +3,7 @@ require '../connect.php';
 session_start();
 if(isset($_SESSION["user_name"]))
 {
+	$designation = $_SESSION['role'];
 	$id = $_GET['id'];
 	$sql = mysqli_query($con,"SELECT * FROM sheets WHERE id='$id'") or die(mysqli_error($con));
 	$request = mysqli_fetch_array($sql,MYSQLI_ASSOC);
@@ -252,7 +253,14 @@ if(isset($_SESSION["user_name"]))
 			<p class="bags">
 			<input name="bags" type="text" class="feedback-input" id="bags"  value="<?php echo $request['bags'];?>"/>
 			</p>																											<?php
-		}?>
+		}
+		
+		if($request['status'] == 'delivered' && $designation != 'driver')
+		{																													?>
+			<p class="qty">
+			<input name="qty" type="text" class="feedback-input" id="qty"  value="<?php echo $request['qty'];?>"/>
+			</p>																											<?php
+		}																													?>
 
 		<p class="shop">
 		<input name="shop" type="text" class="feedback-input" placeholder="Shop" id="shop" value="<?php echo $request['shop'];?>"/>
