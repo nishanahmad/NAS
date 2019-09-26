@@ -33,6 +33,16 @@ if(isset($_SESSION["user_name"]))
 	
 	$agr = mysqli_query($con,"SELECT SUM(qty) FROM sheets WHERE status ='delivered' " ) or die(mysqli_error($con));
 	$onSite = (int)mysqli_fetch_Array($agr,MYSQLI_ASSOC)['SUM(qty)'];	
+	
+	$yesterday = date('Y-m-d',strtotime("-1 days"));
+	$lateAgr = mysqli_query($con,"SELECT SUM(qty),delivered_by FROM sheets WHERE status ='delivered' AND delivered_on < '$yesterday' GROUP BY delivered_by" ) or die(mysqli_error($con));
+	$lateTotal = 0;
+	foreach($lateAgr as $row)
+	{
+		$feQtyMap[$row['delivered_by']] = $row['SUM(qty)'];
+		$lateTotal = $lateTotal + $row['SUM(qty)'];
+	}
+		
 ?>	
 <html>
 	<style>
@@ -46,7 +56,7 @@ if(isset($_SESSION["user_name"]))
 	
 	.stockTable{
 		border: 1px solid black;
-		width:200px;
+		width:300px;
 	}	
 	.stockTable th,td {
 		padding: 5px;	
@@ -162,22 +172,29 @@ if(isset($_SESSION["user_name"]))
 						}																																			?>
 					</select>			
 					<br/><br/>
-					<table class="stockTable">																								<?php
+					<table class="stockTable">
+						<tr>
+							<th style="width:40%;"></th>
+							<th style="width:30%;text-align:center">In hand</th>
+							<th style="width:30%;text-align:center">Late to collect</th>
+						</tr><?php
 						$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand ORDER BY user") or die(mysqli_error($con));
 						foreach($stockQuery as $stock)
 						{?>
 							<tr>
 								<td><?php echo $drivers[$stock['user']];?></td>
-								<td style="width:20%;text-align:center"><?php echo $stock['qty'];?></td>
+								<td style="text-align:center"><?php echo $stock['qty'];?></td>
+								<td style="text-align:center"><?php echo $feQtyMap[$stock['user']];?></td>
 							</tr>																											<?php					
 						}?>
 						<tr>
 							<td>On site</td>
-							<td style="width:20%;text-align:center"><?php echo $onSite;?></td>
+							<td style="text-align:center"><?php echo $onSite;?></td>
 						</tr>						
 						<tr>
 							<th>Total</th>
 							<th style="text-align:center"><?php echo $stockInHand + $onSite;?></th>
+							<th style="text-align:center"><?php echo $lateTotal;?></th>
 						</tr>																										
 					</table>
 					<br/><br/>																												<?php	 				
