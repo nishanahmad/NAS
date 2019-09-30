@@ -120,7 +120,10 @@ if(isset($_SESSION['user_name']))
 
 							<?php
 							foreach($logs as $log)
-							{																												?>
+							{
+								$sheetId = $log['site'];
+								$siteQuery = mysqli_query($con,"SELECT name,area FROM sheets WHERE id = '$sheetId' ") or die(mysqli_error($con));
+								$site = mysqli_fetch_array($siteQuery,MYSQLI_ASSOC);																								?>
 								<tr>
 									<td><?php echo date('d-m-Y',strtotime($log['transferred_on']));?></td>
 									<td><?php echo date('h:i A',strtotime($log['transferred_on']));?></td>
@@ -128,10 +131,7 @@ if(isset($_SESSION['user_name']))
 										if(isset($userMap[$log['user_from']]))
 											echo $userMap[$log['user_from']] .' ---> ';
 										else
-										{
-											$sheetId = $log['site'];
-											$siteQuery = mysqli_query($con,"SELECT name,area FROM sheets WHERE id = $sheetId") or die(mysqli_error($con));
-											$site = mysqli_fetch_array($siteQuery,MYSQLI_ASSOC);									?>
+										{?>
 											<a href="#" data-toggle="tooltip" data-placement="bottom" title="<?php echo $site['area'];?>"><?php echo $site['name'].' --> ';?></a><?php
 										}
 										if(isset($userMap[$log['user_to']]))
