@@ -21,12 +21,19 @@ if(isset($_SESSION["user_name"]))
 	
 	if(mysqli_num_rows($selectUser) > 0)
 	{
-		$update = mysqli_query($con,"UPDATE sheets_in_hand SET qty =qty - $qty WHERE user=$delivered_by ") or die(mysqli_error($con));		
+		$update = mysqli_query($con,"UPDATE sheets_in_hand SET qty =qty - $qty WHERE user=$delivered_by ") or die(mysqli_error($con));
 	}
 	else
 	{
 		$insert = mysqli_query($con,"INSERT INTO sheets_in_hand (user, qty) VALUES ($delivered_by, -$qty)") or die(mysqli_error($con));
 	}
+	$queryFrom = mysqli_query($con,"SELECT qty FROM sheets_in_hand WHERE user=$delivered_by ") or die(mysqli_error($con));
+	$fromStock = mysqli_fetch_array($queryFrom,MYSQLI_ASSOC)['qty'];	
+
+	$transferred_on = date('Y-m-d H:i:s');
+	$transferred_by = $_SESSION['user_id'];		
+
+	$insertLogs = mysqli_query($con, "INSERT INTO transfer_logs (user_from, qty, transferred_on, transferred_by, fromStock, site) VALUES ('$delivered_by', '$qty', '$transferred_on', '$transferred_by', '$fromStock', '$id')") or die(mysqli_error($con));
 	
 	header( "Location: requests.php" );
 
