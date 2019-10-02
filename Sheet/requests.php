@@ -184,7 +184,7 @@ if(isset($_SESSION["user_name"]))
 							<tr>
 								<td><?php echo $drivers[$stock['user']];?></td>
 								<td style="text-align:center"><?php echo $stock['qty'];?></td>
-								<td style="text-align:center"><?php echo $feQtyMap[$stock['user']];?></td>
+								<td style="text-align:center"><?php if(isset($feQtyMap[$stock['user']])) echo $feQtyMap[$stock['user']]; else echo '0';?></td>
 							</tr>																											<?php					
 						}?>
 						<tr>
