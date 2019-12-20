@@ -77,7 +77,7 @@ if(isset($_SESSION["user_name"]))
 		
 		</div>
 <div align="center" class="gradient">
-<font size=5>
+<font size="5">
 <br>
 <!--SQL:<span class='sql'></span><br><br-->
 </br>

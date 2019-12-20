@@ -121,7 +121,8 @@
 		<a href="transfer.php"><i class="fa fa-exchange"></i><span>Transfer</span></a>					<?php
 		if($_SESSION['role'] != 'driver')
 		{																									?>				
-			<a href="transfer_logs.php"><i class="fa fa-file-text"></i><span>Transfer Logs</span></a><?php
+			<a href="transfer_logs.php"><i class="fa fa-file-text"></i><span>Transfer Logs</span></a>
+			<a href="closed.php"><i class="fa fa-check-square"></i><span>Closed</span></a><?php
 		}?>						
 	</nav>		
 	
