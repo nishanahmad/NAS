@@ -77,7 +77,7 @@ if(isset($_SESSION['user_name']))
 					}																					?>
 					
 					<section style="margin-top:20px;margin-left:300px;margin-right:100px;">
-						<table class="tablesorter" style="width:50%" id="logs">
+						<table class="tablesorter" style="width:60%" id="logs">
 							<thead class="cf">
 								<tr>
 									<th>Area</th>
@@ -88,7 +88,11 @@ if(isset($_SESSION['user_name']))
 										<th>Qty</th>													<?php
 									}																	?>
 									<th style="min-width:100px;"><?php if($status == 'closed') echo 'Closed On'; else echo 'Cancelled On';?></th>
-									<th><?php if($status == 'closed') echo 'Closed By'; else echo 'Cancelled By';?></th>
+									<th><?php if($status == 'closed') echo 'Closed By'; else echo 'Cancelled By';?></th><?php
+									if($status == 'cancelled')
+									{																							?>
+										<th style="min-width:250px;">Cancel Reason</th>							<?php
+									}																							?>									
 								</tr>
 							</thead>
 							<tbody>
@@ -105,7 +109,11 @@ if(isset($_SESSION['user_name']))
 										<td style="text-align:center;"><?php echo $sheet['qty'];?></td>							<?php
 									}																							?>
 									<td><?php echo date('d-m-Y',strtotime($sheet['closed_on']));?></td>
-									<td><?php echo $userMap[$sheet['closed_by']];?></td>
+									<td><?php echo $userMap[$sheet['closed_by']];?></td>										<?php
+									if($status == 'cancelled')
+									{																							?>
+										<td><?php echo $sheet['cancel_reason'];?></td>							<?php
+									}																							?>									
 								</tr>																											<?php
 							}																													?>
 							</tbody>
