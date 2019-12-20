@@ -39,49 +39,6 @@ if(isset($_SESSION['user_name']))
 		<script src="../js/jquery.slicknav.min.js"></script>
 		<script src="../js/TableSorter.js"></script>
 		<script src="../js/TablesorterWidgets.js"></script>		
-		
-		<style>
-		.dataTables_length{
-		  display:none;
-		}
-		.dataTables_paginate{
-		  display:none;
-		}
-		
-		.tooltip {
-		  position: relative;
-		  display: inline-block;
-		  border-bottom: 1px dotted black;
-		}
-
-		.tooltip .tooltiptext {
-		  visibility: hidden;
-		  width: 120px;
-		  background-color: black;
-		  color: #fff;
-		  text-align: center;
-		  border-radius: 6px;
-		  padding: 5px 0;
-		  position: absolute;
-		  z-index: 1;
-		  top: -5px;
-		  left: 110%;
-		}
-
-		.tooltip .tooltiptext::after {
-		  content: "";
-		  position: absolute;
-		  top: 50%;
-		  right: 100%;
-		  margin-top: -5px;
-		  border-width: 5px;
-		  border-style: solid;
-		  border-color: transparent black transparent transparent;
-		}
-		.tooltip:hover .tooltiptext {
-		  visibility: visible;
-		}
-		</style>
 	</head>
 	<body>
 		<nav class="menu-navigation-dark">																		<?php 
@@ -125,8 +82,11 @@ if(isset($_SESSION['user_name']))
 								<tr>
 									<th>Area</th>
 									<th>Name</th>
-									<th>Phone</th>
-									<th>Qty</th>
+									<th>Phone</th>														<?php 
+									if($status == 'closed')
+									{																	?>
+										<th>Qty</th>													<?php
+									}																	?>
 									<th style="min-width:100px;"><?php if($status == 'closed') echo 'Closed On'; else echo 'Cancelled On';?></th>
 									<th><?php if($status == 'closed') echo 'Closed By'; else echo 'Cancelled By';?></th>
 								</tr>
@@ -139,8 +99,11 @@ if(isset($_SESSION['user_name']))
 								<tr>
 									<td><?php echo $sheet['area'];?></td>
 									<td><?php echo $sheet['name'];?></td>
-									<td><?php echo $sheet['phone'];?></td>
-									<td style="text-align:center;"><?php echo $sheet['qty'];?></td>				
+									<td><?php echo $sheet['phone'];?></td>														<?php 
+									if($status == 'closed')
+									{																							?>
+										<td style="text-align:center;"><?php echo $sheet['qty'];?></td>							<?php
+									}																							?>
 									<td><?php echo date('d-m-Y',strtotime($sheet['closed_on']));?></td>
 									<td><?php echo $userMap[$sheet['closed_by']];?></td>
 								</tr>																											<?php
