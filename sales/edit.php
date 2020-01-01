@@ -449,6 +449,7 @@ if(isset($_SESSION["user_name"]))
 		<br/><br/><br/><br/>		
 	</body>
 	</html>																								<?php
+	mysqli_close($con);
 }
 else
 	header("Location:../index.php");

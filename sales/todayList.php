@@ -58,10 +58,6 @@ if(isset($_SESSION["user_name"]))
 	while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) 
 	{ 
 		$productId = $row['product'];
-		if($productId == 2)
-		{
-			var_dump($row);
-		}
 		if (array_key_exists($productId,$productMap))
 		{   
 			$productMap[$productId] = $productMap[$productId] + $row["qty"];
