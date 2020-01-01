@@ -240,8 +240,8 @@ if(isset($_SESSION["user_name"]))
 </body>
 </html>
 <?php
+	mysqli_close($con);
 }
-
 else
 	header("Location:../index.php");
 
