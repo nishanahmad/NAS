@@ -31,14 +31,14 @@ if(isset($_SESSION["user_name"]))
 // getting total number records without any search
 
 	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,product,qty,discount,bill_no,customer_name,eng_id,remarks,return_bag";
-	$sql.=" FROM nas_sale WHERE YEAR(entry_date) = 2019";
+	$sql.=" FROM nas_sale WHERE YEAR(entry_date) >= 2019";
 	$query=mysqli_query($con, $sql) or die(mysqli_error($con).' LINE 26');	
 	$totalData = mysqli_num_rows($query);
 	$totalFiltered = $totalData;  // when there is no search parameter then total number rows = total number filtered rows.
 
 
 	$sql = "SELECT sales_id,entry_date, ar_id,truck_no,product,qty,discount,bill_no,customer_name,eng_id,remarks,return_bag";
-	$sql.=" FROM nas_sale WHERE YEAR(entry_date) = 2019";
+	$sql.=" FROM nas_sale WHERE YEAR(entry_date) >= 2019";
 
 
 
