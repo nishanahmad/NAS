@@ -27,7 +27,7 @@ class Sheet
 		$query = "INSERT INTO
 					" . $this->table_name . "
 				SET
-					date=:date, name=:name, phone=:phone, bags=:bags, area=:area, shop=:shop, remarks=:remarks, requested_by=:requested_by, status='pending', created_on=:created_on";
+					date=:date, name=:name, phone=:phone, bags=:bags, area=:area, shop=:shop, remarks=:remarks, requested_by=:requested_by, status='requested', created_on=:created_on";
 	 
 		// prepare query
 		$stmt = $this->conn->prepare($query);
