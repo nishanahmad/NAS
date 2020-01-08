@@ -56,10 +56,9 @@ class Sheet
 	 
 		// execute query
 		if($stmt->execute())
-		{
 			return true;
-		}
 	 
-		return false;
+		else
+			return false;
 	}	
 }

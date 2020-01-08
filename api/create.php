@@ -16,8 +16,8 @@ $sheet = new Sheet($db);
  
 $data = json_decode(file_get_contents("php://input"));
  
-if(!empty($data->date) && !empty($data->name) && !empty($data->phone) && !empty($data->bags) && !empty($data->area) && !empty($data->shop) && !empty($data->remarks) && !empty($data->requested_by))
-{
+//if(!empty($data->date) && !empty($data->name) && !empty($data->phone) && !empty($data->bags) && !empty($data->area) && !empty($data->shop) && !empty($data->remarks) && !empty($data->requested_by))
+//{
     $sheet->date = date('Y-m-d',strtotime($data->date));
 	$sheet->name = $data->name;
     $sheet->phone = $data->phone;
@@ -39,10 +39,12 @@ if(!empty($data->date) && !empty($data->name) && !empty($data->phone) && !empty(
         http_response_code(503);
         echo json_encode(array("message" => mysqli_error($database->conn->error)));
     }
+/*	
 }
 else
 { 
     http_response_code(400);
     echo json_encode(array("message" => "Unable to create sheet. Data is incomplete."));
 }
+*/
 ?>
