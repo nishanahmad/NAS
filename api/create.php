@@ -16,7 +16,7 @@ $sheet = new Sheet($db);
  
 $data = json_decode(file_get_contents("php://input"));
  
-if(!empty($data->concDate) && !empty($data->name) && !empty($data->phone) && !empty($data->bags) && !empty($data->area) && !empty($data->shop) && !empty($data->remarks) && !empty($data->requested_by))
+if(!empty($data->concDate) && !empty($data->name) && !empty($data->phone) && !empty($data->bags) && !empty($data->area) && !empty($data->requested_by))
 {
     $sheet->date = date('Y-m-d',strtotime($data->concDate));
 	$sheet->name = $data->name;
@@ -26,7 +26,7 @@ if(!empty($data->concDate) && !empty($data->name) && !empty($data->phone) && !em
     $sheet->shop = $data->shop;
 	$sheet->remarks = $data->remarks;
 	$sheet->requested_by = $data->requested_by;
-	$sheet->created_on = date('Y-m-d');
+	$sheet->created_on = date('Y-m-d H:i:s');
  
 
     if($sheet->create())
