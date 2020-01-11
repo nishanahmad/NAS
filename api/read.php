@@ -31,7 +31,8 @@ if($num>0)
             "phone" => $phone,
             "bags" => $bags,
 			"area" => $area,
-			"shop" => $remarks
+			"shop" => $shop,
+			"remarks" => $remarks
         );
  
         array_push($sheets_arr["records"], $sheet_item);
