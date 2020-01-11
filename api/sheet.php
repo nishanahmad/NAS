@@ -60,5 +60,15 @@ class Sheet
 	 
 		else
 			return false;
+	}
+
+
+	function read($fe)
+	{
+		$query = "SELECT * FROM ".$this->table_name." WHERE status = 'requested' AND requested_by = '$fe' ORDER BY date DESC";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute();
+	 
+		return $stmt;
 	}	
 }
