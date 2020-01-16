@@ -140,7 +140,7 @@
 			foreach ($sheets as $sheet) 
 			{																																?>
 				<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet['id']; ?>">
-					<?php echo $sheet['area'].'<br/>'.$sheet['name'].', '.$sheet['phone'].'<br/><b>'.$sheet['bags'].' bags<br/>'.$sheet['requested_by'].'<br/>'.$sheet['shop'].'</b>'; 	?>
+					<?php echo $sheet['area'].'<br/>'.$sheet['name'].', '.$sheet['phone'].'<br/><b>'.$sheet['bags'].' bags<br/>'.$sheet['requested_by'].'<br/>'.$sheet['shop'].'</b><br/>'.$sheet['remarks']; 	?>
 				</li>																														<?php
 			}																																?>
 			</ul>
@@ -156,7 +156,7 @@
 				<ul class="sortable ui-sortable" id="sort<?php echo $driverId; ?>" data-driver-id="<?php echo $driver['user_id']; ?>"><?php
 				foreach ($sheets as $sheet) 
 				{																																?>
-					<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet['id']; ?>"><?php echo $sheet['area'].'<br/>'.$sheet['name'].', '.$sheet['phone'].'<br/><b>'.$sheet['bags'].' bags<br/>'.$sheet['requested_by'].'<br/>'.$sheet['shop'].'</b>';
+					<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet['id']; ?>"><?php echo $sheet['area'].'<br/>'.$sheet['name'].', '.$sheet['phone'].'<br/><b>'.$sheet['bags'].' bags<br/>'.$sheet['requested_by'].'<br/>'.$sheet['shop'].'</b><br/>'.$sheet['remarks'];
 				}																																?>
 				</ul>
 			</div>																																<?php
