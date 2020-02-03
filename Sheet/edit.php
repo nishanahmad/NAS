@@ -247,11 +247,19 @@ if(isset($_SESSION["user_name"]))
 		}																													?>
 
 		<p class="name">
-		<input name="name" type="text" class="validate[required,length[0,100]] feedback-input" id="name" value="<?php echo $request['name'];?>"/>
+		<input name="customer_name" type="text" class="validate[length[0,100]] feedback-input" id="name" placeholder="Customer Name" value="<?php echo $request['customer_name'];?>"/>
 		</p>
 
 		<p class="phone">
-		<input name="phone" type="text" class="validate[required] feedback-input" id="phone" value="<?php echo $request['phone'];?>"/>
+		<input name="customer_phone" type="text" class="feedback-input" id="phone" placeholder="Customer Phone" value="<?php echo $request['customer_phone'];?>"/>
+		</p>
+
+		<p class="name">
+		<input name="mason_name" type="text" class="validate[length[0,100]] feedback-input" id="name" placeholder="Mason Name" value="<?php echo $request['mason_name'];?>"/>
+		</p>
+
+		<p class="phone">
+		<input name="mason_phone" type="text" class="feedback-input" id="phone" placeholder="Mason Phone" value="<?php echo $request['mason_phone'];?>"/>
 		</p>																												<?php
 		
 		if($request['status'] == 'requested')
@@ -269,7 +277,7 @@ if(isset($_SESSION["user_name"]))
 		}																													?>
 
 		<p class="shop">
-		<input name="shop" type="text" class="feedback-input" placeholder="Shop" id="shop" value="<?php echo $request['shop'];?>"/>
+		<input name="shop" type="text" class="feedback-input" placeholder="Shop" id="shop" placeholder="Shop" value="<?php echo $request['shop'];?>"/>
 		</p>
 				
 		<p class="area">
@@ -277,7 +285,7 @@ if(isset($_SESSION["user_name"]))
 		</p>
 		
 		<p class="remarks">
-		<textarea name="remarks" class="feedback-input" id="remarks"><?php echo $request['remarks'];?></textarea>
+		<textarea name="remarks" class="feedback-input" placeholder="Remarks" id="remarks"><?php echo $request['remarks'];?></textarea>
 		</p>	
 		
 		<div class="submit">

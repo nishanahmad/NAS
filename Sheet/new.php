@@ -234,12 +234,20 @@ if(isset($_SESSION["user_name"]))
 			</p>
 			
 			<p class="name">
-			<input name="name" required type="text" class="validate[required,length[0,100]] feedback-input" placeholder="Name" id="name" />
+			<input name="customer_name" type="text" class="validate[length[0,100]] feedback-input" placeholder="Customer Name" id="name" />
 			</p>
 
 			<p class="phone">
-			<input name="phone" type="text" class="validate[required] feedback-input" id="phone" placeholder="Phone" />
+			<input name="customer_phone" type="text" class="feedback-input" id="phone" placeholder="Customer Phone" />
 			</p>
+			
+			<p class="name">
+			<input name="mason_name" type="text" class="validate[length[0,100]] feedback-input" placeholder="Mason Name" id="name" />
+			</p>
+
+			<p class="phone">
+			<input name="mason_phone" type="text" class="feedback-input" id="phone" placeholder="Mason Phone" />
+			</p>			
 			
 			<p class="bags">
 			<input name="bags" type="text" class="validate[required] feedback-input" id="bags" placeholder="Number of Bags" />

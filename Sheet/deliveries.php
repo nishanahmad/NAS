@@ -157,9 +157,17 @@ if(isset($_SESSION["user_name"]))
 						<div class="panel panel-default">
 							<div class="panel-body">
 								<div class="panel-info">
-									<p><i class="fa fa-map-marker"></i><strong> <?php echo $sheet['area'];?></strong></p>
-									<p><i class="fa fa-user"></i> <?php echo $sheet['name'];?>
-									, <i class="fa fa-phone"></i> <a href="tel:<?php echo $sheet['phone'];?>"><?php echo $sheet['phone'];?></a></p>
+									<p><i class="fa fa-map-marker"></i><strong> <?php echo $sheet['area'];?></strong></p><?php
+									if($sheet['customer_name'])
+									{?>
+										<p><i class="fa fa-user"></i> Cust : <?php echo $sheet['customer_name'];?>
+										, <i class="fa fa-phone"></i> <a href="tel:<?php echo $sheet['customer_phone'];?>"><?php echo $sheet['customer_phone'];?></a></p><?php
+									}
+									if($sheet['mason_name'])
+									{?>
+										<p><i class="fa fa-user"></i> Mason : <?php echo $sheet['mason_name'];?>
+										, <i class="fa fa-phone"></i> <a href="tel:<?php echo $sheet['mason_phone'];?>"><?php echo $sheet['mason_phone'];?></a></p><?php
+									}?>									
 									<p><i class="fa fa-file"></i> <?php echo $sheet['qty'].' Nos';?></p>
 									<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['delivered_on']));?></p>
 									<p><i class="fa fa-university"></i> <?php echo $sheet['shop'];?></p>

@@ -24,20 +24,15 @@ if(isset($_SESSION['user_name']))
 		<link href="../css/dashio-responsive.css" rel="stylesheet">	
 		<link href="../css/font-awesome.min.css" rel="stylesheet">	
 		<link rel="stylesheet" href="../css/navigation-dark.css">
-		<link rel="stylesheet" href="../css/slicknav.min.css">						
+		<link rel="stylesheet" href="../css/slicknav.min.css">	
+				<link rel="stylesheet" href="../css/TableSorterBlueTheme.css">			
 		<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
 		<script type="text/javascript" language="javascript" src="../js/jquery-ui.min.js"></script>
-		<script type="text/javascript" language="javascript" src="../js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="../js/bootstrap.min.js"></script>
 		<script src="../js/jquery.slicknav.min.js"></script>
-		<style>
-		.dataTables_length{
-		  display:none;
-		}
-		.dataTables_paginate{
-		  display:none;
-		}
-		
+		<script src="../js/TableSorter.js"></script>
+		<script src="../js/TablesorterWidgets.js"></script>				
+		<style>		
 		.tooltip {
 		  position: relative;
 		  display: inline-block;
@@ -94,36 +89,26 @@ if(isset($_SESSION['user_name']))
 		<div class="row mt">
 			<div class="col-lg-12">
 				<div class="content-panel">
-					<h2 style="margin-left:40%;" ><i class="fa fa-file-text"></i> Transfer Logs</i></h2><br/>
-					<section style="margin-top:40px;">
-						<form id="searchbox">
-							<table class="col-md-offset-3" style="width:50%">
-								<tr>
-									<td style="width:19%;padding:2px;"><input type="text" data-column="0"  class="form-control" placeholder="Date"></td>
-									<td style="width:20%;padding:2px;"><input type="text" data-column="2"  class="form-control" placeholder="Driver"></td>	
-									<td style="width:5%;padding:2px;"><input type="text" data-column="3"  class="form-control" placeholder="Qty"></td>	
-									<td style="width:20%;padding:2px;"><input type="text" data-column="4"  class="form-control" placeholder="Transfd By"></td>	
-								</tr>	
-							</table>	
-						</form>																					
-						<table class="table table-bordered table-striped col-md-offset-3" style="width:50%" id="logs">
+					<div align="center">
+					<h2><i class="fa fa-file-text"></i> Transfer Logs</i></h2><br/>
+					<section style="margin-top:20px;margin-left:100px;margin-right:100px;">
+						<table class="tablesorter" style="width:60%" id="logs">
 							<thead class="cf">
 								<tr>
-									<th style="width:15%;">Date</th>
-									<th style="width:15%;">Time</th>
-									<th style="width:30%;"></th>
-									<th style="text-align:center;width:10%;">Qty</th>
-									<th style="width:15%;">Transfd By</th>
-									<th style="width:15%;">Stock</th>
+									<th style="width:100px;">Date</th>
+									<th style="width:80px;">Time</th>
+									<th></th>
+									<th style="width:50px;">Qty</th>
+									<th style="width:100px;">Transfrd By</th>
+									<th style="width:120px;">Stock</th>
 								</tr>
 							</thead>
 							<tbody>
-
 							<?php
 							foreach($logs as $log)
 							{
 								$sheetId = $log['site'];
-								$siteQuery = mysqli_query($con,"SELECT name,area FROM sheets WHERE id = '$sheetId' ") or die(mysqli_error($con));
+								$siteQuery = mysqli_query($con,"SELECT * FROM sheets WHERE id = '$sheetId' ") or die(mysqli_error($con));
 								$site = mysqli_fetch_array($siteQuery,MYSQLI_ASSOC);																								?>
 								<tr>
 									<td><?php echo date('d-m-Y',strtotime($log['transferred_on']));?></td>
@@ -133,23 +118,31 @@ if(isset($_SESSION['user_name']))
 											echo $userMap[$log['user_from']] .' ---> ';
 										else
 										{?>
-											<a href="#" data-toggle="tooltip" data-placement="bottom" title="<?php echo $site['area'];?>"><?php echo $site['name'].' --> ';?></a><?php
+											<a href="#" data-toggle="tooltip" data-placement="bottom" title="<?php echo $site['area'];?>">
+											<?php if(!empty($site['customer_name']))
+													echo $site['customer_name'].' --> ';
+												  else
+													echo $site['mason_name'].' --> ';?></a><?php
 										}
 										if(isset($userMap[$log['user_to']]))
 											echo $userMap[$log['user_to']];
 										else
 										{?>
-											<a href="#" data-toggle="tooltip" data-placement="bottom" title="<?php echo $site['area'];?>"><?php echo $site['name'];?></a><?php
+											<a href="#" data-toggle="tooltip" data-placement="bottom" title="<?php echo $site['area'];?>">
+											<?php if(!empty($site['customer_name']))
+													echo $site['customer_name'];
+												  else
+													echo $site['mason_name'];?></a><?php
 										}?>
 									</td>
-									<td style="text-align:center;"><?php echo $log['qty'];?></td>				
+									<td><?php echo $log['qty'];?></td>				
 									<td><?php echo $userMap[$log['transferred_by']];?></td>
 									<td><?php 
 										if(isset($userMap[$log['user_from']]))
 											echo $userMap[$log['user_from']].' : '.$log['fromStock'].'<br/>';
 										if(isset($userMap[$log['user_to']]))
 											echo $userMap[$log['user_to']].' : '.$log['toStock'];?>
-									</td>
+									</td>									
 								</tr>																											<?php
 							}																													?>
 							</tbody>
@@ -162,14 +155,12 @@ if(isset($_SESSION['user_name']))
 		  <span class="tooltiptext">Tooltip text</span>
 		</div> 				
 		<script>
-		$(document).ready(function() {
-		
+		$(document).ready(function() {		
+
 			$('[data-toggle="tooltip"]').tooltip(); 		
 			var menu = $('.menu-navigation-dark');
 
 			menu.slicknav();
-
-			// Mark the clicked item as selected
 
 			menu.on('click', 'a', function(){
 				var a = $(this);
@@ -178,22 +169,12 @@ if(isset($_SESSION['user_name']))
 				a.addClass('selected');
 			});			
 			
-			var table = $('#logs').DataTable({
-				"iDisplayLength": 10000
-			});
-				
-			$("#logs_filter").css("display","none");  // hiding global search box
-			$('.form-control').on( 'keyup click', function () {   // for text boxes
-				var i =$(this).attr('data-column');  // getting column index
-				var v =$(this).val();  // getting search input value
-				table.columns(i).search(v).draw();
-			} );
-			$('.select').on( 'change', function () {   // for select box
-				var i =$(this).attr('data-column');  
-				var v =$(this).val();  
-				table.columns(i).search(v).draw();
-			} );	
-
+			$("table").tablesorter({
+				dateFormat : "ddmmyyyy",
+				theme : 'blue',
+				widgets: ['filter'],
+				filter_columnAnyMatch: true,
+			}); 
 		} );
 		</script>
 	</body>

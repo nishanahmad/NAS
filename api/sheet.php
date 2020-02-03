@@ -5,8 +5,10 @@ class Sheet
 	private $table_name = "sheets";
 
 	public $date;
-	public $name;
-	public $phone;
+	public $customer_name;
+	public $customer_phone;
+	public $mason_name;
+	public $mason_phone;	
 	public $bags;
 	public $area;
 	public $shop;
@@ -27,15 +29,17 @@ class Sheet
 		$query = "INSERT INTO
 					" . $this->table_name . "
 				SET
-					date=:date, name=:name, phone=:phone, bags=:bags, area=:area, shop=:shop, remarks=:remarks, requested_by=:requested_by, status='requested', created_on=:created_on";
+					date=:date, customer_name=:customer_name, customer_phone=:customer_phone, mason_name=:mason_name, mason_phone=:mason_phone, bags=:bags, area=:area, shop=:shop, remarks=:remarks, requested_by=:requested_by, status='requested', created_on=:created_on";
 	 
 		// prepare query
 		$stmt = $this->conn->prepare($query);
 	 
 		// sanitize
 		$this->date=htmlspecialchars(strip_tags($this->date));
-		$this->name=htmlspecialchars(strip_tags($this->name));
-		$this->phone=htmlspecialchars(strip_tags($this->phone));
+		$this->customer_name=htmlspecialchars(strip_tags($this->customer_name));
+		$this->customer_phone=htmlspecialchars(strip_tags($this->customer_phone));
+		$this->mason_name=htmlspecialchars(strip_tags($this->mason_name));
+		$this->mason_phone=htmlspecialchars(strip_tags($this->mason_phone));		
 		$this->bags=htmlspecialchars(strip_tags($this->bags));
 		$this->area=htmlspecialchars(strip_tags($this->area));
 		$this->shop=htmlspecialchars(strip_tags($this->shop));
@@ -45,8 +49,8 @@ class Sheet
 	 
 		// bind values
 		$stmt->bindParam(":date", $this->date);
-		$stmt->bindParam(":name", $this->name);
-		$stmt->bindParam(":phone", $this->phone);
+		$stmt->bindParam(":customer_name", $this->customer_name);
+		$stmt->bindParam(":customer_phone", $this->customer_phone);
 		$stmt->bindParam(":bags", $this->bags);
 		$stmt->bindParam(":area", $this->area);
 		$stmt->bindParam(":shop", $this->shop);

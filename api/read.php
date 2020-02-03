@@ -27,8 +27,10 @@ if($num>0)
         $sheet_item=array(
             "id" => $id,
 			"date" => date('d-m-Y',strtotime($date)),
-            "name" => $name,
-            "phone" => $phone,
+            "customer_name" => $customer_name,
+            "customer_phone" => $customer_phone,
+            "mason_name" => $mason_name,
+            "mason_phone" => $mason_phone,			
             "bags" => $bags,
 			"area" => $area,
 			"shop" => $shop,

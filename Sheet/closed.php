@@ -17,8 +17,7 @@ if(isset($_SESSION['user_name']))
 	if($status == 'closed')
 		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status = 'closed' ORDER BY closed_on DESC") or die(mysqli_error($con));
 	else
-		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status = 'cancelled' ORDER BY closed_on DESC") or die(mysqli_error($con));
-																														?>
+		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status = 'cancelled' ORDER BY closed_on DESC") or die(mysqli_error($con));												?>
 <html>
 	<head>
 		<title>Closed/Cancelled</title>
@@ -72,26 +71,28 @@ if(isset($_SESSION['user_name']))
 						<h2 style="margin-left:44%;" ><i class="fa fa-check"></i> Closed</i></h2><br/><?php
 					}
 					else
-					{																					?>
-						<h2 style="margin-left:44%;" ><i class="fa fa-close"></i> Cancelled</i></h2><br/><?php
-					}																					?>
+					{																											?>
+						<h2 style="margin-left:44%;" ><i class="fa fa-close"></i> Cancelled</i></h2><br/>						<?php
+					}																											?>
 					
 					<section style="margin-top:20px;margin-left:300px;margin-right:100px;">
-						<table class="tablesorter" style="width:60%" id="logs">
+						<table class="tablesorter" style="width:70%" id="logs">
 							<thead class="cf">
 								<tr>
 									<th>Area</th>
-									<th>Name</th>
-									<th>Phone</th>														<?php 
+									<th>Customer Name</th>
+									<th>Customer Phone</th>
+									<th>Mason Name</th>
+									<th>Mason Phone</th>																		<?php 
 									if($status == 'closed')
-									{																	?>
-										<th>Qty</th>													<?php
-									}																	?>
+									{																							?>
+										<th>Qty</th>																			<?php
+									}																							?>
 									<th style="min-width:100px;"><?php if($status == 'closed') echo 'Closed On'; else echo 'Cancelled On';?></th>
 									<th><?php if($status == 'closed') echo 'Closed By'; else echo 'Cancelled By';?></th><?php
 									if($status == 'cancelled')
 									{																							?>
-										<th style="min-width:250px;">Cancel Reason</th>							<?php
+										<th style="min-width:250px;">Cancel Reason</th>											<?php
 									}																							?>									
 								</tr>
 							</thead>
@@ -102,8 +103,10 @@ if(isset($_SESSION['user_name']))
 							{?>
 								<tr>
 									<td><?php echo $sheet['area'];?></td>
-									<td><?php echo $sheet['name'];?></td>
-									<td><?php echo $sheet['phone'];?></td>														<?php 
+									<td><?php echo $sheet['customer_name'];?></td>
+									<td><?php echo $sheet['customer_phone'];?></td>														
+									<td><?php echo $sheet['mason_name'];?></td>
+									<td><?php echo $sheet['mason_phone'];?></td>																							<?php 
 									if($status == 'closed')
 									{																							?>
 										<td style="text-align:center;"><?php echo $sheet['qty'];?></td>							<?php

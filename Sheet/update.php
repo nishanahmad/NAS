@@ -8,14 +8,16 @@ if(isset($_SESSION["user_name"]))
 	if(count($_POST)>0) 
 	{	
 		$id = $_POST['id'];
-		$name = $_POST['name'];
-		$phone = $_POST['phone'];
+		$customer_name = $_POST['customer_name'];
+		$customer_phone = $_POST['customer_phone'];
+		$mason_name = $_POST['mason_name'];
+		$mason_phone = $_POST['mason_phone'];		
 		$area = $_POST['area'];
 		$shop = $_POST['shop'];
 		$remarks = $_POST['remarks'];
 		
 		
-		$update = mysqli_query($con,"UPDATE sheets SET name='$name', phone='$phone',shop='$shop',area='$area',remarks='$remarks' WHERE id=$id") or die(mysqli_error($con));	
+		$update = mysqli_query($con,"UPDATE sheets SET customer_name='$customer_name', customer_phone='$customer_phone',mason_name='$mason_name', mason_phone='$mason_phone',shop='$shop',area='$area',remarks='$remarks' WHERE id=$id") or die(mysqli_error($con));	
 			  
 		if(isset($_POST['date']))
 		{

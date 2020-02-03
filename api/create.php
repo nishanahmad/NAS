@@ -16,11 +16,13 @@ $sheet = new Sheet($db);
  
 $data = json_decode(file_get_contents("php://input"));
  
-if(!empty($data->concDate) && !empty($data->name) && !empty($data->phone) && !empty($data->bags) && !empty($data->area) && !empty($data->requested_by))
+if(!empty($data->concDate) && !empty($data->bags) && !empty($data->area) && !empty($data->requested_by))
 {
     $sheet->date = date('Y-m-d',strtotime($data->concDate));
-	$sheet->name = $data->name;
-    $sheet->phone = $data->phone;
+	$sheet->customer_name = $data->customer_name;
+    $sheet->customer_phone = $data->customer_phone;
+	$sheet->mason_name = $data->mason_name;
+    $sheet->mason_phone = $data->mason_phone;	
     $sheet->bags = $data->bags;
     $sheet->area = $data->area;
     $sheet->shop = $data->shop;
