@@ -51,6 +51,8 @@ class Sheet
 		$stmt->bindParam(":date", $this->date);
 		$stmt->bindParam(":customer_name", $this->customer_name);
 		$stmt->bindParam(":customer_phone", $this->customer_phone);
+		$stmt->bindParam(":mason_name", $this->mason_name);
+		$stmt->bindParam(":mason_phone", $this->mason_phone);		
 		$stmt->bindParam(":bags", $this->bags);
 		$stmt->bindParam(":area", $this->area);
 		$stmt->bindParam(":shop", $this->shop);
