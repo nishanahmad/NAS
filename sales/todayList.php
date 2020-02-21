@@ -220,7 +220,7 @@ if(isset($_SESSION["user_name"]))
 
 				$finalRate = $rowRate - $rowWD - $rowCD - $rowSD -$row['discount'];																											?>			
 				<tr>
-					<td ><a href="edit.php?sales_id=<?php echo $row['sales_id'];?>"</a><?php echo $arMap[$row["ar_id"]]['name']; ?></td>
+					<td ><a href="edit.php?sales_id=<?php echo $row['sales_id'];?>&list=today"</a><?php echo $arMap[$row["ar_id"]]['name']; ?></td>
 					<td align="center"><?php echo $finalRate.'/-'; ?></td>
 					<td align="center"><?php echo $row["product"]; ?></td>
 					<td align="center"><?php echo $row["qty"]; ?></td>

@@ -317,6 +317,7 @@ if(isset($_SESSION["user_name"]))
 	<body>
 		<form name="frmUser" method="post" action="update.php">
 			<input hidden name="id" value="<?php echo $row['sales_id'];?>">
+			<input hidden name="clicked_from" value="<?php echo $_GET['list'];?>">
 			<div style="width:100%;">
 				<div align="center" style="padding-bottom:5px;">
 					<a href="../index.php" class="link"><img alt='Home' title='Home' src='../images/home.png' width='50px' height='50px'/></a>&nbsp;&nbsp;

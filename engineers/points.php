@@ -17,7 +17,7 @@ if(isset($_SESSION["user_name"]))
 		$urlMonth = (int)date("m");
 	}
 	
-	$engObjects =  mysqli_query($con,"SELECT id,name,mobile,shop_name,sap_code FROM ar_details WHERE type LIKE '%Engineer%' AND isActive = 1 ORDER BY name ASC ") or die(mysqli_error($con));		 
+	$engObjects =  mysqli_query($con,"SELECT id,name,mobile,shop_name,sap_code FROM ar_details WHERE type LIKE '%Engineer%' AND isActive = 1 ORDER BY name ASC ") or die(mysqli_error($con));
 	foreach($engObjects as $eng)
 	{
 		$engMap[$eng['id']]['name'] = $eng['name'];
@@ -32,21 +32,32 @@ if(isset($_SESSION["user_name"]))
 	
 	$engIds = implode("','",array_keys($engMap));
 	
-	$sales = mysqli_query($con,"SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND ar_id IN ('$engIds') GROUP BY ar_id") or die(mysqli_error($con));	
+	$sales = mysqli_query($con,"SELECT ar_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND ar_id IN ('$engIds') GROUP BY ar_id,product") or die(mysqli_error($con));	
 	foreach($sales as $sale)
 	{
 		$engId = $sale['ar_id'];
 		
-		$total = $sale['SUM(qty)'] - $sale['SUM(return_bag)'];
-		$pointMap[$engId]['points'] = $total;
+		if($sale['product'] == 4)
+			$total = ($sale['SUM(qty)'] - $sale['SUM(return_bag)'])*3;
+		else
+			$total = $sale['SUM(qty)'] - $sale['SUM(return_bag)'];		
+		
+		if(isset($pointMap[$engId]['points']))
+			$pointMap[$engId]['points'] = $pointMap[$engId]['points'] + $total;
+		else
+			$pointMap[$engId]['points'] = $total;
 	}			
 	
-	$sales = mysqli_query($con,"SELECT eng_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND eng_id IN ('$engIds') GROUP BY eng_id") or die(mysqli_error($con));	
+	$sales = mysqli_query($con,"SELECT eng_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE '$urlYear' = year(`entry_date`) AND '$urlMonth' = month(`entry_date`) AND eng_id IN ('$engIds') GROUP BY eng_id,product") or die(mysqli_error($con));	
 	foreach($sales as $sale)
 	{
 		$engId = $sale['eng_id'];
 		
-		$total = $sale['SUM(qty)'] - $sale['SUM(return_bag)'];
+		if($sale['product'] == 4)
+			$total = ($sale['SUM(qty)'] - $sale['SUM(return_bag)'])*3;
+		else
+			$total = $sale['SUM(qty)'] - $sale['SUM(return_bag)'];		
+		
 		if(isset($pointMap[$engId]['points']))
 			$pointMap[$engId]['points'] = $pointMap[$engId]['points'] + $total;
 		else
@@ -223,20 +234,28 @@ function getPrevPoints($engList,$endYear,$endMonth)
 		
 		$engIds = implode("','",array_keys($engMap));	
 		
-		$sales = mysqli_query($con,"SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$startDate' AND entry_date <= '$endDate' AND ar_id IN ('$engIds') GROUP BY ar_id" ) or die(mysqli_error($con));		 	 
+		$sales = mysqli_query($con,"SELECT ar_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$startDate' AND entry_date <= '$endDate' AND ar_id IN ('$engIds') GROUP BY ar_id,product" ) or die(mysqli_error($con));		 	 
 		foreach($sales as $sale)
 		{
 			$engId = $sale['ar_id'];				
 			
-			$total = $sale['SUM(qty)'] - $sale['SUM(return_bag)'];
+			if($sale['product'] == 4)
+				$total = ($sale['SUM(qty)'] - $sale['SUM(return_bag)'])*3;
+			else
+				$total = $sale['SUM(qty)'] - $sale['SUM(return_bag)'];		
+		
 			$engMap[$engId]['prevPoints'] = $engMap[$engId]['prevPoints'] + $total;	
 		}
-		$sales = mysqli_query($con,"SELECT eng_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$startDate' AND entry_date <= '$endDate' AND eng_id IN ('$engIds') GROUP BY eng_id" ) or die(mysqli_error($con));		 	 
+		$sales = mysqli_query($con,"SELECT eng_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$startDate' AND entry_date <= '$endDate' AND eng_id IN ('$engIds') GROUP BY eng_id,product" ) or die(mysqli_error($con));		 	 
 		foreach($sales as $sale)
 		{
 			$engId = $sale['eng_id'];				
 			
-			$total = $sale['SUM(qty)'] - $sale['SUM(return_bag)'];
+			if($sale['product'] == 4)
+				$total = ($sale['SUM(qty)'] - $sale['SUM(return_bag)'])*3;
+			else
+				$total = $sale['SUM(qty)'] - $sale['SUM(return_bag)'];		
+			
 			$engMap[$engId]['prevPoints'] = $engMap[$engId]['prevPoints'] + $total;	
 		}		
 		

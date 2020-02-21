@@ -98,7 +98,7 @@ if(isset($_SESSION["user_name"]))
 			foreach($sales as $sale)
 			{?>
 				<tr>
-					<td><a href="edit.php?sales_id=<?php echo $sale['sales_id'];?>"</a><?php echo date('d-m-Y',strtotime($sale['entry_date']));?></td>
+					<td><a href="edit.php?sales_id=<?php echo $sale['sales_id'];?>&list=all"</a><?php echo date('d-m-Y',strtotime($sale['entry_date']));?></td>
 					<td><?php echo $arMap[$sale['ar_id']];?></td>
 					<td><?php echo $productMap[$sale['product']];?></td>
 					<td><?php echo $sale['qty'];?></td>

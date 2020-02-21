@@ -2,49 +2,35 @@
 session_start();
 if(isset($_SESSION["user_name"]))
 {
+	require '../connect.php';
+	
+	$arObjects = mysqli_query($con,"SELECT * FROM ar_details ORDER BY name") or die(mysqli_error($con));
+	foreach($arObjects as $ar)
+		$arMap[$ar['id']] = $ar['name'];
+		
+	$redemptionList = mysqli_query($con,"SELECT * FROM redemption ORDER BY date DESC" ) or die(mysqli_error($con));
 ?>	
 <!DOCTYPE html>
 <html>
 	<title>Redemption List</title>
 	<head>
-	<style>
-	.dataTables_wrapper .dt-buttons {
-	  float:none;  
-	  text-align:center;
-	}
-	</style>	
-		<link rel="stylesheet" type="text/css" href="../css/glow_box.css">
-		<link rel="stylesheet" type="text/css" href="../css/jquery.dataTables.css">
-		<link rel="stylesheet" type="text/css" href="../css/fixedHeader.css">
-		<link rel="stylesheet" type="text/css" href="../css/buttons.css">
-
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">	
+		<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
 		<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
-		<script type="text/javascript" language="javascript" src="../js/jquery.dataTables.js"></script>
-		<script type="text/javascript" language="javascript" src="../js/fixedHeader.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+		<script type="text/javascript" language="javascript" src="../js/TableSorter.js"></script>
+		<script type="text/javascript" language="javascript" src="../js/TablesorterWidgets.js"></script>
+		<link href='../select2/dist/css/select2.min.css' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="../css/TableSorterBlueTheme.css">
 		<script type="text/javascript" language="javascript">
-			$(document).ready(function() {
-				var dataTable = $('#sales-table').DataTable( {
-					"processing": true,
-					"serverSide": true,
-					"responsive": true,
-					"bJQueryUI":true,
-					"iDisplayLength": 2000,		
-					"ajax":{
-						url :"index_server.php", // json datasource
-						type: "post",  // method  , by default get
-						error: function(){  // error handling
-							$(".sales-table-error").html("");
-							$("#sales-table").append('<tbody class="sales-table-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
-							$("#sales-table_processing").css("display","none");
-										}
-						   }
-				} );
-				
-			   dataTable.on( 'xhr', function () {
-				var json = dataTable.ajax.json();
-				$('.sql').html(json.sql);
-			} );				
-			} );
+			$(function(){
+				$("table").tablesorter({
+					dateFormat : "ddmmyyyy",
+					theme : 'blue',
+					widgets: ['filter'],
+					filter_columnAnyMatch: true,
+				}); 
+			});			
 		</script>
 
 	</head>
@@ -57,20 +43,31 @@ if(isset($_SESSION["user_name"]))
 <div align="center" class="gradient">
 <font size=5>
 <br>
-<!--SQL:<span class='sql'></span><br><br-->
 </b></font>
 
 		<br><br>
-			<table id="sales-table" class="display cell-border no-wrap" width="60%">
+			<table style="width:60%">
 					<thead>
 						<tr>
-							<th style="width:90px !important">Date</th>
-							<th style="width:200px !important">AR</th>
-							<th style="width:50px !important">Points</th>	
+							<th style="width:90px">Date</th>
+							<th style="width:200px">AR</th>
+							<th style="width:50px">Points</th>	
 							<th>Remarks</th>			
-							<th style="width:90px !important">Entered On</th>
+							<th style="width:90px">Entered On</th>
 						</tr>
 					</thead>
+					<tbody>																														<?php
+					foreach($redemptionList as $redemption)
+					{																															?>
+						<tr>
+							<td><?php echo date('d-m-Y',strtotime($redemption['date']));?></td>
+							<td><?php echo $arMap[$redemption['ar_id']];?></td>
+							<td><?php echo $redemption['points'];?></td>
+							<td><?php echo $redemption['remarks'];?></td>
+							<td><?php echo date('d-m-Y',strtotime($redemption['entered_on']));?></td>																	
+						</tr>																													<?php
+					}																															?>
+					</tbody>	
 			</table>
 		</div>
 	</body>

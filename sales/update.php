@@ -29,7 +29,9 @@ if(isset($_SESSION["user_name"]))
 		$address1 = $_POST['address1'];
 		$address2 = $_POST['address2'];
 		$entered_by = $_SESSION["user_name"];
-		$entered_on = date('Y-m-d H:i:s');	
+		$entered_on = date('Y-m-d H:i:s');
+		$clicked_from = $_POST['clicked_from'];
+			
 
 		if(empty($discount))
 			$discount = null;			
@@ -49,7 +51,10 @@ if(isset($_SESSION["user_name"]))
 
 		updateUserDetails($oldSale,$newSale);
 		
-		$url = 'todayList.php?ar=all';
+		if($clicked_from == 'all')
+			$url = 'list.php';
+		else if($clicked_from == 'today')
+			$url = 'todayList.php?ar=all';		
 		header( "Location: $url" );
 	}																							
 }
