@@ -1,0 +1,29 @@
+<html>
+<head>
+	<script>
+	function letsGeolocate {
+		var output = document.getElementById("output");  // the div where messages will appear
+		var options = {
+		};
+		function geolocationSuccess(position) {
+			var latitude = position.coords.latitude;
+			var longitude = position.coords.longitude;
+			output.innerHTML = 'Latitude: ' + latitude + '<br/>Longitude: ' + longitude
+		}
+
+		function geolocationError() {
+			output.innerHTML = "Unable to retrieve your location";
+		}
+
+		function geoprogress() {
+			output.innerHTML = '<p>Locating in progress</p>';
+		}
+		navigator.geolocation.getAccurateCurrentPosition(success, error, geoprogress, options);
+	}
+	</script>
+</head>
+<body>
+	<button id="geolocate" onclick="letsGeolocate()">
+	<div id="output">
+</body>
+</html>	
