@@ -1,15 +1,17 @@
 <html>
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="text/javascript" language="javascript" src="../js/geoLocation.js"></script>
 	<script>
-	function letsGeolocate {
+	function letsGeolocate(){
 		var output = document.getElementById("output");  // the div where messages will appear
 		var options = {
 		};
 		function geolocationSuccess(position) {
 			var latitude = position.coords.latitude;
 			var longitude = position.coords.longitude;
-			output.innerHTML = 'Latitude: ' + latitude + '<br/>Longitude: ' + longitude
+			var accuracy = position.coords.accuracy;
+			output.innerHTML = 'Latitude: ' + latitude + '<br/>Longitude: ' + longitude + '<br/>Accuracy: ' + accuracy
 		}
 
 		function geolocationError() {
@@ -19,7 +21,7 @@
 		function geoprogress() {
 			output.innerHTML = '<p>Locating in progress</p>';
 		}
-		navigator.geolocation.getAccurateCurrentPosition(success, error, geoprogress, options);
+		navigator.geolocation.getAccurateCurrentPosition(geolocationSuccess, geolocationError, geoprogress, options);
 	}
 	</script>
 </head>
