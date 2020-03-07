@@ -25,7 +25,7 @@ if(isset($_SESSION['user_name']))
 		<link href="../css/font-awesome.min.css" rel="stylesheet">	
 		<link rel="stylesheet" href="../css/navigation-dark.css">
 		<link rel="stylesheet" href="../css/slicknav.min.css">	
-				<link rel="stylesheet" href="../css/TableSorterBlueTheme.css">			
+		<link rel="stylesheet" href="../css/TableSorterBlueTheme.css">			
 		<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
 		<script type="text/javascript" language="javascript" src="../js/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="../js/bootstrap.min.js"></script>

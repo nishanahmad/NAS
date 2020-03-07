@@ -6,6 +6,8 @@
 	function letsGeolocate(){
 		var output = document.getElementById("output");  // the div where messages will appear
 		var options = {
+			desiredAccuracy:20, 
+			maxWait:10000
 		};
 		function geolocationSuccess(position) {
 			var latitude = position.coords.latitude;
