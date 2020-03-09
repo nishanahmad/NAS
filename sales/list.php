@@ -21,7 +21,13 @@ if(isset($_SESSION["user_name"]))
 	if(isset($_POST['arId']))
 	{
 		$arId = $_POST['arId'];
-		$sales = mysqli_query($con,"SELECT * FROM nas_sale WHERE (ar_id = $arId OR eng_id = $arId) AND entry_date >= '$fromDate' AND entry_date <= '$toDate' ORDER BY sales_id DESC") or die(mysqli_error($con));		
+		if(empty($arId))
+		{
+			$arId = 'All';			
+			$sales = mysqli_query($con,"SELECT * FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' ORDER BY sales_id DESC") or die(mysqli_error($con));		
+		}
+		else		
+			$sales = mysqli_query($con,"SELECT * FROM nas_sale WHERE (ar_id = $arId OR eng_id = $arId) AND entry_date >= '$fromDate' AND entry_date <= '$toDate' ORDER BY sales_id DESC") or die(mysqli_error($con));
 	}
 	else
 	{
