@@ -17,13 +17,13 @@ if(isset($_SESSION["user_name"]))
 		$urlMonth = (int)date("m");
 	}
 	
-	$engObjects =  mysqli_query($con,"SELECT id,name,mobile,shop_name,sap_code FROM ar_details WHERE type LIKE '%Engineer%' AND isActive = 1 ORDER BY name ASC ") or die(mysqli_error($con));
+	$engObjects =  mysqli_query($con,"SELECT id,name,mobile,shop_name,bag_report FROM ar_details WHERE type LIKE '%Engineer%' AND isActive = 1 ORDER BY name ASC ") or die(mysqli_error($con));
 	foreach($engObjects as $eng)
 	{
 		$engMap[$eng['id']]['name'] = $eng['name'];
 		$engMap[$eng['id']]['mobile'] = $eng['mobile'];
 		$engMap[$eng['id']]['shop'] = $eng['shop_name'];
-		$engMap[$eng['id']]['sap'] = $eng['sap_code'];
+		$engMap[$eng['id']]['bag_report'] = $eng['bag_report'];
 	}				
 	
 	$prevMap = getPrevPoints(array_keys($engMap),$urlYear,$urlMonth);
@@ -148,7 +148,7 @@ function rerender()
 				<th style="width:20%;text-align:left;">AR</th>
 				<th style="width:12%;">Mobile</th>
 				<th style="width:25%;text-align:left;">Shop</th>
-				<th style="width:10%;">SAP</th>
+				<th style="width:10%;">ReportedTo</th>
 				<th>Opng Pnts</th>
 				<th>Current Pnts</th>	
 				<th>Redeemed Pnts</th>	
@@ -173,7 +173,7 @@ function rerender()
 				<td style="text-align:left;"><?php echo $detailMap['name'];?></b></td>
 				<td><?php echo $detailMap['mobile'];?></b></td>
 				<td style="text-align:left;"><?php echo $detailMap['shop'];?></b></td>
-				<td><?php echo $detailMap['sap'];?></b></td>
+				<td><?php echo $detailMap['bag_report'];?></b></td>
 				<td><?php echo $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'];?></b></td>
 				<td><?php echo $pointMap[$arId]['points'];?></td>
 				<td><?php echo $redemptionMap[$arId];?></td>
