@@ -4,6 +4,11 @@
 
 if(isset($_SESSION["user_name"]))
 {
+	if(isset($_GET['panelId']))
+		$panelId = $_GET['panelId'];
+	else
+		$panelId = 'mainView';   // Don't scroll
+		
 	$designation = $_SESSION['role'];	
 	
 	$driversQuery = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role ='driver' ORDER BY user_name") or die(mysqli_error($con));
@@ -66,7 +71,12 @@ if(isset($_SESSION["user_name"]))
 		<script src="../js/jquery.slicknav.min.js"></script>
 
 		<script>
-			function closeRequest(id){
+			$(function() {
+				var elmnt = document.getElementById("<?php echo $panelId;?>");
+				elmnt.scrollIntoView();					
+			});
+		
+			function closeRequest(id,divId){
 				var designation = "<?php echo $designation;?>";
 				if(designation != 'driver')
 				{
@@ -108,7 +118,8 @@ if(isset($_SESSION["user_name"]))
 							if(result)
 							{
 								hrf = 'close.php?';
-								window.location.href = hrf +"id="+ id + "&driver=" + driver;		
+								divId = divId - 1;
+								window.location.href = hrf +"id="+ id + "&driver=" + driver + "&panelId=" + divId;		
 							}
 						}
 					});					
@@ -118,7 +129,7 @@ if(isset($_SESSION["user_name"]))
 		</script>		
 	</head>
 	<body>
-		<nav class="menu-navigation-dark">																		<?php 
+		<nav class="menu-navigation-dark" id="mainView">																		<?php 
 			if($_SESSION['role'] != 'driver')
 			{																									?>	
 				<a href="../index.php"><i class="fa fa-home"></i><span>Home</span></a>
@@ -151,10 +162,11 @@ if(isset($_SESSION["user_name"]))
 		</div>	 			
 		<div class="container" >
 			<ul class="list-group">																			<?php 
+				$divId = 1;																				
 				foreach($sheets as $sheet)
 				{																							?>
 					<li>
-						<div class="panel panel-default">
+						<div class="panel panel-default" id="panel<?php echo $divId;?>">
 							<div class="panel-body">
 								<div class="panel-info">
 									<p><i class="fa fa-map-marker"></i><strong> <?php echo $sheet['area'];?></strong></p><?php
@@ -182,11 +194,12 @@ if(isset($_SESSION["user_name"]))
 							</div>
 							<div align="center">
 								<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn btn-primary" style="width:100px;">Edit</a>&nbsp;&nbsp;								
-								<button class="btn btn-danger" style="width:100px;" onclick="closeRequest(<?php echo $sheet['id'];?>)">Close</button>				
+								<button class="btn btn-danger" style="width:100px;" onclick="closeRequest(<?php echo $sheet['id'];?>,<?php echo $divId;?>)">Close</button>				
 							</div>
 							<br/><br/>
 						</div>
-					</li>																					<?php				
+					</li>																					<?php	
+					$divId ++;
 				}																							?>
 
 			</ul>

@@ -9,6 +9,7 @@ if(isset($_SESSION["user_name"]))
 	$sqlDate = date("Y-m-d");
 	$id = $_GET['id'];
 	$closed_by = (int)$_GET['driver'];
+	$panelId = 'panel'.$_GET['panelId'];
 
 	$sheet = mysqli_query($con,"SELECT * FROM sheets WHERE id=$id ") or die(mysqli_error($con));
 	$qty = (int)mysqli_fetch_array($sheet,MYSQLI_ASSOC)['qty'];
@@ -39,7 +40,7 @@ if(isset($_SESSION["user_name"]))
 
 	$insertLogs = mysqli_query($con, "INSERT INTO transfer_logs (user_to, qty, transferred_on, transferred_by, toStock, site) VALUES ('$closed_by', '$qty', '$transferred_on', '$transferred_by', '$toStock', '$id')") or die(mysqli_error($con));	
 
-	header( "Location: deliveries.php" );
+	header( "Location: deliveries.php?panelId=$panelId");
 }
 else
 	header( "Location: ../index.php" );
