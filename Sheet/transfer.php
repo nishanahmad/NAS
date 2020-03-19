@@ -21,17 +21,43 @@ if(isset($_SESSION["user_name"]))
 		$transferred_on = date('Y-m-d H:i:s');
 		$transferred_by = $_SESSION['user_id'];
 		
-		$updateFrom = mysqli_query($con,"UPDATE sheets_in_hand SET qty = qty - '$qty' WHERE user=$from ") or die(mysqli_error($con));
-		$queryFrom = mysqli_query($con,"SELECT qty FROM sheets_in_hand WHERE user=$from ") or die(mysqli_error($con));
+		$commitFlag = true;
+		mysqli_autocommit($con, FALSE);		
+
+		$updateFrom = mysqli_query($con,"UPDATE sheets_in_hand SET qty = qty - '$qty' WHERE user=$from ");
+		if(!$updateFrom)
+			$commitFlag = false;		
+
+		$queryFrom = mysqli_query($con,"SELECT qty FROM sheets_in_hand WHERE user=$from ");
+		if(!$queryFrom)
+			$commitFlag = false;				
+		
 		$fromStock = mysqli_fetch_array($queryFrom,MYSQLI_ASSOC)['qty'];
 		
-		$updateTo = mysqli_query($con,"UPDATE sheets_in_hand SET qty = qty + '$qty' WHERE user=$to ") or die(mysqli_error($con));
-		$queryTo = mysqli_query($con,"SELECT qty FROM sheets_in_hand WHERE user=$to ") or die(mysqli_error($con));
+		$updateTo = mysqli_query($con,"UPDATE sheets_in_hand SET qty = qty + '$qty' WHERE user=$to ");
+		if(!$updateTo)
+			$commitFlag = false;				
+		
+		$queryTo = mysqli_query($con,"SELECT qty FROM sheets_in_hand WHERE user=$to ");
+		if(!$queryTo)
+			$commitFlag = false;		
+		
 		$toStock = mysqli_fetch_array($queryTo,MYSQLI_ASSOC)['qty'];
 
-		$insertLogs = mysqli_query($con, "INSERT INTO transfer_logs (user_from, user_to, qty, transferred_on, transferred_by, fromStock, toStock) VALUES ('$from', '$to', '$qty', '$transferred_on', '$transferred_by', '$fromStock', '$toStock')") or die(mysqli_error($con));
+		$insertLogs = mysqli_query($con, "INSERT INTO transfer_logs (user_from, user_to, qty, transferred_on, transferred_by, fromStock, toStock) VALUES ('$from', '$to', '$qty', '$transferred_on', '$transferred_by', '$fromStock', '$toStock')");
+		if(!$insertLogs)
+			$commitFlag = false;		
 		
-		header("Location:requests.php");
+		if($commitFlag)
+		{
+			mysqli_commit($con);	
+			header( "Location: requests.php" );
+		}
+		else
+		{
+			mysqli_rollback($con);
+			header( "Location: requests.php?error=true" );		
+		}
 	}
 ?>	
 <html>

@@ -5,6 +5,12 @@
 if(isset($_SESSION["user_name"]))
 {	
 	$designation = $_SESSION['role'];
+	
+	if(isset($_GET['error']))
+		$error = $_GET['error'];
+	else
+		$error = 'false';	
+	
 	$userId = $_SESSION['user_id'];
 
 	$driversQuery = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role ='driver' ORDER BY user_name") or die(mysqli_error($con));
@@ -272,6 +278,15 @@ if(isset($_SESSION["user_name"]))
 					a.siblings().removeClass('selected');
 					a.addClass('selected');
 				});
+				
+
+				// SHOW ERROR IF RETURNED URL CONTAINS ERROR
+				var error = "<?php echo $error;?>";
+				if(error == 'true')
+				{
+					bootbox.alert("Not enough sheets in hand to deliver!!!");					
+				}
+
 			});
 
 		</script>		
