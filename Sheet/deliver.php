@@ -19,9 +19,18 @@ if(isset($_SESSION["user_name"]))
 	if(!$updateRequest)
 		$commitFlag = false;
 	
-	$updateSheetInHand = mysqli_query($con,"UPDATE sheets_in_hand SET qty =qty - $qty WHERE user=$delivered_by ");
-	if(!$updateSheetInHand)
+	
+	$QuerySheetInHand = mysqli_query($con,"SELECT qty FROM sheets_in_hand WHERE user=$delivered_by ");
+	$newQty = mysqli_fetch_array($QuerySheetInHand,MYSQLI_ASSOC)['qty'] - $qty;
+	if($newQty < 0)
 		$commitFlag = false;	
+		
+	else
+	{
+		$updateSheetInHand = mysqli_query($con,"UPDATE sheets_in_hand SET qty =qty - $qty WHERE user=$delivered_by ");
+		if(!$updateSheetInHand)
+			$commitFlag = false;			
+	}		
 
 	$queryFrom = mysqli_query($con,"SELECT qty FROM sheets_in_hand WHERE user=$delivered_by ");
 	if(!$queryFrom)

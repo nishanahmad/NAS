@@ -24,6 +24,11 @@ if(isset($_SESSION["user_name"]))
 		$commitFlag = true;
 		mysqli_autocommit($con, FALSE);		
 
+		$QuerySheetInHand = mysqli_query($con,"SELECT qty FROM sheets_in_hand WHERE user=$from ");
+		$newQty = mysqli_fetch_array($QuerySheetInHand,MYSQLI_ASSOC)['qty'] - $qty;
+		if($newQty < 0)
+			$commitFlag = false;	
+	
 		$updateFrom = mysqli_query($con,"UPDATE sheets_in_hand SET qty = qty - '$qty' WHERE user=$from ");
 		if(!$updateFrom)
 			$commitFlag = false;		
