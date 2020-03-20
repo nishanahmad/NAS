@@ -112,7 +112,7 @@ if(isset($_SESSION['user_name']))
 								$site = mysqli_fetch_array($siteQuery,MYSQLI_ASSOC);																								?>
 								<tr>
 									<td><?php echo date('d-m-Y',strtotime($log['transferred_on']));?></td>
-									<td><?php echo date('h:i A',strtotime($log['transferred_on']));?></td>
+									<td><?php echo date('h:i:s A',strtotime($log['transferred_on']));?></td>
 									<td><?php 
 										if(isset($userMap[$log['user_from']]))
 											echo $userMap[$log['user_from']] .' ---> ';
