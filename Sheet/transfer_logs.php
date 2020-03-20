@@ -96,7 +96,7 @@ if(isset($_SESSION['user_name']))
 							<thead class="cf">
 								<tr>
 									<th style="width:100px;">Date</th>
-									<th style="width:80px;">Time</th>
+									<th style="width:100px;">Time</th>
 									<th></th>
 									<th style="width:50px;">Qty</th>
 									<th style="width:100px;">Transfrd By</th>
