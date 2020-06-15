@@ -52,14 +52,6 @@ if(isset($_SESSION["user_name"]))
 ?>	
 <html>
 	<style>
-	.list-group li {
-		list-style: none;
-	}
-	.panel-info, .panel-rating, .panel-more1 {
-		float: left;
-		margin: 0 10px;
-	}
-	
 	.stockTable{
 		border: 1px solid black;
 		width:300px;
@@ -68,23 +60,19 @@ if(isset($_SESSION["user_name"]))
 		padding: 5px;	
 		border: 1px solid black;
 	}
-
-	.modal-footer button {
-	  float:right;
-	  margin-left: 10px;
-	}
 	</style>
 	<head>
 		<title>Pending Requests</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
+		<script src="https://kit.fontawesome.com/742221945b.js" crossorigin="anonymous"></script>		
 		<link rel="stylesheet" href="../css/navigation-dark.css">
 		<link rel="stylesheet" href="../css/slicknav.min.css">
 		<script src="../js/jquery.js"></script> 
-		<script src="../js/bootstrap.min.js"></script> 
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>		
 		<script src="../js/bootbox.min.js"></script> 		
 		<script src="../js/jquery.slicknav.min.js"></script>
 		<script>
@@ -171,7 +159,7 @@ if(isset($_SESSION["user_name"]))
 			<h2>Pending Requests</h2><br/>																																	<?php
 			if($designation != 'driver')
 			{																																							?>
-				<select name="assigned_to" id="assigned_to" onchange="document.location.href = 'requests.php?assigned_to=' + this.value">
+				<select name="assigned_to" id="assigned_to" onchange="document.location.href = 'requests.php?assigned_to=' + this.value" class="form-control col-md-2">
 						<option value = "All" <?php if($assigned_to == 'All') echo 'selected';?> >ALL</option>													    	<?php
 						foreach($users as $user)
 						{																																				?>
@@ -213,54 +201,47 @@ if(isset($_SESSION["user_name"]))
 				echo '<b>'.$stock['qty'].' sheets in hand</b><br/><br/>';	
 			}				?>
 		</div>
-		<div class="container" >
-			<ul class="list-group">																											<?php 
+		<div class="container" >																											<?php 
 				foreach($sheets as $sheet)
 				{																															?>
-					<li>
-						<div class="panel panel-default">
-							<div class="panel-body">
-								<div class="panel-info">
-									<p><i class="fa fa-map-marker"></i><strong> <?php echo $sheet['area'];?></strong></p><?php
-									if(!empty($sheet['customer_name']))
-									{?>
-										<p><i class="fa fa-user"></i> Cust :  <?php echo $sheet['customer_name'];?>
-										, <i class="fa fa-phone"></i> <a href="tel:<?php echo $sheet['customer_phone'];?>"><?php echo $sheet['customer_phone'];?></a></p><?php
-									}
-									if(!empty($sheet['mason_name']))
-									{?>
-										<p><i class="fa fa-user"></i> Mason :  <?php echo $sheet['mason_name'];?>
-										, <i class="fa fa-phone"></i> <a href="tel:<?php echo $sheet['mason_phone'];?>"><?php echo $sheet['mason_phone'];?></a></p><?php
-									}?>
-									<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['date']));?>, <i class="fa fa-shopping-bag"></i> <?php echo $sheet['bags'].' bags';?></p>
-									<p><i class="fa fa-university"></i> <?php echo $sheet['shop'];?></p>
-									<p><i class="fa fa-pencil"></i> Req by <b><?php echo $sheet['requested_by']; 
-									if($sheet['created_on'] != null && $designation != 'driver')
-									{																																?>
-										</b> on <?php echo date('d M, h:i A', strtotime($sheet['created_on']));?></p>			<?php
-									}
-									if($designation != 'driver' && $sheet['assigned_to'] != 0)
-									{																																?>
-										<p><i class="fa fa-share"></i> Assigned to <b><?php echo $drivers[$sheet['assigned_to']];?></b></p>								<?php										
-									}																																?>
-									<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>	
-								</div>
-								<br/>
-							</div>
+					<div class="card">
+						<div class="card-header" style="background-color:#2a739e;color:#ffffff;font-family:Bookman;text-transform:uppercase;"><i class="fa fa-map-marker"></i> <?php echo $sheet['area']; ?></div>
+						<div class="card-body"><?php
+							if(!empty($sheet['customer_name']))
+							{?>
+								<p><i class="fa fa-user"></i> Cust :  <?php echo $sheet['customer_name'];?>
+								, <i class="fa fa-mobile"></i> <a href="tel:<?php echo $sheet['customer_phone'];?>"><?php echo $sheet['customer_phone'];?></a></p><?php
+							}
+							if(!empty($sheet['mason_name']))
+							{?>
+								<p><i class="fa fa-user"></i> Mason :  <?php echo $sheet['mason_name'];?>
+								, <i class="fa fa-mobile"></i> <a href="tel:<?php echo $sheet['mason_phone'];?>"><?php echo $sheet['mason_phone'];?></a></p><?php
+							}?>
+							<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['date']));?>, <i class="fa fa-shopping-bag"></i> <?php echo $sheet['bags'].' bags';?></p>
+							<p><i class="fas fa-store"></i> <?php echo $sheet['shop'];?></p>
+							<p><i class="fas fa-desktop"></i> Req by <b><?php echo $sheet['requested_by']; 
+							if($sheet['created_on'] != null && $designation != 'driver')
+							{																																?>
+								</b> on <?php echo date('d M, h:i A', strtotime($sheet['created_on']));?></p>			<?php
+							}
+							if($designation != 'driver' && $sheet['assigned_to'] != 0)
+							{																																?>
+								<p><i class="fa fa-share"></i> Assigned to <b><?php echo $drivers[$sheet['assigned_to']];?></b></p>								<?php										
+							}																																?>
+							<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>	
+							<br/>
 							<div align="center">
-								<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;								
-								<button class="btn btn-primary" onclick="deliver(<?php echo $sheet['id'];?>)">Deliver</button>&nbsp;&nbsp;&nbsp;&nbsp;<?php
+								<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn" style="color:#ffffff;background-color:e1be5c;width:100px;"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;								
+								<button class="btn" style="color:#ffffff;background-color:7dc37d;width:100px;" onclick="deliver(<?php echo $sheet['id'];?>)"><i class="fas fa-check"></i> Deliver</button>&nbsp;&nbsp;&nbsp;&nbsp;<?php
 								if($designation != 'driver')
 								{																														?>																																								
-									<button class="btn btn-danger" onclick="cancel(<?php echo $sheet['id'];?>)">Cancel</button>							<?php
+									<button class="btn" onclick="cancel(<?php echo $sheet['id'];?>)" style="background-color:#E6717C;color:#FFFFFF;width:100px;"><i class="far fa-trash-alt"></i> Delete</button>							<?php
 								}																														?>
-							</div>
-							<br/><br/>
+							</div>							
 						</div>
-					</li>																					<?php				
+					</div>
+					<br/><br/><br/>																		<?php				
 				}																							?>
-
-			</ul>
 		</div>
 		<script>
 

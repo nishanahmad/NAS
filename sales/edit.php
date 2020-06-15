@@ -37,298 +37,31 @@ if(isset($_SESSION["user_name"]))
 	<head>
 		<title>Edit Sale <?php echo $row['sales_id']; ?></title>
 		<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
-		<link rel="stylesheet" type="text/css" href="../css/newEdit.css" />
-		<link rel="stylesheet" href="../css/button.css">
 		<link href='../select2/dist/css/select2.min.css' rel='stylesheet' type='text/css'>
 		<script src="https://kit.fontawesome.com/742221945b.js" crossorigin="anonymous"></script>
 		<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
 		<script type="text/javascript" language="javascript" src="../js/jquery-ui.min.js"></script>	
-		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
-		<script type="text/javascript" src="../js/bootstrap.min.js"></script> 
-
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 		<script src='../select2/dist/js/select2.min.js' type='text/javascript'></script>
+		<script src='editScripts.js' type='text/javascript'></script>
 		<script>
-		var shopNameList = '<?php echo $shopNameArray;?>';
-		var shopName_array = JSON.parse(shopNameList);
-		var shopNameArray = shopName_array;									
-		function arRefresh()
-		{
-			var arId = $('#ar').val();
-			var shopName = shopNameArray[arId];
-			$('#shopName').val(shopName);
-		}								
-			
-		$(document).ready(function()
-		{
-			$("#ar").select2();
-			$("#engineer").select2();
-			
-			var pickerOpts = { dateFormat:"dd-mm-yy"}; 
-			$( "#datepicker" ).datepicker(pickerOpts);	
-			$( "#sheetDate" ).datepicker(pickerOpts);	
-			
-			var arId = $('#ar').val();
-			var shopName = shopNameArray[arId];
-			$('#shopName').val(shopName);	
-				
-		
-			var date = $("#datepicker").val();
-			var product = $("#product").val();
-			var client = $("#ar").val();
-			
-			$.ajax({
-				type: "POST",
-				url: "getRate.php",
-				data:'date='+date+'&product='+product,
-				success: function(data){
-					var rate = data;
-					$("#rate").val(rate);
-					refreshRate();
-				}
-			});
-			$.ajax({
-				type: "POST",
-				url: "checkEngineer.php",
-				data:'client='+client,
-				success: function(data){
-					if(data.includes("Engineer"))
-					{
-						$("#wd").val(0);
-						refreshRate();
-					}
-					else
-					{
-						$.ajax({
-							type: "POST",
-							url: "getWD.php",
-							data:'product='+product+'&date='+date,
-							success: function(data){
-								$("#wd").val(data);
-								refreshRate();
-							}
-						});										
-					}
-				}
-			});
-			$.ajax({
-				type: "POST",
-				url: "getCD.php",
-				data:'date='+date+'&product='+product+'&client='+client,
-				success: function(data){
-					$("#cd").val(data);
-					refreshRate();
-				}
-			});		
-			$.ajax({
-				type: "POST",
-				url: "getSD.php",
-				data:'date='+date+'&product='+product+'&client='+client,
-				success: function(data){
-					$("#sd").val(data);
-					refreshRate();
-				}
-			});	
-
-			$("#datepicker").change(function()
-			{
-				var date = $(this).val();
-				var product = $("#product").val();
-				var client = $("#ar").val();
-				
-				$.ajax({
-					type: "POST",
-					url: "getRate.php",
-					data:'date='+date+'&product='+product,
-					success: function(data){
-						var rate = data;
-						$("#rate").val(rate);
-						refreshRate();
-					}
-				});
-				$.ajax({
-					type: "POST",
-					url: "checkEngineer.php",
-					data:'client='+client,
-					success: function(data){
-						if(data.includes("Engineer"))
-						{
-							$("#wd").val(0);
-							refreshRate();
-						}
-						else
-						{
-							$.ajax({
-								type: "POST",
-								url: "getWD.php",
-								data:'product='+product+'&date='+date,
-								success: function(data){
-									$("#wd").val(data);
-									refreshRate();
-								}
-							});										
-						}
-					}
-				});												
-				$.ajax({
-					type: "POST",
-					url: "getCD.php",
-					data:'date='+date+'&product='+product+'&client='+client,
-					success: function(data){
-						$("#cd").val(data);
-						refreshRate();
-					}
-				});		
-				$.ajax({
-					type: "POST",
-					url: "getSD.php",
-					data:'date='+date+'&product='+product+'&client='+client,
-					success: function(data){
-						$("#sd").val(data);
-						refreshRate();
-					}
-				});		
-			});
-			
-			
-			
-			$("#product").change(function()
-			{
-				date = $("#datepicker").val();
-				product = $(this).val();
-				client = $("#ar").val();
-				
-				$.ajax({
-					type: "POST",
-					url: "getRate.php",
-					data:'product='+product+'&date='+date,
-					success: function(data){
-						var rate = data;
-						$("#rate").val(rate);
-						refreshRate();
-					}
-				});			
-				$.ajax({
-					type: "POST",
-					url: "getWD.php",
-					data:'product='+product+'&date='+date,
-					success: function(data){
-						$("#wd").val(data);
-						refreshRate();
-					}
-				});										
-				$.ajax({
-					type: "POST",
-					url: "getCD.php",
-					data:'product='+product+'&date='+date+'&client='+client,
-					success: function(data){
-						$("#cd").val(data);
-						refreshRate();
-					}
-				});				
-				$.ajax({
-					type: "POST",
-					url: "getSD.php",
-					data:'product='+product+'&date='+date+'&client='+client,
-					success: function(data){
-						$("#sd").val(data);
-						refreshRate();
-					}
-				});	
-				$.ajax({
-					type: "POST",
-					url: "checkEngineer.php",
-					data:'client='+client,
-					success: function(data){
-						if(data.includes("Engineer"))
-						{
-							$("#wd").val(0);
-							refreshRate();
-						}
-						else
-						{
-							$.ajax({
-								type: "POST",
-								url: "getWD.php",
-								data:'product='+product+'&date='+date,
-								success: function(data){
-									$("#wd").val(data);
-									refreshRate();
-								}
-							});										
-						}
-					}
-				});															
-			});
-			
-			$("#ar").change(function()
-			{
-				var date = $("#datepicker").val();
-				var product = $("#product").val();
-				var client = $(this).val();
-				$.ajax({
-					type: "POST",
-					url: "getCD.php",
-					data:'client='+client+'&date='+date+'&product='+product,
-					success: function(data){
-						$("#cd").val(data);
-						refreshRate();
-					}
-				});			
-				$.ajax({
-					type: "POST",
-					url: "getSD.php",
-					data:'client='+client+'&date='+date+'&product='+product,
-					success: function(data){
-						$("#sd").val(data);
-						refreshRate();
-					}
-				});					
-				$.ajax({
-					type: "POST",
-					url: "checkEngineer.php",
-					data:'client='+client,
-					success: function(data){
-						if(data.includes("Engineer"))
-						{
-							$("#wd").val(0);
-							refreshRate();
-						}
-						else
-						{
-							$.ajax({
-								type: "POST",
-								url: "getWD.php",
-								data:'product='+product+'&date='+date,
-								success: function(data){
-									$("#wd").val(data);
-									refreshRate();
-								}
-							});										
-						}
-					}
-				});			
-			});	
-			$("#bd").change(function(){
-				refreshRate();
-			});						
-		});
-
-		function refreshRate()
-		{
-			var rate=document.getElementById("rate").value;
-			var cd=document.getElementById("cd").value;
-			var sd=document.getElementById("sd").value;
-			var wd=document.getElementById("wd").value;
-			var bd=document.getElementById("bd").value;
-			
-			$('#final').val(rate-cd-sd-wd-bd);
-		}
+			var shopNameList = '<?php echo $shopNameArray;?>';
+			var shopName_array = JSON.parse(shopNameList);
+			var shopNameArray = shopName_array;	
 		</script>
 		<style>
 			.close{
-			  font-size: 35px;
+			  font-size: 40px;
 			  color: red;
 			}		
+			label{
+				text-align: left;
+			}
+			.select2-selection {
+			  text-align: left;
+			}
 		</style>
 	</head>
 	<body>
@@ -343,121 +76,176 @@ if(isset($_SESSION["user_name"]))
 						if(isset($sheet))
 						{?>
 							<button type="button" class="btn" style="background-color:#F2CF5B;color:white;" data-toggle="modal" data-target="#sheetModal">
-								<i class="far fa-edit fa-lg"></i>&nbsp;&nbsp;Sheet
+								<i class="far fa-edit"></i>&nbsp;&nbsp;Sheet
 							</button><?php
 						}
 						else
 						{?>
 							<button type="button" class="btn" style="background-color:#7dc37d;color:white;" data-toggle="modal" data-target="#sheetModal">
-								<i class="fas fa-plus fa-lg"></i>&nbsp;&nbsp;Sheet
+								<i class="fas fa-plus"></i>&nbsp;&nbsp;Sheet
 							</button><?php
 						}?>
 						<button type="button" class="btn" style="background-color:#2A739E;color:white;" data-toggle="modal" data-target="#historyModal">
-							<i class="fa fa-history fa-lg"></i>&nbsp;&nbsp;History
+							<i class="fa fa-history"></i>&nbsp;&nbsp;History
 						</button>				
 					</div>					
 				</div>
 				<br>
+				<div align="center" style="padding-bottom:5px;">				
+					<div class="card" style="width:65%;">
+						<div class="card-header" style="background-color:#f2cf5b;font-size:20px;font-weight:bold;color:white"><i class="fa fa-pencil"></i> Edit Sale <?php echo $row['sales_id']; ?></div>
+						<div class="card-body">
+						 <div class="form-group row">
+							<label class="col-md-2 control-label">Date</label>
+							<div class="col-md-3 inputGroupContainer">
+							   <div class="input-group">
+									<input type="text" id="entryDate" name="entryDate" class="form-control date" 
+										value="<?php 
+												$originalDate1 = $row['entry_date'];
+												$newDate1 = date("d-m-Y", strtotime($originalDate1));
+												echo $newDate1; ?>">
+								</div>
+							</div>
+							<span class="col-md-1"></span>
+							<label class="col-md-2 control-label">Bill No</label>
+							<div class="col-md-3 inputGroupContainer">
+							   <div class="input-group">
+									<input type="text" name="bill" class="form-control" value="<?php echo $row['customer_name']; ?>">
+								</div>
+							</div>														
+						 </div>
+						 <div class="form-group row">
+							<label class="col-md-2 control-label">AR</label>
+							<div class="col-md-3 inputGroupContainer">
+							   <div class="input-group">
+									<select name="ar" id="ar" required class="form-control" onChange="arRefresh(shopNameArray);">
+										<option value = "<?php echo $row['ar_id'];?>"><?php echo $arMap[$row['ar_id']];?></option><?php
+										foreach($arMap as $arId => $arName)
+										{																							?>
+											<option value="<?php echo $arId;?>"><?php echo $arName;?></option>						<?php	
+										}																							?>
+									</select>
+								</div>
+							</div>
+							<span class="col-md-1"></span>
+							<label class="col-md-2 control-label">Truck No</label>
+							<div class="col-md-3 inputGroupContainer">
+							   <div class="input-group">
+									<input type="text" name="truck" class="form-control" value="<?php echo $row['truck_no']; ?>">
+								</div>
+							</div>														
+						 </div>						
+						 <div class="form-group row">
+							<label class="col-md-2 control-label">Engineer</label>
+							<div class="col-md-3 inputGroupContainer">
+							   <div class="input-group">
+									<select name="engineer" id="engineer" class="form-control">
+										<option value="<?php echo $row['eng_id'];?>"><?php echo $engMap[$row['eng_id']];?></option>																																<?php
+										foreach($engMap as $engId => $engName)
+										{	
+											if($engId != $row['eng_id'])
+											{																																			?>
+												<option value="<?php echo $engId;?>"><?php echo $engName;?></option><?php
+											}																																			?>																																						<?php		
+										}																																				?>
+									</select>
+								</div>
+							</div>
+							<span class="col-md-1"></span>
+							<label class="col-md-2 control-label">Customer Name</label>
+							<div class="col-md-3 inputGroupContainer">
+							   <div class="input-group">
+									<input type="text" name="customerName" class="form-control" value="<?php echo $row['customer_name']; ?>">
+								</div>
+							</div>														
+						 </div>												 
+						 <div class="form-group row">
+							<label class="col-md-2 control-label">Product</label>
+							<div class="col-md-2 inputGroupContainer">
+							   <div class="input-group">
+									<select name="product" id="product" required class="form-control">									<?php
+										foreach($products as $product) 
+										{																							?>
+											<option <?php if($row['product'] == $product['id']) echo 'selected';?> value="<?php echo $product['id'];?>"><?php echo $product['name'];?></option>		<?php	
+										}																							?>
+									</select>
+								</div>
+							</div>
+							<span class="col-md-2"></span>
+							<label class="col-md-2 control-label">Address 1</label>
+							<div class="col-md-3 inputGroupContainer">
+							   <div class="input-group">
+									<input type="text" name="address1" class="form-control" value="<?php echo $row['address1']; ?>">
+								</div>
+							</div>														
+						 </div>												 						 
+						 <div class="form-group row">
+							<label class="col-md-2 control-label">Qty</label>
+							<div class="col-md-2 inputGroupContainer">
+							   <div class="input-group">
+									<input type="text" name="qty" required class="form-control" pattern="[0-9]+" value="<?php echo $row['qty'];?>" title="Input a valid number">
+								</div>
+							</div>														
+							<span class="col-md-2"></span>
+							<label class="col-md-2 control-label">Address 2</label>
+							<div class="col-md-3 inputGroupContainer">
+							   <div class="input-group">
+									<input type="text" name="address2" class="form-control" value="<?php echo $row['address2']; ?>">
+								</div>
+							</div>														
+						 </div>												 						 						 
+						 <div class="form-group row">
+							<label class="col-md-2 control-label">Remarks</label>
+							<div class="col-md-3 inputGroupContainer">
+							   <div class="input-group">
+									<input type="text" name="remarks" class="form-control" value="<?php echo $row['remarks']; ?>">
+								</div>
+							</div>														
+							<span class="col-md-1"></span>
+							<label class="col-md-2 control-label">Customer Phone</label>
+							<div class="col-md-3 inputGroupContainer">
+							   <div class="input-group">
+									<input type="text" name="customerPhone" class="form-control" value="<?php echo $row['customer_phone']; ?>">
+								</div>
+							</div>														
+						 </div>												 						 						 						 
+						 <div class="form-group row">
+							<label class="col-md-2 control-label">Return</label>
+							<div class="col-md-2 inputGroupContainer">
+							   <div class="input-group">
+									<input type="text" name="return" class="form-control" value="<?php echo $row['return_bag']; ?>">
+								</div>
+							</div>														
+							<span class="col-md-2"></span>
+							<label class="col-md-2 control-label">Shop</label>
+							<div class="col-md-4 inputGroupContainer">
+							   <div class="input-group">
+									<input type="text" readonly name="shopName" id="shopName" class="form-control">
+								</div>
+							</div>														
+						 </div>												 						 						 						
+						 <div class="form-group row">
+							<label class="col-md-2 control-label">Bill Discount</label>
+							<div class="col-md-2 inputGroupContainer">
+							   <div class="input-group">
+									<input type="text" name="bd" id="bd" class="form-control" pattern="[0-9]+" title="Input a valid number" value="<?php echo $row['discount'];?>">
+								</div>
+							</div>														
+						 </div>												 						 						 						 						 
+						 <div class="form-group row">
+							<label class="col-md-2 control-label">Final Rate</label>
+							<div class="col-md-2 inputGroupContainer">
+							   <div class="input-group">
+									<input readonly id="final" class="form-control">
+								</div>
+							</div>														
+						 </div>												 						 						 						 						 						 
+						 <button type="submit" class="btn" style="width:100px;font-size:18px;background-color:#f2cf5b;color:white;"><i class="fa fa-save"></i> Save</button>
+						</div>
+						<div class="card-footer" style="background-color:#f2cf5b;padding:1px;"></div>
+					</div>
+				</div>				
 				<div align ="center">
-					<table border="0" cellpadding="10" cellspacing="0" width="80%" align="center" class="tblSaveForm">
-						<tr class="tableheader">
-							<td colspan="4" style="text-align:center;"><b><font size="4">Edit Sale <?php echo $row['sales_id']; ?> </font><b></td>
-						</tr>
-						<tr>
-							<td><label>Date</label></td>
-							<td><input type="text" id="datepicker" name="entryDate" class="txtField" 
-								value="<?php 
-										$originalDate1 = $row['entry_date'];
-										$newDate1 = date("d-m-Y", strtotime($originalDate1));
-										echo $newDate1; ?>">
-							</td>
-
-							<td><label>Bill No </label></td>
-							<td><input type="text" name="bill" class="txtField" value="<?php echo $row['bill_no']; ?>"></td>
-						</tr>
-						<tr>
-							<td><label>AR</label></td>
-							<td><select name="ar" id="ar" required class="txtField" onChange="arRefresh();">
-								<option value = "<?php echo $row['ar_id'];?>"><?php echo $arMap[$row['ar_id']];?></option>
-								<?php
-									foreach($arMap as $arId => $arName)
-									{?>
-										<option value="<?php echo $arId;?>"><?php echo $arName;?></option>			
-							<?php	}
-							?>
-								  </select>
-							</td>
-
-							<td><label>Truck No </label></td>
-							<td><input type="text" name="truck" class="txtField" value="<?php echo $row['truck_no']; ?>"></td>
-						</tr>
-						<tr>
-							<td><label>Engineer</label></td>
-							<td><select name="engineer" id="engineer" class="txtField">
-									<option value="<?php echo $row['eng_id'];?>"><?php echo $engMap[$row['eng_id']];?></option>																																<?php
-									foreach($engMap as $engId => $engName)
-									{	
-										if($engId != $row['eng_id'])
-										{																																			?>
-											<option value="<?php echo $engId;?>"><?php echo $engName;?></option><?php
-										}																																			?>																																						<?php		
-									}																																				?>
-								  </select>
-							</td>
-							<td><label>Customer Name</label></td>
-							<td><input type="text" name="customerName" class="txtField" value="<?php echo $row['customer_name']; ?>"></td>
-						</tr>
-						<tr>
-							<td><label>Product</label></td>
-							<td><select name="product" id="product" required class="txtField">									<?php
-									foreach($products as $product) 
-									{																							?>
-										<option <?php if($row['product'] == $product['id']) echo 'selected';?> value="<?php echo $product['id'];?>"><?php echo $product['name'];?></option>		<?php	
-									}																							?>
-								</select>
-							</td>
-							<td><label>Address Part 1</label></td>
-							<td><input type="text" name="address1" class="txtField" value="<?php echo $row['address1']; ?>"></td>
-						</tr>
-						<tr>
-							<td><label>Qty</label></td>
-							<td><input type="text" name="qty" required class="txtField" pattern="[0-9]+" value="<?php echo $row['qty'];?>" title="Input a valid number"></td>
-
-							<td><label>Address Part 2</label></td>
-							<td><input type="text" name="address2" class="txtField" value="<?php echo $row['address2']; ?>"></td>
-						</tr>
-						<tr>
-							<td><label>Remarks</label></td>
-							<td><input type="text" name="remarks" class="txtField" value="<?php echo $row['remarks']; ?>"></td>
-
-
-							<td><label>Customer Phone</label></td>
-							<td><input type="text" name="customerPhone" class="txtField" value="<?php echo $row['customer_phone']; ?>"></td>
-						</tr>
-						<tr>
-							<td><label>Return</label></td>
-							<td><input type="text" name="return" class="txtField" value="<?php echo $row['return_bag']; ?>"></td>
-
-							<td><label>Shop</label></td>
-							<td><input type="text" readonly name="shopName" id="shopName" class="txtField"></td>	
-						</tr>
-						<tr>
-							<td><label>Bill Discount</label></td>
-							<td><input type="text" name="bd" id="bd" class="txtField" pattern="[0-9]+" title="Input a valid number" value="<?php echo $row['discount'];?>"></td>			
-						</tr>						
-						<tr>
-							<td><label>Final Rate</label></td>
-							<td>
-								<input readonly id="final" class="txtField">
-							</td>			
-							
-							<td></td>
-							<td></td>	
-						</tr>
-						<tr>
-							<td colspan="4" align = "center"><input type="submit" name="submit" value="Submit" class="btnSubmit"></td>
-						</tr>
-					</table>
 					<br/><br/>
 					<table border="0" cellpadding="5" cellspacing="0" width="30%" align="left" style="margin-left:10%">
 						<tr>
@@ -476,7 +264,7 @@ if(isset($_SESSION["user_name"]))
 							<td><input readonly id="sd"/></td>				
 					</table>	
 				</div>
-				<a href="delete.php?sales_id=<?php echo $row['sales_id'];?>" style="float:right;margin-right:150px;" class="btn btn-red" onclick="return confirm('Are you sure you want to permanently delete this entry ?')">DELETE</a>						
+				<a href="delete.php?sales_id=<?php echo $row['sales_id'];?>" style="float:right;margin-right:150px;background-color:#E6717C;color:#FFFFFF" class="btn" onclick="return confirm('Are you sure you want to permanently delete this entry ?')"><i class="far fa-trash-alt"></i>&nbsp;&nbsp;Delete</a>						
 			</div>
 			<br/><br/><br/><br/>		
 		</form>
@@ -488,10 +276,11 @@ if(isset($_SESSION["user_name"]))
 			<div class="modal-content">
 			  <div class="modal-header" style="background-color:#2A739E;color:white">
 				<h4 class="modal-title"><i class="fa fa-history fa-lg"></i>&nbsp;&nbsp;History</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			  </div>
 			  <div class="modal-body">
-				<i class="fa fa-user fa-lg"></i>&nbsp;&nbsp;Created By : <?php echo $row['entered_by'];?><br/>
-				<i class="fa fa-calendar fa-sm"></i>&nbsp;&nbsp;Created On : <?php echo date('d-m-Y, h:i A', strtotime($row['entered_on']));?>
+				<i class="fa fa-user"></i>&nbsp;&nbsp;Created By : <?php echo $row['entered_by'];?><br/>
+				<i class="fa fa-calendar"></i>&nbsp;&nbsp;Created On : <?php echo date('d-m-Y, h:i A', strtotime($row['entered_on']));?>
 				<br/><br/>
 				<section id="unseen">
 					<table class="table table-bordered table-condensed" style="width:90%;">
@@ -516,7 +305,6 @@ if(isset($_SESSION["user_name"]))
 				</section>				
 			  </div>
 			  <div class="modal-footer">
-				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 			  </div>
 			</div>
 		  </div>
@@ -524,22 +312,24 @@ if(isset($_SESSION["user_name"]))
 
 		<!-- The Modal for new Sheet -->
 		<div class="modal fade" id="sheetModal">
-		  <div class="modal-dialog modal-xl" style="width:40%">
+		  <div class="modal-dialog modal-lg">
 			<div class="modal-content">
 			  <?php	
 				if(isset($sheet))
 				{?>
-					<div class="modal-header" style="background-color:#F2CF5B;color:white">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title"><i class="far fa-edit fa-lg"></i>&nbsp;&nbsp;Edit Sheet Request</h4><?php
+					<div class="modal-header" style="background-color:#F2CF5B;color:white">					
+						<h4 class="modal-title"><i class="far fa-edit"></i>&nbsp;&nbsp;Edit Sheet Request</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					</div>																														<?php
 				}
 				else
 				{?>
 					<div class="modal-header" style="background-color:#7dc37d;color:white">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title"><i class="fas fa-plus fa-lg"></i>&nbsp;&nbsp;New Sheet Request</h4><?php
+						<h4 class="modal-title"><i class="fas fa-plus"></i>&nbsp;&nbsp;New Sheet Request</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					</div>																														<?php
+					
 				}?>
-			  </div>
 			  <form class="well form-horizontal" id="form1" method="post" action="sheet.php" autocomplete="off">
 				  <div class="modal-body">																					<?php
 					  if(isset($sheet))
@@ -551,66 +341,68 @@ if(isset($_SESSION["user_name"]))
 					  <input type="text" hidden name="sheet_shop" value="<?php echo $shopNameMap[$row['ar_id']];?>" >
 					  <input hidden name="clicked_from" value="<?php echo $list;?>">
 					  <fieldset>
-						 <div class="form-group" style="text-align:left;">
-							<label class="col-md-4 control-label">Date</label>
-							<div class="col-md-6 inputGroupContainer">
-							   <div class="input-group">
-									<span class="input-group-addon"><i class="far fa-calendar-alt fa-lg"></i></span>
-									<input type="text" name="sheetDate" id="sheetDate" placeholder="Date" class="form-control" required="true" value="<?php if(isset($sheet)) echo date("d-m-Y", strtotime($sheet['date']));?>">
+						 <div class="form-group row" style="text-align:left;">
+							<label class="col-md-2 control-label">Date</label>
+							<div class="col-md-4 inputGroupContainer">
+							   <div class="input-group-prepend">
+									<span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+									<input type="text" name="sheetDate" id="sheetDate" class="form-control" required="true" value="<?php if(isset($sheet)) echo date("d-m-Y", strtotime($sheet['date'])); else echo date("d-m-Y", strtotime($row['entry_date']));?>">
 							   </div>
 							</div>
 						 </div>
-						 <div class="form-group">
-							<label class="col-md-4 control-label">Customer Name</label>
-							<div class="col-md-6 inputGroupContainer">
+						 <div class="form-group row">
+							<label class="col-md-2 control-label">Cust Name</label>
+							<div class="col-md-4 inputGroupContainer">
 							   <div class="input-group">
-									<span class="input-group-addon"><i class="fas fa-user-tie fa-lg"></i></span>
-									<input type="text" name="sheet_customer_name" id="sheet_customer_name" placeholder="Customer Name" class="form-control" value="<?php if(isset($sheet)) echo $sheet['customer_name'];?>">
+									<span class="input-group-text"><i class="fas fa-user-tie"></i></span>
+									<input type="text" name="sheet_customer_name" id="sheet_customer_name" class="form-control" value="<?php if(isset($sheet)) echo $sheet['customer_name']; else echo $row['customer_name']?>">
 								</div>
 							</div>
 						 </div>
-						 <div class="form-group">
-							<label class="col-md-4 control-label">Customer Phone</label>
-							<div class="col-md-6 inputGroupContainer">
-							   <div class="input-group">
-									<span class="input-group-addon"><i class="fas fa-mobile-alt fa-lg"></i></span>
-									<input type="text" name="sheet_customer_phone" id="sheet_customer_phone" placeholder="Customer Phone" class="form-control" value="<?php if(isset($sheet)) echo $sheet['customer_phone'];?>">
+						 <div class="form-group row">
+							<label class="col-md-2 control-label">Cust Phone</label>
+							<div class="col-md-4 inputGroupContainer">
+							   <div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
+									<input type="text" name="sheet_customer_phone" id="sheet_customer_phone" class="form-control" value="<?php if(isset($sheet)) echo $sheet['customer_phone']; else echo $row['customer_phone']?>">
 								</div>
 							</div>
 						 </div>
-						 <div class="form-group">
-							<label class="col-md-4 control-label">Mason Name</label>
-							<div class="col-md-6 inputGroupContainer">
-							   <div class="input-group">
-									<span class="input-group-addon"><i class="far fa-user fa-lg"></i></span>
-									<input type="text" name="sheet_mason_name" id="sheet_mason_name" placeholder="Mason Name" class="form-control" value="<?php if(isset($sheet)) echo $sheet['mason_name'];?>">
+						 <div class="form-group row">
+							<label class="col-md-2 control-label">Mason Name</label>
+							<div class="col-md-4 inputGroupContainer">
+							   <div class="input-group-prepend">
+									<span class="input-group-text"><i class="far fa-user"></i></span>
+									<input type="text" name="sheet_mason_name" id="sheet_mason_name" class="form-control" value="<?php if(isset($sheet)) echo $sheet['mason_name'];?>">
 								</div>
 							</div>
 						 </div>
-						 <div class="form-group">
-							<label class="col-md-4 control-label">Mason Phone</label>
-							<div class="col-md-6 inputGroupContainer">
-							   <div class="input-group">
-									<span class="input-group-addon"><i class="fas fa-mobile-alt fa-lg"></i></span>
-									<input type="text" name="sheet_mason_phone" id="sheet_mason_phone" placeholder="Mason Phone" class="form-control" value="<?php if(isset($sheet)) echo $sheet['mason_phone'];?>">
+						 <div class="form-group row">
+							<label class="col-md-2 control-label">Mason Phone</label>
+							<div class="col-md-4 inputGroupContainer">
+							   <div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
+									<input type="text" name="sheet_mason_phone" id="sheet_mason_phone" class="form-control" value="<?php if(isset($sheet)) echo $sheet['mason_phone'];?>">
 								</div>
 							</div>
 						 </div>
-						 <div class="form-group">
-							<label class="col-md-4 control-label">Area & Location</label>
-							<div class="col-md-8 inputGroupContainer">
-							   <div class="input-group">
-									<span class="input-group-addon"><i class="fas fa-map-marker-alt fa-lg"></i></i></span>
-									<textarea name="sheet_area" id="sheet_area" placeholder="Area & Location" class="form-control" required><?php if(isset($sheet)) echo $sheet['area'];?></textarea>
+						 <div class="form-group row">
+							<label class="col-md-2 control-label">Area & Location</label>
+							<div class="col-md-7 inputGroupContainer">
+							   <div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-map-marker-alt"></i></i></span>
+									<textarea name="sheet_area" id="sheet_area" class="form-control" required><?php if(isset($sheet)) echo $sheet['area']; else echo $row['address1'].', '.$row['address2']?></textarea>
 								</div>
 							</div>
 						 </div>
-						 <div class="form-group">
-							<label class="col-md-4 control-label">Remarks</label>
-							<div class="col-md-8 inputGroupContainer">
+						 <div class="form-group row">
+							<label class="col-md-2 control-label">Remarks</label>
+							<div class="col-md-7 inputGroupContainer">
 							   <div class="input-group">
-									<span class="input-group-addon"><i class="far fa-clipboard fa-lg"></i></span>
-									<textarea name="sheet_remarks" id="sheet_remarks" placeholder="Remarks" class="form-control"><?php if(isset($sheet)) echo $sheet['remarks'];?></textarea>
+								    <div class="input-group-prepend">
+										<span class="input-group-text" id="sheet_remarks"><i class="far fa-clipboard"></i></span>
+								    </div>	
+									<textarea name="sheet_remarks" id="sheet_remarks" class="form-control"><?php if(isset($sheet)) echo $sheet['remarks'];?></textarea>
 								</div>
 							</div>
 						 </div>

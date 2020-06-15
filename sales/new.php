@@ -26,13 +26,16 @@ if(isset($_SESSION["user_name"]))
 <html>
 <head>
 	<title>NEW SALE</title>
-	<meta charset="utf-8">
+	<meta charset="utf-8">	
 	<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
-	<link rel="stylesheet" type="text/css" href="../css/newEdit.css" />
 	<link href='../select2/dist/css/select2.min.css' rel='stylesheet' type='text/css'>
+	<script src="https://kit.fontawesome.com/742221945b.js" crossorigin="anonymous"></script>	
 	<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/jquery-ui.min.js"></script>	
 	<script src='../select2/dist/js/select2.min.js' type='text/javascript'></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>	
 	<script>
 	var shopNameList = '<?php echo $shopNameArray;?>';
 	var shopName_array = JSON.parse(shopNameList);
@@ -280,6 +283,14 @@ if(isset($_SESSION["user_name"]))
 	}	
 	</script>
 </head>
+<style>
+label{
+	text-align: left;
+}
+.select2-selection {
+  text-align: left;
+}
+</style>
 <body>
 	<form name="frmUser" method="post" action="insert.php" onsubmit="return validateForm()">
 		<div align="center" style="padding-bottom:5px;">
@@ -288,125 +299,172 @@ if(isset($_SESSION["user_name"]))
 			<img alt='List' title='List Sales' src='../images/list_icon.jpg' width='50px' height='50px'/></a>
 		</div>
 		<br>
-		<table border="0" cellpadding="15" cellspacing="0" width="80%" align="center" style="float:center" class="tblSaveForm">
-			<tr class="tableheader">
-				<td colspan="4"><div align ="center"><b><font size="4">NEW SALE</font><b></td>
-			</tr>
-
-			<tr>
-				<td><label>Date</label></td>
-				<td><input type="text" id="datepicker" class="txtField" name="date" required value="<?php echo date('d-m-Y'); ?>" /></td>
-
-				<td><label>Bill No</label></td>
-				<td><input type="text" name="bill" class="txtField"></td>
-			</tr>
-
-			<tr>
-				<td><label>AR</label></td>
-				<td><select name="ar" id="ar" required class="txtField" onChange="arRefresh();">
-						<option value = "">---Select---</option>
-																													<?php
-						foreach($arObjects as $ar) 
-						{																							?>
-							<option value="<?php echo $ar['id'];?>"><?php echo $ar['name'];?></option>			<?php	
-						}																							?>
-					</select>
-				</td>
-
-				<td><label>Truck no</label></td>
-				<td><input type="text" name="truck" class="txtField"></td>
-
-			</tr>
-
-			<tr>
-				<td><label>Engineer</label></td>
-				<td><select name="engineer" id="engineer"  class="txtField">
-						<option value = "">---Select---</option>
-																													<?php
-						foreach($engineerObjects as $eng) 
-						{																							?>
-							<option value="<?php echo $eng['id'];?>"><?php echo $eng['name'];?></option>			<?php	
-						}																							?>
-					</select>
-				</td>			
-
-				<td><label>Customer Name</label></td>
-				<td><input type="text" name="customerName" class="txtField"></td>
-			</tr>
-
-			<tr>
-				<td><label>Product</label></td>
-				<td><select name="product" id="product" required class="txtField">									<?php
-						foreach($products as $product) 
-						{																							?>
-							<option value="<?php echo $product['id'];?>"><?php echo $product['name'];?></option>		<?php	
-						}																							?>
-					</select>
-				</td>
-
-				<td><label>Address Part 1</label></td>
-				<td><input type="text" name="address1" class="txtField"></td>
-			</tr>
-
-			<tr>
-				<td><label>Qty</label></td>
-				<td><input type="text" name="qty" required class="txtField" pattern="[0-9]+" title="Input a valid number"></td>
-
-				<td><label>Address Part 2</label></td>
-				<td><input type="text" name="address2" class="txtField"></td>
-			</tr>
-
-			<tr>
-				<td><label>Remarks</label></td>
-				<td><input type="text" name="remarks" class="txtField"></td>
-
-				<td><label>Customer Phone</label></td>
-				<td><input type="text" name="customerPhone" class="txtField"></td>
-			</tr>
-			
-			<tr>
-				<td><label>Return</label></td>
-				<td><input type="text" name="return" class="txtField" pattern="[0-9]+" title="Input a valid number"></td>			
-				
-				<td><label>Shop</label></td>
-				<td><input type="text" readonly name="shopName" id="shopName" class="txtField"></td>	
-			</tr>
-			<tr>
-				<td><label>Bill Discount</label></td>
-				<td><input type="text" name="bd" id="bd" class="txtField" pattern="[0-9]+" title="Input a valid number"></td>			
-				
-				<td></td>
-				<td></td>	
-			</tr>			
-			<tr>
-				<td><label>Final Rate</label></td>
-				<td><input readonly id="final" class="txtField"></td>			
-				
-				<td></td>
-				<td></td>	
-			</tr>
-			</tr>
-			<tr>
-			<td colspan="4"><div align="center"><input type="submit" name="submit" value="Submit" class="btnSubmit"></div></td>
-			</tr>
-		</table>
-		<br/><br/>
-		<table border="0" cellpadding="5" cellspacing="0" width="30%" align="left" style="margin-left:10%">
-			<tr>
-				<td><label>Rate</label></td>
-				<td><input readonly id="rate"/></td>
-			</tr>	
-			<tr>	
-				<td><label>Wagon Discount</label></td>
-				<td><input readonly id="wd"/></td>								
-			</tr>			
-			<tr>
-				<td><label>Cash Discount</label></td>
-				<td><input readonly id="cd"/></td>
-			</tr>	
-				<td><label>Special Discount</label></td>
-				<td><input readonly id="sd"/></td>				
-		</table>	
+		<div align="center" style="padding-bottom:5px;">				
+			<div class="card" style="width:65%;">
+				<div class="card-header" style="background-color:#7dc37d;font-size:20px;font-weight:bold;color:white"><i class="fa fa-pencil"></i> New Sale</div>
+				<div class="card-body">		
+					<div class="form-group row">
+						<label class="col-md-2 control-label">Date</label>
+						<div class="col-md-3 inputGroupContainer">
+							<div class="input-group">
+								<input type="text" id="datepicker" class="form-control" name="date" required value="<?php echo date('d-m-Y'); ?>" />						</div>
+						</div>
+						<span class="col-md-1"></span>
+						<label class="col-md-2 control-label">Bill No</label>
+						<div class="col-md-3 inputGroupContainer">
+							<div class="input-group">
+								<input type="text" name="bill" class="form-control">
+							</div>
+						</div>														
+					</div>	
+					 <div class="form-group row">
+						<label class="col-md-2 control-label">AR</label>
+						<div class="col-md-3 inputGroupContainer">
+						   <div class="input-group">
+								<select name="ar" id="ar" required class="form-control" onChange="arRefresh();">
+									<option value = "">---Select---</option>
+																																<?php
+									foreach($arObjects as $ar) 
+									{																							?>
+										<option value="<?php echo $ar['id'];?>"><?php echo $ar['name'];?></option>			<?php	
+									}																							?>
+								</select>
+							</div>
+						</div>
+						<span class="col-md-1"></span>
+						<label class="col-md-2 control-label">Truck No</label>
+						<div class="col-md-3 inputGroupContainer">
+						   <div class="input-group">
+								<input type="text" name="truck" class="form-control">
+							</div>
+						</div>														
+					 </div>										
+					 <div class="form-group row">
+						<label class="col-md-2 control-label">Engineer</label>
+						<div class="col-md-3 inputGroupContainer">
+						   <div class="input-group">
+								<select name="engineer" id="engineer"  class="form-control">
+									<option value = "">---Select---</option>
+																																<?php
+									foreach($engineerObjects as $eng) 
+									{																							?>
+										<option value="<?php echo $eng['id'];?>"><?php echo $eng['name'];?></option>			<?php	
+									}																							?>
+								</select>
+							</div>
+						</div>
+						<span class="col-md-1"></span>
+						<label class="col-md-2 control-label">Customer Name</label>
+						<div class="col-md-3 inputGroupContainer">
+						   <div class="input-group">
+								<input type="text" name="customerName" class="form-control">
+							</div>
+						</div>														
+					 </div>												 
+					 <div class="form-group row">
+						<label class="col-md-2 control-label">Product</label>
+						<div class="col-md-2 inputGroupContainer">
+						   <div class="input-group">
+								<select name="product" id="product" required class="form-control">									<?php
+									foreach($products as $product) 
+									{																							?>
+										<option value="<?php echo $product['id'];?>"><?php echo $product['name'];?></option>		<?php	
+									}																							?>
+								</select>
+							</div>
+						</div>
+						<span class="col-md-2"></span>
+						<label class="col-md-2 control-label">Address 1</label>
+						<div class="col-md-3 inputGroupContainer">
+						   <div class="input-group">
+								<input type="text" name="address1" class="form-control">
+							</div>
+						</div>														
+					 </div>												 						 
+					 <div class="form-group row">
+						<label class="col-md-2 control-label">Qty</label>
+						<div class="col-md-2 inputGroupContainer">
+						   <div class="input-group">
+								<input type="text" name="qty" required class="form-control" pattern="[0-9]+" title="Input a valid number">
+							</div>
+						</div>														
+						<span class="col-md-2"></span>
+						<label class="col-md-2 control-label">Address 2</label>
+						<div class="col-md-3 inputGroupContainer">
+						   <div class="input-group">
+								<input type="text" name="address2" class="form-control">
+							</div>
+						</div>														
+					 </div>												 						 						 
+					 <div class="form-group row">
+						<label class="col-md-2 control-label">Remarks</label>
+						<div class="col-md-3 inputGroupContainer">
+						   <div class="input-group">
+								<input type="text" name="remarks" class="form-control">
+							</div>
+						</div>														
+						<span class="col-md-1"></span>
+						<label class="col-md-2 control-label">Customer Phone</label>
+						<div class="col-md-3 inputGroupContainer">
+						   <div class="input-group">
+								<input type="text" name="customerPhone" class="form-control">
+							</div>
+						</div>														
+					 </div>												 						 						 						 
+					 <div class="form-group row">
+						<label class="col-md-2 control-label">Return</label>
+						<div class="col-md-2 inputGroupContainer">
+						   <div class="input-group">
+								<input type="text" name="return" class="form-control" pattern="[0-9]+" title="Input a valid number">
+							</div>
+						</div>														
+						<span class="col-md-2"></span>
+						<label class="col-md-2 control-label">Shop</label>
+						<div class="col-md-4 inputGroupContainer">
+						   <div class="input-group">
+								<input type="text" readonly name="shopName" id="shopName" class="form-control">
+							</div>
+						</div>														
+					 </div>												 						 						 						
+					 <div class="form-group row">
+						<label class="col-md-2 control-label">Bill Discount</label>
+						<div class="col-md-2 inputGroupContainer">
+						   <div class="input-group">
+								<input type="text" name="bd" id="bd" class="form-control" pattern="[0-9]+" title="Input a valid number">
+							</div>
+						</div>														
+					 </div>												 						 						 						 						 
+					 <div class="form-group row">
+						<label class="col-md-2 control-label">Final Rate</label>
+						<div class="col-md-2 inputGroupContainer">
+						   <div class="input-group">
+								<input readonly id="final" class="form-control">
+							</div>
+						</div>														
+					 </div>
+					<button type="submit" class="btn" style="width:100px;font-size:18px;background-color:#7dc37d;color:white;"><i class="fa fa-save"></i> Save</button>				 
+				</div>
+				<div class="card-footer" style="background-color:#7dc37d;padding:1px;"></div>
+			</div>	
+		</div>
+		<div align ="center">
+			<br/><br/>
+			<table border="0" cellpadding="5" cellspacing="0" width="30%" align="left" style="margin-left:10%">
+				<tr>
+					<td><label>Rate</label></td>
+					<td><input readonly id="rate"/></td>
+				</tr>	
+				<tr>	
+					<td><label>Wagon Discount</label></td>
+					<td><input readonly id="wd"/></td>								
+				</tr>			
+				<tr>
+					<td><label>Cash Discount</label></td>
+					<td><input readonly id="cd"/></td>
+				</tr>	
+					<td><label>Special Discount</label></td>
+					<td><input readonly id="sd"/></td>				
+			</table>	
 		</div>
 		<br/><br/><br/><br/>		
 	</form>

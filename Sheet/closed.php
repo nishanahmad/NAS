@@ -24,17 +24,16 @@ if(isset($_SESSION['user_name']))
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
-		<link href="../css/bootstrap.min.css" rel="stylesheet">
-		<link href="../css/dashio.css" rel="stylesheet">
-		<link href="../css/dashio-responsive.css" rel="stylesheet">	
-		<link href="../css/font-awesome.min.css" rel="stylesheet">	
+		<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">	
 		<link rel="stylesheet" href="../css/navigation-dark.css">
 		<link rel="stylesheet" href="../css/slicknav.min.css">	
 		<link rel="stylesheet" href="../css/TableSorterBlueTheme.css">			
+		<script src="https://kit.fontawesome.com/742221945b.js" crossorigin="anonymous"></script>
 		<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
 		<script type="text/javascript" language="javascript" src="../js/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="../js/bootstrap.min.js"></script>		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>		
 		<script src="../js/jquery.slicknav.min.js"></script>
 		<script src="../js/TableSorter.js"></script>
 		<script src="../js/TablesorterWidgets.js"></script>		
@@ -58,71 +57,69 @@ if(isset($_SESSION['user_name']))
 		</nav>		
 		<br/><br/>		
 		<div class="row mt">
-			<div class="col-lg-12">
-				<div class="content-panel">
-					<div align="center">
-						<select name="status" id="status" onchange="document.location.href = 'closed.php?status=' + this.value" class="form-control" style="width:200px;">
-							<option value = "closed" <?php if($status == 'closed') echo 'selected';?> >Closed</option>
-							<option value = "cancelled" <?php if($status == 'cancelled') echo 'selected';?> >Cancelled</option>						
-						</select>			
-					</div>																																				<?php 
-					if($status == 'closed')
-					{																																					?>
-						<h2 style="margin-left:44%;" ><i class="fa fa-check"></i> Closed</i></h2><br/><?php
-					}
-					else
-					{																											?>
-						<h2 style="margin-left:44%;" ><i class="fa fa-close"></i> Cancelled</i></h2><br/>						<?php
-					}																											?>
-					
-					<section style="margin-top:20px;margin-left:300px;margin-right:100px;">
-						<table class="tablesorter" style="width:70%" id="logs">
-							<thead class="cf">
-								<tr>
-									<th>Area</th>
-									<th>Customer Name</th>
-									<th>Customer Phone</th>
-									<th>Mason Name</th>
-									<th>Mason Phone</th>																		<?php 
-									if($status == 'closed')
-									{																							?>
-										<th>Qty</th>																			<?php
-									}																							?>
-									<th style="min-width:100px;"><?php if($status == 'closed') echo 'Closed On'; else echo 'Cancelled On';?></th>
-									<th><?php if($status == 'closed') echo 'Closed By'; else echo 'Cancelled By';?></th><?php
-									if($status == 'cancelled')
-									{																							?>
-										<th style="min-width:250px;">Cancel Reason</th>											<?php
-									}																							?>									
-								</tr>
-							</thead>
-							<tbody>
+			<div class="content-panel">
+				<div align="center">
+					<select name="status" id="status" onchange="document.location.href = 'closed.php?status=' + this.value" class="form-control" style="width:200px;">
+						<option value = "closed" <?php if($status == 'closed') echo 'selected';?> >Closed</option>
+						<option value = "cancelled" <?php if($status == 'cancelled') echo 'selected';?> >Cancelled</option>						
+					</select>			
+				</div>																																				<?php 
+				if($status == 'closed')
+				{																																					?>
+					<h2 style="margin-left:44%;" ><i class="fa fa-check"></i> Closed</i></h2><br/><?php
+				}
+				else
+				{																											?>
+					<h2 style="margin-left:44%;" ><i class="fa fa-close"></i> Cancelled</i></h2><br/>						<?php
+				}																											?>
+				
+				<section style="margin-top:20px;margin-left:150px;margin-right:100px;">
+					<table class="tablesorter" style="width:70%" id="logs">
+						<thead class="cf">
+							<tr>
+								<th>Area</th>
+								<th>Customer Name</th>
+								<th>Customer Phone</th>
+								<th>Mason Name</th>
+								<th>Mason Phone</th>																		<?php 
+								if($status == 'closed')
+								{																							?>
+									<th>Qty</th>																			<?php
+								}																							?>
+								<th style="min-width:100px;"><?php if($status == 'closed') echo 'Closed On'; else echo 'Cancelled On';?></th>
+								<th><?php if($status == 'closed') echo 'Closed By'; else echo 'Cancelled By';?></th><?php
+								if($status == 'cancelled')
+								{																							?>
+									<th style="min-width:250px;">Cancel Reason</th>											<?php
+								}																							?>									
+							</tr>
+						</thead>
+						<tbody>
 
-							<?php
-							foreach($sheets as $sheet)
-							{?>
-								<tr>
-									<td><?php echo $sheet['area'];?></td>
-									<td><?php echo $sheet['customer_name'];?></td>
-									<td><?php echo $sheet['customer_phone'];?></td>														
-									<td><?php echo $sheet['mason_name'];?></td>
-									<td><?php echo $sheet['mason_phone'];?></td>																							<?php 
-									if($status == 'closed')
-									{																							?>
-										<td style="text-align:center;"><?php echo $sheet['qty'];?></td>							<?php
-									}																							?>
-									<td><?php echo date('d-m-Y',strtotime($sheet['closed_on']));?></td>
-									<td><?php echo $userMap[$sheet['closed_by']];?></td>										<?php
-									if($status == 'cancelled')
-									{																							?>
-										<td><?php echo $sheet['cancel_reason'];?></td>							<?php
-									}																							?>									
-								</tr>																											<?php
-							}																													?>
-							</tbody>
-						</table>
-					</section>
-				</div>
+						<?php
+						foreach($sheets as $sheet)
+						{?>
+							<tr>
+								<td><?php echo $sheet['area'];?></td>
+								<td><?php echo $sheet['customer_name'];?></td>
+								<td><?php echo $sheet['customer_phone'];?></td>														
+								<td><?php echo $sheet['mason_name'];?></td>
+								<td><?php echo $sheet['mason_phone'];?></td>																							<?php 
+								if($status == 'closed')
+								{																							?>
+									<td style="text-align:center;"><?php echo $sheet['qty'];?></td>							<?php
+								}																							?>
+								<td><?php echo date('d-m-Y',strtotime($sheet['closed_on']));?></td>
+								<td><?php echo $userMap[$sheet['closed_by']];?></td>										<?php
+								if($status == 'cancelled')
+								{																							?>
+									<td><?php echo $sheet['cancel_reason'];?></td>							<?php
+								}																							?>									
+							</tr>																											<?php
+						}																													?>
+						</tbody>
+					</table>
+				</section>
 			</div>
 		</div>
 		<div class="tooltip">Hover over me

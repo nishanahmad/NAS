@@ -18,20 +18,18 @@ if(isset($_SESSION['user_name']))
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
-		<link href="../css/bootstrap.min.css" rel="stylesheet">
-		<link href="../css/dashio.css" rel="stylesheet">
-		<link href="../css/dashio-responsive.css" rel="stylesheet">	
-		<link href="../css/font-awesome.min.css" rel="stylesheet">	
+		<script src="https://kit.fontawesome.com/742221945b.js" crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="../css/navigation-dark.css">
 		<link rel="stylesheet" href="../css/slicknav.min.css">	
 		<link rel="stylesheet" href="../css/TableSorterBlueTheme.css">			
 		<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
 		<script type="text/javascript" language="javascript" src="../js/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="../js/bootstrap.min.js"></script>
 		<script src="../js/jquery.slicknav.min.js"></script>
 		<script src="../js/TableSorter.js"></script>
-		<script src="../js/TablesorterWidgets.js"></script>				
+		<script src="../js/TablesorterWidgets.js"></script>			
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>				
 		<style>		
 		.tooltip {
 		  position: relative;
