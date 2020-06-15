@@ -110,7 +110,7 @@ if(isset($_SESSION["user_name"]))
 							<label class="col-md-2 control-label">Bill No</label>
 							<div class="col-md-3 inputGroupContainer">
 							   <div class="input-group">
-									<input type="text" name="bill" class="form-control" value="<?php echo $row['bill']; ?>">
+									<input type="text" name="bill" class="form-control" value="<?php echo $row['bill_no']; ?>">
 								</div>
 							</div>														
 						 </div>
