@@ -291,16 +291,20 @@ if(isset($_SESSION["user_name"]))
 							<th><i class="fa fa-check"></i>&nbsp;New Value</th>
 							<th><i class="fa fa-calendar"></i>&nbsp;Modified On</th>
 						</tr>																																				<?php 
-						foreach($historyList as $history)
-						{																																					?>
-							<tr>
-								<td><?php echo $history['field'];?></td>
-								<td><?php echo $history['edited_by'];?></td>
-								<td><?php echo $history['old_value'];?></td>
-								<td><?php echo $history['new_value'];?></td>
-								<td><?php echo date('d-m-Y, h:i A', strtotime($history['edited_on']));?></td>
-							</tr>																																			<?php	
-						}																																					?>		
+						if(isset($historyList))
+						{
+							foreach($historyList as $history)
+							{																																					?>
+								<tr>
+									<td><?php echo $history['field'];?></td>
+									<td><?php echo $history['edited_by'];?></td>
+									<td><?php echo $history['old_value'];?></td>
+									<td><?php echo $history['new_value'];?></td>
+									<td><?php echo date('d-m-Y, h:i A', strtotime($history['edited_on']));?></td>
+								</tr>																																			<?php	
+							}																																													
+						}																																					?>
+	
 					</table>	
 				</section>				
 			  </div>
@@ -346,7 +350,7 @@ if(isset($_SESSION["user_name"]))
 							<div class="col-md-4 inputGroupContainer">
 							   <div class="input-group-prepend">
 									<span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-									<input type="text" name="sheetDate" id="sheetDate" class="form-control" required="true" value="<?php if(isset($sheet)) echo date("d-m-Y", strtotime($sheet['date'])); else echo date("d-m-Y", strtotime($row['entry_date']));?>">
+									<input type="text" name="sheetDate" id="sheetDate" class="form-control" required="true" value="<?php if(isset($sheet)) echo date("d-m-Y", strtotime($sheet['date'])); else echo date("d-m-Y", strtotime($row['entry_date']. ' +1 day'));?>">
 							   </div>
 							</div>
 						 </div>
