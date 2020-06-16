@@ -37,6 +37,13 @@ if(isset($_SESSION['user_name']))
 		<script src="../js/jquery.slicknav.min.js"></script>
 		<script src="../js/TableSorter.js"></script>
 		<script src="../js/TablesorterWidgets.js"></script>		
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+		<script>
+		$(document).ready(function(){
+			$('#status').selectpicker();			
+		});
+		</script>
 	</head>
 	<body>
 		<nav class="menu-navigation-dark">																		<?php 
@@ -59,18 +66,19 @@ if(isset($_SESSION['user_name']))
 		<div class="row mt">
 			<div class="content-panel">
 				<div align="center">
-					<select name="status" id="status" onchange="document.location.href = 'closed.php?status=' + this.value" class="form-control" style="width:200px;">
-						<option value = "closed" <?php if($status == 'closed') echo 'selected';?> >Closed</option>
-						<option value = "cancelled" <?php if($status == 'cancelled') echo 'selected';?> >Cancelled</option>						
+					<select name="status" id="status" onchange="document.location.href = 'closed.php?status=' + this.value" class="form-control col-2">
+						<option value = "closed" <?php if($status == 'closed') echo 'selected';?> data-content="<i class='fa fa-check' aria-hidden='true'></i> Closed"></option>
+						<option value = "cancelled" <?php if($status == 'cancelled') echo 'selected';?> data-content="<i class='fa fa-trash' aria-hidden='true'></i> Deleted"></option>
 					</select>			
-				</div>																																				<?php 
+				</div>
+				<br/>																																			<?php 
 				if($status == 'closed')
 				{																																					?>
 					<h2 style="margin-left:44%;" ><i class="fa fa-check"></i> Closed</i></h2><br/><?php
 				}
 				else
 				{																											?>
-					<h2 style="margin-left:44%;" ><i class="fa fa-close"></i> Cancelled</i></h2><br/>						<?php
+					<h2 style="margin-left:44%;" ><i class="fa fa-trash"></i> Deleted</i></h2><br/>						<?php
 				}																											?>
 				
 				<section style="margin-top:20px;margin-left:150px;margin-right:100px;">
