@@ -4,6 +4,7 @@ header("Content-Type: application/json; charset=UTF-8");
  
 include_once '../database.php';
 include_once 'sale.php';
+include_once '../../functions/nameMaps.php';
  
 $database = new Database();
 $db = $database->getConnection();
@@ -17,6 +18,8 @@ $num = $stmt->rowCount();
  
 if($num>0)
 { 
+	$arNamesMap = getArNamesMap();
+	$productNameMap = getProductNamesMap();
     $sales_arr=array();
     $sales_arr["records"]=array();
  
@@ -27,9 +30,10 @@ if($num>0)
         $sale_item=array(
             "sales_id" => $sales_id,
 			"entry_date" => date('d-m-Y',strtotime($entry_date)),
-            "product" => $product,
+            "product" => $productNameMap[$product],
             "qty" => $qty,
-            "ar_id" => $ar_id,
+            "ar" => $arNamesMap[$ar_id]['name'],
+			"shop" => $arNamesMap[$ar_id]['shop'],
             "eng_id" => $eng_id,			
             "return_bag" => $return_bag,
 			"discount" => $discount,
