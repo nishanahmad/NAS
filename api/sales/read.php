@@ -2,7 +2,7 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
  
-include_once 'database.php';
+include_once '../database.php';
 include_once 'sale.php';
  
 $database = new Database();
