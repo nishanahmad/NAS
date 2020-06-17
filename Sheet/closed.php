@@ -81,7 +81,7 @@ if(isset($_SESSION['user_name']))
 					<h2 style="margin-left:44%;" ><i class="fa fa-trash"></i> Deleted</i></h2><br/>						<?php
 				}																											?>
 				
-				<section style="margin-top:20px;margin-left:150px;margin-right:100px;">
+				<section style="margin-top:20px;margin-left:100px;margin-right:100px;">
 					<table class="tablesorter" style="width:70%" id="logs">
 						<thead class="cf">
 							<tr>
