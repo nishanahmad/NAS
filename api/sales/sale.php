@@ -26,5 +26,33 @@ class Sale
 		$stmt->execute();
 	 
 		return $stmt;
-	}		
+	}
+
+	function set_values($sale) 
+	{
+		$this->entry_date = $sale['entry_date'];
+		$this->qty = $sale['qty'] - $sale['return_bag'];
+		$this->client = $sale['ar_id'];
+		$this->bd = $sale['discount'];
+	}
+
+	function entry_date() 
+	{
+		return $this->entry_date;
+	}
+
+	function qty() 
+	{
+		return $this->qty;
+	}
+
+	function client() 
+	{
+		return $this->client;
+	}    
+
+	function bd() 
+	{
+		return $this->bd;
+	}      	
 }

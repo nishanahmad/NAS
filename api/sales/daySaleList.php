@@ -3,6 +3,7 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
  
 include_once '../database.php';
+include_once '../../connect.php';
 include_once 'sale.php';
 include_once 'functions/nameMaps.php';
  
@@ -18,8 +19,8 @@ $num = $stmt->rowCount();
  
 if($num>0)
 { 
-	$arNamesMap = getArNamesMap();
-	$productNameMap = getProductNamesMap();
+	$arNamesMap = getArNamesMap($con);
+	$productNameMap = getProductNamesMap($con);
     $sales_arr=array();
     $sales_arr["records"]=array();
  

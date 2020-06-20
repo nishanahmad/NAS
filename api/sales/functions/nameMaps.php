@@ -1,8 +1,6 @@
 <?php
-function getArNamesMap()
-{
-	require '../../connect.php';	
-	
+function getArNamesMap($con)
+{	
 	$arNameMap = array();
 
 	$arList = mysqli_query($con, "SELECT id,name,shop_name FROM ar_details ORDER BY name") or die(mysqli_error($con));				 	 
@@ -14,10 +12,8 @@ function getArNamesMap()
 	return $arNameMap;	
 }
 
-function getProductNamesMap()
-{
-	require '../../connect.php';	
-	
+function getProductNamesMap($con)
+{	
 	$productNameMap = array();
 
 	$products = mysqli_query($con, "SELECT id,name FROM products") or die(mysqli_error($con));				 	 

@@ -1,8 +1,14 @@
 <?php
 /********************************				MAIN FUNCTION (CALLED EXTERNALLY)				****************************/
 
-function getAvgRate($arList,$product,$startDate,$endDate,$con)
+function getAvgRate($product,$startDate,$endDate,$con)
 {	
+	$arListQuery = mysqli_query($con, "SELECT id FROM ar_details ORDER BY name") or die(mysqli_error($con));				 	 
+	foreach($arListQuery as $ar)
+	{
+		$arList[] = $ar['id'];
+	}
+
 	$rateMap = getRatemap($product,$endDate,$con);
 	$wdMap = getWDmap($product,$startDate,$endDate,$con);
 	$cdMap = getCDSDmap($arList,$product,$endDate,'cd',$con);
@@ -36,12 +42,17 @@ function getAvgRate($arList,$product,$startDate,$endDate,$con)
 						
 function getSaleList($product,$startDate,$endDate,$con)
 {	
+	include_once '../database.php';
+	include_once 'sale.php';
+	$database = new Database();
+	$db = $database->getConnection();	
+	
 	$saleList = array();
 	$saleQuery = "SELECT * FROM nas_sale WHERE product = $product AND entry_date >= '$startDate' AND entry_date <= '$endDate' ORDER BY entry_date ASC";
 	$sales = mysqli_query($con,$saleQuery) or die(mysqli_error($con));				 	 
 	foreach($sales as $sale)
 	{
-		$saleObj = new Sale();
+		$saleObj = new Sale($db);
 		$saleObj->set_values($sale);
 		$saleList[] = $saleObj;
 	}
@@ -154,47 +165,9 @@ function getSingleSaleSD($sdMap,$sale)
 	return $sd;		
 }
 
-class Sale 
-{
-  function set_values($sale) 
-  {
-    $this->entry_date = $sale['entry_date'];
-	$this->qty = $sale['qty'] - $sale['return_bag'];
-	$this->client = $sale['ar_id'];
-	$this->bd = $sale['discount'];
-  }
-
-  function entry_date() 
-  {
-    return $this->entry_date;
-  }
-  
-  function qty() 
-  {
-    return $this->qty;
-  }
-  
-  function client() 
-  {
-    return $this->client;
-  }    
-  
-  function bd() 
-  {
-    return $this->bd;
-  }      
-}
-
 
 //function tests. Remove in production
 
-require '../../../connect.php';	
+//require '../../../connect.php';	
 
-$arList = mysqli_query($con, "SELECT id FROM ar_details ORDER BY name") or die(mysqli_error($con));				 	 
-foreach($arList as $ar)
-{
-	$arIds[] = $ar['id'];
-}
-
-//var_dump(getAvgRate($arIds,1,date('Y-m-d', strtotime(date('Y-m-01').' -1 MONTH')),date('Y-m-d')));
-var_dump(getAvgRate($arIds,1,date('Y-m-d'),date('Y-m-d'),$con));
+//var_dump(getAvgRate(1,date('Y-m-d'),date('Y-m-d'),$con));
