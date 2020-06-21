@@ -10,12 +10,12 @@ $productNameMap = getProductNamesMap($con);
 $startDate = date("Y-m-d",strtotime($_GET['startDate']));
 $endDate = date("Y-m-d",strtotime($_GET['endDate']));
 
+$rate_arr=array();
+$rate_arr["records"]=array();
 foreach($productNameMap as $productId => $name)
 {
 	$avgRate = getAvgRate($productId,$startDate,$endDate,$con);
 
-	$rate_arr=array();
-	$rate_arr["records"]=array();
 	$rate_item=array(
 		"product" =>  $name,
 		"rate" => $avgRate ,
