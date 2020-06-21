@@ -30,7 +30,10 @@ function getAvgRate($product,$startDate,$endDate,$con)
 		$totalCash = $totalCash + $cash;
 	}
 	
-	$avgRate = round($totalCash/$totalQty,2);
+	if($totalQty != 0)
+		$avgRate = round($totalCash/$totalQty,2);
+	else
+		$avgRate = 0;
 	
 	return $avgRate;
 }
