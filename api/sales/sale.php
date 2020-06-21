@@ -19,9 +19,9 @@ class Sale
 		return $stmt;
 	}	
 	
-	function getDailySaleSum($day)
+	function getSaleSum($startDate,$endDate)
 	{
-		$query = "SELECT SUM(qty),product FROM ".$this->table_name." WHERE entry_date = '$day' GROUP BY product";
+		$query = "SELECT SUM(qty),product FROM ".$this->table_name." WHERE entry_date >= '$startDate' AND entry_date <= '$endDate' GROUP BY product";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
 	 

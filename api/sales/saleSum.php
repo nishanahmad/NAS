@@ -13,8 +13,9 @@ $db = $database->getConnection();
 // initialize object
 $sale = new Sale($db);
 
-$today = date("Y-m-d");
-$stmt = $sale->getDailySaleSum($today);
+$startDate = date("Y-m-d",strtotime($_GET['startDate']));
+$endDate = date("Y-m-d",strtotime($_GET['endDate']));
+$stmt = $sale->getSaleSum($startDate,$endDate);
 $num = $stmt->rowCount();
  
 if($num>0)
