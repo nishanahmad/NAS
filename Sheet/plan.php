@@ -39,7 +39,7 @@
 	}
 
 	.status-card {
-		width: 200px;
+		width: 220px;
 		margin-right: 20px;
 		background: #e2e4e6;
 		border-radius: 3px;
