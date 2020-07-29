@@ -27,6 +27,15 @@ class Sale
 	 
 		return $stmt;
 	}
+	
+	function getShopWiseSum($startDate,$endDate)
+	{
+		$query = "SELECT SUM(qty),ar_id,product FROM nas_sale WHERE entry_date >= '2020-01-01' GROUP BY ar_id,product";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute();
+	 
+		return $stmt;
+	}	
 
 	function set_values($sale) 
 	{
