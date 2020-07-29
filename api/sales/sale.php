@@ -30,7 +30,7 @@ class Sale
 	
 	function getShopWiseSum($startDate,$endDate)
 	{
-		$query = "SELECT SUM(qty),ar_id,product FROM nas_sale WHERE entry_date >= '2020-01-01' GROUP BY ar_id,product";
+		$query = "SELECT SUM(qty),ar_id FROM nas_sale WHERE entry_date >= '2020-01-01' GROUP BY ar_id";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
 	 
