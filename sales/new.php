@@ -354,10 +354,10 @@ label{
 							</div>
 						</div>
 						<span class="col-md-1"></span>
-						<label class="col-md-2 control-label">Customer Name</label>
+						<label class="col-md-2 control-label">Order No</label>
 						<div class="col-md-3 inputGroupContainer">
 						   <div class="input-group">
-								<input type="text" name="customerName" class="form-control">
+								<input type="text" name="order_no" class="form-control">
 							</div>
 						</div>														
 					 </div>												 
@@ -372,14 +372,14 @@ label{
 									}																							?>
 								</select>
 							</div>
-						</div>
+						</div>						
 						<span class="col-md-2"></span>
-						<label class="col-md-2 control-label">Address 1</label>
+						<label class="col-md-2 control-label">Customer Name</label>
 						<div class="col-md-3 inputGroupContainer">
 						   <div class="input-group">
-								<input type="text" name="address1" class="form-control">
+								<input type="text" name="customerName" class="form-control">
 							</div>
-						</div>														
+						</div>																				
 					 </div>												 						 
 					 <div class="form-group row">
 						<label class="col-md-2 control-label">Qty</label>
@@ -389,12 +389,12 @@ label{
 							</div>
 						</div>														
 						<span class="col-md-2"></span>
-						<label class="col-md-2 control-label">Address 2</label>
+						<label class="col-md-2 control-label">Address 1</label>
 						<div class="col-md-3 inputGroupContainer">
 						   <div class="input-group">
-								<input type="text" name="address2" class="form-control">
+								<input type="text" name="address1" class="form-control">
 							</div>
-						</div>														
+						</div>																				
 					 </div>												 						 						 
 					 <div class="form-group row">
 						<label class="col-md-2 control-label">Remarks</label>
@@ -404,12 +404,12 @@ label{
 							</div>
 						</div>														
 						<span class="col-md-1"></span>
-						<label class="col-md-2 control-label">Customer Phone</label>
+						<label class="col-md-2 control-label">Address 2</label>
 						<div class="col-md-3 inputGroupContainer">
 						   <div class="input-group">
-								<input type="text" name="customerPhone" class="form-control">
+								<input type="text" name="address2" class="form-control">
 							</div>
-						</div>														
+						</div>																				
 					 </div>												 						 						 						 
 					 <div class="form-group row">
 						<label class="col-md-2 control-label">Return</label>
@@ -419,12 +419,12 @@ label{
 							</div>
 						</div>														
 						<span class="col-md-2"></span>
-						<label class="col-md-2 control-label">Shop</label>
-						<div class="col-md-4 inputGroupContainer">
+						<label class="col-md-2 control-label">Customer Phone</label>
+						<div class="col-md-3 inputGroupContainer">
 						   <div class="input-group">
-								<input type="text" readonly name="shopName" id="shopName" class="form-control">
+								<input type="text" name="customerPhone" class="form-control">
 							</div>
-						</div>														
+						</div>																					
 					 </div>												 						 						 						
 					 <div class="form-group row">
 						<label class="col-md-2 control-label">Bill Discount</label>
@@ -433,6 +433,13 @@ label{
 								<input type="text" name="bd" id="bd" class="form-control" pattern="[0-9]+" title="Input a valid number">
 							</div>
 						</div>														
+						<span class="col-md-2"></span>
+						<label class="col-md-2 control-label">Shop</label>
+						<div class="col-md-3 inputGroupContainer">
+						   <div class="input-group">
+								<input type="text" readonly name="shopName" id="shopName" class="form-control">
+							</div>
+						</div>																											
 					 </div>												 						 						 						 						 
 					 <div class="form-group row">
 						<label class="col-md-2 control-label">Final Rate</label>

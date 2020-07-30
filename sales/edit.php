@@ -152,12 +152,12 @@ if(isset($_SESSION["user_name"]))
 								</div>
 							</div>
 							<span class="col-md-1"></span>
-							<label class="col-md-2 control-label">Customer Name</label>
+							<label class="col-md-2 control-label">Order No</label>
 							<div class="col-md-3 inputGroupContainer">
 							   <div class="input-group">
-									<input type="text" name="customerName" class="form-control" value="<?php echo $row['customer_name']; ?>">
+									<input type="text" name="order_no" class="form-control" value="<?php echo $row['order_no']; ?>">
 								</div>
-							</div>														
+							</div>																					
 						 </div>												 
 						 <div class="form-group row">
 							<label class="col-md-2 control-label">Product</label>
@@ -172,12 +172,12 @@ if(isset($_SESSION["user_name"]))
 								</div>
 							</div>
 							<span class="col-md-2"></span>
-							<label class="col-md-2 control-label">Address 1</label>
+							<label class="col-md-2 control-label">Customer Name</label>
 							<div class="col-md-3 inputGroupContainer">
 							   <div class="input-group">
-									<input type="text" name="address1" class="form-control" value="<?php echo $row['address1']; ?>">
+									<input type="text" name="customerName" class="form-control" value="<?php echo $row['customer_name']; ?>">
 								</div>
-							</div>														
+							</div>																					
 						 </div>												 						 
 						 <div class="form-group row">
 							<label class="col-md-2 control-label">Qty</label>
@@ -187,12 +187,12 @@ if(isset($_SESSION["user_name"]))
 								</div>
 							</div>														
 							<span class="col-md-2"></span>
-							<label class="col-md-2 control-label">Address 2</label>
+							<label class="col-md-2 control-label">Address 1</label>
 							<div class="col-md-3 inputGroupContainer">
 							   <div class="input-group">
-									<input type="text" name="address2" class="form-control" value="<?php echo $row['address2']; ?>">
+									<input type="text" name="address1" class="form-control" value="<?php echo $row['address1']; ?>">
 								</div>
-							</div>														
+							</div>																					
 						 </div>												 						 						 
 						 <div class="form-group row">
 							<label class="col-md-2 control-label">Remarks</label>
@@ -202,12 +202,12 @@ if(isset($_SESSION["user_name"]))
 								</div>
 							</div>														
 							<span class="col-md-1"></span>
-							<label class="col-md-2 control-label">Customer Phone</label>
+							<label class="col-md-2 control-label">Address 2</label>
 							<div class="col-md-3 inputGroupContainer">
 							   <div class="input-group">
-									<input type="text" name="customerPhone" class="form-control" value="<?php echo $row['customer_phone']; ?>">
+									<input type="text" name="address2" class="form-control" value="<?php echo $row['address2']; ?>">
 								</div>
-							</div>														
+							</div>																					
 						 </div>												 						 						 						 
 						 <div class="form-group row">
 							<label class="col-md-2 control-label">Return</label>
@@ -217,12 +217,12 @@ if(isset($_SESSION["user_name"]))
 								</div>
 							</div>														
 							<span class="col-md-2"></span>
-							<label class="col-md-2 control-label">Shop</label>
-							<div class="col-md-4 inputGroupContainer">
+							<label class="col-md-2 control-label">Customer Phone</label>
+							<div class="col-md-3 inputGroupContainer">
 							   <div class="input-group">
-									<input type="text" readonly name="shopName" id="shopName" class="form-control">
+									<input type="text" name="customerPhone" class="form-control" value="<?php echo $row['customer_phone']; ?>">
 								</div>
-							</div>														
+							</div>																					
 						 </div>												 						 						 						
 						 <div class="form-group row">
 							<label class="col-md-2 control-label">Bill Discount</label>
@@ -231,6 +231,13 @@ if(isset($_SESSION["user_name"]))
 									<input type="text" name="bd" id="bd" class="form-control" pattern="[0-9]+" title="Input a valid number" value="<?php echo $row['discount'];?>">
 								</div>
 							</div>														
+							<span class="col-md-2"></span>
+							<label class="col-md-2 control-label">Shop</label>
+							<div class="col-md-3 inputGroupContainer">
+							   <div class="input-group">
+									<input type="text" readonly name="shopName" id="shopName" class="form-control">
+								</div>
+							</div>																												
 						 </div>												 						 						 						 						 
 						 <div class="form-group row">
 							<label class="col-md-2 control-label">Final Rate</label>

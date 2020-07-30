@@ -18,6 +18,7 @@ if(isset($_SESSION["user_name"]))
 		$arId = $_POST['ar'];
 		$engId = $_POST['engineer'];
 		$truck = $_POST['truck'];
+		$order_no = $_POST['order_no'];
 		$product = $_POST['product'];
 		$qty = $_POST['qty'];
 		$return = $_POST['return'];	
@@ -39,9 +40,11 @@ if(isset($_SESSION["user_name"]))
 			$engId = null;	
 		if(empty($return))
 			$return = null;		
+		if(empty($order_no))
+			$order_no = null;				
 		
 		
-		$update = mysqli_query($con,"UPDATE nas_sale SET entry_date='$sqlDate', ar_id='$arId', eng_id = ".var_export($engId, true).", truck_no='$truck',
+		$update = mysqli_query($con,"UPDATE nas_sale SET entry_date='$sqlDate', ar_id='$arId', eng_id = ".var_export($engId, true).", truck_no='$truck',order_no = ".var_export($order_no, true).",
 									product='$product',qty='$qty',return_bag=".var_export($return, true).",discount=".var_export($discount, true).",remarks='$remarks', 
 									bill_no='$bill',address1='$address1', address2='$address2', customer_name='$customerName', customer_phone='$customerPhone'
 									WHERE sales_id='$id'") or die(mysqli_error($con));
