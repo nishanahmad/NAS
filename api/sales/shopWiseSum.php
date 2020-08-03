@@ -28,7 +28,6 @@ if($num>0)
 	{
         $sale_item=array(
 			"shop" => $row['ar_id'],		
-            //"product" =>  $productNameMap[$row['product']],
 			"qty" => $row['SUM(qty)'],
         );
  
