@@ -18,21 +18,25 @@ if(isset($_SESSION["user_name"]))
 	$area = $_POST['sheet_area'];
 	$shop = $_POST['sheet_shop'];		
 	$remarks = $_POST['sheet_remarks'];	
-	$site = $_POST['site'];	
+	$site = $_POST['site'];
+	$truck = $_POST['sheet_truck'];
+	$driver_name = $_POST['driver_name'];
+	$driver_phone = $_POST['driver_phone'];
 	$requested_by = $_SESSION['user_name'];
 	$created_on = date('Y-m-d H:i:s');	
 	
 	if(isset($id))
 	{
 		$sql = "UPDATE sheets SET date = '$sqlDate', customer_name = '$customer_name', customer_phone = '$customer_phone', 
-								  mason_name = '$mason_name', mason_phone = '$mason_phone', bags = $bags, area = '$area', shop = '$shop', remarks = '$remarks'
+								  mason_name = '$mason_name', mason_phone = '$mason_phone', bags = $bags, area = '$area', shop = '$shop', remarks = '$remarks',
+								  truck = '$truck', driver = '$driver_name', phone = '$driver_phone'
 				WHERE id = $id";
 	}
 	else
 	{
-		$sql="INSERT INTO sheets (date, customer_name, customer_phone, mason_name, mason_phone, bags, area, shop, remarks, site, requested_by, status, created_on)
+		$sql="INSERT INTO sheets (date, customer_name, customer_phone, mason_name, mason_phone, bags, area, shop, remarks, site, requested_by, status, created_on, truck, driver, phone)
 			 VALUES
-			 ('$sqlDate', '$customer_name', '$customer_phone', '$mason_name', '$mason_phone', $bags, '$area', '$shop', '$remarks', $site , '$requested_by', 'requested', '$created_on')";
+			 ('$sqlDate', '$customer_name', '$customer_phone', '$mason_name', '$mason_phone', $bags, '$area', '$shop', '$remarks', $site , '$requested_by', 'requested', '$created_on', '$truck', '$driver_name', '$driver_phone')";
 	}
 
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));				 

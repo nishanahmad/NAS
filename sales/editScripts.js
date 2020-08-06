@@ -257,7 +257,28 @@ $(document).ready(function()
 	});	
 	$("#bd").change(function(){
 		refreshRate();
-	});						
+	});	
+
+	$("#sheetMdlBtn").click(function(){
+		var truck = $("#truck").val();
+		truck = truck.replace("-", "").toUpperCase();
+		$.ajax({
+			type: "POST",
+			url: "ajax/getDriverName.php",
+			data:'truck='+truck,
+			success: function(response){
+				$("#driver_name").val(response);
+			}
+		});
+		$.ajax({
+			type: "POST",
+			url: "ajax/getDriverPhone.php",
+			data:'truck='+truck,
+			success: function(response){
+				$("#driver_phone").val(response);
+			}
+		});				
+	});				
 });
 
 function refreshRate()
@@ -269,17 +290,5 @@ function refreshRate()
 	var bd=document.getElementById("bd").value;
 	
 	$('#final').val(rate-cd-sd-wd-bd);
-	setTooltip(cd);
 }
 
-function setTooltip(cd)
-{
-	console.log(cd);
-	$("#final").tooltip({
-		title: 'CD : ' + cd,
-		html: true,
-		delay: {show: 100, hide: 300},
-		placement:'right',
-		container:'body'
-	}); 					
-}
