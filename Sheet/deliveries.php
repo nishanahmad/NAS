@@ -171,7 +171,17 @@ if(isset($_SESSION["user_name"]))
 							{?>
 								<p><i class="fas fa-desktop"></i> Req by <?php echo $sheet['requested_by'];?></p>														<?php
 							}?>									
-							<p><i class="fa fa-truck"></i> Deliv by <?php echo $userMap[$sheet['delivered_by']];?></p>
+							<p><i class="fa fa-truck"></i> Deliv by																									<?php
+														if($userMap[$sheet['delivered_by']] == 'GODOWN')
+														{
+															echo $sheet['driver'];																					?>
+															<a href="tel:<?php echo $sheet['phone'];?>"><?php echo $sheet['phone'];?></a>							<?php
+														}
+														else
+														{
+															echo $userMap[$sheet['delivered_by']];
+														}																											?>
+							</p>
 							<br/>
 							<div align="center">
 								<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn" style="color:#ffffff;background-color:e1be5c;width:100px;"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;								
