@@ -35,9 +35,18 @@ if(isset($_SESSION["user_name"]))
 	}
 	
 	$tallyFlag = false;
-	if($fromDate == $toDate)
+	if($fromDate == $toDate && $product == 'All')
+	{
 		$tallyFlag = true;
+		$tallyObjects = mysqli_query($con, "SELECT * FROM tally_day_check WHERE date = '$toDate'" ) or die(mysqli_error($con));
+		foreach($tallyObjects as $tally)
+			$tallyMap[$tally['ar']] = $tally['checked_by'];
+	}
 	
+	$userObjects = mysqli_query($con, "SELECT * FROM users" ) or die(mysqli_error($con));
+	foreach($userObjects as $user)
+		$userMap[$user['user_id']] = $user['user_name'];	
+		
 	if($_POST)
 	{
 		header("Location:salesSummary.php?from=".$_POST['fromDate']."&to=".$_POST['toDate']."&product=".$_POST['product']);	
@@ -70,6 +79,23 @@ if(isset($_SESSION["user_name"]))
 	});		
 
 	</script>	
+    <style> 
+        .header { 
+            position: sticky; 
+            top:0; 
+        } 
+        .container { 
+            width: 600px; 
+            height: 300px; 
+            overflow: auto; 
+        }     
+		.green{
+			font-weight:bold;
+			font-style:italic;
+			color:LimeGreen			
+		}
+	</style> 
+	
 </head>
 <body>
 <div align="center">
@@ -113,16 +139,16 @@ if(isset($_SESSION["user_name"]))
 </form>
 <br>
 <table class="maintable table table-hover table-bordered" style="width:50%;margin-left:40px;">
-<thead>
+<thead style="position: sticky;top: 0">
 	<tr class="table-success">
-		<th style="text-align:left;"><i class="fa fa-map-o"></i> AR</th>
-		<th style="text-align:left;"><i class="fas fa-store"></i> Shop Name</th>	
-		<th style="width:12%;"><i class="fa fa-address-card-o"></i> SAP</th>	
-		<th style="width:15%;"><i class="fa fa-mobile"></i> Phone</th>
-		<th style="width:12%;text-align:center"><i class="fab fa-buffer"></i> Qty</th>					<?php
+		<th style="text-align:left;" class="header" scope="col"><i class="fa fa-map-o"></i> AR</th>
+		<th style="text-align:left;" class="header" scope="col"><i class="fas fa-store"></i> Shop Name</th>	
+		<th style="width:12%;" class="header" scope="col"><i class="fa fa-address-card-o"></i> SAP</th>	
+		<th style="width:15%;" class="header" scope="col"><i class="fa fa-mobile"></i> Phone</th>
+		<th style="width:12%;text-align:center" class="header" scope="col"><i class="fab fa-buffer"></i> Qty</th>					<?php
 		if($tallyFlag == true)
 		{																								?>
-			<th>Tally Verified By</th>				<?php
+			<th class="header" scope="col">VerifiedBy</th>				<?php
 		}																								?>
 	</tr>
 </thead>
@@ -134,16 +160,24 @@ if(isset($_SESSION["user_name"]))
 	$total = 0;
 	foreach($salesList as $arSale)
 	{
-?>		<tr>
+?>		<tr id="<?php echo $arNameMap[$arSale['ar_id']];?>">
 			<td style="text-align:left;"><?php echo $arNameMap[$arSale['ar_id']];?></td>
 			<td style="text-align:left;"><?php echo $arShopMap[$arSale['ar_id']];?></td>			
 			<td><?php echo $arCodeMap[$arSale['ar_id']];?></td>			
 			<td><?php echo $arPhoneMap[$arSale['ar_id']];?></td>						
-			<td style="text-align:center"><b><?php echo $arSale['SUM(qty)'] - $arSale['SUM(return_bag)'];?></b></td>					<?php
+			<td style="text-align:center"><b><?php echo $arSale['SUM(qty)'] - $arSale['SUM(return_bag)'];?></b></td>										<?php
 			if($tallyFlag == true)
-			{																																?>
-				<td>Jamshi</td>																	<?php
-			}																																?>
+			{		
+				if(isset($tallyMap[$arSale['ar_id']]))
+				{		
+					$userId = $tallyMap[$arSale['ar_id']];																									?>
+					<td><font style="font-weight:bold;font-style:italic;"><?php echo $userMap[$userId];?></font></td>						<?php
+				}
+				else
+				{																																			?>
+					<td><button class="btn" value="<?php echo $arSale['ar_id'];?>" style="background-color:#E6717C;color:white;" onclick="callAjax(this.value)">Verify</button></td>																											<?php			
+				}
+			}																																				?>																																
 		</tr>
 <?php	
 		$total = $total + $arSale['SUM(qty)'] - $arSale['SUM(return_bag)'];
@@ -152,12 +186,34 @@ if(isset($_SESSION["user_name"]))
 	<tbody class="tablesorter-no-sort">
 		<tr style="line-height:50px;background-color:#BEBEBE !important;font-family: Arial Black;">
 			<td colspan="4" style="text-align:right" >TOTAL</td>
-			<td><?php echo $total;?></td>
+			<td colspan="2"><?php echo $total;?></td>
 		</tr>
 	</tbody>
 </table>
 <br><br><br><br><br><br>
 </div>
+<script>
+	function callAjax(ar){
+		const queryString = window.location.search;
+		const urlParams = new URLSearchParams(queryString);
+		const date = urlParams.get('to')
+		$.ajax({
+			type: "POST",
+			url: "ajax/updateTallyCheck.php",
+			data:'ar='+ar +'&date='+date,
+			success: function(response){
+				if(response != false){
+					$('#'+response).find('td').eq(5).text('VERIFIED!');
+					$('#'+response).find('td').eq(5).addClass("green")
+				}
+				else{
+					alert('Some error occured. Try again');
+					location.reload();
+				}
+			}
+		});	  
+	}
+</script>
 </body>			
 <?php
 }
