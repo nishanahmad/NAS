@@ -196,7 +196,16 @@ if(isset($_SESSION["user_name"]))
 	function callAjax(ar){
 		const queryString = window.location.search;
 		const urlParams = new URLSearchParams(queryString);
-		const date = urlParams.get('to')
+		var date = urlParams.get('to');
+		if(!date)
+		{
+			date = new Date();
+			var dd = String(date.getDate()).padStart(2, '0');
+			var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+			var yyyy = date.getFullYear();
+
+			date = dd + '-' + mm + '-' + yyyy;
+		}
 		$.ajax({
 			type: "POST",
 			url: "ajax/updateTallyCheck.php",
