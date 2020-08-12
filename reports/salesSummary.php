@@ -136,8 +136,12 @@ if(isset($_SESSION["user_name"]))
 		</div>
 	</div>			
 	<br/><br/>
-</form>
-<br>
+</form>																													<br><?php 
+if($tallyFlag)
+{																															?>
+	<a href="tallyVerification.php?date=<?php echo $toDate;?>" class="btn" style="background-color:#E6717C;color:white;float:right;margin-right:30px;">Verify Individual Sale</a><?php
+}																																												  ?>
+
 <table class="maintable table table-hover table-bordered" style="width:50%;margin-left:40px;">
 <thead style="position: sticky;top: 0">
 	<tr class="table-success">
@@ -146,7 +150,7 @@ if(isset($_SESSION["user_name"]))
 		<th style="width:12%;" class="header" scope="col"><i class="fa fa-address-card-o"></i> SAP</th>	
 		<th style="width:15%;" class="header" scope="col"><i class="fa fa-mobile"></i> Phone</th>
 		<th style="width:12%;text-align:center" class="header" scope="col"><i class="fab fa-buffer"></i> Qty</th>					<?php
-		if($tallyFlag == true)
+		if($tallyFlag)
 		{																								?>
 			<th class="header" scope="col">VerifiedBy</th>				<?php
 		}																								?>
@@ -208,7 +212,7 @@ if(isset($_SESSION["user_name"]))
 		}
 		$.ajax({
 			type: "POST",
-			url: "ajax/updateTallyCheck.php",
+			url: "ajax/updateDayTally.php",
 			data:'ar='+ar +'&date='+date,
 			success: function(response){
 				if(response != false){
