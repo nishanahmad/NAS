@@ -430,7 +430,7 @@ label{
 						<label class="col-md-2 control-label">Bill Discount</label>
 						<div class="col-md-2 inputGroupContainer">
 						   <div class="input-group">
-								<input type="text" name="bd" id="bd" class="form-control" pattern="[0-9]+" title="Input a valid number">
+								<input type="text" name="bd" id="bd" class="form-control">
 							</div>
 						</div>														
 						<span class="col-md-2"></span>

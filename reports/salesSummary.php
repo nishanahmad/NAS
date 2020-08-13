@@ -84,11 +84,6 @@ if(isset($_SESSION["user_name"]))
             position: sticky; 
             top:0; 
         } 
-        .container { 
-            width: 600px; 
-            height: 300px; 
-            overflow: auto; 
-        }     
 		.green{
 			font-weight:bold;
 			font-style:italic;

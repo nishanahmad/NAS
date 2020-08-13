@@ -74,11 +74,6 @@ if(isset($_SESSION["user_name"]))
             position: sticky; 
             top:0; 
         } 
-        .container { 
-            width: 600px; 
-            height: 300px; 
-            overflow: auto; 
-        }     
 		.green{
 			font-weight:bold;
 			font-style:italic;
@@ -111,7 +106,7 @@ if(isset($_SESSION["user_name"]))
 <table class="maintable table table-hover table-bordered" style="width:60%;margin-left:40px;">
 <thead style="position: sticky;top: 0">
 	<tr>
-		<th style="text-align:center;" colspan="7"><img src="../images/tallyLogo.jpg"/></th>
+		<th style="text-align:center;" class="header" scope="col" colspan="7"><img src="../images/tallyLogo.jpg"/></th>
 	</tr>
 	<tr class="table-success">
 		<th style="text-align:left;" class="header" scope="col"><i class="far fa-file-alt"></i> Bill</th>
