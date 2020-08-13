@@ -3,6 +3,7 @@ session_start();
 if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
+	require '../functions/rate.php';
   
 	if(isset($_GET['date']))
 		$date = date("Y-m-d", strtotime($_GET['date']));		
@@ -17,10 +18,8 @@ if(isset($_SESSION["user_name"]))
 	$arObjects = mysqli_query($con, "SELECT * FROM ar_details ORDER BY name ASC" ) or die(mysqli_error($con));	
 	foreach($arObjects as $ar)
 	{
-		$arNameMap[$ar['id']] = $ar['name'];
-		$arCodeMap[$ar['id']] = $ar['sap_code'];
-		$arShopMap[$ar['id']] = $ar['shop_name'];
-		$arPhoneMap[$ar['id']] = $ar['mobile'];
+		$arMap[$ar['id']]['name'] = $ar['name']; 
+		$arMap[$ar['id']]['type'] = $ar['type']; 
 	}
 				
 	function getVerificationStatus($saleId,$con) 
@@ -123,15 +122,46 @@ if(isset($_SESSION["user_name"]))
 	</tr>
 </thead>
 <?php
+	$rateMap = array();
+	$wdMap = array();
+	foreach($productMap as $id => $name)
+	{
+		$rateMap[$id] = getRate($date,$id);
+		$wdMap[$id] = getWD($date,$id);
+	}
+			
 	foreach($salesList as $sale)
 	{
-?>		<tr id="<?php echo $sale['sales_id'];?>">
+		$rowRate = $rateMap[$sale['product']];
+		if($rowRate == null)
+			$rowRate = 0;					
+		
+		if($arMap[$sale['ar_id']]['type'] == 'AR/SR')
+		{
+			$rowWD = $wdMap[$sale['product']];
+			if($rowWD == null)
+				$rowWD = 0;							
+		}
+		else
+			$rowWD = 0;							
+	
+		$rowCD = getCD($sale['entry_date'],$sale['product'],$sale['ar_id']);
+		if($rowCD == null)
+			$rowCD = 0;					
+		
+		$rowSD = getSD($sale['entry_date'],$sale['product'],$sale['ar_id']);
+		if($rowSD == null)
+			$rowSD = 0;										
+
+		$finalRate = $rowRate - $rowWD - $rowCD - $rowSD -$sale['discount'];																						?>		
+		
+		<tr id="<?php echo $sale['sales_id'];?>">
 			<td><?php echo $sale['bill_no'];?></td>
-			<td><?php echo $arNameMap[$sale['ar_id']];?></td>
+			<td><?php echo $arMap[$sale['ar_id']]['name'];?></td>
 			<td><?php echo $sale['customer_name'];?></td>
 			<td><?php echo $productMap[$sale['product']];?></td>
 			<td style="text-align:center"><b><?php echo $sale['qty'] - $sale['return_bag'];?></b></td>
-			<td><?php echo $productMap[$sale['product']];?></td>																													<?php
+			<td><?php echo $finalRate * ($sale['qty'] - $sale['return_bag']) - $sale['order_no'] .'/-';?></td>																													<?php
 			if(getVerificationStatus($sale['sales_id'],$con) !== null)
 			{		
 				$userId = getVerificationStatus($sale['sales_id'],$con);																																?>
