@@ -41,7 +41,10 @@ if(isset($_SESSION["user_name"]))
 	foreach($userObjects as $user)
 		$userMap[$user['user_id']] = $user['user_name'];
 		
-	$salesList = mysqli_query($con, "SELECT * FROM nas_sale WHERE entry_date = '$date' ORDER BY bill_no ASC" ) or die(mysqli_error($con));		
+	$salesList = mysqli_query($con, "SELECT * FROM nas_sale WHERE entry_date = '$date' ORDER BY bill_no ASC" ) or die(mysqli_error($con));
+	
+	if(isset($_POST['date']))
+		header("Location:tallyVerification.php?date=".$_POST['date']);	
 ?>
 <html>
 <head>
@@ -94,7 +97,7 @@ if(isset($_SESSION["user_name"]))
 		<div class="col col-md-3">
 			<div class="input-group">
 				<span class="input-group-text col-md-5"><i class="far fa-calendar-alt"></i>&nbsp;Date</span>
-				<input type="text" required name="toDate" id="toDate" class="form-control" value="<?php echo date('d-m-Y',strtotime($date)); ?>">
+				<input type="text" required name="date" id="date" class="form-control" value="<?php echo date('d-m-Y',strtotime($date)); ?>">
 			</div>
 		</div>
 		<div class="col col-md-3">
@@ -103,14 +106,13 @@ if(isset($_SESSION["user_name"]))
 			</div>
 		</div>		
 	</div>
-	<br/>
-	<br/>
-	<img src="../images/tallyLogo.jpg"/>
-	<br/>
 </form>
 <br>
 <table class="maintable table table-hover table-bordered" style="width:60%;margin-left:40px;">
 <thead style="position: sticky;top: 0">
+	<tr>
+		<th style="text-align:center;" colspan="7"><img src="../images/tallyLogo.jpg"/></th>
+	</tr>
 	<tr class="table-success">
 		<th style="text-align:left;" class="header" scope="col"><i class="far fa-file-alt"></i> Bill</th>
 		<th style="text-align:left;" class="header" scope="col"><i class="fa fa-map-o"></i> AR</th>
