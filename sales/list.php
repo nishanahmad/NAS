@@ -173,11 +173,6 @@ if(isset($_SESSION["user_name"]))
 							$rate = $rateMap[$sale['product']][$date];
 						else
 							$rate = 0;
-
-						if(isset($sdMap[$sale['product']][$sale['client']][$sale['date']]))
-							$sd = $sdMap[$sale['product']][$sale['client']][$sale['date']];
-						else
-							$sd = 0;
 						
 						if(isset($cdMap[$sale['product']][$sale['client']][$sale['date']]))
 							$cd = $cdMap[$sale['product']][$sale['client']][$sale['date']];
@@ -189,7 +184,7 @@ if(isset($_SESSION["user_name"]))
 						else
 							$wd = 0;
 						
-						$finalRate = $rate - $sd - $cd - $wd - $sale['discount'];																					?>	
+						$finalRate = $rate - $cd - $wd - $sale['discount'];																					?>	
 						
 						<tr data-id="<?php echo $sale['id'];?>" data-params="<?php echo explode('?',$_SERVER['REQUEST_URI'])[1];?>" class="saleId" style="cursor:pointer;">
 							<td><?php echo date('d-m-Y',strtotime($sale['date'])); ?></td>

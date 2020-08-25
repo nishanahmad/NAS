@@ -49,22 +49,4 @@ function getCD($date,$product,$client)
 		return null;			
 	}
 }
-
-
-function getSD($date,$product,$client)
-{
-	require '../connect.php';
-	
-	$sdQuery = mysqli_query($con,"SELECT discount FROM discounts WHERE date <= '$date' AND product = $product AND client = $client AND type = 'sd' ORDER BY date DESC LIMIT 1") or die(mysqli_error($con));				 	 
-	if(mysqli_num_rows($sdQuery)>0)
-	{
-		$sd = mysqli_fetch_array($sdQuery,MYSQLI_ASSOC) or die(mysqli_error($con));				 	 
-		
-		return $sd['discount'];
-	}
-	else
-	{
-		return null;			
-	}
-}
 ?>

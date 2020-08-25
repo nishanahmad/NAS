@@ -4,18 +4,18 @@ if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
 	require '../functions/rate.php';
+	require '../sales/listHelper.php';
 	require '../navbar.php';
   
 	if(isset($_GET['date']))
 		$date = date("Y-m-d", strtotime($_GET['date']));		
 
+	$productMap = getProductNames($con);
+	$rateMap = getRateMap();
+	$cdMap = getCDMap();
+	$wdMap = getWDMap();	
 
-	$products = mysqli_query($con, "SELECT * FROM products" ) or die(mysqli_error($con));	
-	foreach($products as $pro)
-	{
-		$productMap[$pro['id']] = $pro['name'];
-	}
-	
+
 	$arObjects = mysqli_query($con, "SELECT * FROM ar_details ORDER BY name ASC" ) or die(mysqli_error($con));	
 	foreach($arObjects as $ar)
 	{
@@ -37,6 +37,10 @@ if(isset($_SESSION["user_name"]))
 		else
 			return null;
 	}
+
+	$productDates = mysqli_query($con, "SELECT * FROM rate ORDER BY date") or die(mysqli_error($con));				 	 
+	foreach($productDates as $rate)
+		$productDateMap[$rate['product']][] = strtotime($rate['date']);
 			
 	$userObjects = mysqli_query($con, "SELECT * FROM users" ) or die(mysqli_error($con));
 	foreach($userObjects as $user)
@@ -128,38 +132,28 @@ if(isset($_SESSION["user_name"]))
 	</tr>
 </thead>
 <?php
-	$rateMap = array();
-	$wdMap = array();
-	foreach($productMap as $id => $name)
-	{
-		$rateMap[$id] = getRate($date,$id);
-		$wdMap[$id] = getWD($date,$id);
-	}
 			
 	foreach($salesList as $sale)
 	{
-		$rowRate = $rateMap[$sale['product']];
-		if($rowRate == null)
-			$rowRate = 0;					
+		$date = $productDateMap[$sale['product']][closestDate($productDateMap[$sale['product']],strtotime($sale['entry_date']))];
+		$date = date('Y-m-d',$date);
 		
-		if($arMap[$sale['ar_id']]['type'] == 'AR/SR')
-		{
-			$rowWD = $wdMap[$sale['product']];
-			if($rowWD == null)
-				$rowWD = 0;							
-		}
+		if(isset($rateMap[$sale['product']][$date]))
+			$rate = $rateMap[$sale['product']][$date];
 		else
-			$rowWD = 0;							
-	
-		$rowCD = getCD($sale['entry_date'],$sale['product'],$sale['ar_id']);
-		if($rowCD == null)
-			$rowCD = 0;					
+			$rate = 0;
 		
-		$rowSD = getSD($sale['entry_date'],$sale['product'],$sale['ar_id']);
-		if($rowSD == null)
-			$rowSD = 0;										
-
-		$finalRate = $rowRate - $rowWD - $rowCD - $rowSD -$sale['discount'];																						?>		
+		if(isset($cdMap[$sale['product']][$sale['ar_id']][$sale['entry_date']]))
+			$cd = $cdMap[$sale['product']][$sale['ar_id']][$sale['entry_date']];
+		else
+			$cd = 0;
+		
+		if(isset($wdMap[$sale['product']][$sale['entry_date']]))
+			$wd = $wdMap[$sale['product']][$sale['entry_date']];
+		else
+			$wd = 0;
+		
+		$finalRate = $rate - $cd - $wd - $sale['discount'];																					?>		
 		
 		<tr id="<?php echo $sale['sales_id'];?>">
 			<td><?php echo $sale['bill_no'];?></td>
