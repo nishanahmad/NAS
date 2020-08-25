@@ -11,7 +11,7 @@ if(isset($_SESSION["user_name"]))
 	if(isset($_GET['type']))
 		$type = $_GET['type'];
 	else
-		$type = 'Client Discounts';
+		$type = 'Cash Discounts';
 	
 	if($type == 'Wagon Discounts')
 		$wagonDiscountsMap = getWagonDiscounts($con);
@@ -43,9 +43,9 @@ if(isset($_SESSION["user_name"]))
 						<?php echo $type;?>
 					</button>
 					<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">											<?php
-						if($type != 'Client Discounts')
+						if($type != 'Cash Discounts')
 						{																								?>
-							<li><a class="dropdown-item" href="list.php">Client Discounts</a></li>						<?php
+							<li><a class="dropdown-item" href="list.php">Cash Discounts</a></li>						<?php
 						}
 						if($type != 'Wagon Discounts')
 						{																								?>
@@ -61,17 +61,17 @@ if(isset($_SESSION["user_name"]))
 			<div id="snackbar"><i class="fa fa-tags"></i>&nbsp;&nbsp;New Discount updated successfully !!!</div>
 			<div align="center">
 				<br/><br/>
-				<table class="discounttable table table-hover table-bordered" id="discounttable" style="<?php if($type=='Client Discounts') echo 'width:55%'; else echo 'width:35%;';?>">
+				<table class="discounttable table table-hover table-bordered" id="discounttable" style="<?php if($type=='Cash Discounts') echo 'width:55%'; else echo 'width:35%;';?>">
 					<thead>
 						<tr class="table-info">																						<?php 
-							if($type == 'Client Discounts')
+							if($type == 'Cash Discounts')
 							{																										?>
 								<th style="width:200px;"><i class="fa fa-address-card-o"></i> Client</th>							<?php
 							}																										?>
 							<th style="width:100px;"><i class="fa fa-shield"></i> Product</th>
 							<th><i class="fa fa-list-alt"></i> Type</th>
-							<th><i class="fa fa-calendar"></i> <?php if($type=='Client Discounts') echo 'Start Date'; else echo 'Date';?></th>																						<?php 
-							if($type == 'Client Discounts')
+							<th><i class="fa fa-calendar"></i> <?php if($type=='Cash Discounts') echo 'Start Date'; else echo 'Date';?></th>																						<?php 
+							if($type == 'Cash Discounts')
 							{																										?>
 								<th><i class="fa fa-calendar"></i> End Date</th>													<?php
 							}																										?>
