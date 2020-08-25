@@ -33,8 +33,11 @@
 		$sql = $sql." AND customer_phone = '$phone'";
 	}		
 	
-	if($startDate == $endDate && $startDate == date('Y-m-d'))
-		$sql = $sql." ORDER BY bill_no ASC";
+	if(isset($startDate) && isset($endDate))
+	{
+		if($startDate == $endDate && $startDate == date('Y-m-d'))
+			$sql = $sql." ORDER BY bill_no ASC";		
+	}
 	
 	$result=mysqli_query($con,$sql);
 	$rowcount=mysqli_num_rows($result);

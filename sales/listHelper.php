@@ -2,7 +2,9 @@
 
 function getSales($con,$sql)
 {	
-	$sql = $sql.' ORDER BY entry_date DESC';
+	if(!strpos($sql,'ORDER BY bill_no') !== false)
+		$sql = $sql.' ORDER BY entry_date DESC';
+				
 	$mainMap = array();
 	$salesQuery = mysqli_query($con,$sql) or die(mysqli_error($con));
 	
@@ -32,6 +34,9 @@ function getSales($con,$sql)
 function getProductSum($con,$sql)
 {	
 	$productSumMap = array();
+	if(strpos($sql,'ORDER BY bill_no') !== false)
+		$sql = str_replace('ORDER BY bill_no ASC','',$sql);
+	
 	$sql = str_replace('*','SUM(qty),product',$sql);
 	$sql = $sql.' GROUP BY product';
 	$sumQuery = mysqli_query($con,$sql) or die(mysqli_error($con));				 	 	

@@ -62,17 +62,33 @@ $(function(){
 	});				
 	
 	function callAjax(date,range){
-		$.ajax({
-			type: "POST",
-			url: "ajax/filterSales.php",
-			data:'startDate='+ date + '&endDate=' + date,
-			success: function(response){
-				if(response)
-					window.location.href = 'list.php?sql='+response+'&range='+range;
-				else
-					alert('Some error occured. Please contact developer !!!');
-			}
-		});										
+		if(range !== 'Today'){
+			$.ajax({
+				type: "POST",
+				url: "ajax/filterSales.php",
+				data:'startDate='+ date,
+				success: function(response){
+					console.log(response);
+					if(response)
+						window.location.href = 'list.php?sql='+response+'&range='+range;
+					else
+						alert('Some error occured. Please contact developer !!!');
+				}
+			});			
+		}
+		else{
+			$.ajax({
+				type: "POST",
+				url: "ajax/filterSales.php",
+				data:'startDate='+ date + '&endDate=' + date,
+				success: function(response){
+					if(response)
+						window.location.href = 'list.php?sql='+response+'&range='+range;
+					else
+						alert('Some error occured. Please contact developer !!!');
+				}
+			});						
+		}
 	}
 	
 	$("#customFilter").on("click",function(){
