@@ -166,10 +166,8 @@ if(isset($_SESSION["user_name"]))
 				<tbody>	<?php
 					foreach($mainMap as $index => $sale) 
 					{
-						var_dump($sale);
-						closestDate($productDateMap[$sale['product']],strtotime($sale['date']))
 						$date = $productDateMap[$sale['product']][closestDate($productDateMap[$sale['product']],strtotime($sale['date']))];
-						$date = (date('Y-m-d',$date));
+						$date = date('Y-m-d',$date);
 						
 						if(isset($rateMap[$sale['product']][$date]))
 							$rate = $rateMap[$sale['product']][$date];

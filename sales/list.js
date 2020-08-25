@@ -65,7 +65,7 @@ $(function(){
 		$.ajax({
 			type: "POST",
 			url: "ajax/filterSales.php",
-			data:'startDate='+ date,
+			data:'startDate='+ date + '&endDate=' + date,
 			success: function(response){
 				if(response)
 					window.location.href = 'list.php?sql='+response+'&range='+range;
