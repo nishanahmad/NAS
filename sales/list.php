@@ -189,12 +189,12 @@ if(isset($_SESSION["user_name"]))
 						<tr data-id="<?php echo $sale['id'];?>" data-params="<?php echo explode('?',$_SERVER['REQUEST_URI'])[1];?>" class="saleId" style="cursor:pointer;">
 							<td><?php echo date('d-m-Y',strtotime($sale['date'])); ?></td>
 							<td><?php echo $clientNamesMap[$sale['client']]; ?></td>
-							<td><?php echo $productNamesMap[$sale['product']]; ?></td>
+							<td><?php echo $productNamesMap[$sale['product']];?></td>
 							<td><?php echo $sale['qty']; ?></td>
 							<td><?php echo $finalRate.'/-';?></td>							
 							<td><?php echo $sale['bill']; ?></td>
 							<td><?php echo $sale['truck']; ?></td>
-							<td><?php echo $sale['name']; ?></td>
+							<td><?php echo $sale['name'].'<br/>'.$sale['phone']; ?></td>
 							<td><?php echo $sale['remarks']; ?></td>
 							<td><?php echo $sale['address']; ?></td>
 						</tr>																																		<?php				
