@@ -7,7 +7,7 @@ if(isset($_SESSION["user_name"]))
 	require '../connect.php';
 	require 'getHistory.php';
 	require 'sheetModal.php';
-	require 'ratebreakDownModal.php';
+	require 'rateBreakDownModal.php';
 	require '../navbar.php';
 	
 	$urlsql = $_GET['sql'];
