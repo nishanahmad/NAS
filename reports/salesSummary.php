@@ -3,6 +3,7 @@ session_start();
 if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
+	require '../navbar.php';
   
 	if(isset($_GET['from']))
 		$fromDate = date("Y-m-d", strtotime($_GET['from']));		
@@ -49,20 +50,20 @@ if(isset($_SESSION["user_name"]))
 		
 	if($_POST)
 	{
-		header("Location:salesSummary.php?from=".$_POST['fromDate']."&to=".$_POST['toDate']."&product=".$_POST['product']);	
+		$URL='salesSummary.php?from='.$_POST['fromDate'].'&to='.$_POST['toDate'].'&product='.$_POST['product'];
+		echo "<script type='text/javascript'>document.location.href='{$URL}';</script>";
+		echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';				
 	}	
 ?>
 <html>
 <head>
-	<title>AR Sale Date Wise</title>
+	<title>Sales Summary AR</title>
+	<link href="../css/styles.css" rel="stylesheet" type="text/css">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css">
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js"></script>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous"/>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
-	<script src="https://kit.fontawesome.com/742221945b.js" crossorigin="anonymous"></script>	
 	<script>
 	$(function() {
 		var pickerOpts = { dateFormat:"dd-mm-yy"}; 
@@ -93,10 +94,21 @@ if(isset($_SESSION["user_name"]))
 	
 </head>
 <body>
+<nav class="navbar navbar-light bg-light sticky-top bottom-nav">
+	<div class="btn-group" role="group" aria-label="Button group with nested dropdown" style="float:left;margin-left:20px;">
+		<div class="btn-group" role="group">
+			<button id="btnGroupDrop1" type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+				Sales Summary AR
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">
+				<li id="todayFilter"><a class="dropdown-item">Sales Summary AR</a></li>
+			</ul>
+		</div>
+	</div>
+	<span class="navbar-brand" style="font-size:25px;margin-right:50%"><i class="fa fa-line-chart"></i> Reports</span>
+</nav>
 <div align="center">
-<br><br>
-<a href="../index.php" class="link"><img alt='home' title='home' src='../images/home.png' width='50px' height='50px'/> </a> &nbsp;&nbsp;&nbsp;
-<br><br><br><br>
+<br/><br/>
 <form method="post" action="" autocomplete="off">
 	<div class="row" style="margin-left:25%">
 		<div class="col col-md-3">

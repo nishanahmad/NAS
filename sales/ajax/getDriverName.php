@@ -5,7 +5,6 @@
 	{
 		preg_match_all('!\d+!', $_POST['truck'], $truckArray);
 		$truckNumber = $truckArray[0][0];
-		
 		$query = mysqli_query($con,"SELECT driver FROM truck_details WHERE number = '$truckNumber' ") or die(mysqli_error($con));
 		if(mysqli_num_rows($query)>0)
 		{

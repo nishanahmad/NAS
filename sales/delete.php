@@ -5,11 +5,7 @@ require '../connect.php';
 
   $result = mysqli_query($con, $sql) or die(mysqli_error($con));	
 		 
-
-if($_GET['clicked_from'] == 'all_sales')	
-	$url = 'list.php';
-else	
-	$url = 'todayList.php?ar=all';
+	$url = 'list.php?success&sql='.$_GET['sql'].'&range='.$_GET['range'];
 
 header( "Location: $url" );
 ?>

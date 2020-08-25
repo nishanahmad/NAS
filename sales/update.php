@@ -21,17 +21,16 @@ if(isset($_SESSION["user_name"]))
 		$order_no = $_POST['order_no'];
 		$product = $_POST['product'];
 		$qty = $_POST['qty'];
-		$return = $_POST['return'];	
 		$discount = $_POST['bd'];	
 		$remarks = $_POST['remarks'];
 		$bill = $_POST['bill'];
 		$customerName = $_POST['customerName'];
 		$customerPhone = $_POST['customerPhone'];
 		$address1 = $_POST['address1'];
-		$address2 = $_POST['address2'];
 		$entered_by = $_SESSION["user_name"];
 		$entered_on = date('Y-m-d H:i:s');
-		$clicked_from = $_POST['clicked_from'];
+		$sql = $_POST['sql'];
+		$range = $_POST['range'];
 			
 
 		if(empty($discount))
@@ -44,22 +43,19 @@ if(isset($_SESSION["user_name"]))
 			$order_no = null;				
 		
 		
-		$update = mysqli_query($con,"UPDATE nas_sale SET entry_date='$sqlDate', ar_id='$arId', eng_id = ".var_export($engId, true).", truck_no='$truck',order_no = ".var_export($order_no, true).",
-									product='$product',qty='$qty',return_bag=".var_export($return, true).",discount=".var_export($discount, true).",remarks='$remarks', 
-									bill_no='$bill',address1='$address1', address2='$address2', customer_name='$customerName', customer_phone='$customerPhone'
-									WHERE sales_id='$id'") or die(mysqli_error($con));
+		$update = mysqli_query($con,"UPDATE nas_sale SET entry_date='$sqlDate', ar_id='$arId', eng_id = ".var_export($engId, true).", truck_no='$truck',bill_no='$bill',
+											order_no = ".var_export($order_no, true).",product='$product',qty='$qty',discount=".var_export($discount, true).",
+											remarks='$remarks',address1='$address1',customer_name='$customerName', customer_phone='$customerPhone'
+									 WHERE sales_id='$id'") or die(mysqli_error($con));
 					
 		$resultNew = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id='$id'") or die(mysqli_error($con));	
 		$newSale= mysqli_fetch_array($resultNew,MYSQLI_ASSOC);					
 
 		updateUserDetails($oldSale,$newSale);
 		
-		if($clicked_from == 'all')
-			$url = 'list.php';
-		else if($clicked_from == 'today')
-			$url = 'todayList.php?ar=all';		
+		$url = 'list.php?success&sql='.$sql.'&range='.$range;
 		header( "Location: $url" );
 	}																							
 }
 else
-	header("Location:../index.php");
+	header("Location:../index/home.php");

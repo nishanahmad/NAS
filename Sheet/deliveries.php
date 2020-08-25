@@ -1,9 +1,12 @@
 <?php
-	require '../connect.php';	
-	session_start();	
+	
+session_start();	
 
 if(isset($_SESSION["user_name"]))
 {
+	require '../connect.php';	
+	require 'navbar.php';	
+	
 	if(isset($_GET['panelId']))
 		$panelId = $_GET['panelId'];
 	else
@@ -46,15 +49,6 @@ if(isset($_SESSION["user_name"]))
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="../css/navigation-dark.css">
-		<link rel="stylesheet" href="../css/slicknav.min.css">				
-		<script src="https://kit.fontawesome.com/742221945b.js" crossorigin="anonymous"></script>		
-		<script type="text/javascript" src="../js/jquery.js"></script> 
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-		<script src="../js/bootbox.min.js"></script>
-		<script src="../js/jquery.slicknav.min.js"></script>
 
 		<script>
 			$(function() {
@@ -108,29 +102,12 @@ if(isset($_SESSION["user_name"]))
 								window.location.href = hrf +"id="+ id + "&driver=" + driver + "&panelId=" + divId;		
 							}
 						}
-					});					
-						
-				}				
+					});		
+				}
 			}
 		</script>		
 	</head>
 	<body>
-		<nav class="menu-navigation-dark" id="mainView">																		<?php 
-			if($_SESSION['role'] != 'driver')
-			{																									?>	
-				<a href="../index.php"><i class="fa fa-home"></i><span>Home</span></a>
-				<a href="new.php"><i class="fa fa-plus"></i><span>New</span></a>
-				<a href="plan.php"><i class="fa fa-list-alt"></i><span>Driver Assign</span></a>		<?php
-			}																									?>	
-			<a href="requests.php"><i class="fa fa-spinner"></i><span>Pending ...</span></a>
-			<a href="deliveries.php" class="selected"><i class="fa fa-truck"></i><span>Delivered</span></a>
-			<a href="transfer.php"><i class="fa fa-exchange"></i><span>Transfer</span></a>					<?php
-			if($_SESSION['role'] != 'driver')
-			{																									?>				
-				<a href="transfer_logs.php"><i class="fa fa-file-text"></i><span>Transfer Logs</span></a>
-				<a href="closed.php"><i class="fa fa-check-square"></i><span>Closed</span></a><?php
-			}?>							
-		</nav>		
 		<br/><br/>
 		<div align="center">
 			<h2><i class="fa fa-truck"></i> Delivered</h2><br/>

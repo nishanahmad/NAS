@@ -79,11 +79,11 @@ function getRatemap($product,$endDate,$con)
 function getWDmap($product,$startDate,$endDate,$con)
 {	
 	$discountMap = array();
-	$discountQuery = "SELECT date,amount FROM discounts WHERE product = $product AND type = 'wd' AND date >= '$startDate' AND date <= '$endDate' ORDER BY date ASC";
+	$discountQuery = "SELECT date,discount FROM discounts WHERE product = $product AND type = 'wd' AND date >= '$startDate' AND date <= '$endDate' ORDER BY date ASC";
 	$discountList = mysqli_query($con,$discountQuery) or die(mysqli_error($con));				 	 
 	foreach($discountList as $discount)
 	{
-		$discountMap[$discount['date']] = $discount['amount'];
+		$discountMap[$discount['date']] = $discount['discount'];
 	}
 	
 	return $discountMap;		
@@ -92,11 +92,11 @@ function getWDmap($product,$startDate,$endDate,$con)
 function getCDSDmap($arList,$product,$endDate,$type,$con)
 {		
 	$discountMap = array();
-	$discountQuery = "SELECT date,client,amount FROM discounts WHERE client IN (".implode(',',$arList).") AND product = $product AND type = '$type' AND date <= '$endDate' ORDER BY date ASC";
+	$discountQuery = "SELECT date,client,discount FROM discounts WHERE client IN (".implode(',',$arList).") AND product = $product AND type = '$type' AND date <= '$endDate' ORDER BY date ASC";
 	$discountList = mysqli_query($con,$discountQuery) or die(mysqli_error($con));				 	 
 	foreach($discountList as $discount)
 	{
-		$discountMap[$discount['client']][$discount['date']] = $discount['amount'];
+		$discountMap[$discount['client']][$discount['date']] = $discount['discount'];
 	}
 	
 	return $discountMap;		

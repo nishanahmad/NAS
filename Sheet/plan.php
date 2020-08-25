@@ -1,6 +1,8 @@
 <?php
-	require "../connect.php";
 	session_start();	
+	
+	require '../connect.php';
+	require 'navbar.php';
 	
 	if(isset($_GET['date']))
 		$date = date("Y-m-d", strtotime($_GET['date']));
@@ -15,11 +17,6 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">	
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://kit.fontawesome.com/742221945b.js" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="../css/navigation-dark.css">
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="../js/jquery.ui.touch-punch.min.js"></script>
 </head>
 <style>
@@ -108,24 +105,7 @@
 		margin: 0 10px;
 	}
 </style>
-<body>
-	<nav class="menu-navigation-dark">																		<?php 
-		if($_SESSION['role'] != 'driver')
-		{																									?>	
-			<a href="../index.php"><i class="fa fa-home"></i><span>Home</span></a>
-			<a href="new.php"><i class="fa fa-plus"></i><span>New</span></a>
-			<a href="plan.php" class="selected"><i class="fa fa-list-alt"></i><span>Driver Assign</span></a>		<?php
-		}																									?>	
-		<a href="requests.php"><i class="fa fa-spinner"></i><span>Pending ...</span></a>
-		<a href="deliveries.php"><i class="fa fa-truck"></i><span>Delivered</span></a>
-		<a href="transfer.php"><i class="fa fa-exchange"></i><span>Transfer</span></a>					<?php
-		if($_SESSION['role'] != 'driver')
-		{																									?>				
-			<a href="transfer_logs.php"><i class="fa fa-file-text"></i><span>Transfer Logs</span></a>
-			<a href="closed.php"><i class="fa fa-check-square"></i><span>Closed</span></a><?php
-		}?>						
-	</nav>		
-	
+<body>	
 	<div align="center">
 	<br/><br/>
 	<input name="date" type="text" id="datepicker" onchange="document.location.href = 'plan.php?date=' + this.value" value="<?php echo date('d-m-Y',strtotime($date));?>"/>
@@ -171,7 +151,6 @@
 			
 			var oldDriver,newDriver,oldOrder,newOrder,sheet;
 			var date;
-			console.log(date);
 			$('ul[id^="sort"]').sortable({
 				connectWith : ".sortable",
 				receive : function(e, ui) {

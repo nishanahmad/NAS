@@ -20,12 +20,12 @@ function getWD($date,$product)
 {
 	require '../connect.php';
 	
-	$wdQuery = mysqli_query($con,"SELECT amount FROM discounts WHERE date = '$date' AND product = $product AND type = 'wd'") or die(mysqli_error($con));				 	 
+	$wdQuery = mysqli_query($con,"SELECT discount FROM discounts WHERE date = '$date' AND product = $product AND type = 'Wagon Discount'") or die(mysqli_error($con));				 	 
 	if(mysqli_num_rows($wdQuery)>0)
 	{
 		$wd = mysqli_fetch_array($wdQuery,MYSQLI_ASSOC) or die(mysqli_error($con));				 	 
 		
-		return $wd['amount'];
+		return $wd['discount'];
 	}
 	else
 	{
@@ -37,12 +37,12 @@ function getCD($date,$product,$client)
 {
 	require '../connect.php';
 	
-	$cdQuery = mysqli_query($con,"SELECT amount FROM discounts WHERE date <= '$date' AND product = $product AND client = $client AND type = 'cd' ORDER BY date DESC LIMIT 1") or die(mysqli_error($con));				 	 
+	$cdQuery = mysqli_query($con,"SELECT discount FROM discounts WHERE date <= '$date' AND product = $product AND client = $client AND type = 'cd' ORDER BY date DESC LIMIT 1") or die(mysqli_error($con));				 	 
 	if(mysqli_num_rows($cdQuery)>0)
 	{
 		$cd = mysqli_fetch_array($cdQuery,MYSQLI_ASSOC) or die(mysqli_error($con));				 	 
 		
-		return $cd['amount'];
+		return $cd['discount'];
 	}
 	else
 	{
@@ -55,12 +55,12 @@ function getSD($date,$product,$client)
 {
 	require '../connect.php';
 	
-	$sdQuery = mysqli_query($con,"SELECT amount FROM discounts WHERE date <= '$date' AND product = $product AND client = $client AND type = 'sd' ORDER BY date DESC LIMIT 1") or die(mysqli_error($con));				 	 
+	$sdQuery = mysqli_query($con,"SELECT discount FROM discounts WHERE date <= '$date' AND product = $product AND client = $client AND type = 'sd' ORDER BY date DESC LIMIT 1") or die(mysqli_error($con));				 	 
 	if(mysqli_num_rows($sdQuery)>0)
 	{
 		$sd = mysqli_fetch_array($sdQuery,MYSQLI_ASSOC) or die(mysqli_error($con));				 	 
 		
-		return $sd['amount'];
+		return $sd['discount'];
 	}
 	else
 	{

@@ -18,6 +18,7 @@ function updateUserDetails($oldSale,$newSale)
 		
 	$id = $newSale['sales_id'];
 	$user = $_SESSION["user_name"];
+	$userId = $_SESSION["user_id"];
 	$dateTime = date('Y-m-d H:i:s');	
 	
 	$unlocked = false;
@@ -218,7 +219,7 @@ function updateUserDetails($oldSale,$newSale)
 	$query = mysqli_query($con, "SELECT * FROM tally_sale_check WHERE sale = '$id'");
 	if(mysqli_num_rows($query) > 0 && $unlocked)
 	{
-		$update ="UPDATE tally_sale_check SET status = 'UNLOCKED' WHERE sale = '$id'";			
+		$update ="UPDATE tally_sale_check SET status = 'UNLOCKED', unlocked_by = $userId WHERE sale = '$id'";		
 		$result = mysqli_query($con, $update);				 			 			
 	}				
 }

@@ -26,7 +26,7 @@ if(isset($_SESSION["user_name"]))
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));				 
 
 	
-	header( "Location: requests.php" );
+	header( "Location:new.php?success" );
 
 }
 else

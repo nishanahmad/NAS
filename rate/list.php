@@ -1,109 +1,85 @@
+<!DOCTYPE html>
 <?php
 session_start();
-if(isset($_SESSION['user_name']))
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 21600)) 
+{
+	session_unset();
+	session_destroy();
+}
+$_SESSION['LAST_ACTIVITY'] = time();
+
+if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
-    
-	$rates = mysqli_query($con,"SELECT * FROM rate ORDER BY date DESC") or die(mysqli_error($con));
-		
-	$products = mysqli_query($con,"SELECT * FROM products") or die(mysqli_error($con));
-	foreach($products as $product)
-		$productMap[$product['id']] = $product['name'];		
-		
-																														?>
+	require 'listHelper.php';
+	require '../functions/rate.php';
+	require '../navbar.php';
+	require 'newModal.php';
+
+	$rateMap = getRates($con);
+	$productNamesMap = getProductNames($con);																													?>
+	
 <html>
 	<head>
-		<title>Rate List</title>
-		<meta charset="utf-8">
-		<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
-		<link href="../css/bootstrap.min.css" rel="stylesheet">
-		<link href="../css/dashio.css" rel="stylesheet">
-		<link href="../css/dashio-responsive.css" rel="stylesheet">	
-		<link href="../css/font-awesome.min.css" rel="stylesheet">		
-		<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
-		<script type="text/javascript" language="javascript" src="../js/jquery-ui.min.js"></script>
-		<script type="text/javascript" language="javascript" src="../js/jquery.dataTables.min.js"></script>
-		<script type="text/javascript" src="../js/bootstrap.min.js"></script>
-		<style>
-		.dataTables_length{
-		  display:none;
-		}
-		.dataTables_paginate{
-		  display:none;
-		}
-		</style>
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css">
+		<link href="../css/styles.css" rel="stylesheet" type="text/css">
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js" ></script>
+		<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>	
+		<title>Rate</title>
 	</head>
 	<body>
-		<div class="row content-panel">
-			<div class="col-md-12" align="center">
-				<a href="../index.php" class="link"><img alt='home' title='home' src='../images/home.png' width='50px' height='50px'/> </a>
+		<nav class="navbar navbar-light bg-light sticky-top bottom-nav">
+			<span class="navbar-brand" style="font-size:25px;margin-left:47%;"><i class="fa fa-rupee-sign"></i> Rate</span>
+			<a href="#" class="btn btn-sm" role="button" style="background-color:#54698D;color:white;float:right;margin-right:40px;" data-toggle="modal" data-target="#newModal"><i class="fa fa-rupee-sign"></i> New Rate</a>			
+		</nav>
+		<div style="width:100%;" class="mainbody">	
+			<div id="snackbar"><i class="fa fa-rupee-sign"></i>&nbsp;&nbsp;New Rate updated successfully !!!</div>		
+			<div align="center">
+				<br/><br/>
+				<table class="ratetable table table-hover table-bordered" style="width:30%">
+					<thead>
+						<tr class="table-info">
+							<th style="width:100px;"><i class="fa fa-shield"></i> Product</th>
+							<th><i class="fa fa-calendar"></i> Start Date</th>
+							<th><i class="fa fa-calendar"></i> End Date</th>
+							<th style="width:90px;"><i class="fa fa-rupee-sign"></i> Rate</th>
+						</tr>
+					</thead>
+					<tbody><?php				
+						foreach($rateMap as $product=>$subMap)
+						{
+							foreach($subMap as $period=>$rate)
+							{
+								$startDate = explode(' TO ',$period)[0];
+								$endDate = explode(' TO ',$period)[1];																			?>
+								<tr>
+									<td><?php echo $productNamesMap[$product];?></td>
+									<td><?php echo date('d-m-Y',strtotime($startDate));?></td>													<?php 
+									if($endDate != 'CURRENT')
+									{																											?>
+										<td><?php echo date('d-m-Y',strtotime($endDate));?></td>												<?php
+									}
+									else
+									{																											?>
+										<td><font style="font-weight:bold;font-style:italic;color:LimeGreen">CURRENT</font></td>																						<?php
+									}																											?>
+									<td><?php echo $rate.'/-';?></td>
+								</tr>																											<?php
+							}							
+						}																														?>
+					</tbody>																														
+				</table>
 			</div>
+			<br/><br/><br/>
 		</div>
-		<div class="row mt">
-			<div class="col-lg-12">
-				<div class="content-panel">
-					<h2 style="margin-left:45%;" ><i class="fa fa-inr"></i> Rate</i></h2><br/>
-					<a href="edit.php" style="margin-left:45%;" class="btn btn-theme" >Update Rate</a>	
-					<section style="margin-top:40px;">
-						<form id="searchbox">
-							<table class="col-md-offset-3" style="width:40%">
-								<tr>
-									<td style="width:25%;padding:2px;"><input type="text" data-column="0"  class="form-control" placeholder="Date"></td>
-									<td style="width:50%;padding:2px;"><input type="text" data-column="1"  class="form-control" placeholder="Product"></td>	
-									<td style="width:25%;padding:2px;"><input type="text" data-column="2"  class="form-control" placeholder="Rate"></td>	
-								</tr>	
-							</table>	
-						</form>																					
-						<table class="table table-bordered table-striped col-md-offset-3" style="width:40%" id="discounts">
-							<thead class="cf">
-								<tr>
-									<th style="width:25%;">Date</th>
-									<th style="width:50%;">Product</th>
-									<th style="width:25%;">Rate</th>
-								</tr>
-							</thead>
-							<tbody>
-
-							<?php
-							foreach($rates as $rate)
-							{																												?>
-								<tr>
-									<td><?php echo date('d-m-Y',strtotime($rate['date']));?></td>
-									<td><?php echo $productMap[$rate['product']];?></td>
-									<td><?php echo $rate['rate'];?></td>																									
-								</tr>																								<?php
-							}																										?>
-							</tbody>
-						</table>
-					</section>
-				</div>
-			</div>
-		</div>
-		<script>
-		$(document).ready(function() {
-			
-			var table = $('#discounts').DataTable({
-				"iDisplayLength": 10000
-			});
-				
-			$("#discounts_filter").css("display","none");  // hiding global search box
-			$('.form-control').on( 'keyup click', function () {   // for text boxes
-				var i =$(this).attr('data-column');  // getting column index
-				var v =$(this).val();  // getting search input value
-				table.columns(i).search(v).draw();
-			} );
-			$('.select').on( 'change', function () {   // for select box
-				var i =$(this).attr('data-column');  
-				var v =$(this).val();  
-				table.columns(i).search(v).draw();
-			} );	
-
-		} );
-		</script>
+		<script src="list.js"></script>
 	</body>
-</html>
-<?php
+</html>																																					<?php
 }
 else
-	header("Location:../index.php");
-?>
+	header("Location:../index.php");																													?>
