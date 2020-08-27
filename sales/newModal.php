@@ -20,15 +20,10 @@ if(isset($_SESSION["user_name"]))
 	$shopNameArray = str_replace('\r',' ',$shopNameArray);	
 	
 	$engineerObjects = mysqli_query($con,"SELECT id,name,sap_code,shop_name FROM ar_details WHERE type LIKE '%Engineer%' OR type = 'Contractor' ORDER BY name ASC");					?>
-	
-	<style>
-	@media (max-width: @screen-xs-min) {
-	  .modal-xs { width: @modal-sm; }
-	}	
-	</style>
+
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<div class="modal fade" id="saleModal">
-	  <div class="modal-dialog modal-lg">
+	  <div class="modal-dialog modal-lg modal-fullscreen-sm-down">
 		<div class="modal-content">
 			<div class="modal-header" style="background-color:#54698D;color:white">
 				<h4 class="modal-title"><i class="fa fa-bolt"></i>&nbsp;&nbsp;New Sale</h4>
