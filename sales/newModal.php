@@ -26,6 +26,7 @@ if(isset($_SESSION["user_name"]))
 	  .modal-xs { width: @modal-sm; }
 	}	
 	</style>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<div class="modal fade" id="saleModal">
 	  <div class="modal-dialog modal-lg">
 		<div class="modal-content">
