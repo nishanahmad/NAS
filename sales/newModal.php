@@ -21,6 +21,7 @@ if(isset($_SESSION["user_name"]))
 	
 	$engineerObjects = mysqli_query($con,"SELECT id,name,sap_code,shop_name FROM ar_details WHERE type LIKE '%Engineer%' OR type = 'Contractor' ORDER BY name ASC");					?>
 	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<div class="modal fade" id="saleModal">
 	  <div class="modal-dialog modal-lg">
 		<div class="modal-content">
