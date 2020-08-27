@@ -7,6 +7,12 @@ function arRefresh(shopNameArray)
 	
 $(document).ready(function()
 {
+	if(window.location.href.includes('success')){
+		var x = document.getElementById("snackbar");
+		x.className = "show";
+		setTimeout(function(){ x.className = x.className.replace("show", ""); }, 2000);					
+	}
+	
 	$("#ar,#engineer").select2();
 	
 	var pickerOpts = { dateFormat:"dd-mm-yy"}; 

@@ -3,7 +3,6 @@ session_start();
 if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
-	require '../functions/rate.php';
 	require '../sales/listHelper.php';
 	require '../navbar.php';
   

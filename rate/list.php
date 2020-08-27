@@ -12,7 +12,6 @@ if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
 	require 'listHelper.php';
-	require '../functions/rate.php';
 	require '../navbar.php';
 	require 'newModal.php';
 

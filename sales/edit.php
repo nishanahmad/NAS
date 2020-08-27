@@ -8,6 +8,7 @@ if(isset($_SESSION["user_name"]))
 	require 'getHistory.php';
 	require 'sheetModal.php';
 	require 'rateBreakDownModal.php';
+	require 'holdingModal.php';
 	require '../navbar.php';
 	
 	$urlsql = $_GET['sql'];
@@ -57,7 +58,7 @@ if(isset($_SESSION["user_name"]))
 		<script>
 			var shopNameList = '<?php echo $shopNameArray;?>';
 			var shopName_array = JSON.parse(shopNameList);
-			var shopNameArray = shopName_array;	
+			var shopNameArray = shopName_array;
 		</script>
 	</head>
 	<body>
@@ -88,9 +89,13 @@ if(isset($_SESSION["user_name"]))
 					<button type="button" class="btn" style="background-color:#2A739E;color:white;" data-toggle="modal" data-target="#historyModal">
 						<i class="fa fa-history"></i>&nbsp;&nbsp;History
 					</button>
+					<button type="button" class="btn" style="background-color:#708090;color:white;" data-toggle="modal" data-target="#holdingModal">
+						<i class="fas fa-box"></i>&nbsp;&nbsp;Holding
+					</button>					
 				</div>
 		</nav>
 		<br/><br/>
+		<div id="snackbar"><i class="fa fa-check"></i>&nbsp;&nbsp;Updated successfull !!!</div>
 		<form name="frmUser" method="post" action="update.php">
 			<input hidden name="id" value="<?php echo $row['sales_id'];?>">
 			<input hidden name="sql" value="<?php echo $urlsql;?>">
