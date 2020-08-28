@@ -115,6 +115,7 @@ $(function(){
 	$('.saleId').click(function(){
 		var saleId = $(this).data('id');
 		var params = $(this).data('params');
+		params = params.replace('success&','');
 		window.location.href = 'edit.php?sales_id='+saleId + '&' + params;
 	});	
 
