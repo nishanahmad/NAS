@@ -4,6 +4,7 @@ if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
 	require '../functions/monthMap.php';
+	require '../navbar.php';
 	
 	$mainArray = array();
 	if(isset($_GET['year']) && isset($_GET['month']))
@@ -72,79 +73,44 @@ if(isset($_SESSION["user_name"]))
 ?>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="../css/loader.css">	
-<link rel="stylesheet" type="text/css" href="../css/responstable.css">
-<link rel="stylesheet" type="text/css" href="../css/glow_box.css">
-<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
-<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
-<script type="text/javascript" language="javascript" src="../js/jquery.floatThead.min.js"></script>
-<script src="../js/fileSaver.js"></script>
-<script src="../js/tableExport.js"></script>
-<script type="text/javascript" src="../js/jquery.tablesorter.min.js"></script> 
-<script type="text/javascript" language="javascript">
-$(document).ready(function() {
-	$("#loader").hide();
-	$("#Points").tablesorter(); 
- 	$("#button").click(function(){
-		$("table").tableExport({
-				formats: ["xls"],    // (String[]), filetypes for the export
-				bootstrap: false,
-				ignoreCSS: ".ignore"   // (selector, selector[]), selector(s) to exclude from the exported file
-		});
-	});		
-	var $table = $('.responstable');
-	$table.floatThead();				
-} );
-function rerender()
-{
-	var year = document.getElementById("jsYear").options[document.getElementById("jsYear").selectedIndex].value;
-	var month=document.getElementById("jsMonth").value;
-	var hrf = window.location.href;
-	hrf = hrf.slice(0,hrf.indexOf("?"));
-	$("#main").hide();
-	$("#loader").show();
-	window.location.href = hrf +"?year="+ year + "&month=" + month;
-}
-</script>
 <title><?php echo getMonth($urlMonth); echo " "; echo $urlYear; ?></title>
+<link href="../css/styles.css" rel="stylesheet" type="text/css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js"></script>
 </head>
 <body>
-
-	<div id="loader" class="loader" align="center" style="background : #161616 url('../images/pattern_40.gif') top left repeat;height:100%">
-		<br><br><br><br><br><br><br><br><br><br><br><br>
-		<div class="circle"></div>
-		<div class="circle1"></div>
-		<br>
-		<font style="color:white;font-weight:bold">Calculating ......</font>
-	</div>
 	<div align="center">
-		<a href="../index.php" class="link"><img alt='home' title='home' src='../images/home.png' width='50px' height='50px'/> </a>
 		<br><br>
-		<select id="jsMonth" name="jsMonth" class="textarea" onchange="return rerender();">																								<?php	
-			$monthList = mysqli_query($con, "SELECT DISTINCT month FROM target ORDER BY month ASC" ) or die(mysqli_error($con));	
-			foreach($monthList as $month) 
-			{	
-	?>			<option <?php if($urlMonth == (int)$month['month']) echo 'selected';?> value="<?php echo $month['month'];?>"><?php echo getMonth($month['month']);?></option>															<?php	
-			}
-	?>	</select>					
-			&nbsp;&nbsp;
-
-		<select id="jsYear" name="jsYear" class="textarea" onchange="return rerender();">																				<?php	
-			$yearList = mysqli_query($con, "SELECT DISTINCT year FROM target ORDER BY year DESC") or die(mysqli_error($con));	
-			foreach($yearList as $year) 
-			{
-?>				<option <?php if($urlYear == (int)$year['year']) echo 'selected';?> value="<?php echo $year['year'];?>"><?php echo $year['year'];?></option>																			<?php	
-			}
-?>		</select>
-
-		<br><br>
-		
-		<img src="../images/excel.png" id="button" height="50px" width="45px" />
+		<div class="form-group row">
+			<div style="width:200px;margin-left:40%">
+				<div class="input-group mb-3">
+						<select id="jsMonth" name="jsMonth" class="form-control col-md-4" onchange="return rerender();">																								<?php	
+							$monthList = mysqli_query($con, "SELECT DISTINCT month FROM target ORDER BY month ASC" ) or die(mysqli_error($con));	
+							foreach($monthList as $month) 
+							{																																											?>			
+								<option <?php if($urlMonth == (int)$month['month']) echo 'selected';?> value="<?php echo $month['month'];?>"><?php echo getMonth($month['month']);?></option>															<?php	
+							}																																											?>	
+						</select>					
+				</div>
+			</div>
+			<div style="width:150px">
+				<div class="input-group mb-3">
+					<select id="jsYear" name="jsYear" class="form-control" onchange="return rerender();">																				<?php	
+						$yearList = mysqli_query($con, "SELECT DISTINCT year FROM target ORDER BY year DESC") or die(mysqli_error($con));	
+						foreach($yearList as $year) 
+						{																																								?>
+							<option <?php if($urlYear == (int)$year['year']) echo 'selected';?> value="<?php echo $year['year'];?>"><?php echo $year['year'];?></option>																			<?php	
+						}																																								?>		
+					</select>
+				</div>
+			</div>
+		</div>
 		<br/><br/>
-
-		<table id="Points" class="responstable" style="width:70% !important">
+		<table class="maintable table table-hover table-bordered" style="width:70%;margin-left:40px;">
 		<thead>
-			<tr>
+			<tr class="table-success">
 				<th style="width:20%;text-align:left;">AR</th>
 				<th style="width:12%;">Mobile</th>
 				<th style="width:25%;text-align:left;">Shop</th>
@@ -154,7 +120,8 @@ function rerender()
 				<th>Redeemed Pnts</th>	
 				<th>Balance</th>	
 			</tr>
-		</thead>																													<?php
+		</thead>
+		<tbody>																																						<?php
 			$openingTotal = 0;
 			$currentTotal = 0;
 			$redeemedTotal = 0;
@@ -170,21 +137,22 @@ function rerender()
 				
 				
 				<tr align="center">
-				<td style="text-align:left;"><?php echo $detailMap['name'];?></b></td>
-				<td><?php echo $detailMap['mobile'];?></b></td>
-				<td style="text-align:left;"><?php echo $detailMap['shop'];?></b></td>
-				<td><?php echo $detailMap['bag_report'];?></b></td>
-				<td><?php echo $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'];?></b></td>
-				<td><?php echo $pointMap[$arId]['points'];?></td>
-				<td><?php echo $redemptionMap[$arId];?></td>
-				<td><?php echo $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'] + $pointMap[$arId]['points'] - $redemptionMap[$arId];?></td>
+					<td style="text-align:left;"><?php echo $detailMap['name'];?></b></td>
+					<td><?php echo $detailMap['mobile'];?></b></td>
+					<td style="text-align:left;"><?php echo $detailMap['shop'];?></b></td>
+					<td><?php echo $detailMap['bag_report'];?></b></td>
+					<td><?php echo $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'];?></b></td>
+					<td><?php echo $pointMap[$arId]['points'];?></td>
+					<td><?php echo $redemptionMap[$arId];?></td>
+					<td><?php echo $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'] + $pointMap[$arId]['points'] - $redemptionMap[$arId];?></td>
 				</tr>																																							<?php
 				$openingTotal = $openingTotal + $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'];
 				$currentTotal = $currentTotal + $pointMap[$arId]['points'];
 				$redeemedTotal = $redeemedTotal + $redemptionMap[$arId];
 				$balanceTotal = $balanceTotal + $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'] + $pointMap[$arId]['points'] - $redemptionMap[$arId];			
 			}																																									?>
-			<thead>
+			</tbody>
+			<tfoot>
 				<tr>
 					<th style="width:20%;text-align:left;"></th>
 					<th style="width:12%;"></th>
@@ -195,10 +163,27 @@ function rerender()
 					<th><?php echo $redeemedTotal;?></th>	
 					<th><?php echo $balanceTotal;?></th>	
 				</tr>
-			</thead>																															
+			</tfoot>																															
 		</table>
 		<br/><br/><br/><br/>
 	</div>
+	<script type="text/javascript" language="javascript">
+	$(document).ready(function() {
+		$(".maintable").tablesorter({
+			theme : 'bootstrap',
+			widgets: ['filter'],
+			filter_columnAnyMatch: true
+		}); 
+	} );
+	function rerender()
+	{
+		var year = document.getElementById("jsYear").options[document.getElementById("jsYear").selectedIndex].value;
+		var month=document.getElementById("jsMonth").value;
+		var hrf = window.location.href;
+		hrf = hrf.slice(0,hrf.indexOf("?"));
+		window.location.href = hrf +"?year="+ year + "&month=" + month;
+	}
+	</script>	
 </body>
 </html>																																											<?php
 }

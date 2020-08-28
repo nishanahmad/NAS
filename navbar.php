@@ -196,7 +196,7 @@ body{
 		</a>
 	  </li>	  
 	  <li class="nav-item">
-		<a class="nav-link" <?php if($flag == 'engineers') echo 'href="#"'; else echo 'href="../engineers/list.php"';?>>
+		<a class="nav-link" <?php if($flag == 'engineers') echo 'href="#"'; else echo 'href="../engineers/points.php?"';?>>
 		  <i class="fa fa-suitcase <?php if($flag == 'engineers') echo 'glow';?> aria-hidden="true"></i>
 		  Engineers
 		</a>

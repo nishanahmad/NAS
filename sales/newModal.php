@@ -145,23 +145,7 @@ if(isset($_SESSION["user_name"]))
 								</div>
 							</div>
 						</div>
-					</div>																				
-					<div class="row">
-						<div class="form-group row">
-							<div class="col-sm-6 col-md-4 offset-md-1">
-								<div class="input-group mb-3">
-									<span class="input-group-text col-md-5"><i class="fa fa-rupee-sign"></i>&nbsp;Final</span>
-									<input readonly id="final" class="form-control">
-								</div>
-							</div>
-							<div class="col-sm-6 col-md-6 offset-md-1">
-								<div class="input-group mb-3">
-									<span class="input-group-text col-md-4"><i class="fa fa-address-card-o"></i>&nbsp;Shop</span>
-									<input type="text" readonly name="shopName" id="shopName" class="form-control">
-								</div>
-							</div>
-						</div>
-					</div>																									
+					</div>
 					<div class="row">
 						<div class="form-group row">
 							<div class="col-sm-6 col-md-5 offset-md-1">
@@ -177,7 +161,23 @@ if(isset($_SESSION["user_name"]))
 								</div>
 							</div>
 						</div>
-					</div>																														
+					</div>																																			
+					<div class="row">
+						<div class="form-group row">
+							<div class="col-sm-6 col-md-5 offset-md-1">
+								<div class="input-group mb-3">
+									<span class="input-group-text col-md-4"><i class="fa fa-rupee-sign"></i>&nbsp;Final</span>
+									<input readonly id="final" class="form-control">
+								</div>
+							</div>
+							<div class="col-sm-6 col-md-6">
+								<div class="input-group mb-3">
+									<span class="input-group-text col-md-4"><i class="fa fa-address-card-o"></i>&nbsp;Shop</span>
+									<input type="text" readonly name="shopName" id="shopName" class="form-control">
+								</div>
+							</div>
+						</div>
+					</div>																									
 					<br/>
 					<div class="row">
 						<div class="col col-md-5 offset-5">
