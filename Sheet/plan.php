@@ -3,6 +3,7 @@
 	
 	require '../connect.php';
 	require 'navbar.php';
+	require 'displayCard.php';
 	
 	if(isset($_GET['date']))
 		$date = date("Y-m-d", strtotime($_GET['date']));
@@ -118,10 +119,9 @@
 			<ul class="sortable ui-sortable" id="sort0" data-driver-id="0"><?php
 			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE assigned_to = 0 AND date = '$date' AND status = 'requested' ORDER BY requested_by") or die(mysqli_error($con));
 			foreach ($sheets as $sheet) 
-			{																																?>
-				<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet['id']; ?>">
-					<?php echo $sheet['area'].'<br/>'.$sheet['customer_name'].', '.$sheet['customer_phone'].'<br/><b>'.$sheet['bags'].' bags<br/>'.$sheet['requested_by'].'<br/>'.$sheet['shop'].'</b><br/>'.$sheet['remarks']; 	?>
-				</li>																														<?php
+			{
+				$card = displayCard($sheet)																									?>
+				<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet['id']; ?>"><?php echo $card;?></li>				<?php
 			}																																?>
 			</ul>
 		</div>																																<?php	
@@ -135,8 +135,9 @@
 				</div>
 				<ul class="sortable ui-sortable" id="sort<?php echo $driverId; ?>" data-driver-id="<?php echo $driver['user_id']; ?>"><?php
 				foreach ($sheets as $sheet) 
-				{																																?>
-					<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet['id']; ?>"><?php echo $sheet['area'].'<br/>'.$sheet['customer_name'].', '.$sheet['customer_phone'].'<br/><b>'.$sheet['bags'].' bags<br/>'.$sheet['requested_by'].'<br/>'.$sheet['shop'].'</b><br/>'.$sheet['remarks'];
+				{
+					$card = displayCard($sheet)																									?>
+					<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet['id']; ?>"><?php echo $card;?></li>				<?php
 				}																																?>
 				</ul>
 			</div>																																<?php
