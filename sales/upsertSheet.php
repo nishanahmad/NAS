@@ -25,7 +25,7 @@ if(isset($_SESSION["user_name"]))
 	$requested_by = $_SESSION['user_name'];
 	$created_on = date('Y-m-d H:i:s');	
 	$sql = $_POST['sheetSql'];
-	$range = $_POST['urlRange'];
+	$range = $_POST['sheetRange'];
 	
 	if(isset($id))
 	{
@@ -43,7 +43,7 @@ if(isset($_SESSION["user_name"]))
 
 	$result = mysqli_query($con, $query) or die(mysqli_error($con));				 
 
-	header( "Location: edit.php?sales_id=$site&sql='$sql'&range='$range'");
+	header( "Location: edit.php?sales_id=$site&sql=".$sql."&range=".$range);
 
 }
 else
