@@ -22,26 +22,31 @@ if(isset($_SESSION["user_name"]))
 				<div class="col col-md-5 offset-1">
 					<div class="input-group mb-3">
 						<span class="input-group-text" style="width:120px;"><i class="far fa-calendar-alt"></i>&nbsp;Date</span>
-						<input type="text" required name="date" id="date" class="form-control datepicker" value="<?php echo date('d-m-Y');?>" autocomplete="off">
+						<input type="text" name="date" id="date" class="form-control datepicker" value="<?php echo date('d-m-Y');?>" autocomplete="off">
 					</div>
 				</div>
 				<div class="col col-md-5 offset-1">
 					<div class="input-group mb-3">
 						<span class="input-group-text" style="width:120px;"><i class="far fa-clock"></i>&nbsp;Time</span>
-						<input type="time" required name="time" id="time" value="<?php echo(strftime("%H:%M")); ?>" class="form-control" autocomplete="off">
+						<input type="time" name="time" id="time" value="<?php echo(strftime("%H:%M")); ?>" class="form-control" autocomplete="off">
 					</div>
 				</div>				
 				<div class="col col-md-5 offset-1">
 					<div class="input-group mb-3">
 						<span class="input-group-text" style="width:120px;"><i class="fa fa-truck"></i>&nbsp;Truck</span>
-						<input type="text" required name="truck" id="truck" class="form-control" autocomplete="off">
+						<select name="truck" id="truck" class="form-control" style="line-height:20px;">							
+							<option value="">-- SELECT --</option>													<?php
+							foreach($trucks as $truck) 
+							{																													?>
+								<option value="<?php echo $truck['id'];?>"><?php echo $truck['number'];?></option>								<?php	
+							}																													?>
+						</select>
 					</div>
 				</div>								
 				<div class="col col-md-5 offset-1">
 					<div class="input-group mb-3">
 						<span class="input-group-text" style="width:120px;"><i class="fa fa-shield"></i>&nbsp;Product</span>
-						<select required name="product" id="product" class="form-control" style="line-height:20px;">
-							<option value = "">---Select---</option>																			<?php
+						<select name="product" id="product" class="form-control" style="line-height:20px;">							<?php
 							foreach($products as $product) 
 							{																													?>
 								<option value="<?php echo $product['id'];?>"><?php echo $product['name'];?></option>										<?php	
@@ -52,7 +57,7 @@ if(isset($_SESSION["user_name"]))
 				<div class="col col-md-4 offset-1">
 					<div class="input-group mb-3">
 						<span class="input-group-text" style="width:120px;"><i class="fab fa-buffer"></i>&nbsp;Qty</span>
-						<input type="text" required name="qty" id="qty" class="form-control" autocomplete="off">
+						<input type="text" name="qty" id="qty" class="form-control" autocomplete="off">
 					</div>
 				</div>												
 				<br/><br/>

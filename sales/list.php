@@ -157,10 +157,10 @@ if(isset($_SESSION["user_name"]))
 						<th style="width:80px;"><i class="fab fa-buffer"></i> QTY</th>
 						<th style="width:80px;"><i class="fa fa-rupee-sign"></i> RATE</th>
 						<th style="width:120px;"><i class="far fa-file-alt"></i> BILL NO</th>
-						<th style="width:120px;"><i class="fas fa-truck-moving"></i> TRUCK</th>
+						<th style="width:120px;" class="desktop-only" ><i class="fas fa-truck-moving"></i> TRUCK</th>
 						<th style="width:120px;"><i class="far fa-user"></i> CUSTOMER</th>
 						<th><i class="far fa-comment-dots"></i> REMARKS</th>
-						<th><i class="fas fa-map-marker-alt"></i> ADDRESS</th>
+						<th><i class="fas fa-map-marker-alt desktop-only"></i> ADDRESS</th>
 					</tr>	
 				</thead>
 				<tbody>	<?php
@@ -193,10 +193,10 @@ if(isset($_SESSION["user_name"]))
 							<td><?php echo $sale['qty']; ?></td>
 							<td><?php echo $finalRate.'/-';?></td>							
 							<td><?php echo $sale['bill']; ?></td>
-							<td><?php echo $sale['truck']; ?></td>
+							<td class="desktop-only"><?php echo $sale['truck']; ?></td>
 							<td><?php echo $sale['name'].'<br/>'.$sale['phone']; ?></td>
 							<td><?php echo $sale['remarks']; ?></td>
-							<td><?php echo $sale['address']; ?></td>
+							<td class="desktop-only"><?php echo $sale['address']; ?></td>
 						</tr>																																		<?php				
 					}																																				?>
 				</tbody>	
