@@ -5,6 +5,8 @@ if (strpos($url, 'home') !== false)
 	$flag = 'home';
 if (strpos($url, 'sales') !== false)
 	$flag = 'sales';
+if (strpos($url, 'loading') !== false)
+	$flag = 'loading';
 if (strpos($url, 'ar') !== false)
 	$flag = 'ar';
 if (strpos($url, 'engineers') !== false)
@@ -189,6 +191,12 @@ body{
 		  Sales
 		</a>
 	  </li>	  
+	  <li class="nav-item">
+		<a class="nav-link" <?php if($flag == 'loading') echo 'href="#"'; else echo 'href="../loading/list.php"';?>>
+		  <i class="fa fa-truck <?php if($flag == 'loading') echo 'glow';?> aria-hidden="true"></i>
+		  Loading
+		</a>
+	  </li>	  	  
 	  <li class="nav-item">
 		<a class="nav-link" <?php if($flag == 'ar') echo 'href="#"'; else echo 'href="../ar/list.php"';?>>
 		  <i class="fa fa-address-card-o <?php if($flag == 'ar') echo 'glow';?> aria-hidden="true"></i>
