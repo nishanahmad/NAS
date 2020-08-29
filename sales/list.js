@@ -11,7 +11,12 @@ $(function(){
 	$(".maintable").tablesorter({
 		dateFormat : "ddmmyyyy",
 		theme : 'bootstrap',
-		widgets: ['filter'],
+		widgets: ['filter','reflow'],
+		widgetOptions : {
+		  reflow_className    : 'ui-table-reflow',
+		  reflow_headerAttrib : 'data-name',
+		  reflow_dataAttrib   : 'data-title'
+		},		
 		filter_columnAnyMatch: true
 	}); 
 	$(".ratetable").tablesorter({

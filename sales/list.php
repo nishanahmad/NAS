@@ -84,7 +84,8 @@ if(isset($_SESSION["user_name"]))
 			}
 			.select2-selection__arrow {
 				height: 37px !important;
-			}		
+			}
+			table.ui-table-reflow thead { display: none; }
 		</style>			
 	</head>
 	<body>
@@ -160,7 +161,7 @@ if(isset($_SESSION["user_name"]))
 						<th style="width:120px;" class="desktop-only" ><i class="fas fa-truck-moving"></i> TRUCK</th>
 						<th style="width:120px;"><i class="far fa-user"></i> CUSTOMER</th>
 						<th><i class="far fa-comment-dots"></i> REMARKS</th>
-						<th><i class="fas fa-map-marker-alt desktop-only"></i> ADDRESS</th>
+						<th class="desktop-only"><i class="fas fa-map-marker-alt"></i> ADDRESS</th>
 					</tr>	
 				</thead>
 				<tbody>	<?php
