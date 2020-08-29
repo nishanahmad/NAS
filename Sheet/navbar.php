@@ -3,6 +3,8 @@ $flag = null;
 $url = $_SERVER['REQUEST_URI'];
 if (strpos($url, 'new') !== false)
 	$flag = 'new';
+if (strpos($url, 'edit') !== false)
+	$flag = 'new';
 if (strpos($url, 'plan') !== false)
 	$flag = 'plan';
 if (strpos($url, 'requests') !== false)
