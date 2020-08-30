@@ -30,7 +30,7 @@ if(isset($_SESSION["user_name"]))
 		$range = $_GET['range'];
 	else
 		$range = 'Custom Filter';
-	
+	var_dump($filterSql);
 	$mainMap = array();
 	if(isset($filterSql))
 	{
