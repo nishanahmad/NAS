@@ -252,6 +252,14 @@ if(isset($_SESSION["user_name"]))
 									</div>
 								</div>
 							</div>
+							<div class="row">
+								<div class="col col-md-4 offset-1">
+									<div class="input-group">
+										<span class="input-group-text col-md-5"><i class="fa fa-truck"></i>&nbsp;Old Truck</span>
+										<input readonly class="form-control" value="<?php echo $row['truck_no'];?>">
+									</div>
+								</div>
+							</div>							
 							<p id="displayError" style="color:red;"></p>
 							<br/>
 							<button id="updatebtn" class="btn" style="width:100px;font-size:18px;background-color:#f2cf5b;color:white;"><i class="fa fa-save"></i> Save</button>
