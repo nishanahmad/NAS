@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 
 require '../../connect.php';
-require '../listhelper.php';
+require '../listHelper.php';
 
 $productNamesMap = getProductNames($con);
 $truckNumbersMap = getTruckNumbers($con);
