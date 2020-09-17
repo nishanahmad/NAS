@@ -19,7 +19,7 @@ function getSales($con,$sql)
 		$saleArray['qty'] = $sale['qty'];
 		$saleArray['discount'] = $sale['discount'];
 		$saleArray['bill'] = $sale['bill_no'];
-		$saleArray['truck'] = $sale['truck_no'];
+		$saleArray['truck'] = $sale['truck'];
 		$saleArray['name'] = $sale['customer_name'];
 		$saleArray['phone'] = $sale['customer_phone'];
 		$saleArray['remarks'] = $sale['remarks'];
@@ -79,6 +79,17 @@ function getProductNames($con)
 		$productNameMap[$product['id']] = $product['name'];	
 		
 	return $productNameMap;	
+}
+
+
+function getTruckNumbers($con)
+{
+	$truckNumbersMap = array();
+	$trucks = mysqli_query($con,"SELECT id,number FROM truck_details");
+	foreach($trucks as $truck)
+		$truckNumbersMap[$truck['id']] = $truck['number'];	
+		
+	return $truckNumbersMap;	
 }
 
 

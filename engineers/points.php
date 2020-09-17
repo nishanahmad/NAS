@@ -81,6 +81,10 @@ if(isset($_SESSION["user_name"]))
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js"></script>
 </head>
 <body>
+<div class="main">
+	<nav class="navbar navbar-light bg-light sticky-top bottom-nav">
+		<span class="navbar-brand" style="font-size:25px;margin-left:45%;"><i class="fa fa-bolt"></i> Engineers</span>
+	</nav>
 	<div align="center">
 		<br><br>
 		<div class="form-group row">
@@ -167,6 +171,7 @@ if(isset($_SESSION["user_name"]))
 		</table>
 		<br/><br/><br/><br/>
 	</div>
+</div>
 	<script type="text/javascript" language="javascript">
 	$(document).ready(function() {
 		$(".maintable").tablesorter({

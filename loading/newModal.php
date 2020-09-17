@@ -34,7 +34,7 @@ if(isset($_SESSION["user_name"]))
 				<div class="col col-md-5 offset-1">
 					<div class="input-group mb-3">
 						<span class="input-group-text" style="width:120px;"><i class="fa fa-truck"></i>&nbsp;Truck</span>
-						<select name="truck" id="truck" class="form-control" style="line-height:20px;">							
+						<select name="truck" id="truck" class="form-control" style="line-height:20px;width:180px;">							
 							<option value="">-- SELECT --</option>													<?php
 							foreach($trucks as $truck) 
 							{																													?>

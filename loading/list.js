@@ -6,23 +6,41 @@ $(function(){
 		setTimeout(function(){ x.className = x.className.replace("show", ""); }, 2000);					
 	}	
 	
-	$('#client').select2({
-		theme: "classic",
-		width:"65%"
-	});
+	$('#truck').select2();
 	
-	$(".ratetable thead th:eq(0)").data("sorter", false);
-	$(".ratetable thead th:eq(1)").data("sorter", false);
-	$(".ratetable thead th:eq(2)").data("sorter", false);
-	$(".ratetable thead th:eq(3)").data("sorter", false);
-		
-	$(".ratetable").tablesorter({
-		dateFormat : "ddmmyyyy",
-		theme : 'bootstrap',
-		widgets: ['filter'],
-		filter_columnAnyMatch: true
-	}); 
-
 	var pickeropts = { dateFormat:"dd-mm-yy"}; 
 	$( ".datepicker" ).datepicker(pickeropts);	
+	
+	$('.loadId').click(function(){
+		var loadId = $(this).data('id');
+		bootbox.confirm({
+			title: "Empty truck?",
+			message: "Do you want to empty this truck now? This cannot be undone.",
+			buttons: {
+				cancel: {
+					label: '<i class="fa fa-times"></i> Cancel'
+				},
+				confirm: {
+					label: '<i class="fa fa-check"></i> Confirm'
+				}
+			},
+			callback: function (result) {
+				if(result)
+				{
+					$.ajax({
+						url: 'ajax/unloadTruck.php',
+						type: 'post',
+						data: {id: loadId},
+						success: function(response){
+							if(response.status == 'success'){
+								location.reload();
+							}else{
+								alert('Some error occured. Please contact admin');
+							}
+						}
+					});		
+				}
+			}
+		});
+	});	
 });	

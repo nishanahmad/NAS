@@ -19,52 +19,125 @@ if(isset($_SESSION["user_name"]))
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js"></script>
 <title>AR List</title>
+<style>
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+.sidebar {
+  font-family: Arial;
+  font-size: 16px;
+  background: #5e42a6;	
+  position: fixed;
+  width: 18%;
+  height: 100vh;
+  background: #312450;
+  font-size: 0.65em;
+}
+
+.nav {
+  position: relative;
+  margin: 0 15%;
+  text-align: right;
+  top: 40%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  font-weight: bold;
+}
+
+.nav ul {
+  list-style: none;
+}
+.nav ul li {
+  position: relative;
+  margin: 3.2em 0;
+}
+.nav ul li a {
+  line-height: 5em;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.4em;
+  color: rgba(255, 255, 255, 0.35);
+  display: block;
+  -webkit-transition: all ease-out 300ms;
+  transition: all ease-out 300ms;
+}
+.nav ul li.active a {
+  color: white;
+}
+.nav ul li:not(.active)::after {
+  opacity: 0.2;
+}
+.nav ul li:not(.active):hover a {
+  color: rgba(255, 255, 255, 0.75);
+}
+.nav ul li::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 0.2em;
+  background: black;
+  left: 0;
+  bottom: 0;
+  background-image: -webkit-gradient(linear, left top, right top, from(#5e42a6), to(#b74e91));
+  background-image: linear-gradient(to right, #5e42a6, #b74e91);
+}
+</style>
 </head>
 <body>
 <div id="main" class="main">
-<div align="center">
-<table style="width:60%;">
-<?php
-	$sql = "SELECT * FROM ar_details WHERE type LIKE '%AR%' ORDER BY name ASC";
-	$result = mysqli_query($con, $sql) or die(mysqli_error($con));																					?>
-	<thead>
-		<tr>
-			<th style="width:3%;text-align:center">Id</th>
-			<th style="width:20%">Name</th>
-			<th style="width:20%">Shop</th>
-			<th style="text-align:center;width:8%">SAP</th>
-			<th>Mobile</th>
-			<th>Area</th>
-			<th>Status</th>
-		</tr>
-	</thead>
-	<tbody>																																			<?php
-	while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) 
-	{
-		$arId = $row['id'];
-		$arname = $row['name'];
-		$shopName = $row['shop_name'];
-		$sapCode = $row['sap_code'];
-		$area = $row['area'];
-		$mobile = $row['mobile'];
-		$status = $row['isActive'];
-	?>	
-	<tr>
-		<td style="text-align:center"><a style="color:grey;" href="view.php?id=<?php echo $row['id'];?>"><?php echo $row['id'];?></a></td>	
-		<td><?php echo $arname; ?></td>	
-		<td><?php echo $shopName; ?></td>	
-		<td style="text-align:center;width:8%"><label align="center"><?php echo $sapCode; ?></td>	
-		<td style="text-align:center;width:10%"><?php echo $mobile;?></td>		
-		<td style=""><?php echo $area;?></td>	
-		<td style="text-align:center;width:8%"><?php if($status == 1 ) echo 'Active'; else echo 'InActive';?></td>
-	</tr>																																			<?php
-	}																																																										?>
-	</tbody>	
-</table>
-</div>
-<br/><br/>
-<div align="center"><input type="submit" name="submit" value="Submit" onclick=" return showLoader()"></div>
-<br/><br/>
+	<aside class="sidebar">
+		<nav class="nav">
+			<ul>
+				<li class="active"><a href="#">List</a></li>
+				<li><a href="../Target/monthlyPoints.php">Monthly Points</a></li>
+				<li><a href="#">Total Points</a></li>
+				<li><a href="#">Target & Rate</a></li>
+			</ul>
+		</nav>
+	</aside>
+    <div class="container">
+		<nav class="navbar navbar-light bg-light sticky-top bottom-nav" style="margin-left:13%;width:100%">
+			<span class="navbar-brand" style="font-size:25px;margin-left:40%;"><i class="fa fa-address-card-o"></i> AR List</span>
+		</nav>	
+		<div align="center">
+		<br/><br/>
+		<table class="maintable table table-hover table-bordered" style="width:70%;margin-left:10%;">
+		<?php
+			$sql = "SELECT * FROM ar_details WHERE type LIKE '%AR%' ORDER BY name ASC";
+			$result = mysqli_query($con, $sql) or die(mysqli_error($con));																					?>
+			<thead>
+				<tr class="table-success">
+					<th style="width:20%">Name</th>
+					<th style="width:20%">Shop</th>
+					<th style="text-align:center;width:8%">SAP</th>
+					<th>Mobile</th>
+					<th>Area</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody>																																			<?php
+			while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) 
+			{
+				$arId = $row['id'];
+				$arname = $row['name'];
+				$shopName = $row['shop_name'];
+				$sapCode = $row['sap_code'];
+				$area = $row['area'];
+				$mobile = $row['mobile'];
+				$status = $row['isActive'];
+			?>	
+			<tr>
+				<td><?php echo $arname; ?></td>	
+				<td><?php echo $shopName; ?></td>	
+				<td style="text-align:center;width:8%"><label align="center"><?php echo $sapCode; ?></td>	
+				<td style="text-align:center;width:10%"><?php echo $mobile;?></td>		
+				<td style=""><?php echo $area;?></td>	
+				<td style="text-align:center;width:8%"><?php if($status == 1 ) echo 'Active'; else echo 'InActive';?></td>
+			</tr>																																			<?php
+			}																																																										?>
+			</tbody>	
+		</table>
+		</div>
+	</div>
+	<br/><br/>
 </div>
 </body>
 <script>

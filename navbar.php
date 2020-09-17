@@ -7,6 +7,8 @@ if (strpos($url, 'sales') !== false)
 	$flag = 'sales';
 if (strpos($url, 'loading') !== false)
 	$flag = 'loading';
+if (strpos($url, 'trucks') !== false)
+	$flag = 'loading';
 if (strpos($url, 'ar') !== false)
 	$flag = 'ar';
 if (strpos($url, 'engineers') !== false)
@@ -29,6 +31,7 @@ if (strpos($url, 'reports') !== false)
 <style>
 body{
 	font-family: 'Ubuntu', sans-serif;
+	overflow-x: hidden;
 }
 .main-brand{
 	font-family:'GlacialIndifferenceRegular';
@@ -193,7 +196,7 @@ body{
 	  </li>	  
 	  <li class="nav-item">
 		<a class="nav-link" <?php if($flag == 'loading') echo 'href="#"'; else echo 'href="../loading/list.php"';?>>
-		  <i class="fa fa-truck <?php if($flag == 'loading') echo 'glow';?> aria-hidden="true"></i>
+		  <i class="fa fas fa-dolly <?php if($flag == 'loading') echo 'glow';?> aria-hidden="true"></i>
 		  Loading
 		</a>
 	  </li>	  	  
@@ -205,7 +208,7 @@ body{
 	  </li>	  
 	  <li class="nav-item">
 		<a class="nav-link" <?php if($flag == 'engineers') echo 'href="#"'; else echo 'href="../engineers/points.php?"';?>>
-		  <i class="fa fa-suitcase <?php if($flag == 'engineers') echo 'glow';?> aria-hidden="true"></i>
+		  <i class="fa fa-hard-hat <?php if($flag == 'engineers') echo 'glow';?> aria-hidden="true"></i>
 		  Engineers
 		</a>
 	  </li>	  	  

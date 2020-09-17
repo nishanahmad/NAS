@@ -12,6 +12,7 @@ if(isset($_SESSION["user_name"]))
 	$arId = $_POST['ar'];
 	$engId = $_POST['engineer'];
 	$truck = $_POST['truck'];
+	$godown = $_POST['godown'];
 	$order_no = $_POST['order_no'];
 	$product = $_POST['product'];
 	$qty = $_POST['qty'];
@@ -30,11 +31,14 @@ if(isset($_SESSION["user_name"]))
 		$engId = null;	
 	if(empty($order_no))
 		$order_no = null;	
+	if(empty($truck))
+		$truck = null;		
+	if(empty($godown))
+		$godown = null;			
 	
-
-	$sql="INSERT INTO nas_sale (entry_date, ar_id, eng_id, truck_no, order_no, product, qty, discount, remarks, bill_no, customer_name, customer_phone, address1,entered_by,entered_on)
+	$sql="INSERT INTO nas_sale (entry_date, ar_id, eng_id, truck, godown, order_no, product, qty, discount, remarks, bill_no, customer_name, customer_phone, address1,entered_by,entered_on)
 		 VALUES
-		 ('$sqlDate', '$arId', ".var_export($engId, true).", '$truck', ".var_export($order_no, true).",'$product', '$qty',".var_export($discount, true).", '$remarks', '$bill', '$customerName', '$customerPhone', '$address1', '$entered_by', '$entered_on')";
+		 ('$sqlDate', '$arId', ".var_export($engId, true).", ".var_export($truck, true).", ".var_export($godown, true).", ".var_export($order_no, true).",'$product', '$qty',".var_export($discount, true).", '$remarks', '$bill', '$customerName', '$customerPhone', '$address1', '$entered_by', '$entered_on')";
 
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));				 
 	

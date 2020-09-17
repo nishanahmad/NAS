@@ -3,7 +3,7 @@ let discountMap = new Map();
 
 $(function(){
 
-	$('#ar,#engineer,#client-filter,#eng-filter').select2();
+	$('#ar,#engineer,#truck,#client-filter,#eng-filter').select2();
 	
 	var pickeropts = { dateFormat:"dd-mm-yy"}; 
 	$( ".datepicker" ).datepicker(pickeropts);	

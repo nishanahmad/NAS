@@ -9,19 +9,29 @@ $truck = $_POST['truck'];
 $product = $_POST['product'];
 $qty = $_POST['qty'];
 
-$insertQuery = "INSERT INTO loading (date, time, truck, product, qty)
-				VALUES
-				('$date', '$time', $truck, $product, $qty)";
-
-$insert = mysqli_query($con,$insertQuery);
-
-if($insert)
-	$response_array['status'] = 'success';
+$searchQuery = "SELECT * FROM loading WHERE truck = $truck AND product = $product AND unbilled_qty >0";
+$search = mysqli_query($con,$searchQuery);
+if(mysqli_num_rows($search) > 0 )
+{
+	$response_array['status'] = 'error';
+	$response_array['value'] = 'Unload pending for this truck. Please edit and modify the quantity';
+}
 else
 {
-    $response_array['status'] = 'error';
-	$response_array['value'] = mysqli_error($con);
-}	
+	$insertQuery = "INSERT INTO loading (date, time, truck, product, qty, unbilled_qty)
+					VALUES
+					('$date', '$time', $truck, $product, $qty, $qty)";
+
+	$insert = mysqli_query($con,$insertQuery);
+
+	if($insert)
+		$response_array['status'] = 'success';
+	else
+	{
+		$response_array['status'] = 'error';
+		$response_array['value'] = mysqli_error($con);
+	}		
+}
 	
 echo json_encode($response_array);
 

@@ -19,7 +19,9 @@ if(isset($_SESSION["user_name"]))
 	$shopNameArray = str_replace('\n',' ',$shopNameArray);
 	$shopNameArray = str_replace('\r',' ',$shopNameArray);	
 	
-	$engineerObjects = mysqli_query($con,"SELECT id,name,sap_code,shop_name FROM ar_details WHERE type LIKE '%Engineer%' OR type = 'Contractor' ORDER BY name ASC");					?>
+	$engineerObjects = mysqli_query($con,"SELECT id,name,sap_code,shop_name FROM ar_details WHERE type LIKE '%Engineer%' OR type = 'Contractor' ORDER BY name ASC");
+	$trucks = mysqli_query($con,"SELECT * FROM truck_details ORDER BY number");
+	$godowns = mysqli_query($con,"SELECT * FROM godowns ORDER BY name");																											?>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<div class="modal fade" id="saleModal">
@@ -31,7 +33,8 @@ if(isset($_SESSION["user_name"]))
 			</div>
 			<div class="modal-body">
 				<br/>
-				<form name="newSaleForm" method="post" action="insert.php" onsubmit="return validateForm()">
+				<p id="insertError" style="color:red;"></p>
+				<form name="newSaleForm" id="newSaleForm" method="post" action="insert.php">
 					<div class="row">
 						<div class="form-group row">
 							<div class="col-sm-6 col-md-4 offset-md-1">
@@ -43,7 +46,7 @@ if(isset($_SESSION["user_name"]))
 							<div class="col-sm-6 col-md-5 offset-md-1">
 								<div class="input-group mb-3">
 									<span class="input-group-text col-md-4 col-xs-3"><i class="far fa-file-alt"></i>&nbsp;Bill No</span>
-									<input type="text" name="bill" class="form-control">
+									<input type="text" name="bill" id="bill" class="form-control">
 								</div>
 							</div>
 						</div>
@@ -64,8 +67,14 @@ if(isset($_SESSION["user_name"]))
 							</div>
 							<div class="col-sm-6 col-md-5">
 								<div class="input-group mb-3">
-									<span class="input-group-text col-md-4"><i class="fas fa-truck-moving"></i>&nbsp;Truck</span>
-									<input type="text" name="truck" class="form-control">
+									<span class="input-group-text col-md-4 col-xs-3"><i class="fa fa-truck-moving"></i>&nbsp;Truck</span>
+									<select name="truck" id="truck" class="form-control" style="width:67%">
+										<option value = "">---Select---</option>																						<?php
+										foreach($trucks as $truck) 
+										{																							?>
+											<option value="<?php echo $truck['id'];?>"><?php echo $truck['number'];?></option>			<?php	
+										}																							?>
+									</select>
 								</div>
 							</div>
 						</div>
@@ -74,7 +83,7 @@ if(isset($_SESSION["user_name"]))
 						<div class="form-group row">
 							<div class="col-sm-6 col-md-5 offset-md-1">
 								<div class="input-group mb-3">
-									<span class="input-group-text col-md-3"><i class="fa fa-suitcase"></i>&nbsp;Eng</span>
+									<span class="input-group-text col-md-3"><i class="fa fa-hard-hat"></i>&nbsp;Eng</span>
 									<select name="engineer" id="engineer"  class="form-control" style="width:75%">
 										<option value = "">---Select---</option>
 																																	<?php
@@ -88,7 +97,7 @@ if(isset($_SESSION["user_name"]))
 							<div class="col-sm-6 col-md-5">
 								<div class="input-group mb-3">
 									<span class="input-group-text" style="width:40%"><i class="fa fa-money"></i></i>&nbsp;Order No</span>
-									<input type="text" name="order_no" class="form-control">
+									<input type="text" name="order_no" id="order_no" class="form-control">
 								</div>
 							</div>
 						</div>
@@ -109,7 +118,13 @@ if(isset($_SESSION["user_name"]))
 							<div class="col-sm-6 col-md-5 offset-md-1">
 								<div class="input-group mb-3">
 									<span class="input-group-text" style="width:40%"><i class="fas fa-warehouse"></i></i>&nbsp;Godown</span>
-									<input type="text" name="godown" class="form-control">
+									<select name="godown" id="godown" class="form-control" style="width:60%">
+										<option value = "">---Select---</option>																						<?php
+										foreach($godowns as $godown) 
+										{																							?>
+											<option value="<?php echo $godown['id'];?>"><?php echo $godown['name'];?></option>			<?php	
+										}																							?>
+									</select>
 								</div>
 							</div>
 						</div>
@@ -119,13 +134,13 @@ if(isset($_SESSION["user_name"]))
 							<div class="col-sm-6 col-md-4 offset-md-1">
 								<div class="input-group mb-3">
 									<span class="input-group-text col-md-5"><i class="fab fa-buffer"></i>&nbsp;Qty</span>
-									<input type="text" name="qty" required class="form-control" pattern="[0-9]+" title="Input a valid number">
+									<input type="text" name="qty" id="qty" required class="form-control" pattern="[0-9]+" title="Input a valid number">
 								</div>
 							</div>
 							<div class="col-sm-6 col-md-5 offset-md-1">
 								<div class="input-group mb-3">
 									<span class="input-group-text" style="width:40%"><i class="far fa-user"></i></i>&nbsp;Customer</span>
-									<input type="text" name="customerName" class="form-control">
+									<input type="text" name="customerName" id="customer" class="form-control">
 								</div>
 							</div>
 						</div>
@@ -141,7 +156,7 @@ if(isset($_SESSION["user_name"]))
 							<div class="col-sm-6 col-md-5 offset-md-1">
 								<div class="input-group mb-3">
 									<span class="input-group-text" style="width:40%"><i class="fas fa-mobile-alt"></i>&nbsp;Phone</span>
-									<input type="text" name="customerPhone" class="form-control">
+									<input type="text" name="customerPhone" id="phone" class="form-control">
 								</div>
 							</div>
 						</div>
@@ -182,7 +197,7 @@ if(isset($_SESSION["user_name"]))
 					<div class="row">
 						<div class="col col-md-5 offset-5">
 							<div class="input-group mb-3">
-								<button type="submit" class="btn" style="width:100px;font-size:18px;background-color:#54698D;color:white;"><i class="fa fa-save"></i> Save</button>				 
+								<button id="saveNew" class="btn" style="width:100px;font-size:18px;background-color:#54698D;color:white;"><i class="fa fa-save"></i> Save</button>
 							</div>
 						</div>							
 					</div>			

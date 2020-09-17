@@ -14,7 +14,6 @@ if(isset($_SESSION["user_name"]))
 	$urlsql = $_GET['sql'];
 	$urlrange = $_GET['range'];
 	
-	$engMap[null] = null;
 	$products = mysqli_query($con,"SELECT id,name FROM products WHERE status = 1 ORDER BY id ASC") or die(mysqli_error($con));	
 	$arObjects = mysqli_query($con,"SELECT id,name,type,shop_name FROM ar_details ORDER BY name") or die(mysqli_error($con));	
 	foreach($arObjects as $ar)
@@ -34,6 +33,9 @@ if(isset($_SESSION["user_name"]))
 	$result = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
 	$row= mysqli_fetch_array($result,MYSQLI_ASSOC);
 	$historyList = (getHistory($row['sales_id']));	
+
+	$trucks = mysqli_query($con,"SELECT * FROM truck_details ORDER BY number");
+	$godowns = mysqli_query($con,"SELECT * FROM godowns ORDER BY name");
 
 	if($_POST)
 	{
@@ -96,8 +98,8 @@ if(isset($_SESSION["user_name"]))
 		</nav>
 		<br/><br/>
 		<div id="snackbar"><i class="fa fa-check"></i>&nbsp;&nbsp;Updated successfull !!!</div>
-		<form name="frmUser" method="post" action="update.php">
-			<input hidden name="id" value="<?php echo $row['sales_id'];?>">
+		<form name="editForm" id="editForm" method="post" action="update.php">
+			<input hidden name="id" id="id" value="<?php echo $row['sales_id'];?>">
 			<input hidden name="sql" value="<?php echo $urlsql;?>">
 			<input hidden name="range" value="<?php echo $urlrange;?>">
 			<div style="width:100%;">
@@ -105,7 +107,6 @@ if(isset($_SESSION["user_name"]))
 					<div class="card" style="width:65%;">
 						<div class="card-header" style="background-color:#f2cf5b;font-size:20px;font-weight:bold;color:white">Sale <?php echo $row['sales_id']; ?></div>
 						<div class="card-body">
-							<br/>
 							<div class="row">
 								<div class="col col-md-4 offset-1">
 									<div class="input-group">
@@ -119,7 +120,7 @@ if(isset($_SESSION["user_name"]))
 								<div class="col col-md-4 offset-2">
 									<div class="input-group mb-3">
 										<span class="input-group-text col-md-4"><i class="far fa-file-alt"></i>&nbsp;Bill No</span>
-										<input type="text" name="bill" class="form-control" value="<?php echo $row['bill_no']; ?>">
+										<input type="text" name="bill" id="bill" class="form-control" value="<?php echo $row['bill_no']; ?>">
 									</div>
 								</div>
 							</div>
@@ -127,11 +128,10 @@ if(isset($_SESSION["user_name"]))
 								<div class="col col-md-5 offset-1">
 									<div class="input-group">
 										<span class="input-group-text col-md-4"><i class="fa fa-address-card-o"></i>&nbsp;AR</span>
-										<select name="ar" id="ar" required class="form-control" style="width:250px;" onChange="arRefresh(shopNameArray);">
-											<option value = "<?php echo $row['ar_id'];?>"><?php echo $arMap[$row['ar_id']];?></option><?php
+										<select name="ar" id="ar" required class="form-control" style="width:250px;" onChange="arRefresh(shopNameArray);">																	<?php
 											foreach($arMap as $arId => $arName)
 											{																							?>
-												<option value="<?php echo $arId;?>"><?php echo $arName;?></option>						<?php	
+												<option value="<?php echo $arId;?>" <?php if($row['ar_id'] == $arId) echo 'selected';?>><?php echo $arName;?></option>														<?php	
 											}																							?>
 										</select>
 									</div>
@@ -139,22 +139,25 @@ if(isset($_SESSION["user_name"]))
 								<div class="col col-md-4 offset-1">
 									<div class="input-group mb-3">
 										<span class="input-group-text col-md-4"><i class="fas fa-truck-moving"></i>&nbsp;Truck</span>
-										<input type="text" name="truck" class="form-control" value="<?php echo $row['truck_no']; ?>">
+										<select name="truck" id="truck" class="form-control" style="line-height:20px;width:67%;">	
+											<option value = "">-- NULL --</option>																																		<?php
+											foreach($trucks as $truck) 
+											{																																												?>
+												<option value="<?php echo $truck['id'];?>" <?php if($truck['id'] == $row['truck']) echo 'selected';?>><?php echo $truck['number'];?></option>								<?php	
+											}																																												?>
+										</select>										
 									</div>
 								</div>
 							</div>							
 							<div class="row">
 								<div class="col col-md-5 offset-1">
 									<div class="input-group">
-										<span class="input-group-text col-md-4"><i class="fa fa-suitcase"></i>&nbsp;Engineer</span>
+										<span class="input-group-text col-md-4"><i class="fa fa-hard-hat"></i>&nbsp;Engineer</span>
 										<select name="engineer" id="engineer" class="form-control" style="width:250px;">
-											<option value="<?php echo $row['eng_id'];?>"><?php echo $engMap[$row['eng_id']];?></option>																																<?php
+											<option value="">-- NULL --</option>																																<?php
 											foreach($engMap as $engId => $engName)
-											{	
-												if($engId != $row['eng_id'])
-												{																																			?>
-													<option value="<?php echo $engId;?>"><?php echo $engName;?></option><?php
-												}																																			?>																																						<?php		
+											{																																				?>
+												<option value="<?php echo $engId;?>" <?php if($row['eng_id'] == $engId) echo 'selected';?>><?php echo $engName;?></option><?php																																			?>																																						<?php		
 											}																																				?>
 										</select>
 									</div>
@@ -162,7 +165,7 @@ if(isset($_SESSION["user_name"]))
 								<div class="col col-md-4 offset-1">
 									<div class="input-group mb-3">
 										<span class="input-group-text col-md-4" style="width:120px;"><i class="fa fa-money"></i>&nbsp;Order No</span>
-										<input type="text" name="order_no" class="form-control" value="<?php echo $row['order_no']; ?>">
+										<input type="text" name="order_no" id="order_no" class="form-control" value="<?php echo $row['order_no']; ?>">
 									</div>
 								</div>
 							</div>														
@@ -182,8 +185,14 @@ if(isset($_SESSION["user_name"]))
 								</div>
 								<div class="col col-md-4 offset-2">
 									<div class="input-group mb-3">
-										<span class="input-group-text col-md-4" style="width:120px;"><i class="far fa-user"></i>&nbsp;Customer</span>
-										<input type="text" name="customerName" class="form-control" value="<?php echo $row['customer_name']; ?>">
+									<span class="input-group-text" style="width:40%"><i class="fas fa-warehouse"></i></i>&nbsp;Godown</span>
+									<select name="godown" id="godown" class="form-control" style="width:60%">
+										<option value = "">---Select---</option>																						<?php
+										foreach($godowns as $godown) 
+										{																							?>
+											<option value="<?php echo $godown['id'];?>" <?php if($godown['id'] == $row['godown']) echo 'selected';?>><?php echo $godown['name'];?></option>			<?php	
+										}																							?>
+									</select>
 									</div>
 								</div>
 							</div>																					
@@ -191,13 +200,13 @@ if(isset($_SESSION["user_name"]))
 								<div class="col col-md-4 offset-1">
 									<div class="input-group">
 										<span class="input-group-text col-md-5"><i class="fab fa-buffer"></i>&nbsp;Quantity</span>
-										<input type="text" name="qty" required class="form-control" pattern="[0-9]+" value="<?php echo $row['qty'];?>" title="Input a valid number" autocomplete="off">
+										<input type="text" name="qty" required id="qty" class="form-control" pattern="[0-9]+" value="<?php echo $row['qty'];?>" title="Input a valid number" autocomplete="off">
 									</div>
 								</div>
 								<div class="col col-md-4 offset-2">
 									<div class="input-group mb-3">
-										<span class="input-group-text col-md-4"><i class="fas fa-mobile-alt"></i>&nbsp;Phone</span>
-										<input type="text" name="customerPhone" class="form-control" value="<?php echo $row['customer_phone']; ?>">
+										<span class="input-group-text col-md-4" style="width:120px;"><i class="far fa-user"></i>&nbsp;Customer</span>
+										<input type="text" name="customerName" id="customer" class="form-control" value="<?php echo $row['customer_name']; ?>">
 									</div>
 								</div>
 							</div>
@@ -208,19 +217,24 @@ if(isset($_SESSION["user_name"]))
 										<input type="text" name="bd" id="bd" class="form-control" value="<?php echo $row['discount'];?>">
 									</div>
 								</div>
-
+								<div class="col col-md-4 offset-2">
+									<div class="input-group mb-3">
+										<span class="input-group-text col-md-4"><i class="fas fa-mobile-alt"></i>&nbsp;Phone</span>
+										<input type="text" name="customerPhone" id="phone" class="form-control" value="<?php echo $row['customer_phone']; ?>">
+									</div>
+								</div>								
 							</div>							
 							<div class="row">
 								<div class="col col-md-5 offset-1">
 									<div class="input-group">
 										<span class="input-group-text col-md-3" style="width:125px;"><i class="far fa-comment-dots"></i>&nbsp;Remarks</span>
-										<textarea name="remarks" id="remarks-edit" class="form-control"><?php echo $row['remarks']; ?></textarea>
+										<textarea name="remarks" id="remarks" class="form-control"><?php echo $row['remarks']; ?></textarea>
 									</div>
 								</div>
 								<div class="col col-md-5 offset-1">
 									<div class="input-group mb-3">
 										<span class="input-group-text col-md-3" style="width:100px;"><i class="fas fa-map-marker-alt"></i>&nbsp;Address</span>
-										<textarea name="address1" class="form-control"><?php echo $row['address1']; ?></textarea>
+										<textarea name="address1" id="address" class="form-control"><?php echo $row['address1']; ?></textarea>
 									</div>
 								</div>
 							</div>														
@@ -231,15 +245,16 @@ if(isset($_SESSION["user_name"]))
 										<input readonly id="final" class="form-control" style="cursor:pointer" data-toggle="modal" data-target="#rateBreakDownModal">
 									</div>
 								</div>
-								<div class="col col-md-4 offset-2">
+								<div class="col col-md-5 offset-2">
 									<div class="input-group mb-3">
-										<span class="input-group-text col-md-4"><i class="fa fa-address-card-o"></i>&nbsp;Shop</span>
+										<span class="input-group-text col-md-3"><i class="fa fa-address-card-o"></i>&nbsp;Shop</span>
 										<input type="text" readonly name="shopName" id="shopName" class="form-control">
 									</div>
 								</div>
 							</div>
+							<p id="displayError" style="color:red;"></p>
 							<br/>
-							<button type="submit" class="btn" style="width:100px;font-size:18px;background-color:#f2cf5b;color:white;"><i class="fa fa-save"></i> Save</button>
+							<button id="updatebtn" class="btn" style="width:100px;font-size:18px;background-color:#f2cf5b;color:white;"><i class="fa fa-save"></i> Save</button>
 						</div>
 						<div class="card-footer" style="background-color:#f2cf5b;padding:1px;"></div>
 					</div>
@@ -282,7 +297,7 @@ if(isset($_SESSION["user_name"]))
 									<td><?php echo $history['old_value'];?></td>
 									<td><?php echo $history['new_value'];?></td>
 									<td><?php echo date('d-m-Y, h:i A', strtotime($history['edited_on']));?></td>
-								</tr>																																			<?php	
+								</tr>																																		<?php	
 							}																																													
 						}																																					?>
 	

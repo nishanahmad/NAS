@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <?php
 session_start();
-if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 21600)) 
-{
-	session_unset();
-	session_destroy();
-}
-$_SESSION['LAST_ACTIVITY'] = time();
-
 if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
@@ -21,6 +14,7 @@ if(isset($_SESSION["user_name"]))
 	$clientNamesMap = getClientNames($con);
 	$productNamesMap = getProductNames($con);
 	$discountMap = getDiscounts($con);
+	$truckNumbersMap = getTruckNumbers($con);
 	
 	$filterSql = null;
 	if(isset($_GET['sql']))
@@ -30,7 +24,7 @@ if(isset($_SESSION["user_name"]))
 		$range = $_GET['range'];
 	else
 		$range = 'Custom Filter';
-	var_dump($filterSql);
+
 	$mainMap = array();
 	if(isset($filterSql))
 	{
@@ -210,12 +204,12 @@ if(isset($_SESSION["user_name"]))
 					<tr class="table-success">
 						<th style="width:110px;"><i class="far fa-calendar-alt"></i> Date</th>
 						<th><i class="fa fa-address-card-o"></i> AR</th>
-						<th style="width:80px;"><i class="fa fa-shield"></i> PROD</th>
-						<th style="width:80px;"><i class="fab fa-buffer"></i> QTY</th>
-						<th style="width:80px;"><i class="fa fa-rupee-sign"></i> RATE</th>
+						<th style="width:70px;"><i class="fa fa-shield"></i> PRO</th>
+						<th style="width:70px;"><i class="fab fa-buffer"></i> QTY</th>
+						<th style="width:70px;"><i class="fa fa-rupee-sign"></i> RATE</th>
 						<th style="width:120px;" class="desktop-only"><i class="far fa-file-alt"></i> BILL NO</th>
-						<th style="width:120px;" class="desktop-only"><i class="fas fa-truck-moving"></i> TRUCK</th>
-						<th style="width:120px;"><i class="far fa-user"></i> CUSTOMER</th>
+						<th style="width:95px;" class="desktop-only"><i class="fas fa-truck-moving"></i> TRUCK</th>
+						<th style="width:180px;"><i class="far fa-user"></i> CUSTOMER</th>
 						<th class="desktop-only"><i class="far fa-comment-dots"></i> REMARKS</th>
 						<th class="desktop-only"><i class="fas fa-map-marker-alt"></i> ADDRESS</th>
 					</tr>	
@@ -248,9 +242,9 @@ if(isset($_SESSION["user_name"]))
 							<td data-title="AR"><?php echo $clientNamesMap[$sale['client']]; ?></td>
 							<td data-title="Product"><?php echo $productNamesMap[$sale['product']];?></td>
 							<td data-title="Qty"><?php echo $sale['qty']; ?></td>
-							<td data-title="Rate"><?php echo $finalRate.'/-';?></td>							
+							<td data-title="Rate"><?php if($finalRate > 0 ) echo $finalRate.'/-';?></td>							
 							<td data-title="Bill" class="desktop-only"><?php echo $sale['bill']; ?></td>
-							<td data-title="Truck" class="desktop-only"><?php echo $sale['truck']; ?></td>
+							<td data-title="Truck" class="desktop-only"><?php if(isset($truckNumbersMap[$sale['truck']])) echo $truckNumbersMap[$sale['truck']]; ?></td>
 							<td data-title="Cusomer"><?php echo $sale['name'].'<br/><font class="desktop-only">'.$sale['phone'].'</font>'; ?></td>
 							<td data-title="Remarks" class="desktop-only"><?php echo $sale['remarks']; ?></td>
 							<td data-title="Address" class="desktop-only"><?php echo $sale['address']; ?></td>
@@ -261,6 +255,7 @@ if(isset($_SESSION["user_name"]))
 			<br/><br/><br/>
 		</div>
 		<script src="list.js"></script>
+		<script src="newModal.js"></script>
 		<script>	
 			var shopNameList = '<?php echo $shopNameArray;?>';
 			var shopName_array = JSON.parse(shopNameList);

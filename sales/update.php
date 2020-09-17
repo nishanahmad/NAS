@@ -18,6 +18,7 @@ if(isset($_SESSION["user_name"]))
 		$arId = $_POST['ar'];
 		$engId = $_POST['engineer'];
 		$truck = $_POST['truck'];
+		$godown = $_POST['godown'];
 		$order_no = $_POST['order_no'];
 		$product = $_POST['product'];
 		$qty = $_POST['qty'];
@@ -37,14 +38,17 @@ if(isset($_SESSION["user_name"]))
 			$discount = null;			
 		if(empty($engId))
 			$engId = null;	
-		if(empty($return))
-			$return = null;		
 		if(empty($order_no))
 			$order_no = null;				
+		if(empty($truck))
+			$truck = null;	
+		if(empty($godown))
+			$godown = null;	
 		
 		
-		$update = mysqli_query($con,"UPDATE nas_sale SET entry_date='$sqlDate', ar_id='$arId', eng_id = ".var_export($engId, true).", truck_no='$truck',bill_no='$bill',
-											order_no = ".var_export($order_no, true).",product='$product',qty='$qty',discount=".var_export($discount, true).",
+		$update = mysqli_query($con,"UPDATE nas_sale SET entry_date='$sqlDate', ar_id='$arId', eng_id = ".var_export($engId, true).", truck=".var_export($truck, true).",
+											bill_no='$bill',order_no = ".var_export($order_no, true).",product='$product',qty='$qty',godown=".var_export($godown, true).",
+											discount=".var_export($discount, true).",
 											remarks='$remarks',address1='$address1',customer_name='$customerName', customer_phone='$customerPhone'
 									 WHERE sales_id='$id'") or die(mysqli_error($con));
 					
