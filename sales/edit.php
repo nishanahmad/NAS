@@ -9,6 +9,7 @@ if(isset($_SESSION["user_name"]))
 	require 'sheetModal.php';
 	require 'rateBreakDownModal.php';
 	require 'holdingModal.php';
+	require 'historyModal.php';
 	require '../navbar.php';
 	
 	$urlsql = $_GET['sql'];
@@ -30,7 +31,7 @@ if(isset($_SESSION["user_name"]))
 		$shopNameArray = str_replace('\n',' ',$shopNameArray);
 		$shopNameArray = str_replace('\r',' ',$shopNameArray);		
 	}
-	$result = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
+	$result = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));
 	$row= mysqli_fetch_array($result,MYSQLI_ASSOC);
 	$historyList = (getHistory($row['sales_id']));	
 
@@ -146,7 +147,7 @@ if(isset($_SESSION["user_name"]))
 												<option value="<?php echo $truck['id'];?>" <?php if($truck['id'] == $row['truck']) echo 'selected';?>><?php echo $truck['number'];?></option>								<?php	
 											}																																											?>
 										</select>
-										&nbsp;&nbsp;<a href="">New</a>
+										&nbsp;&nbsp;<a data-toggle="modal" data-target="#historyModal" style="color:limegreen;cursor:pointer">New</a>
 									</div>
 								</div>
 							</div>							

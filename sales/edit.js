@@ -253,6 +253,7 @@ $(document).ready(function()
 
 
 	// TRUCK LOADING FUNCTIONS ON EDIT 
+	/*
 	$('#editForm').on('submit', function(event){
 		event.preventDefault();
 		var id = document.getElementById('id').value;
@@ -298,6 +299,7 @@ $(document).ready(function()
 			}		
 		});
 	});	
+	*/
 });
 
 function refreshRate()

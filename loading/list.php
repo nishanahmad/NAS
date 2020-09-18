@@ -11,14 +11,15 @@ if(isset($_SESSION["user_name"]))
 	$productNamesMap = getProductNames($con);
 	$truckNumbersMap = getTruckNumbers($con);
 
-	$zeroBilled = mysqli_query($con,"SELECT * FROM loading WHERE qty = unbilled_qty AND qty > 0 ORDER BY date ASC,time ASC") or die(mysqli_error($con));
-	$partialBilled = mysqli_query($con,"SELECT * FROM loading WHERE qty > unbilled_qty AND unbilled_qty > 0 ORDER BY date ASC,time ASC") or die(mysqli_error($con));
-	$fullBilled = mysqli_query($con,"SELECT * FROM loading WHERE unbilled_qty = 0 AND DATE(last_updated) = CURDATE() AND qty > 0 ORDER BY time ASC") or die(mysqli_error($con));	?>
+	$zeroBilled = mysqli_query($con,"SELECT * FROM loading WHERE qty = unbilled_qty AND qty > 0 AND qty < 4500 ORDER BY date ASC,time ASC") or die(mysqli_error($con));
+	$partialBilled = mysqli_query($con,"SELECT * FROM loading WHERE qty > unbilled_qty AND unbilled_qty > 0 AND qty < 4500 ORDER BY date ASC,time ASC") or die(mysqli_error($con));
+	$fullBilled = mysqli_query($con,"SELECT * FROM loading WHERE unbilled_qty = 0 AND DATE(last_updated) = CURDATE() AND qty > 0 AND qty < 4500 ORDER BY time ASC") or die(mysqli_error($con));	?>
 	
 <html>
 	<head>
     	<meta charset="utf-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">	
+		<meta http-equiv="Refresh" content="120"> 
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css">
 		<link href="../css/styles.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="../css/loading-cards.css">

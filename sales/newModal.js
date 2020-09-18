@@ -1,3 +1,4 @@
+/*
 $('#newSaleForm').on('submit', function(event){
 	event.preventDefault();
 	var product = document.getElementById('product').value;
@@ -42,6 +43,7 @@ $('#newSaleForm').on('submit', function(event){
 		}				
 	});
 });
+*/
 
 $("#saleModal").on("hidden.bs.modal", function(){
 	$("#insertError").text('');
