@@ -10,6 +10,7 @@ if(isset($_SESSION["user_name"]))
 	require 'rateBreakDownModal.php';
 	require 'holdingModal.php';
 	require 'historyModal.php';
+	require 'newTruckModal.php';
 	require '../navbar.php';
 	
 	$urlsql = $_GET['sql'];
@@ -147,7 +148,7 @@ if(isset($_SESSION["user_name"]))
 												<option value="<?php echo $truck['id'];?>" <?php if($truck['id'] == $row['truck']) echo 'selected';?>><?php echo $truck['number'];?></option>								<?php	
 											}																																											?>
 										</select>
-										&nbsp;&nbsp;<a data-toggle="modal" data-target="#historyModal" style="color:limegreen;cursor:pointer">New</a>
+										&nbsp;&nbsp;<a data-toggle="modal" data-target="#newTruckModal" style="color:limegreen;cursor:pointer">New</a>
 									</div>
 								</div>
 							</div>							

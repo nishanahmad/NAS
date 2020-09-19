@@ -237,7 +237,6 @@ $(document).ready(function()
 			url: "ajax/getDriverName.php",
 			data:'truck='+truck,
 			success: function(response){
-				console.log(response);
 				$("#driver_name").val(response);
 			}
 		});

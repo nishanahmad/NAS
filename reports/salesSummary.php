@@ -4,7 +4,7 @@ if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
 	require '../navbar.php';
-  
+  	
 	if(isset($_GET['from']))
 		$fromDate = date("Y-m-d", strtotime($_GET['from']));		
 	else
@@ -18,7 +18,29 @@ if(isset($_SESSION["user_name"]))
 	if(isset($_GET['product']))		
 		$product = (float)$_GET['product'];
 	else
-		$product = 'All';
+		$product = 'all';
+	
+	if(isset($_GET['type']))		
+		$type = $_GET['type'];
+	else
+		$type = 'all';	
+	
+	if($product == 'all')
+	{
+		if($type == 'all')
+			$salesList = mysqli_query($con, "SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' GROUP BY ar_id" ) or die(mysqli_error($con));
+		else
+			$salesList = mysqli_query($con, "SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' AND ar_id IN (SELECT id FROM ar_details WHERE type = '$type') GROUP BY ar_id" ) or die(mysqli_error($con));
+	}		
+	else
+	{
+		if($type == 'all')
+			$salesList = mysqli_query($con, "SELECT ar_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' AND product = $product GROUP BY ar_id,product" ) or die(mysqli_error($con));
+		else
+			$salesList = mysqli_query($con, "SELECT ar_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' AND product = $product AND ar_id IN (SELECT id FROM ar_details WHERE type = '$type') GROUP BY ar_id,product" ) or die(mysqli_error($con));
+	}
+		
+
 
 	$products = mysqli_query($con, "SELECT * FROM products" ) or die(mysqli_error($con));	
 	foreach($products as $pro)
@@ -50,7 +72,7 @@ if(isset($_SESSION["user_name"]))
 		
 	if($_POST)
 	{
-		$URL='salesSummary.php?from='.$_POST['fromDate'].'&to='.$_POST['toDate'].'&product='.$_POST['product'];
+		$URL='salesSummary.php?from='.$_POST['fromDate'].'&to='.$_POST['toDate'].'&product='.$_POST['product'].'&type='.$_POST['type'];
 		echo "<script type='text/javascript'>document.location.href='{$URL}';</script>";
 		echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';				
 	}	
@@ -110,23 +132,23 @@ if(isset($_SESSION["user_name"]))
 <div align="center">
 <br/><br/>
 <form method="post" action="" autocomplete="off">
-	<div class="row" style="margin-left:25%">
-		<div class="col col-md-3">
+	<div class="row" style="margin-left:20%">
+		<div style="width:220px;">
 			<div class="input-group">
 				<span class="input-group-text col-md-5"><i class="far fa-calendar-alt"></i>&nbsp;From</span>
 				<input type="text" required name="fromDate" id="fromDate" class="form-control datepicker" autocomplete="off" value="<?php echo date('d-m-Y',strtotime($fromDate)); ?>">
 			</div>
 		</div>
-		<div class="col col-md-3">
+		<div style="width:220px;">
 			<div class="input-group">
 				<span class="input-group-text col-md-5"><i class="far fa-calendar-alt"></i>&nbsp;To</span>
 				<input type="text" required name="toDate" id="toDate" class="form-control" value="<?php echo date('d-m-Y',strtotime($toDate)); ?>">
 			</div>
 		</div>
-		<div class="col col-md-3">
+		<div style="width:220px;">
 			<div class="input-group">
-				<span class="input-group-text col-md-5"><i class="fa fa-shield"></i>&nbsp;Product</span>
-					<select name="product" id="product" required class="textarea">
+				<span class="input-group-text col-md-6"><i class="fa fa-shield"></i>&nbsp;Product</span>
+					<select name="product" id="product" required class="form-control">
 						<option value="all">ALL</option>																<?php
 						foreach($products as $pro) 
 						{																								?>
@@ -134,7 +156,17 @@ if(isset($_SESSION["user_name"]))
 						}																								?>
 					</select>					
 			</div>
-		</div>	
+		</div>
+		<div style="width:220px;">
+			<div class="input-group">
+				<span class="input-group-text col-md-5"><i class="fa fa-address-card-o"></i>&nbsp;Type</span>
+					<select name="type" id="type" required class="form-control">
+						<option <?php if($type == 'all') echo 'selected';?> value="all">ALL</option>
+						<option <?php if($type == 'AR/SR') echo 'selected';?> value="AR/SR">AR</option>
+						<option <?php if($type == 'Engineer') echo 'selected';?> value="Engineer">Engineers</option>
+					</select>					
+			</div>
+		</div>		
 	</div>
 	<br/>
 	<div class="col col-md-2 offset-1">
@@ -164,10 +196,6 @@ if($tallyFlag)
 	</tr>
 </thead>
 <?php
-	if($product == 'All')
-		$salesList = mysqli_query($con, "SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' GROUP BY ar_id" ) or die(mysqli_error($con));
-	else
-		$salesList = mysqli_query($con, "SELECT ar_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' AND product = $product GROUP BY ar_id,product" ) or die(mysqli_error($con));
 	$total = 0;
 	foreach($salesList as $arSale)
 	{
@@ -176,13 +204,13 @@ if($tallyFlag)
 			<td style="text-align:left;"><?php echo $arShopMap[$arSale['ar_id']];?></td>			
 			<td><?php echo $arCodeMap[$arSale['ar_id']];?></td>			
 			<td><?php echo $arPhoneMap[$arSale['ar_id']];?></td>						
-			<td style="text-align:center"><b><?php echo $arSale['SUM(qty)'] - $arSale['SUM(return_bag)'];?></b></td>										<?php
+			<td style="text-align:center"><b><?php echo $arSale['SUM(qty)'];?></b></td>																		<?php
 			if($tallyFlag == true)
 			{		
 				if(isset($tallyMap[$arSale['ar_id']]))
 				{		
 					$userId = $tallyMap[$arSale['ar_id']];																									?>
-					<td><font style="font-weight:bold;font-style:italic;"><?php echo $userMap[$userId];?></font></td>						<?php
+					<td><font style="font-weight:bold;font-style:italic;"><?php echo $userMap[$userId];?></font></td>										<?php
 				}
 				else
 				{																																			?>
