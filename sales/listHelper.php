@@ -183,7 +183,7 @@ function getCDMap()
 	{
 		foreach($array1 as $client => $array2)
 		{
-			$current = date('Y-m-d', strtotime(array_key_first($array2)));
+			$current = date('Y-m-d', strtotime(get_array_key_first($array2)));
 			$today = date('Y-m-d');
 
 			while($current < $today)
@@ -201,7 +201,7 @@ function getCDMap()
 	return $cdMap;	
 }
 
-function array_key_first(array $arr) 
+function get_array_key_first(array $arr) 
 {
 	foreach($arr as $key => $unused) 
 	{
@@ -210,7 +210,7 @@ function array_key_first(array $arr)
 	return NULL;
 }
 
-function array_key_last($array) 
+function get_array_key_last($array) 
 {
 	if (!is_array($array) || empty($array)) 
 	{

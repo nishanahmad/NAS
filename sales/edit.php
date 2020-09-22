@@ -11,6 +11,7 @@ if(isset($_SESSION["user_name"]))
 	require 'holdingModal.php';
 	require 'historyModal.php';
 	require 'newTruckModal.php';
+	require 'deleteModal.php';
 	require '../navbar.php';
 	
 	$urlsql = $_GET['sql'];
@@ -102,8 +103,8 @@ if(isset($_SESSION["user_name"]))
 		<div id="snackbar"><i class="fa fa-check"></i>&nbsp;&nbsp;Updated successfull !!!</div>
 		<form name="editForm" id="editForm" method="post" action="update.php">
 			<input hidden name="id" id="id" value="<?php echo $row['sales_id'];?>">
-			<input hidden name="sql" value="<?php echo $urlsql;?>">
-			<input hidden name="range" value="<?php echo $urlrange;?>">
+			<input hidden name="sql" id="sql" value="<?php echo $urlsql;?>">
+			<input hidden name="range" id="range" value="<?php echo $urlrange;?>">
 			<div style="width:100%;">
 				<div align="center" style="padding-bottom:5px;">				
 					<div class="card" style="width:65%;">
@@ -270,7 +271,9 @@ if(isset($_SESSION["user_name"]))
 						<div class="card-footer" style="background-color:#f2cf5b;padding:1px;"></div>
 					</div>
 					<br/><br/>
-					<a href="delete.php?<?php echo 'sales_id='.$row['sales_id'].'&sql='.$urlsql.'&range='.$urlrange;?>" style="float:right;margin-right:150px;background-color:#E6717C;color:#FFFFFF" class="btn" onclick="return confirm('Are you sure you want to permanently delete this entry ?')"><i class="far fa-trash-alt"></i>&nbsp;&nbsp;Delete</a>
+					<button type="button" class="btn" style="float:right;margin-right:150px;background-color:#E6717C;color:#FFFFFF" data-toggle="modal" data-target="#deleteModal">
+						<i class="far fa-trash-alt"></i>&nbsp;&nbsp;Delete
+					</button>					
 				</div>
 			</div>
 			<br/><br/><br/><br/>		
