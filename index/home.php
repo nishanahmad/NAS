@@ -33,9 +33,8 @@ if(isset($_SESSION["user_name"]))
 			foreach($unlockedList as $unlocked)
 			{
 				$id = $unlocked['sale'];
-				var_dump($id);
 				$query = mysqli_query($con, "SELECT * FROM nas_sale WHERE sales_id = $id") or die(mysqli_error($con));
-				$sale = mysqli_fetch_array($query, MYSQLI_ASSOC);	var_dump($sale);																							?>
+				$sale = mysqli_fetch_array($query, MYSQLI_ASSOC);																							?>
 				<a class="card" href="../reports/tallyverification.php?date=<?php echo $sale['entry_date'];?>">
 					<h3><?php echo $sale['bill_no'];?></h3>
 					<p class="small"><?php 
