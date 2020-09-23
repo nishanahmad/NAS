@@ -5,7 +5,8 @@ session_start();
 if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
-	require '../functions/monthMap.php';			
+	require '../functions/monthMap.php';
+	require '../navbar.php';
 	
 	$year = $_GET['year'];
 	$month = $_GET['month'];
@@ -47,15 +48,15 @@ function rerender()
 </script>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../css/bootstrap.min.css" rel="stylesheet">
-<link href="../css/responstable.css" rel="stylesheet">
-<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
+<link href="../css/styles.css" rel="stylesheet" type="text/css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js" ></script>
 <title><?php echo getMonth($month);?> Target</title>
 </head>
 <body>
 	<div style="width:100%;">
 	<div align="center" style="padding-bottom:5px;">
-	<a href="../index.php" class="link"><img alt='home' title='home' src='../images/home.png' width='60px' height='60px'/> </a>
 	<br><br>
 	<font size="5px"><b><?php echo $year;?></b></font>
 	<br>
@@ -75,51 +76,65 @@ function rerender()
 	</div>
 	<br><br>
 	<form name="arBulkUpdate" method="post" action="updateServer.php">
-	<table align="center" class="responstable" style="width:70%;">
-		<tr>
-			<th style="width:20%">AR NAME</th>
-			<th style="width:30%">SHOP</th>
-			<th style="width:10%">SAP</th>
-			<th style="width:10%;text-align:center;">TARGET</th>
-			<th style="width:10%;text-align:center;">RATE</th>
-			<th style="width:10%;text-align:center;">PAYMENT %</th> 
-		</tr>					<?php
-	$total = 0;	
-	while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) 
-	{
-		$arId = $row['ar_id'];
-		$target = $row['target'];
-		$total = $total + $target;
-		$rate = $row['rate'];
-		$pp = $row['payment_perc'];
-		$company_target = $row['company_target'];
+		<table class="table table-hover table-bordered offset-1" style="width:70%">
+			<thead>
+				<tr class="table-success">
+					<th style="width:20%">AR NAME</th>
+					<th style="width:30%">SHOP</th>
+					<!--th style="width:10%">SAP</th-->
+					<th style="width:10%;text-align:center;">TARGET</th>
+					<th style="width:10%;text-align:center;">RATE</th>
+					<!--th style="width:10%;text-align:center;">PAYMENT %</th--> 
+				</tr>	
+			</thead>
+			<tbody>	<?php
+				$total = 0;	
+				while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) 
+				{
+					$arId = $row['ar_id'];
+					$target = $row['target'];
+					$total = $total + $target;
+					$rate = $row['rate'];
+					$pp = $row['payment_perc'];
+					$company_target = $row['company_target'];
 
-		?>				
-		<tr>
-			<td><label align="center"><?php echo $arMap[$arId]; ?></td>	
-			<td><label align="center"><?php echo $shopMap[$arId]; ?></td>	
-			<td><label align="center"><?php echo $codeMap[$arId]; ?></td>	
-			<td style="text-align:center;"><input type="text" style="text-align:center;width:70px;border:0px;background-color: transparent;" name="<?php echo $arId.'-target';?>" value="<?php echo $target; ?>"></td>	
-			<td style="text-align:center;"><input type="text" style="text-align:center;width:70px;border:0px;background-color: transparent;" name="<?php echo $arId.'-rate';?>" value="<?php echo $rate; ?>"></td>		
-			<td style="text-align:center;"><input type="text" style="text-align:center;width:70px;border:0px;background-color: transparent;" name="<?php echo $arId.'-pp';?>" value="<?php echo $pp; ?>"></td>		
-		</tr>																												<?php
-	}																														?>
-	<tr>
-		<th></th>
-		<th></th>
-		<th></th>
-		<th><?php echo $total;?></th>
-		<th></th>
-		<th></th>
-	</tr>
-	<input type="hidden" name="year" value="<?php echo $year;?>">
-	<input type="hidden" name="month" value="<?php echo $month;?>">
-	</table>
+					?>				
+					<tr>
+						<td><label align="center"><?php echo $arMap[$arId]; ?></td>	
+						<td><label align="center"><?php echo $shopMap[$arId]; ?></td>	
+						<!--td><label align="center"><?php //echo $codeMap[$arId]; ?></td-->	
+						<td style="text-align:center;"><input type="text" style="text-align:center;width:70px;border:0px;background-color: transparent;" name="<?php echo $arId.'-target';?>" value="<?php echo $target; ?>"></td>	
+						<td style="text-align:center;"><input type="text" style="text-align:center;width:70px;border:0px;background-color: transparent;" name="<?php echo $arId.'-rate';?>" value="<?php echo $rate; ?>"></td>		
+						<!--td style="text-align:center;"><input type="text" style="text-align:center;width:70px;border:0px;background-color: transparent;" name="<?php //echo $arId.'-pp';?>" value="<?php //echo $pp; ?>"></td-->		
+					</tr>																												<?php
+				}																														?>
+				<tr>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th><?php echo $total;?></th>
+					<th></th>
+					<th></th>
+				</tr>
+			</tbody>
+		</table>
+		<input type="hidden" name="year" value="<?php echo $year;?>">
+		<input type="hidden" name="month" value="<?php echo $month;?>">		
 	<br><br>
 		<div align="center"><input type="submit" name="submit" value="Submit" onclick="return confirm('Are you sure you want to update?')"></div>		
 	<br><br> 
 	</div> 
+</form>	
 </body>
+<script>
+$(function(){		
+	$("table").tablesorter({
+		theme : 'bootstrap',
+		widgets: ['filter'],
+		filter_columnAnyMatch: true
+	}); 
+});	
+</script>
 </html>																								<?php
 }
 else
