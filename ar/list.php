@@ -89,7 +89,7 @@ if(isset($_SESSION["user_name"]))
 				<li class="active"><a href="#">List</a></li>
 				<li><a href="../Target/monthlyPoints.php">Monthly Points</a></li>
 				<li><a href="#">Total Points</a></li>
-				<li><a href="#">Target & Rate</a></li>
+				<li><a href="../SpecialTarget/list.php">Special Target</a></li>
 			</ul>
 		</nav>
 	</aside>

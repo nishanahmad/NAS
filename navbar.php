@@ -232,7 +232,7 @@ body{
 	  </li>	  	  
 	  <li class="nav-item">
 		<a class="nav-link" <?php if($flag == 'reports') echo 'href="#"'; else echo 'href="../reports/salesSummary.php"';?>>
-		  <i class="fa fa-line-chart <?php if($flag == 'reports') echo 'glow';?> aria-hidden="true"></i>
+		  <i class="fa fa-chart-area <?php if($flag == 'reports') echo 'glow';?> aria-hidden="true"></i>
 		  Reports
 		</a>
 	  </li>	  	  		

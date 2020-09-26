@@ -20,7 +20,7 @@ function getPointPercentage($actual_perc,$year,$month)
 		else if($actual_perc >= 96)		
 			$point_perc = 100;										
 	}
-	else
+	else if( ($year == 2020 && $month <= 9) || $year < 2020)
 	{
 		if($actual_perc <= 70)			
 			$point_perc = 0;
@@ -30,6 +30,10 @@ function getPointPercentage($actual_perc,$year,$month)
 			$point_perc = 70;
 		else if($actual_perc >= 96)		
 			$point_perc = 100;										
+	}
+	else
+	{
+		
 	}
 			
 	return $point_perc;

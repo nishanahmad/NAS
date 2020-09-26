@@ -17,6 +17,7 @@ if(isset($_SESSION["user_name"]))
 		$arMap[$ar['id']] = $ar['name'];
 		$shopMap[$ar['id']] = $ar['shop_name'];
 		$codeMap[$ar['id']] = $ar['sap_code'];
+		$phoneMap[$ar['id']] = $ar['mobile'];
 	}	
 	
 	$array = implode("','",array_keys($arMap));	
@@ -76,12 +77,13 @@ function rerender()
 	</div>
 	<br><br>
 	<form name="arBulkUpdate" method="post" action="updateServer.php">
-		<table class="table table-hover table-bordered offset-1" style="width:70%">
+		<table class="table table-hover table-bordered offset-2" style="width:70%">
 			<thead>
 				<tr class="table-success">
 					<th style="width:20%">AR NAME</th>
 					<th style="width:30%">SHOP</th>
-					<!--th style="width:10%">SAP</th-->
+					<th style="width:30%">MOBILE</th>
+					<th style="width:10%">SAP</th>
 					<th style="width:10%;text-align:center;">TARGET</th>
 					<th style="width:10%;text-align:center;">RATE</th>
 					<!--th style="width:10%;text-align:center;">PAYMENT %</th--> 
@@ -102,9 +104,12 @@ function rerender()
 					<tr>
 						<td><label align="center"><?php echo $arMap[$arId]; ?></td>	
 						<td><label align="center"><?php echo $shopMap[$arId]; ?></td>	
-						<!--td><label align="center"><?php //echo $codeMap[$arId]; ?></td-->	
-						<td style="text-align:center;"><input type="text" style="text-align:center;width:70px;border:0px;background-color: transparent;" name="<?php echo $arId.'-target';?>" value="<?php echo $target; ?>"></td>	
-						<td style="text-align:center;"><input type="text" style="text-align:center;width:70px;border:0px;background-color: transparent;" name="<?php echo $arId.'-rate';?>" value="<?php echo $rate; ?>"></td>		
+						<td><label align="center"><?php echo $phoneMap[$arId]; ?></td>
+						<td><label align="center"><?php echo $codeMap[$arId]; ?></td>						
+						<td><?php echo $target; ?></td>	
+						<td><?php echo $rate; ?></td>	
+						<!--td style="text-align:center;"><input type="text" style="text-align:center;width:70px;border:0px;background-color: transparent;" name="<?php //echo $arId.'-target';?>" value="<?php //echo $target; ?>"></td>	
+						<td style="text-align:center;"><input type="text" style="text-align:center;width:70px;border:0px;background-color: transparent;" name="<?php //echo $arId.'-rate';?>" value="<?php //echo $rate; ?>"></td-->
 						<!--td style="text-align:center;"><input type="text" style="text-align:center;width:70px;border:0px;background-color: transparent;" name="<?php //echo $arId.'-pp';?>" value="<?php //echo $pp; ?>"></td-->		
 					</tr>																												<?php
 				}																														?>
@@ -124,16 +129,16 @@ function rerender()
 		<div align="center"><input type="submit" name="submit" value="Submit" onclick="return confirm('Are you sure you want to update?')"></div>		
 	<br><br> 
 	</div> 
-</form>	
+</form>
 </body>
 <script>
 $(function(){		
-	$("table").tablesorter({
+	$(".download-table").tablesorter({
 		theme : 'bootstrap',
 		widgets: ['filter'],
 		filter_columnAnyMatch: true
-	}); 
-});	
+	});	
+});
 </script>
 </html>																								<?php
 }

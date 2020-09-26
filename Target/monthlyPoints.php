@@ -92,58 +92,6 @@ if(isset($_SESSION["user_name"]))
 .selected{
 	background-color:#ffb3b3 !important;
 }
-/* REQUIRED CSS: change your reflow breakpoint here (35em below) */
-@media ( max-width: 35em ) {
-
-  table.ui-table-reflow thead { display: none; }
-
-  /* css for reflow & reflow2 widgets */
-  .ui-table-reflow td,
-  .ui-table-reflow th {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	float: right;
-	/* if not using the stickyHeaders widget (not the css3 version)
-	 * the "!important" flag, and "height: auto" can be removed */
-	width: 100% !important;
-	height: auto !important;
-  }
-
-  /* reflow widget only */
-  .ui-table-reflow tbody td[data-title]:before {
-	color: #469;
-	font-size: .9em;
-	content: attr(data-title);
-	float: left;
-	width: 50%;
-	white-space: pre-wrap;
-	text-align: bottom;
-	display: inline-block;
-  }
-
-  /* reflow2 widget only */
-  table.ui-table-reflow .ui-table-cell-label.ui-table-cell-label-top {
-	display: block;
-	padding: .4em 0;
-	margin: .4em 0;
-	text-transform: uppercase;
-	font-size: .9em;
-	font-weight: 400;
-  }
-  table.ui-table-reflow .ui-table-cell-label {
-	padding: .4em;
-	min-width: 30%;
-	display: inline-block;
-	margin: -.4em 1em -.4em -.4em;
-  }
-
-} /* end media query */
-
-/* reflow2 widget */
-.ui-table-reflow .ui-table-cell-label {
-  display: none;
-}	
 </style>
 <link href="../css/styles.css" rel="stylesheet" type="text/css">	
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -270,20 +218,23 @@ function rerender()
 			<nav class="navbar navbar-light bg-light sticky-top bottom-nav" style="margin-left:13%;width:100%">
 				<span class="navbar-brand" style="font-size:25px;margin-left:30%;"><i class="fa fa-address-card-o"></i> AR Monthly Points</span>
 			</nav>		
-			<select id="jsMonth" name="jsMonth" class="form-control col-offset-4" onchange="return rerender();">																				<?php	
-				for($i=1;$i<=12;$i++) 
-				{																																?>
-					<option value="<?php echo $i;?>" <?php if($i == $month) echo 'selected';?>><?php echo getMonth($i);?></option>				<?php
-				}																																?>
-			</select>&nbsp;&nbsp;
+			<div class="form-group mb-2">
+				<br/>
+				<select id="jsMonth" name="jsMonth" class="form-control" style="margin-left:30%;width:200px;" onchange="return rerender();">																				<?php	
+					for($i=1;$i<=12;$i++) 
+					{																																?>
+						<option value="<?php echo $i;?>" <?php if($i == $month) echo 'selected';?>><?php echo getMonth($i);?></option>				<?php
+					}																																?>
+				</select>&nbsp;&nbsp;
 
-			<select id="jsYear" name="jsYear" class="form-control col-offset-4" onchange="return rerender();">																				<?php	
-				$yearList = mysqli_query($con, "SELECT DISTINCT year FROM target ORDER BY year DESC") or die(mysqli_error($con));	
-				foreach($yearList as $yearObj) 
-				{
-	?>				<option value="<?php echo $yearObj['year'];?>" <?php if($yearObj['year'] == $year) echo 'selected';?>><?php echo $yearObj['year'];?></option>											<?php	
-				}
-	?>		</select>
+				<select id="jsYear" name="jsYear" class="form-control" style="margin-left:30%;width:200px;" onchange="return rerender();">																				<?php	
+					$yearList = mysqli_query($con, "SELECT DISTINCT year FROM target ORDER BY year DESC") or die(mysqli_error($con));	
+					foreach($yearList as $yearObj) 
+					{
+		?>				<option value="<?php echo $yearObj['year'];?>" <?php if($yearObj['year'] == $year) echo 'selected';?>><?php echo $yearObj['year'];?></option>											<?php	
+					}
+		?>		</select>
+			</div>
 			<br><br>
 			<table class="maintable table table-hover table-bordered ui-table-reflow" style="width:80%;margin-left:18%;">
 			<thead>
