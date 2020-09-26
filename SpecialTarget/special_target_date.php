@@ -10,9 +10,11 @@ if(isset($_SESSION["user_name"]))
 		$fromDate = date("Y-m-d", strtotime($_POST["from"]));
 		$toDate = date("Y-m-d", strtotime($_POST["to"]));
 		
-		$query = mysqli_query($con,"INSERT INTO special_target_date (from_date,to_date) VALUES ('$fromDate','$toDate') ") or die(mysqli_error($con));		 						
+		$query = mysqli_query($con,"INSERT INTO special_target_date (from_date,to_date) VALUES ('$fromDate','$toDate') ") or die(mysqli_error($con));
 		
-		header("Location:insertNewList.php?fromDate=$fromDate&toDate=$toDate");
+		$URL='insertNewList.php?fromDate='.$fromDate.'&toDate='.$toDate;
+		echo "<script type='text/javascript'>document.location.href='{$URL}';</script>";
+		echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';
 	}
 ?>
 <head>
@@ -101,9 +103,9 @@ if(isset($_SESSION["user_name"]))
 			<br/><br/>
 			<div align="center">
 			<form name="frm" method="post" action="" style="margin-left:20%">
-				<input type="text" id="datepicker" name="from" required  class="form-control" style="width:150px;" placeholder="From Date"/>
+				<input type="text" id="datepicker" name="from" required  class="form-control" style="width:150px;" placeholder="From Date" autocomplete="off"/>
 				<br/>
-				<input type="text" id="datepicker2" name="to" required  class="form-control" style="width:150px;" placeholder="To date"/>
+				<input type="text" id="datepicker2" name="to" required  class="form-control" style="width:150px;" placeholder="To date" autocomplete="off"/>
 				<br/>
 				<input type="submit" name="submit" class="btn btn-success" value="Insert" onclick="return confirm('Do you want to insert new special target range?')">
 			</form>

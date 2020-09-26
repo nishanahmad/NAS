@@ -262,10 +262,12 @@ if(isset($_SESSION["user_name"]))
 				</div>																																							<?php	
 				if($today >= $fromDate && $today <= $toDate)
 				{																																						?>
-					<div style="width:220px;">
-						<div class="input-group">
-							<input type="checkbox" name="removeToday" id="removeToday" class="form-control" onchange="refresh();">Show yesterday's closing</input>									
+					<div style="width:50px;">
+						<div class="form-check">
+							<input type="checkbox" name="removeToday" id="removeToday" class="form-check-input" onchange="refresh();">
+							<label class="form-check-label" for="removeToday">Yesterday's closing</label>
 						</div>
+						
 					</div>																																				<?php	
 				}																																						?>	
 			</div>			
