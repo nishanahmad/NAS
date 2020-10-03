@@ -1,6 +1,7 @@
 <?php
 function getPointPercentage($actual_perc,$year,$month)
 {
+	$point_perc = 0;
 	if($year < 2017 || ($year == 2017 && $month <= 9))
 	{
 		if($actual_perc < 30)			
