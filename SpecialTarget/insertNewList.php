@@ -10,8 +10,22 @@ if(isset($_SESSION["user_name"]))
 		$fromDate = $_GET['fromDate'];
 		$toDate = $_GET['toDate'];				
 
-		$arObjects = mysqli_query($con, "SELECT id,name FROM ar_details WHERE isActive = 1 AND type LIKE '%AR%' ORDER BY name asc") or die(mysqli_error($con)) or die(mysqli_error($con));		 						
+		$year = (int)date('Y',strtotime($fromDate));
+		$month = (int)date('m',strtotime($fromDate));
+
+		$arIds = null;
+		$targetList = mysqli_query($con, "SELECT * FROM target WHERE year = $year AND month = $month AND target > 0") or die(mysqli_error($con)) or die(mysqli_error($con));
+		foreach($targetList as $target)
+		{
+			$arIds[] = $target['ar_id'];
+		}
 		
+		if($arIds != null)
+		{
+			$arIds = implode("','",$arIds);
+			$arObjects = mysqli_query($con, "SELECT id,name FROM ar_details WHERE id IN ('".$arIds."') ORDER BY name asc") or die(mysqli_error($con)) or die(mysqli_error($con));
+		}
+
 		if(count($_POST) > 0)
 		{
 			foreach($_POST as $arId => $special_target)
@@ -23,8 +37,10 @@ if(isset($_SESSION["user_name"]))
 				}
 
 			}
-			header("Location:../index.php");
-		}	
+			$URL='list.php?success';
+			echo "<script type='text/javascript'>document.location.href='{$URL}';</script>";
+			echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';			
+		}						
 	}
 ?>
 <head>
@@ -108,27 +124,34 @@ if(isset($_SESSION["user_name"]))
 				</ul>
 			</nav>
 		</aside>	
-		<br/><br/>
 		<div class="container">		
-			<nav class="navbar navbar-light bg-light sticky-top bottom-nav" style="margin-left:12%;width:100%">
-				<span class="navbar-brand" style="font-size:25px;margin-left:40%;"><i class="fa fa-chart-pie"></i><?php echo date('d-M-Y',strtotime($fromDate)).'&nbsp&nbsp&nbsp&nbspTO&nbsp&nbsp&nbsp&nbsp'.date('d-M-Y',strtotime($toDate));?></span>
+			<nav class="navbar navbar-light bg-light sticky-top bottom-nav" style="margin-left:12.5%;width:100%">
+				<span class="navbar-brand" style="font-size:25px;margin-left:35%;"><i class="fa fa-chart-pie"></i>&nbsp;&nbsp;&nbsp;<?php echo date('d-M',strtotime($fromDate)).'&nbspto&nbsp'.date('d-M',strtotime($toDate));?></span>
 			</nav>			
 			<br/><br/>		
-			<form method="post" action="">
-				<table align="center" class="responstable" style="width:30%;">
-					<tr><th style="width:25%">AR NAME</th><th style="width:25%;text-align:center;">SPECIAL TARGET</th></tr>					<?php
-					foreach($arObjects as $ar) 
-					{									?>				
-						<tr>
-							<td><label align="center"><?php echo $ar['name']; ?></td>	
-							<td style="text-align:center;"><input type="text" style="text-align:center;width:70px;border:0px;background-color: transparent;" name="<?php echo $ar['id'];?>" value="0"></td>	
-						</tr>																												<?php
-					}																								?>
-					<input type="hidden" name="fromDate" value="<?php echo $fromDate;?>">
-					<input type="hidden" name="toDate" value="<?php echo $toDate;?>">
-				</table>
-				<br><br>
-				<div align="center"><input type="submit" name="submit" value="Submit"></div>
+			<form method="post" action=""><?php
+				if($arIds != null)
+				{																																?>
+					<table class="maintable table table-hover table-bordered" style="width:30%;margin-left:42%;">
+						<thead>
+							<tr class="table-success">
+								<th style="width:60%">AR NAME</th>
+								<th style="text-align:center;">SPECIAL TARGET</th>
+							</tr>																												<?php
+						foreach($arObjects as $ar) 
+						{									?>				
+							<tr>
+								<td><label align="center"><?php echo $ar['name']; ?></td>	
+								<td style="text-align:center;"><input type="text" style="text-align:center;width:70px;border:0px;background-color: transparent;" name="<?php echo $ar['id'];?>" value="0"></td>	
+							</tr>																												<?php
+						}																														?>
+						<input type="hidden" name="fromDate" value="<?php echo $fromDate;?>">
+						<input type="hidden" name="toDate" value="<?php echo $toDate;?>">
+					</table>
+					<br><br>
+					<button type="submit" class="btn btn-success" style="margin-left:53%" name="submit">Insert</button>																			<?php
+				}																																?>
+
 			</form>
 		</div>
 		<br><br>

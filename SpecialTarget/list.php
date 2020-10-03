@@ -124,71 +124,12 @@ if(isset($_SESSION["user_name"]))
 	.selected{
 		background-color:#ffb3b3 !important;
 	}
-	@import url("https://fonts.googleapis.com/css?family=Open+Sans");
-	.sidebar {
-	  font-family: Arial;
-	  font-size: 16px;
-	  background: #5e42a6;	
-	  position: fixed;
-	  width: 18%;
-	  height: 100vh;
-	  background: #312450;
-	  font-size: 0.65em;
-	}
-
-	.nav {
-	  position: relative;
-	  margin: 0 15%;
-	  text-align: right;
-	  top: 40%;
-	  -webkit-transform: translateY(-50%);
-			  transform: translateY(-50%);
-	  font-weight: bold;
-	}
-
-	.nav ul {
-	  list-style: none;
-	}
-	.nav ul li {
-	  position: relative;
-	  margin: 3.2em 0;
-	}
-	.nav ul li a {
-	  line-height: 5em;
-	  text-transform: uppercase;
-	  text-decoration: none;
-	  letter-spacing: 0.4em;
-	  color: rgba(255, 255, 255, 0.35);
-	  display: block;
-	  -webkit-transition: all ease-out 300ms;
-	  transition: all ease-out 300ms;
-	}
-	.nav ul li.active a {
-	  color: white;
-	}
-	.nav ul li:not(.active)::after {
-	  opacity: 0.2;
-	}
-	.nav ul li:not(.active):hover a {
-	  color: rgba(255, 255, 255, 0.75);
-	}
-	.nav ul li::after {
-	  content: "";
-	  position: absolute;
-	  width: 100%;
-	  height: 0.2em;
-	  background: black;
-	  left: 0;
-	  bottom: 0;
-	  background-image: -webkit-gradient(linear, left top, right top, from(#5e42a6), to(#b74e91));
-	  background-image: linear-gradient(to right, #5e42a6, #b74e91);
-	}	
 	</style> 
 	<link href="../css/styles.css" rel="stylesheet" type="text/css">	
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js"></script>	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js"></script>
 	<title>Special Target</title>
 </head>
 <body>		
@@ -196,28 +137,28 @@ if(isset($_SESSION["user_name"]))
 		<aside class="sidebar">
 			<nav class="nav">
 				<ul>
-					<li><a href="../ar/list.php">List</a></li>
-					<li><a href="../Target/monthlyPoints.php">Monthly Points</a></li>
-					<li><a href="#">Total Points</a></li>
+					<li><a href="../ar/list.php">AR List</a></li>
+					<li><a href="../Target/monthlyPointsList.php">Target</a></li>
 					<li class="active"><a href="#">Special Target</a></li>
 				</ul>
 			</nav>
 		</aside>
 		<div class="container">		
-		<nav class="navbar navbar-light bg-light sticky-top bottom-nav" style="margin-left:12.5%;width:100%">
-			<div class="btn-group" role="group" aria-label="Button group with nested dropdown" style="float:left;margin-left:2%;">
-				<div class="btn-group" role="group">
-					<button id="btnGroupDrop1" type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-						View
-					</button>
-					<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">									
-						<li id="update"><a href="updatePage.php" class="dropdown-item">Update</a></li>							
-					</ul>
-				</div>
-			</div>					
-			<span class="navbar-brand" style="font-size:25px;"><i class="fa fa-chart-pie"></i> Special Target View</span>
-			<a href="special_target_date.php" class="btn btn-sm" style="background-color:#54698D;color:white;float:right;margin-right:5%;"><i class="fa fa-chart-pie"></i> Create New</a>			
-		</nav>
+			<nav class="navbar navbar-light bg-light sticky-top bottom-nav" style="margin-left:12.5%;width:100%">
+				<div class="btn-group" role="group" aria-label="Button group with nested dropdown" style="float:left;margin-left:2%;">
+					<div class="btn-group" role="group">
+						<button id="btnGroupDrop1" type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							View
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">									
+							<li id="update"><a href="updatePage.php" class="dropdown-item">Update</a></li>							
+						</ul>
+					</div>
+				</div>					
+				<span class="navbar-brand" style="font-size:25px;"><i class="fa fa-chart-pie"></i> Special Target View</span>
+				<a href="special_target_date.php" class="btn btn-sm" style="background-color:#54698D;color:white;float:right;margin-right:5%;"><i class="fa fa-chart-pie"></i> Create New</a>			
+			</nav>
+			<div id="snackbar"><i class="fa fa-chart-pie"></i>&nbsp;&nbsp;Special target list inserted succesfully !!!</div>
 			<br><br>
 			<select name="grouping" id="grouping" class="form-control" style="margin-left:40%;width:150px;" onchange="location.href= this.value ">
 				 <option selected value="#">No Grouping</option>   								
@@ -376,6 +317,13 @@ if(isset($_SESSION["user_name"]))
 </body>
 <script type="text/javascript" language="javascript" >
 $(document).ready(function() {		
+	$(".maintable tbody tr").each(function(){
+		var extra = $(this).find("td:eq(7)").text();   
+		if (extra != '0'){
+		$(this).addClass('selected');
+		}
+	});
+
 	$(".maintable").tablesorter({
 		theme : 'bootstrap',
 		widgets: ['filter'],
@@ -388,9 +336,12 @@ $(document).ready(function() {
 	else
 		$('#removeToday').prop('checked', false);	
 	
-	var $table = $('.maintable');
-	$table.floatThead();		
 			
+	if(window.location.href.includes('success')){
+		var x = document.getElementById("snackbar");
+		x.className = "show";
+		setTimeout(function(){ x.className = x.className.replace("show", ""); }, 2000);					
+	}			
 } );
 function refresh()
 {
@@ -446,16 +397,6 @@ var getUrlParameter = function getUrlParameter(sParam) {
 		}
 	}
 };
-
-
-$(function(){
-  $(".maintable tbody tr").each(function(){
-	var extra = $(this).find("td:eq(7)").text();   
-	if (extra != '0'){
-	  $(this).addClass('selected');
-	}
-  });
-});		
 </script>
 </html>
 <?php

@@ -6,6 +6,22 @@ if(isset($_SESSION["user_name"]))
 	require '../functions/monthMap.php';
 	require '../functions/targetFormula.php';
 	require '../navbar.php';
+	require 'functions/latestYear.php';
+	require 'functions/latestMonth.php';
+	
+	$latestYear = getLatestYear($con);
+	$latestMonth = getLatestMonth($con);	
+	
+	if($latestMonth == 12)
+	{
+		$nextMonth = 1;
+		$nextYear = $latestYear + 1;
+	}
+	else
+	{
+		$nextMonth = $latestMonth + 1;
+		$nextYear = $latestYear;		
+	}	
 
 	$mainArray = array();
 	if(isset($_GET['year']) && isset($_GET['month']))
@@ -15,10 +31,17 @@ if(isset($_SESSION["user_name"]))
 	}	
 	else
 	{
-		$year = (int)date("Y");
-		$month = (int)date("m");
+		$year = $latestYear;
+		$month = $latestMonth;
 	}
 
+	if($year == $latestYear && $month > $latestMonth)
+	{
+		$URL='monthlyPointsList.php?';
+		echo "<script type='text/javascript'>document.location.href='{$URL}';</script>";
+		echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';
+	}
+	
 	$zeroTargetMap = array();
 	$zeroTargetList = mysqli_query($con,"SELECT ar_id FROM target WHERE year = '$year' AND month  = '$month' AND target = 0") or die(mysqli_error($con));		 
 	foreach($zeroTargetList as $zeroTarget)
@@ -109,21 +132,14 @@ $(document).ready(function() {
 		}
 	});
 
-	
 	$(".maintable").tablesorter({
 		dateFormat : "ddmmyyyy",
 		theme : 'bootstrap',
-		widgets: ['filter','reflow'],
-		widgetOptions : {
-		  reflow_className    : 'ui-table-reflow',
-		  reflow_headerAttrib : 'data-name',
-		  reflow_dataAttrib   : 'data-title'
-		},		
+		widgets: ['filter'],
 		filter_columnAnyMatch: true
 	}); 
 	
 	var $table = $('.maintable');
-	$table.floatThead();				
 } );
 
 
@@ -141,65 +157,7 @@ function rerender()
 
 <title><?php echo getMonth($month); echo " "; echo $year; ?></title>
 <style>
-@import url("https://fonts.googleapis.com/css?family=Open+Sans");
-.sidebar {
-  font-family: Arial;
-  font-size: 16px;
-  background: #5e42a6;	
-  position: fixed;
-  width: 18%;
-  height: 100vh;
-  background: #312450;
-  font-size: 0.65em;
-}
 
-.nav {
-  position: relative;
-  margin: 0 15%;
-  text-align: right;
-  top: 40%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
-  font-weight: bold;
-}
-
-.nav ul {
-  list-style: none;
-}
-.nav ul li {
-  position: relative;
-  margin: 3.2em 0;
-}
-.nav ul li a {
-  line-height: 5em;
-  text-transform: uppercase;
-  text-decoration: none;
-  letter-spacing: 0.4em;
-  color: rgba(255, 255, 255, 0.35);
-  display: block;
-  -webkit-transition: all ease-out 300ms;
-  transition: all ease-out 300ms;
-}
-.nav ul li.active a {
-  color: white;
-}
-.nav ul li:not(.active)::after {
-  opacity: 0.2;
-}
-.nav ul li:not(.active):hover a {
-  color: rgba(255, 255, 255, 0.75);
-}
-.nav ul li::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 0.2em;
-  background: black;
-  left: 0;
-  bottom: 0;
-  background-image: -webkit-gradient(linear, left top, right top, from(#5e42a6), to(#b74e91));
-  background-image: linear-gradient(to right, #5e42a6, #b74e91);
-}
 </style>
 </head>
 <body>
@@ -207,41 +165,61 @@ function rerender()
 		<aside class="sidebar">
 			<nav class="nav">
 				<ul>
-					<li><a href="../ar/list.php">List</a></li>
-					<li class="active"><a href="#">Monthly Points</a></li>
-					<li><a href="#">Total Points</a></li>
-					<li><a href="#">Target & Rate</a></li>
+					<li><a href="../ar/list.php">AR List</a></li>
+					<li class="active"><a href="#">Target</a></li>
+					<li><a href="../SpecialTarget/list.php?">Special Target</a></li>
 				</ul>
 			</nav>
 		</aside>
 		<div class="container">
-			<nav class="navbar navbar-light bg-light sticky-top bottom-nav" style="margin-left:13%;width:100%">
-				<span class="navbar-brand" style="font-size:25px;margin-left:30%;"><i class="fa fa-address-card-o"></i> AR Monthly Points</span>
-			</nav>		
-			<div class="form-group mb-2">
-				<br/>
-				<select id="jsMonth" name="jsMonth" class="form-control" style="margin-left:30%;width:200px;" onchange="return rerender();">																				<?php	
-					for($i=1;$i<=12;$i++) 
-					{																																?>
-						<option value="<?php echo $i;?>" <?php if($i == $month) echo 'selected';?>><?php echo getMonth($i);?></option>				<?php
-					}																																?>
-				</select>&nbsp;&nbsp;
-
-				<select id="jsYear" name="jsYear" class="form-control" style="margin-left:30%;width:200px;" onchange="return rerender();">																				<?php	
-					$yearList = mysqli_query($con, "SELECT DISTINCT year FROM target ORDER BY year DESC") or die(mysqli_error($con));	
-					foreach($yearList as $yearObj) 
-					{
-		?>				<option value="<?php echo $yearObj['year'];?>" <?php if($yearObj['year'] == $year) echo 'selected';?>><?php echo $yearObj['year'];?></option>											<?php	
-					}
-		?>		</select>
-			</div>
-			<br><br>
-			<table class="maintable table table-hover table-bordered ui-table-reflow" style="width:80%;margin-left:18%;">
+			<nav class="navbar navbar-light bg-light sticky-top bottom-nav" style="margin-left:12.5%;width:100%">
+				<div class="btn-group" role="group" aria-label="Button group with nested dropdown" style="float:left;margin-left:2%;">
+					<div class="btn-group" role="group">
+						<button id="btnGroupDrop1" type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							Monthly Points
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">
+							<li><a href="../points_full/mainPage.php?" class="dropdown-item">Accumulated Points</a></li>
+							<li><a href="edit.php?" class="dropdown-item">Update Target</a></li>
+						</ul>
+					</div>
+				</div>					
+				<span class="navbar-brand" style="font-size:25px;"><i class="fa fa-chart-line"></i> Monthly Points</span>
+				<a href="new.php?year=<?php echo $nextYear;?>&month=<?php echo $nextMonth;?>" class="btn btn-sm" style="background-color:#54698D;color:white;float:right;margin-right:5%;"><i class="fa fa-chart-line"></i> Generate <?php echo getmonth($nextMonth);?> Target</a>
+			</nav>
+			<br/><br/>			
+			<div class="row" style="margin-left:50%">
+				<div style="width:100px;">
+					<div class="input-group">
+						<select id="jsYear" name="jsYear" class="form-control" style="width:200px;" onchange="return rerender();">																				<?php	
+							$yearList = mysqli_query($con, "SELECT DISTINCT year FROM target ORDER BY year DESC") or die(mysqli_error($con));	
+							foreach($yearList as $yearObj) 
+							{																																	  ?>				
+								<option value="<?php echo $yearObj['year'];?>" <?php if($yearObj['year'] == $year) echo 'selected';?>><?php echo $yearObj['year'];?></option>											<?php	
+							}																																	  ?>		
+						</select>
+					</div>
+				</div>				
+				<div style="width:150px;">
+					<div class="input-group">
+						<select id="jsMonth" name="jsMonth" class="form-control" style="width:200px;" onchange="return rerender();">																				<?php	
+							$monthObjects = mysqli_query($con,"SELECT DISTINCT month FROM target WHERE year = $year ORDER BY month ASC");	
+							foreach($monthObjects as $mnth)
+							{
+								$m = (int)$mnth['month'];																												?>
+								<option value="<?php echo $m;?>" <?php if($m == $month) echo 'selected';?>><?php echo getMonth($m);?></option>				<?php
+							}																																?>
+						</select>
+					</div>
+				</div>
+			</div>	
+			<br/><br/>
+			<table class="maintable table table-hover table-bordered ui-table-reflow" style="width:92%;margin-left:15%;">
 			<thead>
 				<tr class="table-success">
 					<th style="text-align:left;">AR</th>
 					<th>Mobile</th>
-					<th style="text-align:left;">Shop</th>
+					<th style="text-align:left;width:20%">Shop</th>
 					<th>Target</th>
 					<th>Sale</th>
 					<th>Extra</th>
