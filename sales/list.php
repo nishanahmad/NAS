@@ -248,10 +248,10 @@ if(isset($_SESSION["user_name"]))
 										<i class="far fa-calendar-alt"></i>&nbsp;<?php echo date('d-m-Y',strtotime($sale['date'])); ?><br/>										
 										<font style="color:<?php echo $productDetailsMap[$sale['product']]['colorcode'];?>"><i class="fa fa-shield"></i>&nbsp;<?php echo $productDetailsMap[$sale['product']]['name'];?></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@&nbsp;&nbsp;<i class="fa fa-rupee-sign"></i><?php if($finalRate > 0 ) echo $finalRate.'/-';?><br/>
 										<i class="fab fa-buffer"></i>&nbsp;<?php echo $sale['qty']; ?><br/>
-										<i class="fas fa-house-user"></i>&nbsp;<?php echo $sale['name']; ?><div class="button button-small" style="float:right;margin-right:2%;"><i class="fas fa-chevron-right"></i></div><br/>
+										<i class="fas fa-house-user"></i>&nbsp;<?php echo $sale['name']; ?><div class="button button-small saleId" data-id="<?php echo $sale['id'];?>" data-params="<?php echo explode('?',$_SERVER['REQUEST_URI'])[1];?>" style="float:right;margin-right:2%;"><i class="fas fa-chevron-right"></i></div><br/>
 									</div>
 								</button>
-								<br/><br/>
+								<br/>
 							</div>																															<?php
 						}																																	?>
 					</div>
