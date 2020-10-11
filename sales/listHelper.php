@@ -71,14 +71,18 @@ function getClientNames($con)
 }
 
 
-function getProductNames($con)
+function getProductDetails($con)
 {
-	$productNameMap = array();
-	$products = mysqli_query($con,"SELECT id,name FROM products ORDER BY name ASC");
+	$productMap = array();
+	$products = mysqli_query($con,"SELECT id,name,colorcode FROM products ORDER BY name ASC");
 	foreach($products as $product)
-		$productNameMap[$product['id']] = $product['name'];	
+	{
+		$productMap[$product['id']]['name'] = $product['name'];	
+		$productMap[$product['id']]['colorcode'] = $product['colorcode'];	
+	}
 		
-	return $productNameMap;	
+		
+	return $productMap;	
 }
 
 

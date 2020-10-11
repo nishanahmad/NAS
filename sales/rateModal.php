@@ -6,7 +6,7 @@ require '../connect.php';
 if(isset($_SESSION["user_name"]))
 {			
 	$currentRateMap = getCurrentRates($con);
-	$productNamesMap = getProductNames($con);		
+	$productDetailsMap = getProductDetails($con);		
 	$discountMap = getDiscounts($con);	?>	
 	
 	<style>
@@ -33,7 +33,7 @@ if(isset($_SESSION["user_name"]))
 						foreach($currentRateMap as $product=>$rate)
 						{?>
 							<tr>
-								<td><?php echo $productNamesMap[$product];?></td>
+								<td><?php echo $productDetailsMap[$product]['name'];?></td>
 								<td><?php echo $rate.'/-';?></td>
 								<td><?php if(isset($discountMap[$product])) echo $discountMap[$product].'/-';?></td>
 							</tr><?php

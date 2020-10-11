@@ -3,9 +3,12 @@
 	border: 1px solid #C3E6CB;
 	border-radius: 5px;  
 }
-.bottom-nav{	
-	top: 86px;	
-}				
+@media screen and (min-width: 768px) {
+	.bottom-nav{	
+		top: 86px;
+	}				
+}
+
 .close{
   font-size: 40px;
   color: red;
@@ -18,7 +21,7 @@
 	text-align: center;
 	background-color: #e6bf99;
 }
-.datepicker{ z-index:99999 !important; }
+.datepicker{ z-index:99999 !important;}
 .select2-selection {
   text-align: left;
 }		

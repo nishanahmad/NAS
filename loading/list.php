@@ -8,7 +8,7 @@ if(isset($_SESSION["user_name"]))
 	require '../navbar.php';
 	require 'newModal.php';
 	
-	$productNamesMap = getProductNames($con);
+	$productDetailsMap = getProductDetails($con);
 	$truckNumbersMap = getTruckNumbers($con);
 
 	$zeroBilled = mysqli_query($con,"SELECT * FROM loading WHERE qty = unbilled_qty AND qty > 0 AND qty < 4500 ORDER BY date ASC,time ASC") or die(mysqli_error($con));
@@ -58,7 +58,7 @@ if(isset($_SESSION["user_name"]))
 						  {																																	?>
 							  <ul class="list-group">
 								<li class="list-group-item list-group-item-danger" style="text-align:center;"><i class="fa fa-truck-moving"></i>   <font style="font-size:20px;"><?php echo $truckNumbersMap[$load['truck']];?></font></li>
-								<li class="list-group-item list-group-item-danger"><i class="fa fa-shield"></i> <?php echo $productNamesMap[$load['product']];?></li>
+								<li class="list-group-item list-group-item-danger"><i class="fa fa-shield"></i> <?php echo $productDetailsMap[$load['product']]['name'];?></li>
 								<li class="list-group-item list-group-item-danger"><i class="fab fa-buffer"></i> Qty : <?php echo $load['qty'] - $load['unbilled_qty'].'/'.$load['qty'];?>
 									<i class="far fa-arrow-alt-circle-down loadId" data-id="<?php echo $load['id'];?>" title="Unload" style="font-size:18px;float:right;cursor:pointer;"></i>
 								</li>	
@@ -78,7 +78,7 @@ if(isset($_SESSION["user_name"]))
 						  {																																	?>
 							  <ul class="list-group">
 								<li class="list-group-item list-group-item-warning" style="text-align:center;"><i class="fa fa-truck-moving"></i>   <font style="font-size:20px;"><?php echo $truckNumbersMap[$load['truck']];?></font></li>
-								<li class="list-group-item list-group-item-warning"><i class="fa fa-shield"></i> <?php echo $productNamesMap[$load['product']];?></li>
+								<li class="list-group-item list-group-item-warning"><i class="fa fa-shield"></i> <?php echo $productDetailsMap[$load['product']]['name'];?></li>
 								<li class="list-group-item list-group-item-warning"><i class="fab fa-buffer"></i> Qty : <?php echo $load['qty'] - $load['unbilled_qty'].'/'.$load['qty'];?>
 									<i class="far fa-arrow-alt-circle-down loadId" data-id="<?php echo $load['id'];?>" title="Unload" style="font-size:18px;float:right;cursor:pointer;"></i>
 								</li>
@@ -98,7 +98,7 @@ if(isset($_SESSION["user_name"]))
 						  {																																	?>
 							  <ul class="list-group">
 								<li class="list-group-item list-group-item-success" style="text-align:center;"><i class="fa fa-truck-moving"></i>   <font style="font-size:20px;"><?php echo $truckNumbersMap[$load['truck']];?></font></li>
-								<li class="list-group-item list-group-item-success"><i class="fa fa-shield"></i> <?php echo $productNamesMap[$load['product']];?></li>
+								<li class="list-group-item list-group-item-success"><i class="fa fa-shield"></i> <?php echo $productDetailsMap[$load['product']]['name'];?></li>
 								<li class="list-group-item list-group-item-success"><i class="fab fa-buffer"></i> Qty : <?php echo $load['qty'] - $load['unbilled_qty'].'/'.$load['qty'];?></li>
 								<li class="list-group-item list-group-item-success"><i class="fa fa-calendar"></i>   Cleared on : <?php echo date('d-M',strtotime($load['last_updated']));?>&nbsp;&nbsp;&nbsp;<i class="far fa-clock"></i> <?php echo date('h:i A',strtotime($load['last_updated']));?></li>
 							  </ul>																															<?php

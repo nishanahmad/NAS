@@ -6,10 +6,10 @@ if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
 	require '../navbar.php';
-	require '../sales/listHelper.php';   // imported to get clientNamesMap and ProductNamesMap
+	require '../sales/listHelper.php';   // imported to get clientNamesMap and productDetailsMap
 	
 	$clientNamesMap = getClientNames($con);
-	$productNamesMap = getProductNames($con);	
+	$productDetailsMap = getProductDetails($con);	
 	$unlockedList = mysqli_query($con, "SELECT * FROM tally_sale_check WHERE status = 'UNLOCKED' ORDER BY id") or die(mysqli_error($con));
 	
 	$users = mysqli_query($con,"SELECT * FROM users") or die(mysqli_error($con));	
@@ -38,7 +38,7 @@ if(isset($_SESSION["user_name"]))
 				<a class="card" href="../reports/tallyverification.php?date=<?php echo $sale['entry_date'];?>">
 					<h3><?php echo $sale['bill_no'];?></h3>
 					<p class="small"><?php 
-						echo $clientNamesMap[$sale['ar_id']].'<br/>'.date('d-m-Y',strtotime($sale['entry_date'])).'<br/>'.$productNamesMap[$sale['product']].' '.$sale['qty'].' bags';?>
+						echo $clientNamesMap[$sale['ar_id']].'<br/>'.date('d-m-Y',strtotime($sale['entry_date'])).'<br/>'.$productDetailsMap[$sale['product']]['name'].' '.$sale['qty'].' bags';?>
 					</p>
 					Unlocked By : <?php echo $userMap[$unlocked['unlocked_by']];?>
 					<div class="dimmer"></div>

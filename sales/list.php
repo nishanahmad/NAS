@@ -12,7 +12,7 @@ if(isset($_SESSION["user_name"]))
 
 	$currentRateMap = getCurrentRates($con);
 	$clientNamesMap = getClientNames($con);
-	$productNamesMap = getProductNames($con);
+	$productDetailsMap = getProductDetails($con);
 	$discountMap = getDiscounts($con);
 	$truckNumbersMap = getTruckNumbers($con);
 	
@@ -59,7 +59,8 @@ if(isset($_SESSION["user_name"]))
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">	
-		<link href="../css/styles.css" rel="stylesheet" type="text/css">	
+		<link href="../css/styles.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="../css/neomorphism.css"/>
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css">
 		<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
@@ -70,10 +71,6 @@ if(isset($_SESSION["user_name"]))
 		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 		<title>Sales</title>
 		<style>
-			@media only screen and (max-width: 900px) {
-				.desktop-only{display: none;}	
-			}
-		
 			.select2-selection__rendered {
 				line-height: 33px !important;
 			}
@@ -84,58 +81,21 @@ if(isset($_SESSION["user_name"]))
 				height: 37px !important;
 			}
 
-			/* REQUIRED CSS: change your reflow breakpoint here (35em below) */
-			@media ( max-width: 35em ) {
+			#content-desktop {display: block;}
+			#content-mobile {display: none;}
 
-			  table.ui-table-reflow thead { display: none; }
-
-			  /* css for reflow & reflow2 widgets */
-			  .ui-table-reflow td,
-			  .ui-table-reflow th {
-				-webkit-box-sizing: border-box;
-				-moz-box-sizing: border-box;
-				box-sizing: border-box;
-				float: right;
-				/* if not using the stickyHeaders widget (not the css3 version)
-				 * the "!important" flag, and "height: auto" can be removed */
-				width: 100% !important;
-				height: auto !important;
-			  }
-
-			  /* reflow widget only */
-			  .ui-table-reflow tbody td[data-title]:before {
-				color: #469;
-				font-size: .9em;
-				content: attr(data-title);
-				float: left;
-				width: 50%;
-				white-space: pre-wrap;
-				text-align: bottom;
-				display: inline-block;
-			  }
-
-			  /* reflow2 widget only */
-			  table.ui-table-reflow .ui-table-cell-label.ui-table-cell-label-top {
-				display: block;
-				padding: .4em 0;
-				margin: .4em 0;
-				text-transform: uppercase;
-				font-size: .9em;
-				font-weight: 400;
-			  }
-			  table.ui-table-reflow .ui-table-cell-label {
-				padding: .4em;
-				min-width: 30%;
-				display: inline-block;
-				margin: -.4em 1em -.4em -.4em;
-			  }
-
-			} /* end media query */
-
-			/* reflow2 widget */
-			.ui-table-reflow .ui-table-cell-label {
-			  display: none;
-			}			
+			@media screen and (max-width: 768px) {
+			  #content-desktop {display: none;}
+			  #content-mobile {display: block;}
+			}
+			#line{
+			   display:block;
+			   width:270px;
+			   border-top: 1px solid #D3D3D3;
+			   margin-top:5px;
+			   margin-bottom:5px;
+			}
+			
 		</style>			
 	</head>
 	<body>
@@ -177,7 +137,7 @@ if(isset($_SESSION["user_name"]))
 							if(isset($productSumMap[$product]))
 							{																														?>
 								<tr>
-									<td><?php echo $productNamesMap[$product];?></td>
+									<td><?php echo $productDetailsMap[$product]['name'];?></td>
 									<td><?php echo $productSumMap[$product];?></td><?php 
 									if($range == 'Today')
 									{																												?>
@@ -199,59 +159,104 @@ if(isset($_SESSION["user_name"]))
 				</table>
 			</div>
 			<br/><br/>
-			<table class="maintable table table-hover table-bordered ui-table-reflow" style="width:95%;margin-left:2%;">
-				<thead>
-					<tr class="table-success">
-						<th style="width:110px;"><i class="far fa-calendar-alt"></i> Date</th>
-						<th><i class="fa fa-address-card-o"></i> AR</th>
-						<th style="width:70px;"><i class="fa fa-shield"></i> PRO</th>
-						<th style="width:70px;"><i class="fab fa-buffer"></i> QTY</th>
-						<th style="width:70px;"><i class="fa fa-rupee-sign"></i> RATE</th>
-						<th style="width:120px;" class="desktop-only"><i class="far fa-file-alt"></i> BILL NO</th>
-						<th style="width:95px;" class="desktop-only"><i class="fas fa-truck-moving"></i> TRUCK</th>
-						<th style="width:180px;"><i class="far fa-user"></i> CUSTOMER</th>
-						<th class="desktop-only"><i class="far fa-comment-dots"></i> REMARKS</th>
-						<th class="desktop-only"><i class="fas fa-map-marker-alt"></i> ADDRESS</th>
-					</tr>	
-				</thead>
-				<tbody>	<?php
-					foreach($mainMap as $index => $sale) 
-					{
-						$date = $productDateMap[$sale['product']][closestDate($productDateMap[$sale['product']],strtotime($sale['date']))];
-						$date = date('Y-m-d',$date);
-						
-						if(isset($rateMap[$sale['product']][$date]))
-							$rate = $rateMap[$sale['product']][$date];
-						else
-							$rate = 0;
-						
-						if(isset($cdMap[$sale['product']][$sale['client']][$sale['date']]))
-							$cd = $cdMap[$sale['product']][$sale['client']][$sale['date']];
-						else
-							$cd = 0;
-						
-						if(isset($wdMap[$sale['product']][$sale['date']]))
-							$wd = $wdMap[$sale['product']][$sale['date']];
-						else
-							$wd = 0;
-						
-						$finalRate = $rate - $cd - $wd - $sale['discount'];																					?>	
-						
-						<tr data-id="<?php echo $sale['id'];?>" data-params="<?php echo explode('?',$_SERVER['REQUEST_URI'])[1];?>" class="saleId" style="cursor:pointer;">
-							<td data-title="Date"><?php echo date('d-m-Y',strtotime($sale['date'])); ?></td>
-							<td data-title="AR"><?php echo $clientNamesMap[$sale['client']]; ?></td>
-							<td data-title="Product"><?php echo $productNamesMap[$sale['product']];?></td>
-							<td data-title="Qty"><?php echo $sale['qty']; ?></td>
-							<td data-title="Rate"><?php if($finalRate > 0 ) echo $finalRate.'/-';?></td>							
-							<td data-title="Bill" class="desktop-only"><?php echo $sale['bill']; ?></td>
-							<td data-title="Truck" class="desktop-only"><?php if(isset($truckNumbersMap[$sale['truck']])) echo $truckNumbersMap[$sale['truck']]; ?></td>
-							<td data-title="Cusomer"><?php echo $sale['name'].'<br/><font class="desktop-only">'.$sale['phone'].'</font>'; ?></td>
-							<td data-title="Remarks" class="desktop-only"><?php echo $sale['remarks']; ?></td>
-							<td data-title="Address" class="desktop-only"><?php echo $sale['address']; ?></td>
-						</tr>																																		<?php				
-					}																																				?>
-				</tbody>	
-			</table>
+			<div id="content-desktop">
+				<table class="maintable table table-hover table-bordered ui-table-reflow" style="width:95%;margin-left:2%;">
+					<thead>
+						<tr class="table-success">
+							<th style="width:110px;"><i class="far fa-calendar-alt"></i> Date</th>
+							<th><i class="fa fa-address-card-o"></i> AR</th>
+							<th style="width:70px;"><i class="fa fa-shield"></i> PRO</th>
+							<th style="width:70px;"><i class="fab fa-buffer"></i> QTY</th>
+							<th style="width:70px;"><i class="fa fa-rupee-sign"></i> RATE</th>
+							<th style="width:120px;"><i class="far fa-file-alt"></i> BILL NO</th>
+							<th style="width:95px;"><i class="fas fa-truck-moving"></i> TRUCK</th>
+							<th style="width:180px;"><i class="far fa-user"></i> CUSTOMER</th>
+							<th><i class="far fa-comment-dots"></i> REMARKS</th>
+							<th><i class="fas fa-map-marker-alt"></i> ADDRESS</th>
+						</tr>	
+					</thead>
+					<tbody>	<?php
+						foreach($mainMap as $index => $sale) 
+						{
+							$date = $productDateMap[$sale['product']][closestDate($productDateMap[$sale['product']],strtotime($sale['date']))];
+							$date = date('Y-m-d',$date);
+							
+							if(isset($rateMap[$sale['product']][$date]))
+								$rate = $rateMap[$sale['product']][$date];
+							else
+								$rate = 0;
+							
+							if(isset($cdMap[$sale['product']][$sale['client']][$sale['date']]))
+								$cd = $cdMap[$sale['product']][$sale['client']][$sale['date']];
+							else
+								$cd = 0;
+							
+							if(isset($wdMap[$sale['product']][$sale['date']]))
+								$wd = $wdMap[$sale['product']][$sale['date']];
+							else
+								$wd = 0;
+							
+							$finalRate = $rate - $cd - $wd - $sale['discount'];																					?>	
+							
+							<tr data-id="<?php echo $sale['id'];?>" data-params="<?php echo explode('?',$_SERVER['REQUEST_URI'])[1];?>" class="saleId" style="cursor:pointer;">
+								<td><?php echo date('d-m-Y',strtotime($sale['date'])); ?></td>
+								<td><?php echo $clientNamesMap[$sale['client']]; ?></td>
+								<td><?php echo $productDetailsMap[$sale['product']]['name'];?></td>
+								<td><?php echo $sale['qty']; ?></td>
+								<td><?php if($finalRate > 0 ) echo $finalRate.'/-';?></td>							
+								<td><?php echo $sale['bill']; ?></td>
+								<td><?php if(isset($truckNumbersMap[$sale['truck']])) echo $truckNumbersMap[$sale['truck']]; ?></td>
+								<td><?php echo $sale['name'].'<br/><font>'.$sale['phone'].'</font>'; ?></td>
+								<td><?php echo $sale['remarks']; ?></td>
+								<td><?php echo $sale['address']; ?></td>
+							</tr>																																		<?php				
+						}																																				?>
+					</tbody>	
+				</table>
+			</div>
+
+			<div id="content-mobile">
+				<div class="container">
+					<div class="app-container"><?php
+						foreach($mainMap as $index => $sale) 
+						{
+							$date = $productDateMap[$sale['product']][closestDate($productDateMap[$sale['product']],strtotime($sale['date']))];
+							$date = date('Y-m-d',$date);
+							
+							if(isset($rateMap[$sale['product']][$date]))
+								$rate = $rateMap[$sale['product']][$date];
+							else
+								$rate = 0;
+							
+							if(isset($cdMap[$sale['product']][$sale['client']][$sale['date']]))
+								$cd = $cdMap[$sale['product']][$sale['client']][$sale['date']];
+							else
+								$cd = 0;
+							
+							if(isset($wdMap[$sale['product']][$sale['date']]))
+								$wd = $wdMap[$sale['product']][$sale['date']];
+							else
+								$wd = 0;
+							
+							$finalRate = $rate - $cd - $wd - $sale['discount'];																					?>	
+							
+							<div class="app-content">
+								<button class="button button-large">
+									<div class="subtle">
+										<font style="color:#077dfe;">&nbsp;<?php echo $clientNamesMap[$sale['client']]; ?></font><br/>
+										<span id="line"></span>
+										<i class="far fa-calendar-alt"></i>&nbsp;<?php echo date('d-m-Y',strtotime($sale['date'])); ?><br/>										
+										<font style="color:<?php echo $productDetailsMap[$sale['product']]['colorcode'];?>"><i class="fa fa-shield"></i>&nbsp;<?php echo $productDetailsMap[$sale['product']]['name'];?></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@&nbsp;&nbsp;<i class="fa fa-rupee-sign"></i><?php if($finalRate > 0 ) echo $finalRate.'/-';?><br/>
+										<i class="fab fa-buffer"></i>&nbsp;<?php echo $sale['qty']; ?><br/>
+										<i class="fas fa-house-user"></i>&nbsp;<?php echo $sale['name']; ?><div class="button button-small" style="float:right;"><i class="fas fa-chevron-right"></i></div><br/>
+									</div>
+								</button>
+								<br/><br/>
+							</div>																															<?php
+						}																																	?>
+					</div>
+				</div>
+			</div>			
 			<br/><br/><br/>
 		</div>
 		<script src="list.js"></script>
