@@ -90,7 +90,7 @@ if(isset($_SESSION["user_name"]))
 			}
 			#line{
 			   display:block;
-			   width:200px;
+			   width:220px;
 			   border-top: 1px solid #D3D3D3;
 			   margin-top:5px;
 			   margin-bottom:5px;
@@ -248,7 +248,7 @@ if(isset($_SESSION["user_name"]))
 										<i class="far fa-calendar-alt"></i>&nbsp;<?php echo date('d-m-Y',strtotime($sale['date'])); ?><br/>										
 										<font style="color:<?php echo $productDetailsMap[$sale['product']]['colorcode'];?>"><i class="fa fa-shield"></i>&nbsp;<?php echo $productDetailsMap[$sale['product']]['name'];?></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@&nbsp;&nbsp;<i class="fa fa-rupee-sign"></i><?php if($finalRate > 0 ) echo $finalRate.'/-';?><br/>
 										<i class="fab fa-buffer"></i>&nbsp;<?php echo $sale['qty']; ?><br/>
-										<i class="fas fa-house-user"></i>&nbsp;<?php echo $sale['name']; ?><div class="button button-small" style="float:right;margin-right:5%;"><i class="fas fa-chevron-right"></i></div><br/>
+										<i class="fas fa-house-user"></i>&nbsp;<?php echo $sale['name']; ?><div class="button button-small" style="float:right;margin-right:2%;"><i class="fas fa-chevron-right"></i></div><br/>
 									</div>
 								</button>
 								<br/><br/>
