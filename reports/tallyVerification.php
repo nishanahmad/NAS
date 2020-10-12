@@ -9,7 +9,7 @@ if(isset($_SESSION["user_name"]))
 	if(isset($_GET['date']))
 		$date = date("Y-m-d", strtotime($_GET['date']));		
 
-	$productMap = getProductNames($con);
+	$productMap = getProductDetails($con);
 	$rateMap = getRateMap();
 	$cdMap = getCDMap();
 	$wdMap = getWDMap();	
@@ -158,7 +158,7 @@ if(isset($_SESSION["user_name"]))
 			<td><?php echo $sale['bill_no'];?></td>
 			<td><?php echo $arMap[$sale['ar_id']]['name'];?></td>
 			<td><?php echo $sale['customer_name'];?></td>
-			<td><?php echo $productMap[$sale['product']];?></td>
+			<td><?php echo $productMap[$sale['product']]['name'];?></td>
 			<td style="text-align:center"><b><?php echo $sale['qty'] - $sale['return_bag'];?></b></td>
 			<td><?php echo $finalRate * ($sale['qty'] - $sale['return_bag']) - $sale['order_no'] .'/-';?></td>																													<?php
 			if(getVerificationStatus($sale['sales_id'],$con) !== null)
