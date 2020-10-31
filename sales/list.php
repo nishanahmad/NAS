@@ -61,6 +61,7 @@ if(isset($_SESSION["user_name"]))
 		<meta name="viewport" content="width=device-width, initial-scale=1">	
 		<link href="../css/styles.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="../css/neomorphism.css"/>
+		<link href="../css/navbarMobile.css" media="screen and (max-device-width: 768px)" rel="stylesheet" type="text/css">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css">
 		<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
@@ -80,27 +81,18 @@ if(isset($_SESSION["user_name"]))
 			.select2-selection__arrow {
 				height: 37px !important;
 			}
-
-			#content-desktop {display: block;}
-			#content-mobile {display: none;}
-
-			@media screen and (max-width: 768px) {
-			  #content-desktop {display: none;}
-			  #content-mobile {display: block;}
-			}
 			#line{
 			   display:block;
 			   width:220px;
 			   border-top: 1px solid #D3D3D3;
 			   margin-top:5px;
 			   margin-bottom:5px;
-			}
-			
+			}			
 		</style>			
 	</head>
 	<body>
 		<nav class="navbar navbar-light bg-light sticky-top bottom-nav">
-			<div class="btn-group" role="group" aria-label="Button group with nested dropdown" style="float:left;margin-left:2%;">
+			<div class="btn-group" role="group" style="float:left;margin-left:2%;">
 				<div class="btn-group" role="group">
 					<button id="btnGroupDrop1" type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 						<i class="far fa-calendar-alt"></i> <?php echo $range;?>

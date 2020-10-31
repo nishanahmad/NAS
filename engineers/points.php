@@ -83,7 +83,7 @@ if(isset($_SESSION["user_name"]))
 <body>
 <div class="main">
 	<nav class="navbar navbar-light bg-light sticky-top bottom-nav">
-		<span class="navbar-brand" style="font-size:25px;margin-left:45%;"><i class="fa fa-bolt"></i> Engineers</span>
+		<span class="navbar-brand" style="font-size:25px;margin-left:45%;"><i class="fa fa-hard-hat"></i> Engineers</span>
 	</nav>
 	<div align="center">
 		<br><br>

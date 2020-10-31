@@ -181,6 +181,7 @@ function rerender()
 						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">
 							<li><a href="../points_full/mainPage.php?" class="dropdown-item">Accumulated Points</a></li>
 							<li><a href="edit.php?" class="dropdown-item">Update Target</a></li>
+							<li><a href="../redemption/list.php?type=AR" class="dropdown-item">Redemption List</a></li>
 						</ul>
 					</div>
 				</div>					

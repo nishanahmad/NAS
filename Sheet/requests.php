@@ -208,11 +208,11 @@ if(isset($_SESSION["user_name"]))
 							<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>	
 							<br/>
 							<div align="center">
-								<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn" style="color:#ffffff;background-color:e1be5c;width:100px;"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;								
-								<button class="btn" style="color:#ffffff;background-color:7dc37d;width:100px;" onclick="deliver(<?php echo $sheet['id'];?>)"><i class="fas fa-check"></i> Deliver</button>&nbsp;&nbsp;&nbsp;&nbsp;<?php
+								<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn" style="color:#ffffff;background-color:e1be5c;width:80px;"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;								
+								<button class="btn" style="color:#ffffff;background-color:7dc37d;width:95px;" onclick="deliver(<?php echo $sheet['id'];?>)"><i class="fas fa-check"></i> Deliver</button>&nbsp;&nbsp;<?php
 								if($designation != 'driver')
 								{																														?>																																								
-									<button class="btn" onclick="cancel(<?php echo $sheet['id'];?>)" style="background-color:#E6717C;color:#FFFFFF;width:100px;"><i class="far fa-trash-alt"></i> Delete</button>							<?php
+									<button class="btn" onclick="cancel(<?php echo $sheet['id'];?>)" style="background-color:#E6717C;color:#FFFFFF;width:80px;"><i class="far fa-trash-alt"></i> Dlt</button>							<?php
 								}																														?>
 							</div>							
 						</div>

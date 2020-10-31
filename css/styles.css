@@ -147,5 +147,11 @@ label{
   background-image: -webkit-gradient(linear, left top, right top, from(#5e42a6), to(#b74e91));
   background-image: linear-gradient(to right, #5e42a6, #b74e91);
 }
-				
-					
+
+#content-desktop {display: flex;}
+#content-mobile {display: none;}
+
+@media screen and (max-width: 768px) {
+  #content-desktop {display: none;}
+  #content-mobile {display: flex;}
+}	

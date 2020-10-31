@@ -2,7 +2,6 @@ let rateMap = new Map();
 let discountMap = new Map();
 
 $(function(){
-
 	$('#ar,#engineer,#truck,#client-filter,#eng-filter').select2();
 	
 	var pickeropts = { dateFormat:"dd-mm-yy"}; 
@@ -31,16 +30,7 @@ $(function(){
 
 
 	// Populate the tables based on SQL and Range from URL
-	if(!window.location.href.includes("sql")){
-		var today = new Date();
-		var dd = String(today.getDate()).padStart(2, '0');
-		var mm = String(today.getMonth() + 1).padStart(2, '0');
-		var yyyy = today.getFullYear();
-		today = dd + '-' + mm + '-' + yyyy;
-		
-		callAjax(today,'Today');
-	}
-
+	
 	$("#todayFilter").on("click",function(){
 		var today = new Date();
 		var dd = String(today.getDate()).padStart(2, '0');

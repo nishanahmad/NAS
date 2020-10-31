@@ -19,6 +19,8 @@ if(isset($_SESSION["user_name"]))
 <html>
 	<head>
 		<link rel="stylesheet" href="home.css"/>
+		<link href="../css/styles.css" rel="stylesheet" type="text/css">
+		<link href="../css/navbarMobile.css" media="screen and (max-device-width: 768px)" rel="stylesheet" type="text/css">
 		<title>Home</title>
 		<style>
 
@@ -47,7 +49,8 @@ if(isset($_SESSION["user_name"]))
 					</div>
 				</a>																																	<?php
 			}																																			?>
-		</div>		
+		</div>	
+		<br/><br/><br/><br/>
 	</body>
 </html>																																					<?php
 }

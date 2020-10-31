@@ -81,6 +81,7 @@ if(isset($_SESSION["user_name"]))
 <head>
 	<title>Sales Summary AR</title>
 	<link href="../css/styles.css" rel="stylesheet" type="text/css">
+	<link href="../css/navbarMobile.css" media="screen and (max-device-width: 768px)" rel="stylesheet" type="text/css">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css">
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
@@ -94,19 +95,11 @@ if(isset($_SESSION["user_name"]))
 		var pickerOpts2 = { dateFormat:"dd-mm-yy"}; 
 		$( "#toDate" ).datepicker(pickerOpts2);		
 
-	});
-	
-	$(document).ready(function() {	
 		$(".maintable").tablesorter(); 
 		var $table = $('.maintable');
-	});		
-
+	});
 	</script>	
     <style> 
-        .header { 
-            position: sticky; 
-            top:0; 
-        } 
 		.green{
 			font-weight:bold;
 			font-style:italic;
@@ -117,17 +110,7 @@ if(isset($_SESSION["user_name"]))
 </head>
 <body>
 <nav class="navbar navbar-light bg-light sticky-top bottom-nav">
-	<div class="btn-group" role="group" aria-label="Button group with nested dropdown" style="float:left;margin-left:20px;">
-		<div class="btn-group" role="group">
-			<button id="btnGroupDrop1" type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-				Sales Summary AR
-			</button>
-			<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">
-				<li id="todayFilter"><a class="dropdown-item">Sales Summary AR</a></li>
-			</ul>
-		</div>
-	</div>
-	<span class="navbar-brand" style="font-size:25px;margin-right:50%"><i class="fa fa-line-chart"></i> Reports</span>
+	<span class="navbar-brand" style="font-size:25px;margin-left:40%"><i class="fa fa-line-chart"></i> Summary Report</span>
 </nav>
 <div align="center">
 <br/><br/>
@@ -136,7 +119,7 @@ if(isset($_SESSION["user_name"]))
 		<div style="width:220px;">
 			<div class="input-group">
 				<span class="input-group-text col-md-5"><i class="far fa-calendar-alt"></i>&nbsp;From</span>
-				<input type="text" required name="fromDate" id="fromDate" class="form-control datepicker" autocomplete="off" value="<?php echo date('d-m-Y',strtotime($fromDate)); ?>">
+				<input type="text" required name="fromDate" id="fromDate" class="form-control" autocomplete="off" value="<?php echo date('d-m-Y',strtotime($fromDate)); ?>">
 			</div>
 		</div>
 		<div style="width:220px;">
@@ -229,7 +212,7 @@ if($tallyFlag)
 		</tr>
 	</tbody>
 </table>
-<br><br><br><br><br><br>
+<br/><br/><br/>
 </div>
 <script>
 	function callAjax(ar){

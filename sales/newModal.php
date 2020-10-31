@@ -17,7 +17,7 @@ if(isset($_SESSION["user_name"]))
 	
 	$shopNameArray = json_encode($shopNameMap);
 	$shopNameArray = str_replace('\n',' ',$shopNameArray);
-	$shopNameArray = str_replace('\r',' ',$shopNameArray);	
+	$shopNameArray = str_replace('\r',' ',$shopNameArray);
 	
 	$engineerObjects = mysqli_query($con,"SELECT id,name,sap_code,shop_name FROM ar_details WHERE type LIKE '%Engineer%' OR type = 'Contractor' ORDER BY name ASC");
 	$trucks = mysqli_query($con,"SELECT * FROM truck_details ORDER BY number");
@@ -43,7 +43,7 @@ if(isset($_SESSION["user_name"]))
 									<input type="text" id="date" class="form-control datepicker" name="date" required value="<?php echo date('d-m-Y'); ?>" autocomplete="off"/>
 								</div>
 							</div>
-							<div class="col-sm-6 col-md-5 offset-md-1">
+							<div class="col-sm-6 col-md-5 offset-md-1" id="content-desktop">
 								<div class="input-group mb-3">
 									<span class="input-group-text col-md-4 col-xs-3"><i class="far fa-file-alt"></i>&nbsp;Bill No</span>
 									<input type="text" name="bill" id="bill" class="form-control">
@@ -56,7 +56,7 @@ if(isset($_SESSION["user_name"]))
 							<div class="col-sm-6 col-md-5 offset-md-1">
 								<div class="input-group mb-3">
 									<span class="input-group-text col-md-3"><i class="fa fa-address-card-o"></i>&nbsp;AR</span>
-									<select name="ar" id="ar" required class="form-control" style="width:75%">
+									<select name="ar" id="ar" required class="form-control" style="width:74%">
 										<option value = "">---Select---</option>																						<?php
 										foreach($arObjects as $ar) 
 										{																							?>
@@ -65,7 +65,7 @@ if(isset($_SESSION["user_name"]))
 									</select>
 								</div>
 							</div>
-							<div class="col-sm-6 col-md-5">
+							<div class="col-sm-6 col-md-5" id="content-desktop">
 								<div class="input-group mb-3">
 									<span class="input-group-text col-md-4 col-xs-3"><i class="fa fa-truck-moving"></i>&nbsp;Truck</span>
 									<select name="truck" id="truck" class="form-control" style="width:67%">
@@ -84,7 +84,7 @@ if(isset($_SESSION["user_name"]))
 							<div class="col-sm-6 col-md-5 offset-md-1">
 								<div class="input-group mb-3">
 									<span class="input-group-text col-md-3"><i class="fa fa-hard-hat"></i>&nbsp;Eng</span>
-									<select name="engineer" id="engineer"  class="form-control" style="width:75%">
+									<select name="engineer" id="engineer"  class="form-control" style="width:72%">
 										<option value = "">---Select---</option>
 																																	<?php
 										foreach($engineerObjects as $eng) 
@@ -94,7 +94,7 @@ if(isset($_SESSION["user_name"]))
 									</select>
 								</div>
 							</div>
-							<div class="col-sm-6 col-md-5">
+							<div class="col-sm-6 col-md-5" id="content-desktop">
 								<div class="input-group mb-3">
 									<span class="input-group-text" style="width:40%"><i class="fa fa-money"></i></i>&nbsp;Order No</span>
 									<input type="text" name="order_no" id="order_no" class="form-control">
@@ -115,7 +115,7 @@ if(isset($_SESSION["user_name"]))
 									</select>
 								</div>
 							</div>
-							<div class="col-sm-6 col-md-5 offset-md-1">
+							<div class="col-sm-6 col-md-5 offset-md-1" id="content-desktop">
 								<div class="input-group mb-3">
 									<span class="input-group-text" style="width:40%"><i class="fas fa-warehouse"></i></i>&nbsp;Godown</span>
 									<select name="godown" id="godown" class="form-control" style="width:60%">
@@ -153,7 +153,7 @@ if(isset($_SESSION["user_name"]))
 									<input type="text" name="bd" id="bd" class="form-control">
 								</div>
 							</div>
-							<div class="col-sm-6 col-md-5 offset-md-1">
+							<div class="col-sm-6 col-md-5 offset-md-1" id="content-desktop">
 								<div class="input-group mb-3">
 									<span class="input-group-text" style="width:40%"><i class="fas fa-mobile-alt"></i>&nbsp;Phone</span>
 									<input type="text" name="customerPhone" id="phone" class="form-control">
@@ -169,7 +169,7 @@ if(isset($_SESSION["user_name"]))
 									<textarea name="remarks" id="remarks" class="form-control" rows="3"></textarea>
 								</div>
 							</div>
-							<div class="col-sm-6 col-md-6">
+							<div class="col-sm-6 col-md-6" id="content-desktop">
 								<div class="input-group mb-3">
 									<span class="input-group-text col-md-4"><i class="fas fa-map-marker-alt"></i>&nbsp;Address</span>
 									<textarea name="address1" id="address1" class="form-control" rows="3"></textarea>
@@ -185,7 +185,7 @@ if(isset($_SESSION["user_name"]))
 									<input readonly id="final" class="form-control">
 								</div>
 							</div>
-							<div class="col-sm-6 col-md-6">
+							<div class="col-sm-6 col-md-6" id="content-desktop">
 								<div class="input-group mb-3">
 									<span class="input-group-text col-md-4"><i class="fa fa-address-card-o"></i>&nbsp;Shop</span>
 									<input type="text" readonly name="shopName" id="shopName" class="form-control">
@@ -205,19 +205,19 @@ if(isset($_SESSION["user_name"]))
 					<input hidden name="range" value="<?php echo $_GET['range'];?>"/>
 				</form>
 				<br/>
-				<div class="col col-md-4 offset-1">
+				<div class="col col-md-4 offset-1" id="content-desktop">
 					<div class="input-group">
 						<span class="input-group-text col-md-6">General Rate</span>
 						<input readonly id="rate" class="form-control">
 					</div>
 				</div>				
-				<div class="col col-md-4 offset-1">
+				<div class="col col-md-4 offset-1" id="content-desktop">
 					<div class="input-group">
 						<span class="input-group-text col-md-6">Wagon Disc</span>
 						<input readonly id="wd" class="form-control">
 					</div>
 				</div>								
-				<div class="col col-md-4 offset-1">
+				<div class="col col-md-4 offset-1" id="content-desktop">
 					<div class="input-group">
 						<span class="input-group-text col-md-6">Cash Disc</span>
 						<input readonly id="cd" class="form-control">
