@@ -34,7 +34,14 @@ function getPointPercentage($actual_perc,$year,$month)
 	}
 	else
 	{
-		
+		if($actual_perc < 50)			
+			$point_perc = 0;
+		else if($actual_perc <= 59)		
+			$point_perc = 50;
+		else if($actual_perc <= 79)		
+			$point_perc = 70;
+		else if($actual_perc >= 80)		
+			$point_perc = 100;												
 	}
 			
 	return $point_perc;

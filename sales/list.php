@@ -58,7 +58,7 @@ if(isset($_SESSION["user_name"]))
 
 <html>
 	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1">	
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href="../css/styles.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="../css/neomorphism.css"/>
 		<link href="../css/navbarMobile.css" media="screen and (max-device-width: 768px)" rel="stylesheet" type="text/css">
