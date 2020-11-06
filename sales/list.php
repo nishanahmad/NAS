@@ -155,7 +155,7 @@ if(isset($_SESSION["user_name"]))
 				<table class="maintable table table-hover table-bordered ui-table-reflow" style="width:95%;margin-left:2%;">
 					<thead>
 						<tr class="table-success">
-							<th style="width:110px;"><i class="far fa-calendar-alt"></i> Date</th>
+							<th style="min-width:110px;"><i class="far fa-calendar-alt"></i> Date</th>
 							<th><i class="fa fa-address-card-o"></i> AR</th>
 							<th style="width:70px;"><i class="fa fa-shield"></i> PRO</th>
 							<th style="width:70px;"><i class="fab fa-buffer"></i> QTY</th>
