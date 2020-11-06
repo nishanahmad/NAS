@@ -42,7 +42,7 @@
 	$result=mysqli_query($con,$sql);
 	$rowcount=mysqli_num_rows($result);
 	
-	if($rowcount <= 1000)
+	if($rowcount <= 2000)
 		echo $sql;
 	else
 		echo null;
