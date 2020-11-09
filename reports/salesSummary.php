@@ -204,8 +204,8 @@ if(isset($_SESSION["user_name"]))
 							$total = $total + $arSale['SUM(qty)'] - $arSale['SUM(return_bag)'];
 						}																																						?>	
 							<tr style="line-height:50px;background-color:#BEBEBE !important;font-family: Arial Black;">
-								<td colspan="2" style="text-align:right" >TOTAL</td>
-								<td colspan="1"><?php echo $total;?></td>
+								<td colspan="1" style="text-align:right" >TOTAL</td>
+								<td colspan="2"><?php echo $total;?></td>
 								<td></td>
 							</tr>
 						</tbody>
