@@ -159,11 +159,14 @@ if(isset($_SESSION["user_name"]))
 						<div class="justify-content-center">
 							<input type="submit" class="btn" style="background-color:#54698D;color:white;" value="Search">		
 						</div>			
-					</form>																													<br><?php 
-					if($tallyFlag)
-					{																															?>
-						<a href="tallyVerification.php?date=<?php echo $toDate;?>" class="btn" style="background-color:#E6717C;color:white;float:right;margin-right:30px;">Verify Individual Sale</a><?php
-					}																																												  ?>
+					</form>																													
+					<br/>
+					<div id="content-desktop">																									<?php 
+						if($tallyFlag)
+						{																															?>
+							<a href="tallyVerification.php?date=<?php echo $toDate;?>" class="btn" style="background-color:#E6717C;color:white;float:right;margin-right:30px;">Verify Individual Sale</a><?php
+						}																																												  ?>
+					</div>
 					<br/>
 					<div class="col-md-6 table-responsive-sm">
 					<table class="maintable table table-hover table-bordered table-responsive">
@@ -172,10 +175,11 @@ if(isset($_SESSION["user_name"]))
 								<th style="text-align:left;" class="header" scope="col"><i class="fa fa-map-o"></i> AR</th>
 								<th style="width:12%;text-align:center" class="header" scope="col"><i class="fab fa-buffer"></i> Qty</th>
 								<th style="text-align:left;" class="header" scope="col"><i class="fas fa-store"></i> Shop Name</th>	
+								<th style="text-align:left;" class="header" scope="col"><i class="fas fa-store"></i> SAP</th>	
 								<th style="width:15%;" class="header" scope="col"><i class="fa fa-mobile"></i> Phone</th>	<?php
 								if($tallyFlag)
 								{																								?>
-									<th class="header" scope="col">VerifiedBy</th>												<?php
+									<th id="content-desktop" class="header" scope="col">VerifiedBy</th>												<?php
 								}																								?>
 							</tr>
 						</thead>																								
@@ -187,17 +191,18 @@ if(isset($_SESSION["user_name"]))
 								<td style="text-align:left;"><?php echo $arNameMap[$arSale['ar_id']];?></td>
 								<td style="text-align:center"><b><?php echo $arSale['SUM(qty)'];?></b></td>
 								<td style="text-align:left;"><?php echo $arShopMap[$arSale['ar_id']];?></td>			
+								<td style="text-align:left;"><?php echo $arCodeMap[$arSale['ar_id']];?></td>			
 								<td><?php echo $arPhoneMap[$arSale['ar_id']];?></td>										<?php
 								if($tallyFlag == true)
 								{		
 									if(isset($tallyMap[$arSale['ar_id']]))
 									{		
 										$userId = $tallyMap[$arSale['ar_id']];																									?>
-										<td><font style="font-weight:bold;font-style:italic;"><?php echo $userMap[$userId];?></font></td>										<?php
+										<td id="content-desktop"><font style="font-weight:bold;font-style:italic;"><?php echo $userMap[$userId];?></font></td>										<?php
 									}
 									else
 									{																																			?>
-										<td><button class="btn" value="<?php echo $arSale['ar_id'];?>" style="background-color:#E6717C;color:white;" onclick="callAjax(this.value)">Verify</button></td>																											<?php			
+										<td id="content-desktop"><button class="btn" value="<?php echo $arSale['ar_id'];?>" style="background-color:#E6717C;color:white;" onclick="callAjax(this.value)">Verify</button></td>																											<?php			
 									}
 								}																																				?>																																
 							</tr>																																				<?php	
@@ -205,7 +210,7 @@ if(isset($_SESSION["user_name"]))
 						}																																						?>	
 							<tr style="line-height:50px;background-color:#BEBEBE !important;font-family: Arial Black;">
 								<td colspan="1" style="text-align:right" >TOTAL</td>
-								<td colspan="2"><?php echo $total;?></td>
+								<td colspan="3"><?php echo $total;?></td>
 								<td></td>
 							</tr>
 						</tbody>
