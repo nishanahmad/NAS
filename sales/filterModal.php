@@ -19,7 +19,7 @@ if(isset($_SESSION["user_name"]))
 			</div>
 			<div class="modal-body">
 				<br/>
-				<p id="error" style="color:red;"></p>
+				<p id="displayError" style="color:red;"></p>
 				<div class="col col-md-5 offset-1">
 					<div class="input-group">
 						<span class="input-group-text col-md-5"><i class="far fa-calendar-alt"></i>&nbsp;Start Date</span>
@@ -118,10 +118,33 @@ if(isset($_SESSION["user_name"]))
 							data:data,
 							success: function(response){
 								if(response)
+								{
 									window.location.href = 'list.php?sql='+response+'&range=Custom Filter';
+									console.log(response);
+								}
 								else
 									$("#error").text('Search returned too many sales. Please apply more filters');
-							}
+							},
+							error: function (jqXHR, exception) {
+								var msg = '';
+								if (jqXHR.status === 0) {
+									msg = 'Not connect.\n Verify Network.';
+								} else if (jqXHR.status == 404) {
+									msg = 'Requested page not found. [404]';
+								} else if (jqXHR.status == 500) {
+									msg = 'Internal Server Error [500].';
+								} else if (exception === 'parsererror') {
+									msg = 'Requested JSON parse failed.';
+								} else if (exception === 'timeout') {
+									msg = 'Time out error.';
+								} else if (exception === 'abort') {
+									msg = 'Ajax request aborted.';
+								} else {
+									msg = 'Uncaught Error.\n' + jqXHR.responseText;
+								}
+								$("#displayError").text(msg);
+								return false;
+							}							
 						});					
 					});
 				});

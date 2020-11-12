@@ -20,12 +20,12 @@
 	if(!empty($_POST['client']))
 	{
 		$client = $_POST['client'];
-		$sql = $sql." AND (ar_id = '$client' OR eng_id = '$client')";
+		$sql = $sql." AND ar_id = '$client'";
 	}
 	if(!empty($_POST['eng']))
 	{
 		$eng = $_POST['eng'];
-		$sql = $sql." AND (eng_id = '$eng' OR ar_id = '$client')";
+		$sql = $sql." AND eng_id = '$eng'";
 	}	
 	if(!empty($_POST['phone']))
 	{

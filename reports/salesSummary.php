@@ -175,7 +175,7 @@ if(isset($_SESSION["user_name"]))
 								<th style="text-align:left;" class="header" scope="col"><i class="fa fa-map-o"></i> AR</th>
 								<th style="width:12%;text-align:center" class="header" scope="col"><i class="fab fa-buffer"></i> Qty</th>
 								<th style="text-align:left;" class="header" scope="col"><i class="fas fa-store"></i> Shop Name</th>	
-								<th style="text-align:left;" class="header" scope="col"><i class="fas fa-store"></i> SAP</th>	
+								<th style="text-align:left;" class="header" scope="col"> SAP</th>	
 								<th style="width:15%;" class="header" scope="col"><i class="fa fa-mobile"></i> Phone</th>	<?php
 								if($tallyFlag)
 								{																								?>
