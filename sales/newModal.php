@@ -169,7 +169,7 @@ if(isset($_SESSION["user_name"]))
 									<textarea name="remarks" id="remarks" class="form-control" rows="3"></textarea>
 								</div>
 							</div>
-							<div class="col-sm-6 col-md-6" id="content-desktop">
+							<div class="col-sm-6 col-md-6">
 								<div class="input-group mb-3">
 									<span class="input-group-text col-md-4"><i class="fas fa-map-marker-alt"></i>&nbsp;Address</span>
 									<textarea name="address1" id="address1" class="form-control" rows="3"></textarea>
