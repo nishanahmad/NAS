@@ -5,6 +5,7 @@ if(isset($_SESSION["user_name"]))
 	require '../connect.php';
 	require '../sales/listHelper.php';
 	require '../navbar.php';
+	require 'forwardModal.php';
   
 	if(isset($_GET['date']))
 		$date = date("Y-m-d", strtotime($_GET['date']));		
@@ -30,6 +31,21 @@ if(isset($_SESSION["user_name"]))
 			$tally = mysqli_fetch_array($result, MYSQLI_ASSOC);
 			if($tally['status'] == 'LOCKED')
 				return $tally['checked_by'];
+			else
+				return null;
+		}
+		else
+			return null;
+	}
+	
+	function getForwardStatus($saleId,$con)
+	{
+		$result = mysqli_query($con, "SELECT * FROM tally_check_forwards WHERE sale = '$saleId'") or die(mysqli_error($con));	
+		if(mysqli_num_rows($result) > 0)
+		{
+			$forward = mysqli_fetch_array($result, MYSQLI_ASSOC);
+			if($forward['status'])
+				return $forward['forwarded_by'];
 			else
 				return null;
 		}
@@ -128,6 +144,7 @@ if(isset($_SESSION["user_name"]))
 		<th style="width:70px;text-align:center" class="header" scope="col"><i class="fab fa-buffer"></i> Qty</th>
 		<th style="width:12%;text-align:center" class="header" scope="col"><i class="fa fa-rupee-sign"></i> Approx.</th>
 		<th class="header" scope="col">VerifiedBy</th>
+		<th class="header" scope="col">ForwardedBy</th>
 	</tr>
 </thead>
 <?php
@@ -161,15 +178,27 @@ if(isset($_SESSION["user_name"]))
 			<td><?php echo $productMap[$sale['product']]['name'];?></td>
 			<td style="text-align:center"><b><?php echo $sale['qty'] - $sale['return_bag'];?></b></td>
 			<td><?php echo $finalRate * ($sale['qty'] - $sale['return_bag']) - $sale['order_no'] .'/-';?></td>																													<?php
+			
 			if(getVerificationStatus($sale['sales_id'],$con) !== null)
 			{		
 				$userId = getVerificationStatus($sale['sales_id'],$con);																																?>
-				<td><font style="font-weight:bold;font-style:italic;"><?php echo $userMap[$userId];?></font></td>																	<?php
+				<td style="text-align:center"><font style="font-weight:bold;font-style:italic;"><?php echo $userMap[$userId];?></font></td>																	<?php
 			}
 			else
 			{																																										?>
-				<td><button class="btn" value="<?php echo $sale['sales_id'];?>" style="background-color:#E6717C;color:white;" onclick="callAjax(this.value)">Verify</button></td>																											<?php			
-			}																																										?>
+				<td style="text-align:center"><button class="btn btn-sm" value="<?php echo $sale['sales_id'];?>" style="background-color:#E6717C;color:white;" onclick="callAjax(this.value)">Verify</button></td>																											<?php			
+			}
+			
+			if(getForwardStatus($sale['sales_id'],$con) !== null)
+			{		
+				$userId = getForwardStatus($sale['sales_id'],$con);																																?>
+				<td style="text-align:center"><font style="font-weight:bold;font-style:italic;"><?php echo $userMap[$userId];?></font></td>																	<?php
+			}
+			else
+			{																																										?>
+				<td style="text-align:center"><a href="#" class="btn btn-sm" role="button" style="background-color:#54698D;color:white;" data-id="<?php echo $sale['sales_id'];?>" data-toggle="modal" data-target="#forwardModal">Forward</a></td><?php
+			}			
+			?>
 		</tr>																																										<?php	
 	}																																												?>	
 </table>
