@@ -186,7 +186,7 @@ if(isset($_SESSION["user_name"]))
 			}
 			else
 			{																																										?>
-				<td style="text-align:center"><button class="btn btn-sm" value="<?php echo $sale['sales_id'];?>" style="background-color:#E6717C;color:white;" onclick="callAjax(this.value)">Verify</button></td>																											<?php			
+				<td style="text-align:center"><button class="btn btn-sm" value="<?php echo $sale['sales_id'];?>" style="background-color:#228B22;color:white;" onclick="callAjax(this.value)"><i class="fas fa-check"></i> Verify</button></td>																											<?php			
 			}
 			
 			if(getForwardStatus($sale['sales_id'],$con) !== null)
@@ -196,7 +196,7 @@ if(isset($_SESSION["user_name"]))
 			}
 			else
 			{																																										?>
-				<td style="text-align:center"><a href="#" class="btn btn-sm" role="button" style="background-color:#54698D;color:white;" data-id="<?php echo $sale['sales_id'];?>" data-toggle="modal" data-target="#forwardModal">Forward</a></td><?php
+				<td style="text-align:center"><a href="#" class="btn btn-sm" role="button" style="background-color:#E6717C;color:white;" data-id="<?php echo $sale['sales_id'];?>" data-toggle="modal" data-target="#forwardModal"><i class="fas fa-arrow-right"></i> Forward</a></td><?php
 			}			
 			?>
 		</tr>																																										<?php	
