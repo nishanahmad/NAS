@@ -18,7 +18,7 @@
 			$checkSalequery = mysqli_query($con, "SELECT * FROM tally_sale_check WHERE sale = '$saleId'");			
 			if(mysqli_num_rows($checkSalequery) > 0)
 			{
-				$updateSale ="UPDATE tally_sale_check SET status = 'LOCKED' WHERE sale = '$saleId'";
+				$updateSale ="UPDATE tally_sale_check SET status = 'UNLOCKED',unlocked_by = '$forwarded_by' WHERE sale = '$saleId'";
 				$sale = mysqli_query($con, $updateSale);				
 			}
 

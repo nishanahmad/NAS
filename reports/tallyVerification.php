@@ -41,7 +41,7 @@ if(isset($_SESSION["user_name"]))
 	
 	function getForwardStatus($saleId,$con)
 	{
-		$result = mysqli_query($con, "SELECT * FROM tally_check_forwards WHERE sale = '$saleId' AND status = 1") or die(mysqli_error($con));	
+		$result = mysqli_query($con, "SELECT * FROM tally_check_forwards WHERE sale = '$saleId'") or die(mysqli_error($con));	
 		if(mysqli_num_rows($result) > 0)
 		{
 			$forward = mysqli_fetch_array($result, MYSQLI_ASSOC);
