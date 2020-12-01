@@ -12,6 +12,7 @@ if(isset($_SESSION["user_name"]))
 
 	$currentRateMap = getCurrentRates($con);
 	$clientNamesMap = getClientNames($con);
+	$clientTypeMap = getClientType($con);
 	$productDetailsMap = getProductDetails($con);
 	$discountMap = getDiscounts($con);
 	$truckNumbersMap = getTruckNumbers($con);
@@ -225,7 +226,7 @@ if(isset($_SESSION["user_name"]))
 							else
 								$cd = 0;
 							
-							if(isset($wdMap[$sale['product']][$sale['date']]))
+							if(isset($wdMap[$sale['product']][$sale['date']]) && $clientTypeMap[$sale['ar']] =='AR/SR')
 								$wd = $wdMap[$sale['product']][$sale['date']];
 							else
 								$wd = 0;

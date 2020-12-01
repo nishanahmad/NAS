@@ -40,7 +40,7 @@ if(isset($_SESSION["user_name"]))
 	
 	function getForwardStatus($saleId,$con)
 	{
-		$result = mysqli_query($con, "SELECT * FROM tally_check_forwards WHERE sale = '$saleId'") or die(mysqli_error($con));	
+		$result = mysqli_query($con, "SELECT * FROM tally_check_forwards WHERE sale = '$saleId' AND status = 1") or die(mysqli_error($con));	
 		if(mysqli_num_rows($result) > 0)
 		{
 			$forward = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -244,7 +244,7 @@ if(isset($_SESSION["user_name"]))
 			success: function(response){
 				if(response != false){
 					$('#'+response).find('td').eq(6).text('VERIFIED!');
-					$('#'+response).find('td').eq(6).addClass("green")
+					$('#'+response).find('td').eq(6).addClass("green");
 				}
 				else{
 					alert('Some error occured. Try again');

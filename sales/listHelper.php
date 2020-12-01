@@ -71,6 +71,17 @@ function getClientNames($con)
 }
 
 
+function getClientType($con)
+{
+	$clientMap = array();
+	$clients = mysqli_query($con,"SELECT id,type FROM ar_details ORDER BY name ASC");	
+	foreach($clients as $client)
+		$clientMap[$client['id']] = $client['type'];
+		
+	return $clientMap;	
+}
+
+
 function getProductDetails($con)
 {
 	$productMap = array();
