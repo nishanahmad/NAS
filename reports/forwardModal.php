@@ -13,15 +13,14 @@ if(isset($_SESSION["user_name"]))
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<div class="modal-body">
-				<form name="forwardForm" id="forwardForm" method="post" action="update.php">
-					<div class="col col-md-10 offset-1">
-						<input type="text" required name="remarks" id="remarks" class="form-control" autocomplete="off">
-					</div>
-					<br/>
-					<div class="col col-md-10 offset-4">
-						<button id="forwardbtn" class="btn" style="width:100px;font-size:18px;background-color:#E6717C;color:white;"><i class="fa fa-save"></i> Save</button>
-					</div>							
-				</form>
+				<input type="hidden" id="forwardIdModal">	
+				<div class="col col-md-10 offset-1">
+					<input type="text" required name="remarks" id="remarks" class="form-control" autocomplete="off">
+				</div>
+				<br/>
+				<div class="col col-md-10 offset-4">
+					<button id="forwardbtn" class="btn" style="width:100px;font-size:18px;background-color:#E6717C;color:white;"><i class="fa fa-save"></i> Save</button>
+				</div>
 			</div>
 		</div>
 		<div class="modal-footer">

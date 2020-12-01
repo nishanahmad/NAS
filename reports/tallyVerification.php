@@ -80,18 +80,6 @@ if(isset($_SESSION["user_name"]))
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js"></script>	
-	<script>
-	$(function() {
-		var pickerOpts = { dateFormat:"dd-mm-yy"}; 
-		$( "#date" ).datepicker(pickerOpts);
-	});
-	
-	$(document).ready(function() {
-		$(".maintable").tablesorter(); 
-		var $table = $('.maintable');
-	});		
-
-	</script>	
     <style> 
         .header { 
             position: sticky; 
@@ -102,6 +90,11 @@ if(isset($_SESSION["user_name"]))
 			font-style:italic;
 			color:LimeGreen			
 		}
+		.red{
+			font-weight:bold;
+			font-style:italic;
+			color:red			
+		}	
 	</style> 
 	
 </head>
@@ -196,7 +189,7 @@ if(isset($_SESSION["user_name"]))
 			}
 			else
 			{																																										?>
-				<td style="text-align:center"><a href="#" class="btn btn-sm" role="button" style="background-color:#E6717C;color:white;" data-id="<?php echo $sale['sales_id'];?>" data-toggle="modal" data-target="#forwardModal"><i class="fas fa-arrow-right"></i> Forward</a></td><?php
+				<td style="text-align:center"><a href="#" class="btn btn-sm forwardRow" role="button" style="background-color:#E6717C;color:white;" data-id="<?php echo $sale['sales_id'];?>" data-toggle="modal" data-target="#forwardModal"><i class="fas fa-arrow-right"></i> Forward</a></td><?php
 			}			
 			?>
 		</tr>																																										<?php	
@@ -205,6 +198,44 @@ if(isset($_SESSION["user_name"]))
 <br><br><br><br><br><br>
 </div>
 <script>
+	$(document).ready(function() {
+		$(".maintable").tablesorter(); 
+		var $table = $('.maintable');
+		
+		var pickerOpts = { dateFormat:"dd-mm-yy"}; 
+		$( "#date" ).datepicker(pickerOpts);
+
+
+		$('.forwardRow').click(function(){
+			var forwardId = $(this).data('id');
+			$("#forwardIdModal").val(forwardId);
+		});	
+
+		$('#forwardbtn').click(function(){
+			var fId = $( "#forwardIdModal" ).val();
+			var remarks = $( "#remarks" ).val();
+			$.ajax({
+				type: "POST",
+				url: "ajax/forwardVerification.php",
+				data:'forwardId='+fId + '&remarks=' + remarks,
+				success: function(response){
+					if(response != false){
+						$('#'+response).find('td').eq(7).text('Forwarded!');
+						$('#'+response).find('td').eq(7).addClass("red");
+						$("#remarks").val('');
+						$('#forwardModal').hide();
+						$('body').removeClass('modal-open');
+						$('.modal-backdrop').remove();
+					}
+					else{
+						alert('Some error occured !!!');
+						return false;
+					}
+				}
+			});	  
+		});		
+	});
+	
 	function callAjax(saleId){
 		$.ajax({
 			type: "POST",
