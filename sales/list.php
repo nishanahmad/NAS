@@ -184,7 +184,7 @@ if(isset($_SESSION["user_name"]))
 							else
 								$cd = 0;
 							
-							if(isset($wdMap[$sale['product']][$sale['date']]))
+							if(isset($wdMap[$sale['product']][$sale['date']]) && $clientTypeMap[$sale['client']] == 'AR/SR')
 								$wd = $wdMap[$sale['product']][$sale['date']];
 							else
 								$wd = 0;
@@ -226,12 +226,12 @@ if(isset($_SESSION["user_name"]))
 							else
 								$cd = 0;
 							
-							if(isset($wdMap[$sale['product']][$sale['date']]) && $clientTypeMap[$sale['ar']] =='AR/SR')
+							if(isset($wdMap[$sale['product']][$sale['date']]) && $clientTypeMap[$sale['client']] == 'AR/SR')
 								$wd = $wdMap[$sale['product']][$sale['date']];
 							else
 								$wd = 0;
 							
-							$finalRate = $rate - $cd - $wd - $sale['discount'];																					?>	
+							$finalRate = $rate - $cd - $wd - $sale['discount'];																			?>	
 							
 							<div class="app-content">
 								<button class="button button-large">
