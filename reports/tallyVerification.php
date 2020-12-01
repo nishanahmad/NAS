@@ -11,6 +11,7 @@ if(isset($_SESSION["user_name"]))
 		$date = date("Y-m-d", strtotime($_GET['date']));		
 
 	$productMap = getProductDetails($con);
+	$clientTypeMap = getClientType($con);
 	$rateMap = getRateMap();
 	$cdMap = getCDMap();
 	$wdMap = getWDMap();	
@@ -157,7 +158,7 @@ if(isset($_SESSION["user_name"]))
 		else
 			$cd = 0;
 		
-		if(isset($wdMap[$sale['product']][$sale['entry_date']]))
+		if(isset($wdMap[$sale['product']][$sale['entry_date']]) && $clientTypeMap[$sale['ar_id']] == 'AR/SR')
 			$wd = $wdMap[$sale['product']][$sale['entry_date']];
 		else
 			$wd = 0;
