@@ -137,10 +137,12 @@ if(isset($_SESSION["user_name"]))
 									<input type="text" name="qty" id="qty" required class="form-control" pattern="[0-9]+" title="Input a valid number">
 								</div>
 							</div>
-							<div class="col-sm-6 col-md-5 offset-md-1">
+							<div class="col-sm-6 col-md-6 offset-md-1">
 								<div class="input-group mb-3">
-									<span class="input-group-text" style="width:40%"><i class="far fa-user"></i></i>&nbsp;Customer</span>
+									<span class="input-group-text" style="width:33%"><i class="far fa-user"></i></i>&nbsp;Customer</span>
 									<input type="text" name="customerName" id="customer" class="form-control">
+									&nbsp;&nbsp;
+									<input class="form-check-input" type="checkbox" id="autoDiscount">&nbsp;AR
 								</div>
 							</div>
 						</div>

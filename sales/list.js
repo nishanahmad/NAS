@@ -300,7 +300,23 @@ $(function(){
 	$("#bd").change(function(){
 		refreshRate();
 	});		
-		
+
+	$("#autoDiscount").click(function(){
+		var product = $("#product").val();
+		var discount = $("#bd").val();
+		if(!discount)
+			discount = 0;
+		if($(this).is(":checked")) 
+		{
+			if(product == 1 || product == 3) 
+				$("#bd").val(parseInt(discount) + 5);
+		}
+		else
+		{
+			if(product == 1 || product == 3) 
+				$("#bd").val(discount - 5);
+		}	
+	});		
 });
 
 function refreshRate()
