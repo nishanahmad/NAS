@@ -65,15 +65,6 @@ if(isset($_SESSION["user_name"]))
 			var shopName_array = JSON.parse(shopNameList);
 			var shopNameArray = shopName_array;
 		</script>
-		<style>
-			#content-desktop {display: block;}
-			#content-mobile {display: none;}
-
-			@media screen and (max-width: 768px) {
-			  #content-desktop {display: none;}
-			  #content-mobile {display: block;}
-			}		
-		</style>
 	</head>
 	<body>
 		<nav class="navbar navbar-light bg-light sticky-top bottom-nav">
@@ -153,7 +144,7 @@ if(isset($_SESSION["user_name"]))
 								</div>
 								<div class="col col-md-5 offset-1">
 									<div class="input-group mb-3">
-										<span class="input-group-text col-md-4"><i class="fas fa-truck-moving"></i>&nbsp;Truck</span>
+										<span class="input-group-text col-md-3"><i class="fas fa-truck-moving"></i>&nbsp;Truck</span>
 										<select name="truck" id="truck" class="form-control" style="line-height:20px;width:46%;">	
 											<option value = "">-- NULL --</option>																																		<?php
 											foreach($trucks as $truck) 
@@ -201,7 +192,7 @@ if(isset($_SESSION["user_name"]))
 								</div>
 								<div class="col col-md-4 offset-2">
 									<div class="input-group mb-3">
-									<span class="input-group-text" style="width:40%"><i class="fas fa-warehouse"></i></i>&nbsp;Godown</span>
+									<span class="input-group-text" style="width:31%"><i class="fas fa-warehouse"></i></i>&nbsp;Godown</span>
 									<select name="godown" id="godown" class="form-control" style="width:60%">
 										<option value = "">---Select---</option>																						<?php
 										foreach($godowns as $godown) 
@@ -225,6 +216,8 @@ if(isset($_SESSION["user_name"]))
 										<input type="text" name="customerName" id="customer" class="form-control" value="<?php echo $row['customer_name']; ?>">
 									</div>
 								</div>
+								&nbsp;&nbsp;
+								<input class="form-check-input" type="checkbox" name="ar_direct" id="autoDiscount" <?php echo ($row['ar_direct']==1 ? 'checked' : '');?>>&nbsp;AR										
 							</div>
 							<div class="row">
 								<div class="col col-md-4 offset-1">
@@ -275,6 +268,12 @@ if(isset($_SESSION["user_name"]))
 										<input readonly class="form-control" value="<?php echo $row['truck_no'];?>">
 									</div>
 								</div>
+								<div class="col col-md-4 offset-2">
+									<div class="input-group">
+										<span class="input-group-text col-md-4"><i class="fas fa-money-check-alt"></i>&nbsp;Total</span>
+										<input readonly class="form-control" id="total">
+									</div>
+								</div>								
 							</div>							
 							<p id="displayError" style="color:red;"></p>
 							<br/>

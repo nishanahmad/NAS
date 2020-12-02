@@ -309,12 +309,31 @@ $(function(){
 		if($(this).is(":checked")) 
 		{
 			if(product == 1 || product == 3) 
+			{
 				$("#bd").val(parseInt(discount) + 5);
+				var client = $("#ar").val();
+				$.ajax({
+					type: "POST",
+					url: "ajax/getARName.php",
+					data:'id='+client,
+					success: function(result){
+						if(result != null)
+						{
+							$("#customer").val(result);
+							refreshRate();
+						}
+					}
+				});								
+			}
 		}
 		else
 		{
 			if(product == 1 || product == 3) 
+			{
 				$("#bd").val(discount - 5);
+				$("#customer").val('');	
+				refreshRate();				
+			}
 		}	
 	});		
 });

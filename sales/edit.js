@@ -225,7 +225,7 @@ $(document).ready(function()
 			}
 		});			
 	});	
-	$("#bd").change(function(){
+	$("#bd,#order_no").change(function(){
 		refreshRate();
 	});	
 
@@ -296,10 +296,47 @@ $(document).ready(function()
 		});
 	});		
 
-$("#deleteModal").on("hidden.bs.modal", function(){
-	$("#deleteError").text('');
-	$("#confirmId").text('Are you sure you want to delete this sale?');
-});	
+	$("#autoDiscount").click(function(){
+		var product = $("#product").val();
+		var discount = $("#bd").val();
+		if(!discount)
+			discount = 0;
+		if($(this).is(":checked")) 
+		{
+			if(product == 1 || product == 3) 
+			{
+				$("#bd").val(parseInt(discount) + 5);
+				var client = $("#ar").val();
+				$.ajax({
+					type: "POST",
+					url: "ajax/getARName.php",
+					data:'id='+client,
+					success: function(result){
+						if(result != null)
+						{
+							$("#customer").val(result);
+							refreshRate();
+						}
+					}
+				});								
+			}
+		}
+		else
+		{
+			if(product == 1 || product == 3) 
+			{
+				$("#bd").val(discount - 5);
+				$("#customer").val('');	
+				refreshRate();				
+			}
+		}	
+	});
+
+
+	$("#deleteModal").on("hidden.bs.modal", function(){
+		$("#deleteError").text('');
+		$("#confirmId").text('Are you sure you want to delete this sale?');
+	});	
 
 
 	// TRUCK LOADING FUNCTIONS ON EDIT 
@@ -358,6 +395,14 @@ function refreshRate()
 	var cd=document.getElementById("cd").value;
 	var wd=document.getElementById("wd").value;
 	var bd=document.getElementById("bd").value;
+	var qty=document.getElementById("qty").value;
+	var order_no=document.getElementById("order_no").value;
 	
-	$('#final').val(rate-cd-wd-bd);
+	var finalRate = rate-cd-wd-bd;
+	var totalAmount = (finalRate * qty) - order_no;
+	
+	$('#final').val(finalRate);
+	$('#total').val(totalAmount);
+	
+	
 }
