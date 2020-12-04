@@ -225,7 +225,7 @@ $(document).ready(function()
 			}
 		});			
 	});	
-	$("#bd,#order_no").change(function(){
+	$("#bd,#order_no,#qty").change(function(){
 		refreshRate();
 	});	
 

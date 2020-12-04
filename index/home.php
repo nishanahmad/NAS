@@ -87,7 +87,7 @@ if(isset($_SESSION["user_name"]))
 									<p class="small"><?php 
 										echo $clientNamesMap[$sale['ar_id']].'<br/>'.date('d-m-Y',strtotime($sale['entry_date'])).'<br/>'.$productDetailsMap[$sale['product']]['name'].' '.$sale['qty'].' bags';?>
 									</p>
-									Forwarded By : <?php echo $userMap[$forward['forwarded_by']];?>
+									Forwarded By : <?php echo $userMap[$forward['forwarded_by']].'<br/>'.$forward['remarks'];?>
 									<div class="dimmer"></div>
 									<div class="go-corner" href="#" style="background-color:#DE2F2F">
 										<div class="go-arrow"><i class="fas fa-arrow-right fa-xs"></i></div>
