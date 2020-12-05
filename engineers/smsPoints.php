@@ -19,7 +19,7 @@ if(isset($_SESSION["user_name"]))
 		$urlBlock = 1;
 	}
 	
-	$engObjects =  mysqli_query($con,"SELECT id,name,mobile FROM ar_details WHERE type LIKE '%Engineer%' AND isActive = 1 ORDER BY name ASC ") or die(mysqli_error($con));
+	$engObjects =  mysqli_query($con,"SELECT id,name,mobile FROM ar_details WHERE type LIKE '%Engineer%' ORDER BY name ASC ") or die(mysqli_error($con));
 	foreach($engObjects as $eng)
 	{
 		$engMap[$eng['id']]['name'] = $eng['name'];

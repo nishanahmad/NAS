@@ -18,7 +18,7 @@ if(isset($_SESSION["user_name"]))
 	if($month == date("m") && $year == date("Y"))
 		$day = (int)date("d");
 
-	$arObjects = mysqli_query($con, "SELECT * FROM ar_details WHERE isActive = 1 AND type LIKE 'AR%' ORDER BY name ASC" ) or die(mysqli_error($con));	
+	$arObjects = mysqli_query($con, "SELECT * FROM ar_details WHERE type LIKE 'AR%' ORDER BY name ASC" ) or die(mysqli_error($con));	
 	foreach($arObjects as $ar)
 	{
 		$arNameMap[$ar['id']] = $ar['name'];

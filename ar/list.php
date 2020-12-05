@@ -48,7 +48,6 @@ if(isset($_SESSION["user_name"]))
 					<th style="text-align:center;width:8%">SAP</th>
 					<th>Mobile</th>
 					<th>Area</th>
-					<th>Status</th>
 				</tr>
 			</thead>
 			<tbody>																																			<?php
@@ -60,7 +59,6 @@ if(isset($_SESSION["user_name"]))
 				$sapCode = $row['sap_code'];
 				$area = $row['area'];
 				$mobile = $row['mobile'];
-				$status = $row['isActive'];
 			?>	
 			<tr>
 				<td><?php echo $arname; ?></td>	
@@ -68,7 +66,6 @@ if(isset($_SESSION["user_name"]))
 				<td style="text-align:center;width:8%"><label align="center"><?php echo $sapCode; ?></td>	
 				<td style="text-align:center;width:10%"><?php echo $mobile;?></td>		
 				<td style=""><?php echo $area;?></td>	
-				<td style="text-align:center;width:8%"><?php if($status == 1 ) echo 'Active'; else echo 'InActive';?></td>
 			</tr>																																			<?php
 			}																																																										?>
 			</tbody>	

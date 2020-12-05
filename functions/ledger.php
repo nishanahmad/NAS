@@ -97,7 +97,7 @@ function getSales($year,$arId)
 
 
 
-function getPoints($year,$saleMap,$isActive,$targetMap)
+function getPoints($year,$saleMap,$targetMap)
 {
 	require '../connect.php';
 	require 'targetFormula.php';
@@ -111,7 +111,7 @@ function getPoints($year,$saleMap,$isActive,$targetMap)
 		$pointsMap[$month]['achieved_points'] = null;
 		$pointsMap[$month]['payment_points'] = null;					
 
-		if(isset($targetMap[$month]['target']) && $isActive && $targetMap[$month]['target'] >0)
+		if(isset($targetMap[$month]['target']) && $targetMap[$month]['target'] >0)
 		{
 			$points = round($total * $targetMap[$month]['rate'],0);
 			$actual_perc = round($total * 100 / $targetMap[$month]['target'],0);
@@ -135,7 +135,7 @@ function getPoints($year,$saleMap,$isActive,$targetMap)
 }
 
 
-function getOpeningPoints($year,$arId,$isActive)
+function getOpeningPoints($year,$arId)
 {
 	require '../connect.php';
 	
@@ -170,7 +170,7 @@ function getOpeningPoints($year,$arId,$isActive)
 				
 				foreach($saleMap as $month => $total)
 				{
-					if(isset($targetMap[$month]['target']) && $isActive && $targetMap[$month]['target'] >0)
+					if(isset($targetMap[$month]['target']) && $targetMap[$month]['target'] >0)
 					{
 							$points = round($total * $targetMap[$month]['rate'],0);
 							$actual_perc = round($total * 100 / $targetMap[$month]['target'],0);
