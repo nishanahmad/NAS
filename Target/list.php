@@ -37,7 +37,7 @@ if(isset($_SESSION["user_name"]))
 
 	if($year == $latestYear && $month > $latestMonth)
 	{
-		$URL='monthlyPointsList.php?';
+		$URL='list.php?';
 		echo "<script type='text/javascript'>document.location.href='{$URL}';</script>";
 		echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';
 	}
@@ -181,7 +181,6 @@ function rerender()
 						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">
 							<li><a href="../points_full/mainPage.php?" class="dropdown-item">Accumulated Points</a></li>
 							<li><a href="edit.php?" class="dropdown-item">Update Target</a></li>
-							<li><a href="../redemption/list.php?type=AR" class="dropdown-item">Redemption List</a></li>
 						</ul>
 					</div>
 				</div>					
@@ -189,10 +188,10 @@ function rerender()
 				<a href="new.php?year=<?php echo $nextYear;?>&month=<?php echo $nextMonth;?>" class="btn btn-sm" style="background-color:#54698D;color:white;float:right;margin-right:5%;"><i class="fa fa-chart-line"></i> Generate <?php echo getmonth($nextMonth);?> Target</a>
 			</nav>
 			<br/><br/>			
-			<div class="row" style="margin-left:50%">
-				<div style="width:100px;">
+			<div class="row">
+				<div style="width:120px;margin-left:48%">
 					<div class="input-group">
-						<select id="jsYear" name="jsYear" class="form-control" style="width:200px;" onchange="return rerender();">																				<?php	
+						<select id="jsYear" name="jsYear" class="form-select" style="width:200px;" onchange="return rerender();">																				<?php	
 							$yearList = mysqli_query($con, "SELECT DISTINCT year FROM target ORDER BY year DESC") or die(mysqli_error($con));	
 							foreach($yearList as $yearObj) 
 							{																																	  ?>				
@@ -203,7 +202,7 @@ function rerender()
 				</div>				
 				<div style="width:150px;">
 					<div class="input-group">
-						<select id="jsMonth" name="jsMonth" class="form-control" style="width:200px;" onchange="return rerender();">																				<?php	
+						<select id="jsMonth" name="jsMonth" class="form-select" style="width:200px;" onchange="return rerender();">																				<?php	
 							$monthObjects = mysqli_query($con,"SELECT DISTINCT month FROM target WHERE year = $year ORDER BY month ASC");	
 							foreach($monthObjects as $mnth)
 							{

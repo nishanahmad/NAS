@@ -59,10 +59,10 @@ if(isset($_SESSION["user_name"]))
 				<div class="btn-group" role="group" aria-label="Button group with nested dropdown" style="float:left;margin-left:2%;">
 					<div class="btn-group" role="group">
 						<button id="btnGroupDrop1" type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-							Update Target
+							Generate Target
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">
-							<li><a href="monthlyPointsList.php?" class="dropdown-item">Monthly Points</a></li>
+							<li><a href="list.php?" class="dropdown-item">Monthly Points</a></li>
 							<li><a href="../points_full/mainPage.php?" class="dropdown-item">Accumulated Points</a></li>
 						</ul>
 					</div>

@@ -34,7 +34,7 @@ if(isset($_SESSION["user_name"]))
 		}
 	}
 	
-	header( "Location: monthlyPointsList.php?" );
+	header( "Location: list.php?" );
 
 	mysqli_close($con); 
 }

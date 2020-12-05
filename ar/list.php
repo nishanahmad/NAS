@@ -26,7 +26,7 @@ if(isset($_SESSION["user_name"]))
 		<nav class="nav">
 			<ul>
 				<li class="active"><a href="#">AR List</a></li>
-				<li><a href="../Target/monthlyPointsList.php?">Target</a></li>
+				<li><a href="../Target/list.php?">Target</a></li>
 				<li><a href="../SpecialTarget/list.php?">Special Target</a></li>
 			</ul>
 		</nav>

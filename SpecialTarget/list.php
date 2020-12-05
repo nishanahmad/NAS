@@ -140,7 +140,7 @@ if(isset($_SESSION["user_name"]))
 			<nav class="nav">
 				<ul>
 					<li><a href="../ar/list.php">AR List</a></li>
-					<li><a href="../Target/monthlyPointsList.php">Target</a></li>
+					<li><a href="../Target/list.php?">Target</a></li>
 					<li class="active"><a href="#">Special Target</a></li>
 				</ul>
 			</nav>
@@ -153,7 +153,7 @@ if(isset($_SESSION["user_name"]))
 							View
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">									
-							<li id="update"><a href="updatePage.php" class="dropdown-item">Update</a></li>							
+							<li id="update"><a href="edit.php?" class="dropdown-item">Update</a></li>							
 						</ul>
 					</div>
 				</div>					
@@ -162,15 +162,15 @@ if(isset($_SESSION["user_name"]))
 			</nav>
 			<div id="snackbar"><i class="fa fa-chart-pie"></i>&nbsp;&nbsp;Special target list inserted succesfully !!!</div>
 			<br><br>
-			<select name="grouping" id="grouping" class="form-control" style="margin-left:40%;width:150px;" onchange="location.href= this.value ">
+			<!--select name="grouping" id="grouping" class="form-select" style="margin-left:40%;width:150px;" onchange="location.href= this.value ">
 				 <option selected value="#">No Grouping</option>   								
 				 <option value="list_user.php?">User Wise</option>
-			</select>		
-			<br><br>			
-			<div class="row" style="margin-left:20%">
-				<div style="width:100px;">
+			</select>
+			<br><br-->			
+			<div class="row">
+				<div style="width:120px;margin-left:40%">
 					<div class="input-group">
-						<select id="jsYear" name="jsYear" class="form-control" onchange="return refreshYear();">																<?php	
+						<select id="jsYear" name="jsYear" class="form-select" onchange="return refreshYear();">																<?php	
 							$yearList = getYears();	
 							foreach($yearList as $yr)
 							{																																				?>
@@ -181,7 +181,7 @@ if(isset($_SESSION["user_name"]))
 				</div>
 				<div style="width:150px;">
 					<div class="input-group">
-						<select id="jsMonth" name="jsMonth" class="form-control" onchange="return refreshMonth();">																<?php	
+						<select id="jsMonth" name="jsMonth" class="form-select" onchange="return refreshMonth();">																<?php	
 							if(!isset($monthList))
 								$monthList = getMonths($year);	
 							foreach($monthList as $mnth) 
@@ -193,7 +193,7 @@ if(isset($_SESSION["user_name"]))
 				</div>
 				<div style="width:150px;">
 					<div class="input-group">
-						<select id="jsDateString" name="jsDateString" class="form-control" onchange="return refreshString();">																	<?php	
+						<select id="jsDateString" name="jsDateString" class="form-select" onchange="return refreshString();">																	<?php	
 							if(!isset($stringList))
 								$stringList = getStrings($year,$month);
 							foreach($stringList as $string) 

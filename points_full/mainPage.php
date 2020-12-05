@@ -219,7 +219,7 @@ if(isset($_SESSION["user_name"]))
 							Accumulated Points
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">
-							<li><a href="../Target/monthlyPointsList.php?" class="dropdown-item">Monthly Points</a></li>
+							<li><a href="../Target/list.php?" class="dropdown-item">Monthly Points</a></li>
 							<li><a href="../Target/edit.php?" class="dropdown-item">Update Target</a></li>
 						</ul>
 					</div>
@@ -243,10 +243,10 @@ if(isset($_SESSION["user_name"]))
 			</div>		
 			<div id="mainbody">	
 				<br/><br/>		
-				<div class="row" style="margin-left:42%">
-					<div style="width:100px;">
+				<div class="row">
+					<div style="width:120px;margin-left:42%">
 						<div class="input-group">
-							<select id="jsYear" name="jsYear" class="form-control" onchange="return rerender();">																				<?php	
+							<select id="jsYear" name="jsYear" class="form-select" onchange="return rerender();">																				<?php	
 								$yearList = mysqli_query($con, "SELECT DISTINCT year FROM target ORDER BY year DESC") or die(mysqli_error($con));	
 								foreach($yearList as $yearObj) 
 								{																																								?>
@@ -257,7 +257,7 @@ if(isset($_SESSION["user_name"]))
 					</div>						
 					<div style="width:150px;">
 						<div class="input-group">
-							<select id="jsMonth" name="jsMonth" class="form-control" onchange="return rerender();">																				<?php	
+							<select id="jsMonth" name="jsMonth" class="form-select" onchange="return rerender();">																				<?php	
 								$monthList = mysqli_query($con, "SELECT DISTINCT month FROM target WHERE year = $year ORDER BY month ASC" ) or die(mysqli_error($con));	
 								foreach($monthList as $monthObj) 
 								{																																		?>
@@ -268,7 +268,7 @@ if(isset($_SESSION["user_name"]))
 					</div>
 					<div style="width:150px;">
 						<div class="input-group">
-							<select id="jsDateString" name="jsDateString" class="form-control" onchange="return rerender2();">											<?php	
+							<select id="jsDateString" name="jsDateString" class="form-select" onchange="return rerender2();">											<?php	
 								if(!isset($stringList))
 									$stringList = getStrings($year,$month);
 									$stringList[] = 'FULL';
