@@ -164,7 +164,7 @@ if(isset($_SESSION["user_name"]))
 					<div id="content-desktop">																									<?php 
 						if($tallyFlag)
 						{																															?>
-							<a href="tallyVerification.php?date=<?php echo $toDate;?>" class="btn" style="background-color:#E6717C;color:white;float:right;margin-right:30px;">Verify Individual Sale</a><?php
+							<a href="tallyVerification.php?date=<?php echo $toDate;?>" class="btn" style="background-color:#228B22;color:white;float:right;margin-right:30px;">Verify Individual Sale</a><?php
 						}																																												  ?>
 					</div>
 					<br/>
@@ -202,7 +202,7 @@ if(isset($_SESSION["user_name"]))
 									}
 									else
 									{																																			?>
-										<td id="content-desktop"><button class="btn" value="<?php echo $arSale['ar_id'];?>" style="background-color:#E6717C;color:white;" onclick="callAjax(this.value)">Verify</button></td>																											<?php			
+										<td id="content-desktop"><button class="btn btn-sm" value="<?php echo $arSale['ar_id'];?>" style="background-color:#228B22;color:white;" onclick="callAjax(this.value)"><i class="fas fa-check"></i> Verify</button></td>																											<?php			
 									}
 								}																																				?>																																
 							</tr>																																				<?php	

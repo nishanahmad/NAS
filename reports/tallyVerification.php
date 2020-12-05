@@ -128,7 +128,7 @@ if(isset($_SESSION["user_name"]))
 	</div>
 </form>
 <br>
-<table class="maintable table table-hover table-bordered" style="width:60%;margin-left:40px;">
+<table class="maintable table table-hover table-bordered" style="width:75%;margin-left:40px;">
 <thead style="position: sticky;top: 0">
 	<tr class="table-success">
 		<th style="text-align:left;" class="header" scope="col"><i class="far fa-file-alt"></i> Bill</th>
