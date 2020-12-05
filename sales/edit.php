@@ -217,7 +217,7 @@ if(isset($_SESSION["user_name"]))
 									</div>
 								</div>
 								&nbsp;&nbsp;
-								<input class="form-check-input" type="checkbox" name="ar_direct" id="autoDiscount" <?php echo ($row['ar_direct']==1 ? 'checked' : '');?>>&nbsp;AR										
+								<input class="form-check-input" type="checkbox" name="ar_direct" id="autoDiscount" <?php echo ($row['ar_direct']==1 ? 'checked' : '');?>>&nbsp;Shop
 							</div>
 							<div class="row">
 								<div class="col col-md-4 offset-1">
@@ -271,7 +271,7 @@ if(isset($_SESSION["user_name"]))
 								<div class="col col-md-4 offset-2">
 									<div class="input-group">
 										<span class="input-group-text col-md-4"><i class="fas fa-money-check-alt"></i>&nbsp;Total</span>
-										<input readonly class="form-control" id="total">
+										<input readonly class="form-control" name="total" id="total">
 									</div>
 								</div>								
 							</div>							

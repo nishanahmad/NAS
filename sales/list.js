@@ -2,6 +2,12 @@ let rateMap = new Map();
 let discountMap = new Map();
 
 $(function(){
+
+	$("#totalAmount").text('1000');
+	var totalModal = new bootstrap.Modal(document.getElementById('totalModal'), {keyboard: false});
+	totalModal.show();
+	setTimeout(function() {totalModal.hide()}, 5000);
+	
 	$('#ar,#engineer,#truck,#client-filter,#eng-filter').select2();
 	
 	var pickeropts = { dateFormat:"dd-mm-yy"}; 

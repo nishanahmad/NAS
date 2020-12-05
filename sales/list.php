@@ -8,6 +8,7 @@ if(isset($_SESSION["user_name"]))
 	require '../navbar.php';
 	require 'newModal.php';
 	require 'rateModal.php';
+	require 'totalModal.php';
 	require 'filterModal.php';
 
 	$currentRateMap = getCurrentRates($con);
