@@ -208,6 +208,7 @@ if(isset($_SESSION["user_name"]))
 					<li><a href="../ar/list.php">AR List</a></li>
 					<li class="active"><a href="#">Target</a></li>
 					<li><a href="../SpecialTarget/list.php?">Special Target</a></li>
+					<li><a href="../redemption/list.php?">Redemption</a></li>
 				</ul>
 			</nav>
 		</aside>
