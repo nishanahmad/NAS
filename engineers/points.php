@@ -90,7 +90,7 @@ if(isset($_SESSION["user_name"]))
 		<div class="form-group row">
 			<div style="width:200px;margin-left:40%">
 				<div class="input-group mb-3">
-						<select id="jsMonth" name="jsMonth" class="form-control col-md-4" onchange="return rerender();">																								<?php	
+						<select id="jsMonth" name="jsMonth" class="form-select col-md-4" onchange="return rerender();">																								<?php	
 							$monthList = mysqli_query($con, "SELECT DISTINCT month FROM target ORDER BY month ASC" ) or die(mysqli_error($con));	
 							foreach($monthList as $month) 
 							{																																											?>			
@@ -101,7 +101,7 @@ if(isset($_SESSION["user_name"]))
 			</div>
 			<div style="width:150px">
 				<div class="input-group mb-3">
-					<select id="jsYear" name="jsYear" class="form-control" onchange="return rerender();">																				<?php	
+					<select id="jsYear" name="jsYear" class="form-select" onchange="return rerender();">																				<?php	
 						$yearList = mysqli_query($con, "SELECT DISTINCT year FROM target ORDER BY year DESC") or die(mysqli_error($con));	
 						foreach($yearList as $year) 
 						{																																								?>

@@ -5,14 +5,12 @@ if(isset($_SESSION["user_name"]))
 	require '../connect.php';
 	require '../navbar.php';
 	
-	$type = $_GET['type'];
-	
-	$arObjects = mysqli_query($con,"SELECT * FROM ar_details WHERE ORDER BY name") or die(mysqli_error($con));
+	$arObjects = mysqli_query($con,"SELECT * FROM ar_details ORDER BY name") or die(mysqli_error($con));
 	
 	foreach($arObjects as $ar)
 		$arMap[$ar['id']] = $ar['name'];
 	
-	$redemptionList = mysqli_query($con,"SELECT * FROM redemption WHERE ORDER BY date DESC" ) or die(mysqli_error($con));
+	$redemptionList = mysqli_query($con,"SELECT * FROM redemption ORDER BY date DESC" ) or die(mysqli_error($con));
 ?>	
 <!DOCTYPE html>
 <html>
@@ -41,18 +39,18 @@ if(isset($_SESSION["user_name"]))
 
 	</head>
 	<body>
+		<aside class="sidebar">
+			<nav class="nav">
+				<ul>
+					<li><a href="../ar/list.php">AR List</a></li>
+					<li class="active"><a href="#">Target</a></li>
+					<li><a href="../SpecialTarget/list.php?">Special Target</a></li>
+					<li><a href="../redemption/list.php?">Redemption</a></li>
+				</ul>
+			</nav>
+		</aside>						
 		<nav class="navbar navbar-light bg-light sticky-top bottom-nav">
-			<div class="btn-group" role="group" aria-label="Button group with nested dropdown" style="float:left;margin-left:2%;">
-				<div class="btn-group" role="group">
-					<button id="btnGroupDrop1" type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-						Redemption List
-					</button>
-					<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">									
-						<li><a class="dropdown-item" href="../engineers/points.php?">Total Points</a></li>							
-					</ul>
-				</div>
-			</div>			
-			<span class="navbar-brand" style="font-size:25px;"><i class="fas fa-hand-holding-usd"></i> <?php echo $type;?> Redemption</span>
+			<span class="navbar-brand" style="font-size:25px;"><i class="fas fa-hand-holding-usd"></i> Redemption</span>
 			<a href="#" class="btn btn-sm" role="button" style="background-color:#54698D;color:white;float:right;margin-right:40px;" data-toggle="modal" data-target="#newModal"><i class="fas fa-hand-holding-usd"></i> New Redemption</a>			
 		</nav>
 		<div style="width:100%;" class="mainbody">	
