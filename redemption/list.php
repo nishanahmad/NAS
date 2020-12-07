@@ -4,6 +4,7 @@ if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
 	require '../navbar.php';
+	require 'newModal.php';
 	
 	$arObjects = mysqli_query($con,"SELECT * FROM ar_details ORDER BY name") or die(mysqli_error($con));
 	
@@ -43,21 +44,21 @@ if(isset($_SESSION["user_name"]))
 			<nav class="nav">
 				<ul>
 					<li><a href="../ar/list.php">AR List</a></li>
-					<li class="active"><a href="#">Target</a></li>
+					<li><a href="../Target/list.php">Target</a></li>
 					<li><a href="../SpecialTarget/list.php?">Special Target</a></li>
-					<li><a href="../redemption/list.php?">Redemption</a></li>
+					<li class="active"><a href="#">Redemption</a></li>
 				</ul>
 			</nav>
 		</aside>						
-		<nav class="navbar navbar-light bg-light sticky-top bottom-nav">
-			<span class="navbar-brand" style="font-size:25px;"><i class="fas fa-hand-holding-usd"></i> Redemption</span>
+		<nav class="navbar navbar-light bg-light sticky-top bottom-nav" style="margin-left:18%">
+			<span class="navbar-brand" style="font-size:25px;margin-left:35%"><i class="fas fa-hand-holding-usd"></i> Redemption</span>
 			<a href="#" class="btn btn-sm" role="button" style="background-color:#54698D;color:white;float:right;margin-right:40px;" data-toggle="modal" data-target="#newModal"><i class="fas fa-hand-holding-usd"></i> New Redemption</a>			
 		</nav>
 		<div style="width:100%;" class="mainbody">	
 			<div id="snackbar"><i class="fas fa-hand-holding-usd"></i>&nbsp;&nbsp;Redemption inserted successfully !!!</div>		
-			<div align="center">
+			<div align="center" style="margin-left:15%">
 				<br/><br/>
-				<table class="maintable table table-hover table-bordered" style="width:70%">
+				<table class="maintable table table-hover table-bordered" style="width:80%">
 					<thead>
 						<tr class="table-info">
 							<th style="width:90px">Date</th>

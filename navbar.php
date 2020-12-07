@@ -9,12 +9,10 @@ if (strpos($url, 'loading') !== false)
 	$flag = 'loading';
 if (strpos($url, 'trucks') !== false)
 	$flag = 'loading';
-if (strpos($url, 'ar') !== false || strpos($url, 'points') !== false || strpos($url, 'Target') !== false)
+if (strpos($url, 'ar') !== false || strpos($url, 'points') !== false || strpos($url, 'Target') !== false || strpos($url, 'redemption') !== false)
 	$flag = 'ar';
 if (strpos($url, 'engineers') !== false || strpos($url, 'Engineer') !== false)
 	$flag = 'engineers';
-if (strpos($url, 'redemption') !== false)
-	$flag = 'redemption';
 if (strpos($url, 'rate/') !== false)
 	$flag = 'rate';
 if (strpos($url, 'discounts') !== false)
