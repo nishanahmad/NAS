@@ -220,6 +220,7 @@ if(isset($_SESSION["user_name"]))
 							<th style="width:70px;"><i class="fab fa-buffer"></i> QTY</th>
 							<th style="width:70px;"><i class="fa fa-rupee-sign"></i> RATE</th>
 							<th style="width:120px;"><i class="far fa-file-alt"></i> BILL NO</th>
+							<th style="width:95px;"><i class="fas fa-truck-moving"></i> TRUCK</th>
 							<th style="width:180px;"><i class="far fa-user"></i> CUSTOMER</th>
 						</tr>	
 					</thead>
@@ -253,6 +254,7 @@ if(isset($_SESSION["user_name"]))
 								<td><?php echo $sale['qty']; ?></td>
 								<td><?php if($finalRate > 0 ) echo $finalRate.'/-';?></td>							
 								<td><?php echo $sale['bill']; ?></td>
+								<td><?php if(isset($truckNumbersMap[$sale['truck']])) echo $truckNumbersMap[$sale['truck']]; ?></td>
 								<td><?php echo $sale['name'].'<br/><font>'.$sale['phone'].'</font>'; ?></td>
 							</tr>																																		<?php				
 						}																																				?>

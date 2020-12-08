@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html>
 <?php
 session_start();
 
@@ -20,7 +21,7 @@ if(isset($_SESSION["user_name"]))
 		
 	function getForwardStatus($saleId,$con)
 	{
-		$result = mysqli_query($con, "SELECT * FROM tally_check_forwards WHERE sale = '$saleId'") or die(mysqli_error($con));	
+		$result = mysqli_query($con, "SELECT * FROM tally_check_forwards WHERE sale = '$saleId'") or die(mysqli_error($con));
 		if(mysqli_num_rows($result) > 0)
 		{
 			$forward = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -31,16 +32,116 @@ if(isset($_SESSION["user_name"]))
 		}
 		else
 			return null;
-	}		
-?>
-<html>
+	}
+
+	$billed = 0;
+	$unbilled =0;
+	$billedCount = 0;
+	$unbilledCount = 0;
+	$today = date('Y-m-d');
+	$todaySales = mysqli_query($con, "SELECT * FROM nas_sale WHERE entry_date = '$today'") or die(mysqli_error($con));
+	foreach($todaySales as $sale)
+	{
+		if( fnmatch("BB*",$sale['bill_no']) || fnmatch("BC*",$sale['bill_no']) || fnmatch("GB*",$sale['bill_no']) || fnmatch("GC*",$sale['bill_no']) || fnmatch("PB*",$sale['bill_no']) || fnmatch("PC*",$sale['bill_no']))
+		{
+			$billed = $billed + $sale['qty'];
+			$billedCount++;
+		}
+		else	
+		{
+			$unbilledCount++;
+		}
+	}
+	if($billed + $unbilled >0)
+		$percentage = round($billed/($billed + $unbilled),0);
+	else
+		$percentage	= 0;
+		
+	
+	
+	/**************************************				 Find weekly sales fof last 4 weeks for Bar chart	 		**************************************/
+	
+	function getWeekMonSat($weekOffset) {
+		$dt = new DateTime();
+		$dt->setIsoDate($dt->format('o'), $dt->format('W') + $weekOffset);
+		return array(
+			'Mon' => $dt->format('Y-m-d'),
+			'Sat' => $dt->modify('+5 day')->format('Y-m-d'),
+		);
+	}
+	
+	$week1 = getWeekMonSat(-4);
+	$week2 = getWeekMonSat(-3);
+	$week3 = getWeekMonSat(-2);
+	$week4 = getWeekMonSat(-1);
+	
+	$sum1 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week1['Mon']."' AND entry_date <='".$week1['Sat']."'") or die(mysqli_error($con));		
+	var_dump(mysqli_fetch_array($sum1, MYSQLI_ASSOC));																																			?>
+
 	<head>
 		<link rel="stylesheet" href="home.css"/>
 		<link href="../css/styles.css" rel="stylesheet" type="text/css">
 		<link href="../css/navbarMobile.css" media="screen and (max-device-width: 768px)" rel="stylesheet" type="text/css">
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/easy-pie-chart/2.1.6/jquery.easypiechart.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 		<title>Home</title>
-		<style>
+		<style>		
+			.graphcontainer {
+			  display: grid;
+			  grid-template-columns: repeat(1, 160px);
+			  grid-gap: 80px;
+			  margin: auto 0;
+			  background:#0d0c2d;
+			}
 
+			@media (min-width: 420px) and (max-width: 659px) {
+			  .graphcontainer {
+				grid-template-columns: repeat(2, 160px);
+			  }
+			}
+
+			@media (min-width: 660px) and (max-width: 899px) {
+			  .graphcontainer {
+				grid-template-columns: repeat(3, 160px);
+			  }
+			}
+
+			@media (min-width: 900px) {
+			  .graphcontainer {
+				grid-template-columns: repeat(4, 160px);
+			  }
+			}
+
+			.graphcontainer .box {
+			  margin:20px;		
+			  width: 100%;
+			}
+
+			.graphcontainer .box h2 {
+			  display: block;
+			  text-align: center;
+			  color: #fff;
+			}
+
+			.graphcontainer .box .chart {
+			  position: relative;
+			  width: 100%;
+			  height: 100%;
+			  text-align: center;
+			  font-size: 40px;
+			  line-height: 160px;
+			  height: 160px;
+			  color: #fff;
+			}
+
+			.graphcontainer .box canvas {
+			  position: absolute;
+			  top: 0;
+			  left: 0;
+			  width: 100%;
+			  width: 100%;
+			}
 		</style>
 	</head>
 	<body>
@@ -48,16 +149,39 @@ if(isset($_SESSION["user_name"]))
 			<span class="navbar-brand offset-5" style="font-size:25px;"><i class="fa fa-home"></i> Home</span>
 		</nav>	
 		<br/><br/>
-		<div class="container">																															
-			<div class="col-8">
-				<div class="row no-gutters">
-					<div class="col-6">
-						<div class="d-flex flex-row flex-wrap">																															<?php
-							foreach($unlockedList as $unlocked)
-							{
-								if(getForwardStatus($unlocked['sale'],$con) == null)
+		<div id="content-mobile">
+			<div class="container">	
+				<div class="col-8">
+					<div class="row no-gutters">
+						<div class="col-6">
+							<div class="d-flex flex-row flex-wrap">																															<?php
+								foreach($unlockedList as $unlocked)
 								{
-									$id = $unlocked['sale'];
+									if(getForwardStatus($unlocked['sale'],$con) == null)
+									{
+										$id = $unlocked['sale'];
+										$query = mysqli_query($con, "SELECT * FROM nas_sale WHERE sales_id = $id") or die(mysqli_error($con));
+										$sale = mysqli_fetch_array($query, MYSQLI_ASSOC);																							?>
+										<a class="card list-group-item list-group-item-action" href="../reports/tallyVerification.php?date=<?php echo $sale['entry_date'];?>">
+											<h3><?php echo $sale['bill_no'];?></h3>
+											<p class="small"><?php 
+												echo $clientNamesMap[$sale['ar_id']].'<br/>'.date('d-m-Y',strtotime($sale['entry_date'])).'<br/>'.$productDetailsMap[$sale['product']]['name'].' '.$sale['qty'].' bags';?>
+											</p>
+											Unlocked By : <?php echo $userMap[$unlocked['unlocked_by']];?>
+											<div class="dimmer"></div>
+											<div class="go-corner" href="#">
+												<div class="go-arrow"><i class="fa fa-unlock fa-xs"></i></div>
+											</div>
+										</a>																																	<?php									
+									}
+								}																																			?>
+							</div>
+						</div>
+						<div class="col-6">
+							<div class="d-flex flex-row flex-wrap">																															<?php
+								foreach($forwardedList as $forward)
+								{
+									$id = $forward['sale'];
 									$query = mysqli_query($con, "SELECT * FROM nas_sale WHERE sales_id = $id") or die(mysqli_error($con));
 									$sale = mysqli_fetch_array($query, MYSQLI_ASSOC);																							?>
 									<a class="card list-group-item list-group-item-action" href="../reports/tallyVerification.php?date=<?php echo $sale['entry_date'];?>">
@@ -65,41 +189,75 @@ if(isset($_SESSION["user_name"]))
 										<p class="small"><?php 
 											echo $clientNamesMap[$sale['ar_id']].'<br/>'.date('d-m-Y',strtotime($sale['entry_date'])).'<br/>'.$productDetailsMap[$sale['product']]['name'].' '.$sale['qty'].' bags';?>
 										</p>
-										Unlocked By : <?php echo $userMap[$unlocked['unlocked_by']];?>
+										Forwarded By : <?php echo $userMap[$forward['forwarded_by']].'<br/>'.$forward['remarks'];?>
 										<div class="dimmer"></div>
-										<div class="go-corner" href="#">
-											<div class="go-arrow"><i class="fa fa-unlock fa-xs"></i></div>
+										<div class="go-corner" href="#" style="background-color:#DE2F2F">
+											<div class="go-arrow"><i class="fas fa-arrow-right fa-xs"></i></div>
 										</div>
-									</a>																																	<?php									
-								}
-							}																																			?>
+									</a>																																	<?php
+								}																																			?>
+							</div>
 						</div>
 					</div>
-					<div class="col-6">
-						<div class="d-flex flex-row flex-wrap">																															<?php
-							foreach($forwardedList as $forward)
-							{
-								$id = $forward['sale'];
-								$query = mysqli_query($con, "SELECT * FROM nas_sale WHERE sales_id = $id") or die(mysqli_error($con));
-								$sale = mysqli_fetch_array($query, MYSQLI_ASSOC);																							?>
-								<a class="card list-group-item list-group-item-action" href="../reports/tallyVerification.php?date=<?php echo $sale['entry_date'];?>">
-									<h3><?php echo $sale['bill_no'];?></h3>
-									<p class="small"><?php 
-										echo $clientNamesMap[$sale['ar_id']].'<br/>'.date('d-m-Y',strtotime($sale['entry_date'])).'<br/>'.$productDetailsMap[$sale['product']]['name'].' '.$sale['qty'].' bags';?>
-									</p>
-									Forwarded By : <?php echo $userMap[$forward['forwarded_by']].'<br/>'.$forward['remarks'];?>
-									<div class="dimmer"></div>
-									<div class="go-corner" href="#" style="background-color:#DE2F2F">
-										<div class="go-arrow"><i class="fas fa-arrow-right fa-xs"></i></div>
-									</div>
-								</a>																																	<?php
-							}																																			?>
-						</div>
-					</div>
-				</div>
-			</div>			
-		</div>	
+				</div>			
+			</div>
+		</div>
+		<div>
+			<!--canvas id="myChart"></canvas-->
+			<div class="graphcontainer">	
+			  <div class="box">
+				<div class="chart" data-percent="<?php echo $percentage;?>" data-scale-color="#ffb400"><?php echo $percentage;?>%</div>
+				<h2><?php echo 'Billed '.$billedCount.'/'; echo $billedCount + $unbilledCount;?></h2>
+			  </div>
+			  <div class="box">
+				<div class="chart" data-percent="90" data-scale-color="#ffb400">90%</div>
+				<h2>Css</h2>
+			  </div>
+			  <div class="box">
+				<div class="chart" data-percent="85" data-scale-color="#ffb400">85%</div>
+				<h2>Javascript</h2>
+			  </div>
+			  <div class="box">
+				<div class="chart" data-percent="95" data-scale-color="#ffb400">95%</div>
+				<h2>Photoshop</h2>
+			  </div>
+			</div>
 		<br/><br/><br/><br/>
+		<script>
+			$(function() {
+			  $('.chart').easyPieChart({
+				size: 160,
+				barColor: "#17d3e6",
+				scaleLength: 0,
+				lineWidth: 15,
+				trackColor: "#373737",
+				lineCap: "circle",
+				animate: 2000,
+			  });
+			});
+		
+			/*
+			var ctx = document.getElementById('myChart').getContext('2d');
+			var chart = new Chart(ctx, {
+				// The type of chart we want to create
+				type: 'line',
+
+				// The data for our dataset
+				data: {
+					labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+					datasets: [{
+						label: 'My First dataset',
+						backgroundColor: 'rgb(255, 99, 132)',
+						borderColor: 'rgb(255, 99, 132)',
+						data: [0, 10, 5, 2, 20, 30, 45]
+					}]
+				},
+
+				// Configuration options go here
+				options: {}
+			});		
+			*/
+		</script>
 	</body>
 </html>																																					<?php
 }
