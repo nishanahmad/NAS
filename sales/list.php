@@ -89,6 +89,9 @@ if(isset($_SESSION["user_name"]))
 			   border-top: 1px solid #D3D3D3;
 			   margin-top:5px;
 			   margin-bottom:5px;
+			}	
+			@media only screen and (max-width: 900px) {
+				.desktop-only{display: none;}	
 			}			
 		</style>			
 	</head>
@@ -163,10 +166,10 @@ if(isset($_SESSION["user_name"]))
 							<th style="width:70px;"><i class="fab fa-buffer"></i> QTY</th>
 							<th style="width:70px;"><i class="fa fa-rupee-sign"></i> RATE</th>
 							<th style="width:120px;"><i class="far fa-file-alt"></i> BILL NO</th>
-							<th style="width:95px;"><i class="fas fa-truck-moving"></i> TRUCK</th>
+							<th style="width:95px;" class="desktop-only"><i class="fas fa-truck-moving"></i> TRUCK</th>
 							<th style="width:180px;"><i class="far fa-user"></i> CUSTOMER</th>
-							<th><i class="far fa-comment-dots"></i> REMARKS</th>
-							<th><i class="fas fa-map-marker-alt"></i> ADDRESS</th>
+							<th class="desktop-only"><i class="far fa-comment-dots"></i> REMARKS</th>
+							<th class="desktop-only"><i class="fas fa-map-marker-alt"></i> ADDRESS</th>
 						</tr>	
 					</thead>
 					<tbody>	<?php
@@ -199,10 +202,10 @@ if(isset($_SESSION["user_name"]))
 								<td><?php echo $sale['qty']; ?></td>
 								<td><?php if($finalRate > 0 ) echo $finalRate.'/-';?></td>							
 								<td><?php echo $sale['bill']; ?></td>
-								<td><?php if(isset($truckNumbersMap[$sale['truck']])) echo $truckNumbersMap[$sale['truck']]; ?></td>
+								<td class="desktop-only"><?php if(isset($truckNumbersMap[$sale['truck']])) echo $truckNumbersMap[$sale['truck']]; ?></td>
 								<td><?php echo $sale['name'].'<br/><font>'.$sale['phone'].'</font>'; ?></td>
-								<td><?php echo $sale['remarks']; ?></td>
-								<td><?php echo $sale['address']; ?></td>
+								<td class="desktop-only"><?php echo $sale['remarks']; ?></td>
+								<td class="desktop-only"><?php echo $sale['address']; ?></td>
 							</tr>																																		<?php				
 						}																																				?>
 					</tbody>	
@@ -212,6 +215,7 @@ if(isset($_SESSION["user_name"]))
 			<!--div id="content-mobile">
 				<div class="container">
 					<div class="app-container"><?php
+						/*
 						foreach($mainMap as $index => $sale) 
 						{
 							$date = $productDateMap[$sale['product']][closestDate($productDateMap[$sale['product']],strtotime($sale['date']))];
@@ -247,7 +251,7 @@ if(isset($_SESSION["user_name"]))
 								</button>
 								<br/>
 							</div>																															<?php
-						}																																	?>
+						}*/																																	?>
 					</div>
 				</div>
 			</div-->			
