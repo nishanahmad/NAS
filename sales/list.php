@@ -152,7 +152,7 @@ if(isset($_SESSION["user_name"]))
 					}																																?>
 				</table>
 			</div>
-			<div id="content-desktop">
+			<div>
 				<br/><br/>
 				<table class="maintable table table-hover table-bordered ui-table-reflow" style="width:95%;margin-left:2%;">
 					<thead>
@@ -209,7 +209,7 @@ if(isset($_SESSION["user_name"]))
 				</table>
 			</div>
 
-			<div id="content-mobile">
+			<!--div id="content-mobile">
 				<div class="container">
 					<div class="app-container"><?php
 						foreach($mainMap as $index => $sale) 
@@ -250,7 +250,7 @@ if(isset($_SESSION["user_name"]))
 						}																																	?>
 					</div>
 				</div>
-			</div>			
+			</div-->			
 			<br/><br/><br/>
 		</div>
 		<script src="list.js"></script>
