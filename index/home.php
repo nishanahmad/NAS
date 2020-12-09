@@ -74,9 +74,22 @@ if(isset($_SESSION["user_name"]))
 	$week2 = getWeekMonSat(-3);
 	$week3 = getWeekMonSat(-2);
 	$week4 = getWeekMonSat(-1);
+	$week5 = getWeekMonSat(0);
 	
-	$sum1 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week1['Mon']."' AND entry_date <='".$week1['Sat']."'") or die(mysqli_error($con));		
-	var_dump(mysqli_fetch_array($sum1, MYSQLI_ASSOC));																																			?>
+	$query1 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week1['Mon']."' AND entry_date <='".$week1['Sat']."'") or die(mysqli_error($con));		
+	$sum1 = (int)mysqli_fetch_array($query1, MYSQLI_ASSOC);
+
+	$query2 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week2['Mon']."' AND entry_date <='".$week2['Sat']."'") or die(mysqli_error($con));		
+	$sum2 = (int)mysqli_fetch_array($query2, MYSQLI_ASSOC);
+
+	$query3 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week3['Mon']."' AND entry_date <='".$week3['Sat']."'") or die(mysqli_error($con));		
+	$sum3 = (int)mysqli_fetch_array($query3, MYSQLI_ASSOC);
+
+	$query4 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week4['Mon']."' AND entry_date <='".$week4['Sat']."'") or die(mysqli_error($con));		
+	$sum4 = (int)mysqli_fetch_array($query4, MYSQLI_ASSOC);
+
+	$query5 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week5['Mon']."' AND entry_date <='".$week5['Sat']."'") or die(mysqli_error($con));		
+	$sum5 = (int)mysqli_fetch_array($query5, MYSQLI_ASSOC);																																						?>
 
 	<head>
 		<link rel="stylesheet" href="home.css"/>
@@ -203,7 +216,6 @@ if(isset($_SESSION["user_name"]))
 			</div>
 		</div>
 		<div>
-			<!--canvas id="myChart"></canvas-->
 			<div class="graphcontainer">	
 			  <div class="box">
 				<div class="chart" data-percent="<?php echo $percentage;?>" data-scale-color="#ffb400"><?php echo $percentage;?>%</div>
@@ -222,6 +234,14 @@ if(isset($_SESSION["user_name"]))
 				<h2>Photoshop</h2>
 			  </div>
 			</div>
+
+			<div class="card" style="width:50%;">
+			  <div class="card-body">
+				<canvas id="bar-chart"></canvas>
+			  </div>
+			</div>
+			
+			
 		<br/><br/><br/><br/>
 		<script>
 			$(function() {
@@ -233,30 +253,35 @@ if(isset($_SESSION["user_name"]))
 				trackColor: "#373737",
 				lineCap: "circle",
 				animate: 2000,
-			  });
+			  });			  
 			});
 		
-			/*
-			var ctx = document.getElementById('myChart').getContext('2d');
-			var chart = new Chart(ctx, {
-				// The type of chart we want to create
-				type: 'line',
-
-				// The data for our dataset
+			new Chart(document.getElementById("bar-chart"), {
+				type: 'bar',
 				data: {
-					labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-					datasets: [{
-						label: 'My First dataset',
-						backgroundColor: 'rgb(255, 99, 132)',
-						borderColor: 'rgb(255, 99, 132)',
-						data: [0, 10, 5, 2, 20, 30, 45]
-					}]
+				  labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+				  datasets: [
+					{
+					  label: "Population (millions)",
+					  backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+					  data: [2478,5267,734,784,433]
+					}
+				  ]
 				},
-
-				// Configuration options go here
-				options: {}
-			});		
-			*/
+				options: {
+					scales: {
+						xAxes: [{
+						barThickness: 20,  // number (pixels) or 'flex'
+						maxBarThickness: 20 // number (pixels)
+						}]
+					},					
+				  legend: { display: false },
+				  title: {
+					display: true,
+					text: 'Predicted world population (millions) in 2050'
+				  }
+				}
+			});
 		</script>
 	</body>
 </html>																																					<?php
