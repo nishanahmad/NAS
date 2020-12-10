@@ -212,7 +212,7 @@ if(isset($_SESSION["user_name"]))
 								</div>
 								<div class="col col-md-4 offset-2">
 									<div class="input-group mb-3">
-										<span class="input-group-text col-md-4" style="width:120px;"><i class="far fa-user"></i>&nbsp;Customer</span>
+										<span class="input-group-text col-md-4" style="width:80px;"><i class="far fa-user"></i>&nbsp;Cust</span>
 										<input type="text" name="customerName" id="customer" class="form-control" value="<?php echo $row['customer_name']; ?>">
 									</div>
 								</div>
