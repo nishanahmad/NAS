@@ -95,7 +95,7 @@ if(isset($_SESSION["user_name"]))
 					<div style="float:right" id="content-desktop">
 						<button type="button" class="btn" style="background-color:#2A739E;color:white;" data-toggle="modal" data-target="#historyModal">
 							<i class="fa fa-history"></i>&nbsp;&nbsp;History
-						</button>
+						</button>&nbsp;&nbsp;
 						<button type="button" class="btn" style="background-color:#708090;color:white;" data-toggle="modal" data-target="#holdingModal">
 							<i class="fas fa-box"></i>&nbsp;&nbsp;Holding
 						</button>

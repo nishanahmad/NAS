@@ -7,26 +7,7 @@ if(isset($_SESSION["user_name"]))
 {		
 	$urlsql = $_GET['sql'];
 	$urlrange = $_GET['range'];
-	
-	$result = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
-	$row= mysqli_fetch_array($result,MYSQLI_ASSOC);
-	
-	$sheetQuery = mysqli_query($con,"SELECT * FROM sheets WHERE site='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
-	$sheet= mysqli_fetch_array($sheetQuery,MYSQLI_ASSOC);	
-
-	$products = mysqli_query($con,"SELECT id,name FROM products WHERE status = 1 ORDER BY id ASC") or die(mysqli_error($con));	
-	$arObjects = mysqli_query($con,"SELECT id,name,type,shop_name FROM ar_details ORDER BY name") or die(mysqli_error($con));	
-	foreach($arObjects as $ar)
-	{
-		if($ar['type'] != 'Engineer Only')
-			$arMap[$ar['id']] = $ar['name']; 
-		if($ar['type'] == 'Engineer' || $ar['type'] == 'Contractor' || $ar['type'] == 'Engineer Only')
-			$engMap[$ar['id']] = $ar['name'];
 		
-		$shopName = strip_tags($ar['shop_name']); 
-		$shopNameMap[$ar['id']] = $shopName;
-	}																																						
-	
 	$holdingQuery = mysqli_query($con,"SELECT * FROM holdings WHERE returned_sale =".$_GET['sales_id']) or die(mysqli_error($con));
 	if(mysqli_num_rows($holdingQuery) > 0 )
 		$holding = mysqli_fetch_array($holdingQuery,MYSQLI_ASSOC);	
@@ -40,7 +21,9 @@ if(isset($_SESSION["user_name"]))
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<input hidden name="sheetSql" value="<?php echo $urlsql;?>">
-			<input hidden name="sheetRange" value="<?php echo $urlrange;?>">		  
+			<input hidden name="sheetRange" value="<?php echo $urlrange;?>">	
+			<input hidden id="hproduct" value="<?php echo $row['product'];?>">
+			<input hidden id="har" value="<?php echo $row['ar_id'];?>">
 			  <div class="modal-body">
 				  <input type="text" hidden name="returnId" id="returnId" value="<?php echo $row['sales_id'];?>">
 					<br/><br/>
@@ -61,6 +44,8 @@ if(isset($_SESSION["user_name"]))
 	</div>
 	<script>
 		$('#rtnbtn').click(function(){
+			var ar = document.getElementById('har').value;
+			var product = document.getElementById('hproduct').value;
 			var qty = document.getElementById('holdingQty').value;
 			var returnId = document.getElementById('returnId').value;
 			if(isNaN(qty) || !qty)
@@ -69,15 +54,17 @@ if(isset($_SESSION["user_name"]))
 				$.ajax({
 					url: 'ajax/upsertHolding.php',
 					type: 'post',
-					data: {returnId: returnId, qty: qty},
+					data: {returnId: returnId, qty: qty, ar: ar, product: product},
 					success: function(response){
-						console.log(response);
 						if(response.status == 'success'){
 							var url = window.location.href + '&success';    
 							window.location.href = url;
 						}else if(response.status == 'error'){
 							$("#error").text(response.value);
 						}
+					},
+					error: function (request, status, error) {
+						$("#error").text(request.responseText);
 					}
 				});				
 			}
