@@ -260,7 +260,27 @@ $(function(){
 					});										
 				}
 			}
-		});															
+		});	
+
+		document.getElementById('holding-card').innerHTML = "";
+		$.ajax({
+			type: "POST",
+			url: "ajax/fetchHolding.php",
+			data:'ar='+client+'&product='+product,
+			success: function(response){
+				if(response.status == 'success'){
+					var str = '<ul class="list-group list-group-flush">';
+					for(var i = 0; i < response.holdings.length; i++){
+						var holding = response.holdings[i];
+						str += '<li class="list-group-item"><div class="form-check form-switch">';
+						str += '<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">';
+						str += '<label class="form-check-label" for="flexSwitchCheckDefault">'+holding.qty+' bags holding</label></div></li>';
+					}
+					str += '</ul>';
+					document.getElementById("holding-card").innerHTML = str;
+				}
+			}
+		});		
 	});
 
 
@@ -305,7 +325,27 @@ $(function(){
 
 		var arId = $('#ar').val();
 		var shopName = shopNameArray[arId];
-		$('#shopName').val(shopName);		
+		$('#shopName').val(shopName);	
+		
+		document.getElementById('holding-card').innerHTML = "";
+		$.ajax({
+			type: "POST",
+			url: "ajax/fetchHolding.php",
+			data:'ar='+client+'&product='+product,
+			success: function(response){
+				if(response.status == 'success'){
+					var str = '<ul class="list-group list-group-flush">';
+					for(var i = 0; i < response.holdings.length; i++){
+						var holding = response.holdings[i];
+						str += '<li class="list-group-item"><div class="form-check form-switch">';
+						str += '<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">';
+						str += '<label class="form-check-label" for="flexSwitchCheckDefault">'+holding.qty+' bags holding</label></div></li>';
+					}
+					str += '</ul>';
+					document.getElementById("holding-card").innerHTML = str;
+				}
+			}
+		});	
 	});	
 	
 

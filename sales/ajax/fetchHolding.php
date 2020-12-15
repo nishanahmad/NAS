@@ -6,25 +6,21 @@ require '../../connect.php';
 session_start();
 
 $ar = $_POST['ar'];
+$product = $_POST['product'];
 
-$search = mysqli_query($con,"SELECT * FROM holdings WHERE returned_sale = $returnId");
+$holdings = mysqli_query($con,"SELECT * FROM holdings WHERE product = $product AND ar = $ar AND cleared_sale IS NULL");
 
-if(mysqli_num_rows($search) > 0 )
-	$upsert = "UPDATE holdings SET qty = $qty, returned_by = $userId WHERE returned_sale = $returnId";
-else
-	$upsert = "INSERT INTO holdings (returned_sale, qty, returned_by) VALUES ($returnId,$qty,$userId)";
-
-
-$result = mysqli_query($con,$upsert);
-
-if($result)
+if(mysqli_num_rows($holdings) > 0 )
+{
 	$response_array['status'] = 'success';
+	foreach($holdings as $holding)
+		$response_array['holdings'][] = $holding;
+}
 else
 {
-    $response_array['status'] = 'error';
-	$response_array['value'] = mysqli_error($con);
-}	
-	
-echo json_encode($response_array);
+	$response_array['status'] = 'skip';
+}
 
+echo json_encode($response_array);
+	
 exit;

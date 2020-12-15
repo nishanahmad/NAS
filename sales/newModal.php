@@ -33,9 +33,11 @@ if(isset($_SESSION["user_name"]))
 			</div>
 			<div class="modal-body">
 				<br/>
+				<div class="card" id="holding-card" style="width:50%;margin-left:30%;margin-bottom:50px;">
+				</div>
 				<p id="insertError" style="color:red;"></p>
 				<form name="newSaleForm" id="newSaleForm" method="post" action="insert.php">
-					<div class="row">
+					<div class="row">					
 						<div class="form-group row">
 							<div class="col-sm-6 col-md-4 offset-md-1">
 								<div class="input-group mb-3">
@@ -229,7 +231,7 @@ if(isset($_SESSION["user_name"]))
 		</div>
 		<div class="modal-footer"></div>
 	  </div>
-	</div>																																																<?php
+	</div>																																					<?php
 }
 else
 	header( "Location: ../index/home.php" );	

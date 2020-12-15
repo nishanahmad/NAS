@@ -1,7 +1,7 @@
 $("#saleModal").on("hidden.bs.modal", function(){
 	$("#insertError").text('');
 	$("#bill").val('');
-	$("#ar").val($("#ar option:first").val()); 
+	$("#ar").val(''); 
 	$("#truck").val('');
 	$("#engineer").val('');
 	$("#order_no").val('');
@@ -13,4 +13,5 @@ $("#saleModal").on("hidden.bs.modal", function(){
 	$("#phone").val('');
 	$("#remarks").val('');
 	$("#address1").val('');
+	document.getElementById('holding-card').innerHTML = "";
 });
