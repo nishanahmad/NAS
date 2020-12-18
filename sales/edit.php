@@ -45,8 +45,12 @@ if(isset($_SESSION["user_name"]))
 		$URL='list.php?sql='.$_POST['sql1'].'&range='.$_POST['range1'];
 		echo "<script type='text/javascript'>document.location.href='{$URL}';</script>";
 		echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';		
-	}																																								?>
+	}																																							
 
+	$blockDateQuery = mysqli_query($con,"SELECT date FROM block_old_sale") or die(mysqli_error($con));
+	$blockDate = mysqli_fetch_array($blockDateQuery,MYSQLI_ASSOC)['date'];
+	$blockDate = date('Y-m-d',strtotime($blockDate));																																											?>
+	
 	<html>
 	<head>
 		<title>Edit Sale <?php echo $row['sales_id']; ?></title>
@@ -276,15 +280,22 @@ if(isset($_SESSION["user_name"]))
 								</div>								
 							</div>							
 							<p id="displayError" style="color:red;"></p>
-							<br/>
-							<button id="updatebtn" class="btn" style="width:100px;font-size:18px;background-color:#f2cf5b;color:white;"><i class="fa fa-save"></i> Save</button>
+							<br/><?php
+							$entryDate = date('Y-m-d',strtotime($row['entry_date']));
+							if($entryDate > $blockDate)
+							{																																						?>
+								<button id="updatebtn" class="btn" style="width:100px;font-size:18px;background-color:#f2cf5b;color:white;"><i class="fa fa-save"></i> Save</button><?php
+							}																																						?>
+							
 						</div>
 						<div class="card-footer" style="background-color:#f2cf5b;padding:1px;"></div>
 					</div>
-					<br/><br/>
-					<button type="button" class="btn" style="float:right;margin-right:150px;background-color:#E6717C;color:#FFFFFF" data-toggle="modal" data-target="#deleteModal">
-						<i class="far fa-trash-alt"></i>&nbsp;&nbsp;Delete
-					</button>					
+					<br/><br/>																																							<?php
+					if($entryDate > $blockDate)
+					{																																						?>
+						<button type="button" class="btn" style="float:right;margin-right:150px;background-color:#E6717C;color:#FFFFFF" data-toggle="modal" data-target="#deleteModal">
+						<i class="far fa-trash-alt"></i>&nbsp;&nbsp;Delete</button>																										<?php
+					}																																						?>							
 				</div>
 			</div>
 			<br/><br/><br/><br/>		
