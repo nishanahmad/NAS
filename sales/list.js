@@ -338,7 +338,7 @@ $(function(){
 					for(var i = 0; i < response.holdings.length; i++){
 						var holding = response.holdings[i];
 						str += '<li class="list-group-item"><div class="form-check form-switch">';
-						str += '<input class="form-check-input" type="checkbox" id="clearholding" name="clearholding['+holding.id+']">';
+						str += '<input class="form-check-input clearHolding" type="checkbox" id="clearholding" name="+holding.id+']">';
 						str += '<label class="form-check-label" for="clearholding">'+holding.qty+' bags holding</label></div></li>';
 					}
 					str += '</ul>';
@@ -431,4 +431,14 @@ $('.maintable').on('initialized filterEnd', function(){
 			cell4.innerHTML = discountMap.get(`${key}`);
 		}
 	}
-})	 
+})	
+
+$('#newSaleForm').on('submit', function(event){
+	event.preventDefault();
+	var holdings = document.getElementsByClassName('clearHolding');
+	for(i=0;i<holdings.length;i++)
+	{
+		console.log(holdings[i]);
+	}
+	//alert('Prevented insert');
+});
