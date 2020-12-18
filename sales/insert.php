@@ -26,9 +26,8 @@ if(isset($_SESSION["user_name"]))
 	else	
 		$ar_direct = 0;
 	
-	var_dump($_POST);
+	//var_dump($_POST);
 	
-	/*
 	$address1 = $_POST['address1'];
 	$entered_by = $_SESSION["user_name"];
 	$entered_on = date('Y-m-d H:i:s');	
@@ -54,7 +53,6 @@ if(isset($_SESSION["user_name"]))
 	$range = $_POST['range'];
 		
 	header('Location: list.php?success&sql='.$sql.'&range='.$range);
-	*/
 }
 else
 	header( "Location: ../index/home.php" );
