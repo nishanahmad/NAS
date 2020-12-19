@@ -12,6 +12,8 @@
 	}
 	else
 	{
+		$deleteForward = mysqli_query($con, "DELETE FROM tally_check_forwards WHERE sale = $id");
+		
 		$delete = mysqli_query($con, "DELETE FROM nas_sale WHERE sales_id = $id");
 		if($delete)
 		{
@@ -20,7 +22,7 @@
 		else
 		{
 			$response_array['status'] = 'error';
-			$response_array['value'] = mysqli_error($con);			
+			$response_array['value'] = mysqli_error($con);
 		}				
 	}
 
