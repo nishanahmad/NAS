@@ -338,7 +338,7 @@ $(function(){
 					for(var i = 0; i < response.holdings.length; i++){
 						var holding = response.holdings[i];
 						str += '<li class="list-group-item"><div class="form-check form-switch">';
-						str += '<input class="form-check-input clearHolding" type="checkbox" id="clearholding" name="+holding.id+']">';
+						str += '<input class="form-check-input clearHolding" type="checkbox" id="'+holding.id+'" name="'+holding.id+'">';
 						str += '<label class="form-check-label" for="clearholding">'+holding.qty+' bags holding</label></div></li>';
 					}
 					str += '</ul>';
@@ -433,12 +433,32 @@ $('.maintable').on('initialized filterEnd', function(){
 	}
 })	
 
+/*
 $('#newSaleForm').on('submit', function(event){
 	event.preventDefault();
 	var holdings = document.getElementsByClassName('clearHolding');
-	for(i=0;i<holdings.length;i++)
+	for(var i=0;i<holdings.length;i++)
 	{
-		console.log(holdings[i]);
+		var holdingId = holdings[i].id;
+		var checkboxValue = $('#'+holdingId).prop('checked');
+		var input = $("<input>").attr("type", "hidden").attr("name","clearHolding["+holdingId+"]").val(checkboxValue);
+		$('#newSaleForm').append(input);		
+		console.log(holdingId);
+		console.log(checkboxValue);
 	}
-	//alert('Prevented insert');
+	//$('form#newSaleForm').submit();
 });
+*/
+  $("#newSaleForm").submit( function(eventObj) {
+	var holdings = document.getElementsByClassName('clearHolding');
+	for(var i=0;i<holdings.length;i++)
+	{	  
+      var holdingId = holdings[i].id;
+      var checkboxValue = $('#'+holdingId).prop('checked');	
+      $("<input>").attr("type", "hidden")
+          .attr("name", "clearHolding["+holdingId+"]")
+          .attr("value", checkboxValue)
+          .appendTo("#newSaleForm");
+	}	  
+      return true;
+  });
