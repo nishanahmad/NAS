@@ -89,7 +89,13 @@ if(isset($_SESSION["user_name"]))
 	$sum4 = (int)mysqli_fetch_array($query4, MYSQLI_ASSOC);
 
 	$query5 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week5['Mon']."' AND entry_date <='".$week5['Sat']."'") or die(mysqli_error($con));		
-	$sum5 = (int)mysqli_fetch_array($query5, MYSQLI_ASSOC);																																						?>
+	$sum5 = (int)mysqli_fetch_array($query5, MYSQLI_ASSOC);																																						
+	
+
+	
+	/****************************************************	 				HOLDING LIST						***************************************/
+	
+	?>
 
 	<head>
 		<link rel="stylesheet" href="home.css"/>
@@ -164,9 +170,9 @@ if(isset($_SESSION["user_name"]))
 		<br/><br/>
 		<div>
 			<div class="container">	
-				<div class="col-8">
+				<div class="col-12">
 					<div class="row no-gutters">
-						<div class="col-6">
+						<div class="col-3">
 							<div class="d-flex flex-row flex-wrap">																															<?php
 								foreach($unlockedList as $unlocked)
 								{
@@ -190,7 +196,7 @@ if(isset($_SESSION["user_name"]))
 								}																																			?>
 							</div>
 						</div>
-						<div class="col-6">
+						<div class="col-3">
 							<div class="d-flex flex-row flex-wrap">																															<?php
 								foreach($forwardedList as $forward)
 								{
@@ -211,6 +217,40 @@ if(isset($_SESSION["user_name"]))
 								}																																			?>
 							</div>
 						</div>
+						<div class="col-6">
+							<div class="d-flex flex-row flex-wrap">
+								<div class="card" style="width:100% !important;margin-left:10%;">
+									<h5 class="card-header" style="background-color:#49C9A7;color:white"><i class="fas fa-box"></i>&nbsp;&nbsp;Holdings</h5>
+									<div class="card-body">
+										<table class="ratetable table table-hover table-bordered" style="background-color:white;">
+											<thead>
+												<tr>
+													<th><i class="fa fa-address-card-o"></i> AR</th>
+													<th style="width:100px;"><i class="fa fa-shield"></i> Product</th>
+													<th style="width:70px;"><i class="fab fa-buffer"></i> Qty</th>
+													<th style="width:100px;"><i class="far fa-file-alt"></i> Bill</th>
+												</tr>
+											</thead>
+											<tbody><?php
+												$holdings = mysqli_query($con,"SELECT * FROM holdings WHERE cleared_sale IS NULL") or die(mysqli_error($con));
+												foreach($holdings as $holding)
+												{
+													$saleQuery = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id = ".$holding['returned_sale']) or die(mysqli_error($con));
+													$sale = mysqli_fetch_array($saleQuery, MYSQLI_ASSOC);
+													?>
+													<tr>
+														<td><?php echo $clientNamesMap[$holding['ar']];?></td>
+														<td><?php echo $productDetailsMap[$holding['product']]['name'];?></td>
+														<td><?php echo $holding['qty'];?></td>
+														<td><?php echo $sale['bill_no'];?></td>
+													</tr>																											<?php
+												}																													?>
+											</tbody>																														
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>						
 					</div>
 				</div>			
 			</div>

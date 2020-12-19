@@ -29,10 +29,9 @@ if(isset($_SESSION["user_name"]))
 	$address1 = $_POST['address1'];
 	$entered_by = $_SESSION["user_name"];
 	$entered_on = date('Y-m-d H:i:s');	
+	$userId = $_SESSION["user_id"];
 	
-	var_dump($_POST);
-	
-	/*
+
 	if(empty($discount))
 		$discount = null;	
 	if(empty($engId))
@@ -48,14 +47,27 @@ if(isset($_SESSION["user_name"]))
 		 VALUES
 		 ('$sqlDate', '$arId', ".var_export($engId, true).", ".var_export($truck, true).", ".var_export($godown, true).", ".var_export($order_no, true).",'$product', '$qty',".var_export($discount, true).", '$remarks', '$bill', '$customerName', '$customerPhone', $ar_direct, '$address1', '$entered_by', '$entered_on')";
 
-	$result = mysqli_query($con, $sql) or die(mysqli_error($con));				 
+	$result = mysqli_query($con, $sql) or die(mysqli_error($con));
+	
+	$saleId = mysqli_insert_id($con);
+	
+	if(isset($_POST['clearHolding']))
+	{
+		foreach($_POST['clearHolding'] as $holding => $status)
+		{
+			if($status == 'true')
+			{
+				$updateQuery = "UPDATE holdings SET cleared_sale=$saleId,cleared_by = $userId WHERE id = $holding";
+				$update = mysqli_query($con, $updateQuery) or die(mysqli_error($con));							
+			}
+		}
+	}
 	
 	$sql = $_POST['sql'];
 	$range = $_POST['range'];
 		
 	header('Location: list.php?success&sql='.$sql.'&range='.$range);
-	*/
 }
 else
 	header( "Location: ../index/home.php" );
-?> 
+?>
