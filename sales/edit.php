@@ -49,7 +49,10 @@ if(isset($_SESSION["user_name"]))
 
 	$blockDateQuery = mysqli_query($con,"SELECT date FROM block_old_sale") or die(mysqli_error($con));
 	$blockDate = mysqli_fetch_array($blockDateQuery,MYSQLI_ASSOC)['date'];
-	$blockDate = date('Y-m-d',strtotime($blockDate));																																											?>
+	$blockDate = date('Y-m-d',strtotime($blockDate));																																											
+	
+	$holdings = mysqli_query($con,"SELECT * FROM holdings WHERE returned_sale =".$row['sales_id']." OR cleared_sale =".$row['sales_id']) or die(mysqli_error($con));?>
+	
 	
 	<html>
 	<head>
@@ -291,7 +294,7 @@ if(isset($_SESSION["user_name"]))
 						<div class="card-footer" style="background-color:#f2cf5b;padding:1px;"></div>
 					</div>
 					<br/><br/>																																							<?php
-					if($entryDate > $blockDate)
+					if($entryDate > $blockDate && mysqli_num_rows($holdings) <= 0)
 					{																																						?>
 						<button type="button" class="btn" style="float:right;margin-right:150px;background-color:#E6717C;color:#FFFFFF" data-toggle="modal" data-target="#deleteModal">
 						<i class="far fa-trash-alt"></i>&nbsp;&nbsp;Delete</button>																										<?php
