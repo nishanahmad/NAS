@@ -92,8 +92,8 @@ if(isset($_SESSION["user_name"]))
 	$sum5 = (int)mysqli_fetch_array($query5, MYSQLI_ASSOC);																																						
 	
 
-	
-	/****************************************************	 				HOLDING LIST						***************************************/
+	$today = date('Y-m-d');	
+	$sql = "SELECT * FROM nas_sale WHERE entry_date = '$today' ORDER BY bill_no ASC";
 	
 	?>
 
@@ -105,63 +105,6 @@ if(isset($_SESSION["user_name"]))
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/easy-pie-chart/2.1.6/jquery.easypiechart.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 		<title>Home</title>
-		<style>		
-			.graphcontainer {
-			  display: grid;
-			  grid-template-columns: repeat(1, 160px);
-			  grid-gap: 80px;
-			  margin: auto 0;
-			  background:#0d0c2d;
-			}
-
-			@media (min-width: 420px) and (max-width: 659px) {
-			  .graphcontainer {
-				grid-template-columns: repeat(2, 160px);
-			  }
-			}
-
-			@media (min-width: 660px) and (max-width: 899px) {
-			  .graphcontainer {
-				grid-template-columns: repeat(3, 160px);
-			  }
-			}
-
-			@media (min-width: 900px) {
-			  .graphcontainer {
-				grid-template-columns: repeat(4, 160px);
-			  }
-			}
-
-			.graphcontainer .box {
-			  margin:20px;		
-			  width: 100%;
-			}
-
-			.graphcontainer .box h2 {
-			  display: block;
-			  text-align: center;
-			  color: #fff;
-			}
-
-			.graphcontainer .box .chart {
-			  position: relative;
-			  width: 100%;
-			  height: 100%;
-			  text-align: center;
-			  font-size: 40px;
-			  line-height: 160px;
-			  height: 160px;
-			  color: #fff;
-			}
-
-			.graphcontainer .box canvas {
-			  position: absolute;
-			  top: 0;
-			  left: 0;
-			  width: 100%;
-			  width: 100%;
-			}
-		</style>
 	</head>
 	<body>
 		<nav class="navbar navbar-light bg-light sticky-top bottom-nav">
@@ -203,8 +146,8 @@ if(isset($_SESSION["user_name"]))
 									$id = $forward['sale'];
 									$query = mysqli_query($con, "SELECT * FROM nas_sale WHERE sales_id = $id") or die(mysqli_error($con));
 									$sale = mysqli_fetch_array($query, MYSQLI_ASSOC);																							?>
-									<a class="card list-group-item list-group-item-action" href="../reports/tallyVerification.php?date=<?php echo $sale['entry_date'];?>">
-										<h3><?php echo $sale['bill_no'];?></h3>
+									<div class="card list-group-item list-group-item-action" href="../reports/tallyVerification.php?date=<?php echo $sale['entry_date'];?>">
+										<h3><a href="../sales/edit.php?sales_id=<?php echo $sale['sales_id'];?>&range=Today&sql=<?php echo $sql;?>"><?php echo $sale['bill_no'];?></a></h3>
 										<p class="small"><?php 
 											echo $clientNamesMap[$sale['ar_id']].'<br/>'.date('d-m-Y',strtotime($sale['entry_date'])).'<br/>'.$productDetailsMap[$sale['product']]['name'].' '.$sale['qty'].' bags';?>
 										</p>
@@ -213,7 +156,7 @@ if(isset($_SESSION["user_name"]))
 										<div class="go-corner" href="#" style="background-color:#DE2F2F">
 											<div class="go-arrow"><i class="fas fa-arrow-right fa-xs"></i></div>
 										</div>
-									</a>																																	<?php
+									</div>																																	<?php
 								}																																			?>
 							</div>
 						</div>

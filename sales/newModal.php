@@ -67,7 +67,7 @@ if(isset($_SESSION["user_name"]))
 									</select>
 								</div>
 							</div>
-							<div class="col-sm-6 col-md-5" id="content-desktop">
+							<div class="col-sm-6 col-md-5">
 								<div class="input-group mb-3">
 									<span class="input-group-text col-md-4 col-xs-3"><i class="fa fa-truck-moving"></i>&nbsp;Truck</span>
 									<select name="truck" id="truck" class="form-control" style="width:67%">
@@ -157,7 +157,7 @@ if(isset($_SESSION["user_name"]))
 									<input type="text" name="bd" id="bd" class="form-control">
 								</div>
 							</div>
-							<div class="col-sm-6 col-md-5 offset-md-1" id="content-desktop">
+							<div class="col-sm-6 col-md-5 offset-md-1">
 								<div class="input-group mb-3">
 									<span class="input-group-text" style="width:40%"><i class="fas fa-mobile-alt"></i>&nbsp;Phone</span>
 									<input type="text" name="customerPhone" id="phone" class="form-control">
