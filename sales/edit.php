@@ -116,10 +116,12 @@ if(isset($_SESSION["user_name"]))
 			<input hidden name="sql" id="sql" value="<?php echo $urlsql;?>">
 			<input hidden name="range" id="range" value="<?php echo $urlrange;?>">
 			<div style="width:100%;">
-				<div align="center" style="padding-bottom:5px;">				
+				<div align="center" style="padding-bottom:5px;">
 					<div class="card" style="width:65%;">
 						<div class="card-header" style="background-color:#f2cf5b;font-size:20px;font-weight:bold;color:white">Sale <?php echo $row['sales_id']; ?></div>
 						<div class="card-body">
+							<div class="card" id="holding-card" style="width:30%;margin-bottom:50px;">
+							</div>														
 							<div class="row">
 								<div class="col col-md-4 offset-1">
 									<div class="input-group">

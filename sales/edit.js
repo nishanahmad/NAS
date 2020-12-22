@@ -183,7 +183,27 @@ $(document).ready(function()
 					});										
 				}
 			}
-		});															
+		});		
+
+		document.getElementById('holding-card').innerHTML = "";
+		$.ajax({
+			type: "POST",
+			url: "ajax/fetchHolding.php",
+			data:'ar='+client+'&product='+product,
+			success: function(response){
+				if(response.status == 'success'){
+					var str = '<ul class="list-group list-group-flush">';
+					for(var i = 0; i < response.holdings.length; i++){
+						var holding = response.holdings[i];
+						str += '<li class="list-group-item"><div class="form-check form-switch">';
+						str += '<input class="form-check-input" type="checkbox" id="'+holding.id+'" name="'+holding.id+'" onchange="ClearHolding(this);">';
+						str += '<label class="form-check-label" for="flexSwitchCheckDefault">'+holding.qty+' bags holding</label></div></li>';
+					}
+					str += '</ul>';
+					document.getElementById("holding-card").innerHTML = str;
+				}
+			}
+		});										
 	});
 	
 	$("#ar").change(function()
@@ -223,7 +243,27 @@ $(document).ready(function()
 					});										
 				}
 			}
-		});			
+		});	
+
+		document.getElementById('holding-card').innerHTML = "";
+		$.ajax({
+			type: "POST",
+			url: "ajax/fetchHolding.php",
+			data:'ar='+client+'&product='+product,
+			success: function(response){
+				if(response.status == 'success'){
+					var str = '<ul class="list-group list-group-flush">';
+					for(var i = 0; i < response.holdings.length; i++){
+						var holding = response.holdings[i];
+						str += '<li class="list-group-item"><div class="form-check form-switch">';
+						str += '<input class="form-check-input" type="checkbox" id="'+holding.id+'" name="'+holding.id+'" onchange="ClearHolding(this);">';
+						str += '<label class="form-check-label" for="flexSwitchCheckDefault">'+holding.qty+' bags holding</label></div></li>';
+					}
+					str += '</ul>';
+					document.getElementById("holding-card").innerHTML = str;
+				}
+			}
+		});								
 	});	
 	$("#bd,#order_no,#qty").change(function(){
 		refreshRate();
@@ -338,7 +378,28 @@ $(document).ready(function()
 		$("#confirmId").text('Are you sure you want to delete this sale?');
 	});	
 
-
+	
+	// POPULATE HOLDING DATA IF ANY
+	document.getElementById('holding-card').innerHTML = "";
+	$.ajax({
+		type: "POST",
+		url: "ajax/fetchHolding.php",
+		data:'ar='+client+'&product='+product,
+		success: function(response){
+			if(response.status == 'success'){
+				var str = '<ul class="list-group list-group-flush">';
+				for(var i = 0; i < response.holdings.length; i++){
+					var holding = response.holdings[i];
+					str += '<li class="list-group-item"><div class="form-check form-switch">';
+					str += '<input class="form-check-input" type="checkbox" id="'+holding.id+'" name="'+holding.id+'" onchange="ClearHolding(this);">';
+					str += '<label class="form-check-label" for="flexSwitchCheckDefault">'+holding.qty+' bags holding</label></div></li>';
+				}
+				str += '</ul>';
+				document.getElementById("holding-card").innerHTML = str;
+			}
+		}	
+	});			
+				
 	// TRUCK LOADING FUNCTIONS ON EDIT 
 	/*
 	$('#editForm').on('submit', function(event){
@@ -402,7 +463,81 @@ function refreshRate()
 	var totalAmount = (finalRate * qty) - order_no;
 	
 	$('#final').val(finalRate);
-	$('#total').val(totalAmount);
-	
-	
+	$('#total').val(totalAmount);	
 }
+
+function ClearHolding(checkbox) 
+{
+	var saleId = $("#id").val();
+    if(checkbox.checked == true){
+		$.ajax({
+			url: 'ajax/clearHoldingFromEdit.php',
+			type: 'post',
+			data: {id:checkbox.id, saleId:saleId, checked:'true'},
+			success: function(response){
+				if(response.status == 'success'){
+					console.log('cleared');
+				}else if(response.status == 'error'){
+					console.log('not cleared');
+					return false;
+				}
+			},
+			error: function (jqXHR, exception) {
+				var msg = '';
+				if (jqXHR.status === 0) {
+					msg = 'Not connect.\n Verify Network.';
+				} else if (jqXHR.status == 404) {
+					msg = 'Requested page not found. [404]';
+				} else if (jqXHR.status == 500) {
+					msg = 'Internal Server Error [500].';
+				} else if (exception === 'parsererror') {
+					msg = 'Requested JSON parse failed.';
+				} else if (exception === 'timeout') {
+					msg = 'Time out error.';
+				} else if (exception === 'abort') {
+					msg = 'Ajax request aborted.';
+				} else {
+					msg = 'Uncaught Error.\n' + jqXHR.responseText;
+				}
+				console.log(msg);
+				return false;
+			}	
+		});
+    }
+    else{
+		$.ajax({
+			url: 'ajax/clearHoldingFromEdit.php',
+			type: 'post',
+			data: {id:checkbox.id, saleId:saleId, checked:'false'},
+			success: function(response){
+				if(response.status == 'success'){
+					console.log('cleared');
+				}else if(response.status == 'error'){
+					console.log('not cleared');
+					return false;
+				}
+			},
+			error: function (jqXHR, exception) {
+				var msg = '';
+				if (jqXHR.status === 0) {
+					msg = 'Not connect.\n Verify Network.';
+				} else if (jqXHR.status == 404) {
+					msg = 'Requested page not found. [404]';
+				} else if (jqXHR.status == 500) {
+					msg = 'Internal Server Error [500].';
+				} else if (exception === 'parsererror') {
+					msg = 'Requested JSON parse failed.';
+				} else if (exception === 'timeout') {
+					msg = 'Time out error.';
+				} else if (exception === 'abort') {
+					msg = 'Ajax request aborted.';
+				} else {
+					msg = 'Uncaught Error.\n' + jqXHR.responseText;
+				}
+				console.log(msg);
+				return false;
+			}	
+		});
+    }	
+}
+
