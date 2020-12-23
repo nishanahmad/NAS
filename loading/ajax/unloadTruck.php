@@ -5,7 +5,7 @@ require '../../connect.php';
 
 $id = $_POST['id'];
 
-$update = "UPDATE loading SET qty = qty - unbilled_qty, unbilled_qty = 0 WHERE id = $id";
+$update = "UPDATE loading SET qty = 0 , status = 'cleared' WHERE id = $id";
 
 $result = mysqli_query($con,$update);
 

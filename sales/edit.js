@@ -398,56 +398,7 @@ $(document).ready(function()
 				document.getElementById("holding-card").innerHTML = str;
 			}
 		}	
-	});			
-				
-	// TRUCK LOADING FUNCTIONS ON EDIT 
-	/*
-	$('#editForm').on('submit', function(event){
-		event.preventDefault();
-		var id = document.getElementById('id').value;
-		var product = document.getElementById('product').value;
-		var qty = document.getElementById('qty').value;
-				
-		if(document.getElementById('truck').value !== null)
-			var truck = document.getElementById('truck').value;
-		else
-			var truck = "";		
-
-		$.ajax({
-			url: 'ajax/upsertLoading.php',
-			type: 'post',
-			data: {id:id, product:product, qty:qty, truck:truck},
-			success: function(response){
-				if(response.status == 'success'){
-					$("#editForm")[0].submit();
-				}else if(response.status == 'error'){
-					$("#displayError").text(response.value);
-					return false;
-				}
-			},
-			error: function (jqXHR, exception) {
-				var msg = '';
-				if (jqXHR.status === 0) {
-					msg = 'Not connect.\n Verify Network.';
-				} else if (jqXHR.status == 404) {
-					msg = 'Requested page not found. [404]';
-				} else if (jqXHR.status == 500) {
-					msg = 'Internal Server Error [500].';
-				} else if (exception === 'parsererror') {
-					msg = 'Requested JSON parse failed.';
-				} else if (exception === 'timeout') {
-					msg = 'Time out error.';
-				} else if (exception === 'abort') {
-					msg = 'Ajax request aborted.';
-				} else {
-					msg = 'Uncaught Error.\n' + jqXHR.responseText;
-				}
-				$("#displayError").text(msg);
-				return false;
-			}		
-		});
-	});	
-	*/
+	});
 });
 
 function refreshRate()

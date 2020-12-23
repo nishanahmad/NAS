@@ -6,8 +6,7 @@ if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
 	require '../functions/sms.php';
-	require 'updateUserDetails.php';
-	require 'billUpdatedCheck.php';
+	require 'updateHelper.php';
 	
 	if(count($_POST)>0) 
 	{	
@@ -63,6 +62,7 @@ if(isset($_SESSION["user_name"]))
 		$newSale= mysqli_fetch_array($resultNew,MYSQLI_ASSOC);					
 
 		updateUserDetails($oldSale,$newSale);
+		clearPendingTruck($oldSale,$newSale);
 		
 		if(billUpdatedCheck($oldSale,$newSale,$con))
 			$url = 'list.php?success&sql='.$sql.'&range='.$range.'&total='.$total;

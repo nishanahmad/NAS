@@ -11,6 +11,13 @@ $(function(){
 	var pickeropts = { dateFormat:"dd-mm-yy"}; 
 	$( ".datepicker" ).datepicker(pickeropts);	
 	
+	$(".table").tablesorter({
+		dateFormat : "ddmmyyyy",
+		theme : 'bootstrap',
+		widgets: ['filter'],
+		filter_columnAnyMatch: true
+	}); 
+	
 	$('.loadId').click(function(){
 		var loadId = $(this).data('id');
 		bootbox.confirm({

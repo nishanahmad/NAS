@@ -1,4 +1,37 @@
 <?php
+function billUpdatedCheck($oldSale,$newSale,$con)
+{
+	$oldBill = $oldSale['bill_no'];
+	$newBill = $newSale['bill_no'];
+	
+	if($oldBill != $newBill)
+	{
+		if( fnmatch("BB*",$newBill) || fnmatch("BC*",$newBill) || fnmatch("GB*",$newBill) || fnmatch("GC*",$newBill) || fnmatch("PB*",$newBill) || fnmatch("PC*",$newBill))
+			return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function clearPendingTruck($oldSale,$newSale,$con)
+{
+	$oldTruck = $oldSale['truck'];
+	$newTruck = $newSale['truck'];
+	$bill = $newSale['bill_no'];
+	$product = $newSale['product'];
+	$saleQty = $newSale['qty'];
+	
+	if($oldTruck != $newTruck)
+	{
+		if( fnmatch("BB*",$bill) || fnmatch("BC*",$bill) || fnmatch("GB*",$bill) || fnmatch("GC*",$bill) || fnmatch("PB*",$bill) || fnmatch("PC*",$bill))
+		{
+			
+		}
+	}
+}
+
 function updateUserDetails($oldSale,$newSale)
 {
 	require '../connect.php';

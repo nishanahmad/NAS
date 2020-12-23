@@ -9,29 +9,27 @@ $truck = $_POST['truck'];
 $product = $_POST['product'];
 $qty = $_POST['qty'];
 
-$searchQuery = "SELECT * FROM loading WHERE truck = $truck AND product = $product AND unbilled_qty >0";
+$searchQuery = "SELECT * FROM loading WHERE truck = $truck AND product = $product AND status = 'pending'";
 $search = mysqli_query($con,$searchQuery);
 if(mysqli_num_rows($search) > 0 )
 {
-	$response_array['status'] = 'error';
-	$response_array['value'] = 'Unload pending for this truck. Please edit and modify the quantity';
+	$loadId = mysqli_fetch_array($search, MYSQLI_ASSOC)['id'];
+	$sql = "UPDATE loading SET qty = qty + $qty WHERE id = $loadId";
 }
 else
 {
-	$insertQuery = "INSERT INTO loading (date, time, truck, product, qty, unbilled_qty)
-					VALUES
-					('$date', '$time', $truck, $product, $qty, $qty)";
-
-	$insert = mysqli_query($con,$insertQuery);
-
-	if($insert)
-		$response_array['status'] = 'success';
-	else
-	{
-		$response_array['status'] = 'error';
-		$response_array['value'] = mysqli_error($con);
-	}		
+	$sql = "INSERT INTO loading (date, time, truck, product, qty) VALUES ('$date', '$time', $truck, $product, $qty)";
 }
+	
+$upsert = mysqli_query($con,$sql);
+
+if($upsert)
+	$response_array['status'] = 'success';
+else
+{
+	$response_array['status'] = 'error';
+	$response_array['value'] = mysqli_error($con);
+}		
 	
 echo json_encode($response_array);
 
