@@ -26,7 +26,6 @@ if(isset($_SESSION["user_name"]))
 				<div class="btn-group" role="group">
 					<button id="btnGroupDrop1" type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Trucks</button>
 					<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">									
-						<li id="trucks"><a class="dropdown-item">Trucks</a></li>
 						<li id="loading"><a class="dropdown-item" href="../loading/list.php">Loading</a></li>			
 					</ul>
 				</div>
