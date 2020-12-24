@@ -51,7 +51,12 @@ if(isset($_SESSION["user_name"]))
 	$blockDate = mysqli_fetch_array($blockDateQuery,MYSQLI_ASSOC)['date'];
 	$blockDate = date('Y-m-d',strtotime($blockDate));																																											
 	
-	$holdings = mysqli_query($con,"SELECT * FROM holdings WHERE returned_sale =".$row['sales_id']." OR cleared_sale =".$row['sales_id']) or die(mysqli_error($con));?>
+	$holdings = mysqli_query($con,"SELECT * FROM holdings WHERE returned_sale =".$row['sales_id']." OR cleared_sale =".$row['sales_id']) or die(mysqli_error($con));
+	
+	$unlocked = true;
+	$lockedQuery = mysqli_query($con,"SELECT * FROM lock_sale WHERE sale =".$row['sales_id']) or die(mysqli_error($con));
+	if(mysqli_num_rows($lockedQuery) > 0)
+		$unlocked = false;																																								?>
 	
 	
 	<html>
@@ -287,7 +292,7 @@ if(isset($_SESSION["user_name"]))
 							<p id="displayError" style="color:red;"></p>
 							<br/><?php
 							$entryDate = date('Y-m-d',strtotime($row['entry_date']));
-							if($entryDate > $blockDate)
+							if($entryDate > $blockDate && $unlocked)
 							{																																						?>
 								<button id="updatebtn" class="btn" style="width:100px;font-size:18px;background-color:#f2cf5b;color:white;"><i class="fa fa-save"></i> Save</button><?php
 							}																																						?>
@@ -296,7 +301,7 @@ if(isset($_SESSION["user_name"]))
 						<div class="card-footer" style="background-color:#f2cf5b;padding:1px;"></div>
 					</div>
 					<br/><br/>																																							<?php
-					if($entryDate > $blockDate && mysqli_num_rows($holdings) <= 0)
+					if($entryDate > $blockDate && mysqli_num_rows($holdings) <= 0 && $unlocked)
 					{																																						?>
 						<button type="button" class="btn" style="float:right;margin-right:150px;background-color:#E6717C;color:#FFFFFF" data-toggle="modal" data-target="#deleteModal">
 						<i class="far fa-trash-alt"></i>&nbsp;&nbsp;Delete</button>																										<?php
