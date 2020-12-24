@@ -90,7 +90,6 @@ if(isset($_SESSION["user_name"]))
 
 	$query5 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week5['Mon']."' AND entry_date <='".$week5['Sat']."'") or die(mysqli_error($con));		
 	$sum5 = (int)mysqli_fetch_array($query5, MYSQLI_ASSOC);																																						
-	
 
 	$today = date('Y-m-d');	
 	$sql = "SELECT * FROM nas_sale WHERE entry_date = '$today' ORDER BY bill_no ASC";
