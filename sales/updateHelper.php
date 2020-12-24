@@ -17,17 +17,38 @@ function billUpdatedCheck($oldSale,$newSale,$con)
 
 function clearPendingTruck($oldSale,$newSale,$con)
 {
-	$oldTruck = $oldSale['truck'];
+	if($oldSale != null)
+		$oldTruck = $oldSale['truck'];
+	else
+		$oldTruck = 'Old Truck';	
+	
 	$newTruck = $newSale['truck'];
 	$bill = $newSale['bill_no'];
 	$product = $newSale['product'];
 	$saleQty = $newSale['qty'];
-	
+
 	if($oldTruck != $newTruck)
 	{
-		if( fnmatch("BB*",$bill) || fnmatch("BC*",$bill) || fnmatch("GB*",$bill) || fnmatch("GC*",$bill) || fnmatch("PB*",$bill) || fnmatch("PC*",$bill))
+		$loadSql = mysqli_query($con,"SELECT * FROM loading WHERE product=$product AND truck = $newTruck AND status = 'pending'");
+		if(mysqli_num_rows($loadSql) > 0)
 		{
-			
+			$load = mysqli_fetch_array($loadSql, MYSQLI_ASSOC);
+			$loadId = $load['id'];
+			$date = $load['date'];
+			$time = $load['time'];
+			if( fnmatch("BB*",$bill) || fnmatch("BC*",$bill) || fnmatch("GB*",$bill) || fnmatch("GC*",$bill) || fnmatch("PB*",$bill) || fnmatch("PC*",$bill))
+			{
+				if($load['qty'] <= $saleQty)
+				{
+					$clear = mysqli_query($con,"UPDATE loading SET status = 'cleared' WHERE id= $loadId") or die(mysqli_error($con));
+				}
+				else	
+				{
+					$difference = $load['qty'] - $saleQty;
+					$clear = mysqli_query($con,"UPDATE loading SET qty = qty - $difference, status = 'cleared' WHERE id= $loadId") or die(mysqli_error($con));
+					$new = mysqli_query($con,"INSERT INTO loading (date,time,truck,product,qty) VALUES ('$date','$time',$newTruck,$product,$difference)") or die(mysqli_error($con));
+				}
+			}
 		}
 	}
 }

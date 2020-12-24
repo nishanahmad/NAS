@@ -17,8 +17,7 @@ if(isset($_SESSION["user_name"]))
 <html>
 	<head>
     	<meta charset="utf-8">
-	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">	
-		<meta http-equiv="Refresh" content="120"> 
+	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css">
 		<link href="../css/styles.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="../css/loading-cards.css">
@@ -48,7 +47,7 @@ if(isset($_SESSION["user_name"]))
 		<div style="width:100%;" class="mainbody">	
    			  <div id="snackbar"><i class="fas fa-dolly"></i>&nbsp;&nbsp;New Loading inserted successfully !!!</div>		
 			  <div id="main" class="row">
-				  <div class="col-4" style="margin-left:15%;">
+				  <div class="col-5" style="margin-left:10%;">
 					  <div class="header">
 						<h2>Pending</h2>
 					  </div>				  				  
@@ -78,7 +77,7 @@ if(isset($_SESSION["user_name"]))
 						</div>						
 					  </div>
 				  </div>
-				  <div class="col-4">
+				  <div class="col-5">
 					  <div class="header">
 						<h2>Cleared Today</h2>
 					  </div>				  				  

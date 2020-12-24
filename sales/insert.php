@@ -4,6 +4,8 @@ error_reporting(E_ALL);
 
 require '../connect.php';
 require '../functions/sms.php';
+require 'updateHelper.php';
+
 session_start();
 if(isset($_SESSION["user_name"]))
 {
@@ -62,6 +64,10 @@ if(isset($_SESSION["user_name"]))
 			}
 		}
 	}
+	
+	$newSaleSql = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id = $saleId") or die(mysqli_error($con));
+	$newSale = mysqli_fetch_array($newSaleSql, MYSQLI_ASSOC);
+	clearPendingTruck(null,$newSale,$con);
 	
 	$sql = $_POST['sql'];
 	$range = $_POST['range'];

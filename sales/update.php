@@ -62,7 +62,7 @@ if(isset($_SESSION["user_name"]))
 		$newSale= mysqli_fetch_array($resultNew,MYSQLI_ASSOC);					
 
 		updateUserDetails($oldSale,$newSale);
-		clearPendingTruck($oldSale,$newSale);
+		clearPendingTruck($oldSale,$newSale,$con);
 		
 		if(billUpdatedCheck($oldSale,$newSale,$con))
 			$url = 'list.php?success&sql='.$sql.'&range='.$range.'&total='.$total;
