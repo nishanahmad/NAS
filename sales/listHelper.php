@@ -71,6 +71,17 @@ function getClientNames($con)
 }
 
 
+function getGodownNames($con)
+{
+	$godownMap = array();
+	$godowns = mysqli_query($con,"SELECT * FROM godowns ORDER BY name");
+	foreach($godowns as $godown)
+		$godownMap[$godown['id']] = $godown['name'];	
+		
+	return $godownMap;	
+}
+
+
 function getClientType($con)
 {
 	$clientMap = array();

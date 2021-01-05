@@ -10,9 +10,27 @@ if(isset($_SESSION["user_name"]))
 	
 	$productDetailsMap = getProductDetails($con);
 	$truckNumbersMap = getTruckNumbers($con);
+	$godownMap = getGodownNames($con);
+	
+	$queryString = null;
+	$sales = array();
+	$todaySales = mysqli_query($con,"SELECT * FROM nas_sale WHERE entry_date = CURDATE() AND (bill_no LIKE 'BB%' OR bill_no LIKE 'BC%' OR bill_no LIKE 'GB%' OR bill_no LIKE 'GC%' OR bill_no LIKE 'PB%' OR bill_no LIKE 'PC%')") or die(mysqli_error($con));
+	foreach($todaySales as $sale)
+	{
+		$sales[$sale['sales_id']] = $sale;
+		if($queryString == null)
+			$queryString = $sale['sales_id'];
+		else
+			$queryString = $queryString.','.$sale['sales_id'];
+	}
+	$array=array_map('intval', explode(',', $queryString));
+	$array = implode("','",$array);
 
-	$pendingList = mysqli_query($con,"SELECT * FROM loading WHERE status = 'pending' ORDER BY date ASC,time ASC") or die(mysqli_error($con));
-	$clearedList = mysqli_query($con,"SELECT * FROM loading WHERE status = 'cleared' AND DATE(last_updated) = CURDATE() ORDER BY time ASC") or die(mysqli_error($con));	?>
+	$clearedList = mysqli_query($con,"SELECT * FROM loading WHERE status = 'cleared' AND cleared_sale IN ('".$array."')") or die(mysqli_error($con));
+	foreach($clearedList as $clear)
+		$clearedMap[$clear['cleared_sale']] = $clear['qty'];
+	
+	$pendingList = mysqli_query($con,"SELECT * FROM loading WHERE status = 'pending' ORDER BY date ASC,time ASC") or die(mysqli_error($con));																	?>
 	
 <html>
 	<head>
@@ -48,11 +66,9 @@ if(isset($_SESSION["user_name"]))
    			  <div id="snackbar"><i class="fas fa-dolly"></i>&nbsp;&nbsp;New Loading inserted successfully !!!</div>		
 			  <div id="main" class="row">
 				  <div class="col-5" style="margin-left:10%;">
-					  <div class="header">
-						<h2>Pending</h2>
-					  </div>				  				  
 					  <div class="card">
 						<div class="card-body">
+							<h4 style="margin-left:35%">Loaded Trucks</span></h4>
 							<table class="table table-hover table-bordered">
 								<thead>
 									<tr style="background-color:#E9696E;color:#FFFFFF;">
@@ -78,30 +94,35 @@ if(isset($_SESSION["user_name"]))
 					  </div>
 				  </div>
 				  <div class="col-5">
-					  <div class="header">
-						<h2>Cleared Today</h2>
-					  </div>				  				  
 					  <div class="card">
 						<div class="card-body">
+							<h4 style="margin-left:35%">Total : <span class="total"></span></h4>
 							<table class="table table-hover table-bordered">
 								<thead>
 									<tr class="table-success">
 										<th style="width:100px;"><i class="fa fa-truck-moving"></i> Truck</th>
 										<th style="width:100px;"><i class="fa fa-shield"></i> Product</th>
 										<th style="width:80px;"><i class="fab fa-buffer"></i> Qty</th>
-										<th><i class="fa fa-clock"></i> Cleared On</th>
+										<th style="width:120px;"><i class="fas fa-warehouse"></i> Godown</th>
 									</tr>
 								</thead>
 								<tbody><?php				
-								foreach($clearedList as $cleared)
-								{																													?>
+								foreach($sales as $saleId => $sale)
+								{																																?>
 									<tr>
-										<td><?php echo $truckNumbersMap[$cleared['truck']];?></td>
-										<td><?php echo $productDetailsMap[$cleared['product']]['name'];?></td>
-										<td><?php echo $cleared['qty'];?></td>
-										<td><?php echo date('h:i A',strtotime($cleared['last_updated']));?></td>
-									</tr>																											<?php
-								}																														?>
+										<td><?php echo $truckNumbersMap[$sale['truck']];?></td>
+										<td><?php echo $productDetailsMap[$sale['product']]['name'];?></td>										<?php 									
+										if(isset($clearedMap[$saleId]))
+										{																														?>
+											<td><?php echo $sale['qty'] - $clearedMap[$saleId];?></td>															<?php
+										}
+										else
+										{																														?>
+											<td><?php echo $sale['qty'];?></td>																					<?php
+										}																														?>
+										<td><?php if(isset($godownMap[$sale['godown']])) echo $godownMap[$sale['godown']];?></td>
+									</tr>																														<?php
+								}																																?>
 								</tbody>																														
 							</table>						  
 						</div>

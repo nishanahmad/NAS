@@ -6,7 +6,8 @@ require '../connect.php';
 if(isset($_SESSION["user_name"]))
 {			
 	$products= mysqli_query($con,"SELECT id,name FROM products WHERE status = 1 ORDER BY id");
-	$trucks= mysqli_query($con,"SELECT * FROM truck_details ORDER BY number");																												?>
+	$trucks= mysqli_query($con,"SELECT * FROM truck_details ORDER BY number");	
+	$godowns = mysqli_query($con,"SELECT * FROM godowns ORDER BY name");																											?>	
 	
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 	<div class="modal fade" id="newModal" style="margin-top:100px;">
@@ -58,6 +59,18 @@ if(isset($_SESSION["user_name"]))
 					<div class="input-group mb-3">
 						<span class="input-group-text" style="width:120px;"><i class="fab fa-buffer"></i>&nbsp;Qty</span>
 						<input type="text" name="qty" id="qty" class="form-control" autocomplete="off">
+					</div>
+				</div>
+				<div class="col col-md-5 offset-1">
+					<div class="input-group mb-3">
+						<span class="input-group-text" style="width:120px;"><i class="fas fa-warehouse"></i>&nbsp;Godown</span>
+						<select name="godown" id="godown" class="form-control" style="line-height:20px;width:180px;">							
+							<option value="">-- SELECT --</option>													<?php
+							foreach($godowns as $godown) 
+							{																													?>
+								<option value="<?php echo $godown['id'];?>"><?php echo $godown['name'];?></option>								<?php	
+							}																													?>
+						</select>
 					</div>
 				</div>												
 				<br/><br/>
