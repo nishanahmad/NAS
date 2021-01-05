@@ -11,6 +11,12 @@ $(function(){
 	var pickeropts = { dateFormat:"dd-mm-yy"}; 
 	$( ".datepicker" ).datepicker(pickeropts);	
 	
+	var total = 0;
+	$('.table').find('tbody tr:visible').each(function(){
+		total += parseFloat( $(this).find('td:eq(2)').text() );
+	});
+	$('.total').text(total);
+		
 	$('.table').on('initialized filterEnd', function(){
 		var total = 0;
 		$(this).find('tbody tr:visible').each(function(){
