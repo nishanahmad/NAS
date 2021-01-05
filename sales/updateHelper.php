@@ -27,6 +27,7 @@ function clearPendingTruck($oldSale,$newSale,$con)
 	$product = $newSale['product'];
 	$saleQty = $newSale['qty'];
 	$saleId = $newSale['sales_id'];
+	$godown = $newSale['godown'];
 
 	if($oldTruck != $newTruck)
 	{
@@ -41,13 +42,13 @@ function clearPendingTruck($oldSale,$newSale,$con)
 			{
 				if($load['qty'] <= $saleQty)
 				{
-					$clear = mysqli_query($con,"UPDATE loading SET status = 'cleared' WHERE id= $loadId") or die(mysqli_error($con));
+					$clear = mysqli_query($con,"UPDATE loading SET status = 'cleared', cleared_sale = $saleId WHERE id= $loadId") or die(mysqli_error($con));
 				}
 				else	
 				{
 					$difference = $load['qty'] - $saleQty;
-					$clear = mysqli_query($con,"UPDATE loading SET qty = qty - $difference, status = 'cleared' WHERE id= $loadId") or die(mysqli_error($con));
-					$new = mysqli_query($con,"INSERT INTO loading (date,time,truck,product,qty) VALUES ('$date','$time',$newTruck,$product,$difference)") or die(mysqli_error($con));
+					$clear = mysqli_query($con,"UPDATE loading SET qty = qty - $difference, status = 'cleared', cleared_sale = $saleId WHERE id= $loadId") or die(mysqli_error($con));
+					$new = mysqli_query($con,"INSERT INTO loading (date,time,truck,product,qty,cleared_sale) VALUES ('$date','$time',$newTruck,$product,$difference,$saleId)") or die(mysqli_error($con));
 				}
 				$lockSale = mysqli_query($con,"INSERT INTO lock_sale (sale) VALUES ($saleId)") or die(mysqli_error($con));
 			}

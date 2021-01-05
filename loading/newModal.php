@@ -61,18 +61,6 @@ if(isset($_SESSION["user_name"]))
 						<input type="text" name="qty" id="qty" class="form-control" autocomplete="off">
 					</div>
 				</div>
-				<div class="col col-md-5 offset-1">
-					<div class="input-group mb-3">
-						<span class="input-group-text" style="width:120px;"><i class="fas fa-warehouse"></i>&nbsp;Godown</span>
-						<select name="godown" id="godown" class="form-control" style="line-height:20px;width:180px;">							
-							<option value="">-- SELECT --</option>													<?php
-							foreach($godowns as $godown) 
-							{																													?>
-								<option value="<?php echo $godown['id'];?>"><?php echo $godown['name'];?></option>								<?php	
-							}																													?>
-						</select>
-					</div>
-				</div>												
 				<br/><br/>
 				<div class="row">
 					<div class="col col-md-5 offset-5">
