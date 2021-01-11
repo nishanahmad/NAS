@@ -13,9 +13,15 @@ if(isset($_SESSION["user_name"]))
 	$godownMap = getGodownNames($con);
 	
 	$queryString = null;
+	
+	if(isset($_GET['date']))
+		$date = date('Y-m-d',strtotime($_GET['date']));
+	else	
+		$date = date('Y-m-d');
+		
 	$sales = array();
-	$todaySales = mysqli_query($con,"SELECT * FROM nas_sale WHERE entry_date = CURDATE() AND (bill_no LIKE 'BB%' OR bill_no LIKE 'BC%' OR bill_no LIKE 'GB%' OR bill_no LIKE 'GC%' OR bill_no LIKE 'PB%' OR bill_no LIKE 'PC%')") or die(mysqli_error($con));
-	foreach($todaySales as $sale)
+	$salesQuery = mysqli_query($con,"SELECT * FROM nas_sale WHERE entry_date = '$date' AND (bill_no LIKE 'BB%' OR bill_no LIKE 'BC%' OR bill_no LIKE 'GB%' OR bill_no LIKE 'GC%' OR bill_no LIKE 'PB%' OR bill_no LIKE 'PC%')") or die(mysqli_error($con));
+	foreach($salesQuery as $sale)
 	{
 		$sales[$sale['sales_id']] = $sale;
 		if($queryString == null)
@@ -63,37 +69,13 @@ if(isset($_SESSION["user_name"]))
 			<a href="#" class="btn btn-sm" role="button" style="background-color:#54698D;color:white;float:right;margin-right:40px;" data-toggle="modal" data-target="#newModal"><i class="fas fa-dolly"></i> New Loading</a>			
 		</nav>
 		<div style="width:100%;" class="mainbody">	
-   			  <div id="snackbar"><i class="fas fa-dolly"></i>&nbsp;&nbsp;New Loading inserted successfully !!!</div>		
+   			  <div id="snackbar"><i class="fas fa-dolly"></i>&nbsp;&nbsp;New Loading inserted successfully !!!</div>
+			  <div class="input-group" style="width:15%;margin-top:50px;margin-left:40%">
+				  <span class="input-group-text col-md-5"><i class="far fa-calendar-alt"></i>&nbsp;Date</span>
+				  <input type="text" required name="date" id="searchDate" class="form-control datepicker" value="<?php echo date('d-m-Y',strtotime($date)); ?>">
+			  </div>				  	
 			  <div id="main" class="row">
-				  <div class="col-5" style="margin-left:10%;">
-					  <div class="card">
-						<div class="card-body">
-							<h4 style="margin-left:35%">Loaded Trucks</span></h4>
-							<table class="table table-hover table-bordered">
-								<thead>
-									<tr style="background-color:#E9696E;color:#FFFFFF;">
-										<th style="width:100px;"><i class="fa fa-truck-moving"></i> Truck</th>
-										<th style="width:100px;"><i class="fa fa-shield"></i> Product</th>
-										<th style="width:80px;"><i class="fab fa-buffer"></i> Qty</th>
-										<th><i class="fa fa-calendar"></i> Loaded On</th>
-									</tr>
-								</thead>
-								<tbody><?php				
-								foreach($pendingList as $pending)
-								{																													?>
-									<tr>
-										<td><?php echo $truckNumbersMap[$pending['truck']];?></td>
-										<td><?php echo $productDetailsMap[$pending['product']]['name'];?></td>
-										<td><?php echo $pending['qty'];?></td>
-										<td><?php echo date('d-M',strtotime($pending['date'])).' '.date('h:i A',strtotime($pending['time']));?><i class="far fa-arrow-alt-circle-down loadId" data-id="<?php echo $pending['id'];?>" title="Unload" style="font-size:18px;float:right;cursor:pointer;"></i></td>
-									</tr>																											<?php
-								}																														?>
-								</tbody>																														
-							</table>				
-						</div>						
-					  </div>
-				  </div>
-				  <div class="col-5">
+				  <div class="col-5" style="margin-left:5%;">
 					  <div class="card">
 						<div class="card-body">
 							<h4 style="margin-left:35%">Total : <span class="total"></span></h4>
@@ -126,6 +108,34 @@ if(isset($_SESSION["user_name"]))
 								</tbody>																														
 							</table>						  
 						</div>
+					  </div>
+				  </div>			  
+				  <div class="col-5" style="margin-left:10%;">
+					  <div class="card">
+						<div class="card-body">
+							<h4 style="margin-left:35%">Loaded Trucks</span></h4>
+							<table class="table table-hover table-bordered">
+								<thead>
+									<tr style="background-color:#E9696E;color:#FFFFFF;">
+										<th style="width:100px;"><i class="fa fa-truck-moving"></i> Truck</th>
+										<th style="width:100px;"><i class="fa fa-shield"></i> Product</th>
+										<th style="width:80px;"><i class="fab fa-buffer"></i> Qty</th>
+										<th><i class="fa fa-calendar"></i> Loaded On</th>
+									</tr>
+								</thead>
+								<tbody><?php				
+								foreach($pendingList as $pending)
+								{																													?>
+									<tr>
+										<td><?php echo $truckNumbersMap[$pending['truck']];?></td>
+										<td><?php echo $productDetailsMap[$pending['product']]['name'];?></td>
+										<td><?php echo $pending['qty'];?></td>
+										<td><?php echo date('d-M',strtotime($pending['date'])).' '.date('h:i A',strtotime($pending['time']));?><i class="far fa-arrow-alt-circle-down loadId" data-id="<?php echo $pending['id'];?>" title="Unload" style="font-size:18px;float:right;cursor:pointer;"></i></td>
+									</tr>																											<?php
+								}																														?>
+								</tbody>																														
+							</table>				
+						</div>						
 					  </div>
 				  </div>
 			</div>	  

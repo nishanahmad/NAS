@@ -11,6 +11,12 @@ $(function(){
 	var pickeropts = { dateFormat:"dd-mm-yy"}; 
 	$( ".datepicker" ).datepicker(pickeropts);	
 	
+	$('#searchDate').change(function(){
+		var date = $('#searchDate').val();
+		window.location.href = 'list.php?date='+date;
+	});	
+
+	
 	var total = 0;
 	$('.table').find('tbody tr:visible').each(function(){
 		total += parseFloat( $(this).find('td:eq(2)').text() );
