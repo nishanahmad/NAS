@@ -19,7 +19,7 @@ if(isset($_SESSION["user_name"]))
 		$toDate = date("Y-m-d");		
 	
 
-	$salesList = mysqli_query($con, "SELECT bill_no,address1,truck,order_no FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' ORDER BY entry_date") or die(mysqli_error($con));
+	$salesList = mysqli_query($con, "SELECT * FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' ORDER BY entry_date") or die(mysqli_error($con));
 			
 	if($_POST)
 	{
@@ -89,28 +89,33 @@ if(isset($_SESSION["user_name"]))
 						<br/>
 					</form>																													
 					<br/>
-					<div class="col-md-6 table-responsive-sm">
+					<div class="col-md-7 table-responsive-sm">
 					<h4>Total : <span class="total"></span></h4>
 					<br/>
 					<table class="maintable table table-hover table-bordered table-responsive">
 						<thead>
 							<tr class="table-success">
+								<th class="header" scope="col"><i class="fa fa-calendar"></i> Date</th>
 								<th class="header" scope="col"><i class="far fa-file-alt"></i> Bill</th>
 								<th style="max-width:500px;" class="header" scope="col"><i class="fas fa-map-marker-alt"></i> Address</th>
 								<th class="header" scope="col"><i class="fas fa-truck-moving"></i> Truck</th>	
 								<th class="header" scope="col"><i class="fa fa-money"></i> Order No</th>	
 							</tr>
 						</thead>																								
-						<tbody class="tablesorter-no-sort">																		<?php
+						<tbody class="tablesorter-no-sort">																																<?php
 						$total = 0;
 						foreach($salesList as $sale)
-						{																										?>
-							<tr>
-								<td style="text-align:left;"><?php echo $sale['bill_no'];?></td>
-								<td style="width:30%;text-align:left;"><?php echo $sale['address1'];?></td>
-								<td style="text-align:left;"><?php if(isset($truckNumbersMap[$sale['truck']])) echo $truckNumbersMap[$sale['truck']];?></td>
-								<td style="text-align:left;"><?php if($sale['order_no']) echo $sale['order_no']; else echo '0';?></td>
-							</tr>																																				<?php	
+						{
+							if( fnmatch("BB*",$sale['bill_no']) || fnmatch("BC*",$sale['bill_no']) || fnmatch("GB*",$sale['bill_no']) || fnmatch("GC*",$sale['bill_no']) || fnmatch("PB*",$sale['bill_no']) || fnmatch("PC*",$sale['bill_no']))
+							{																																							?>
+								<tr>
+									<td style="text-align:left;"><?php echo date('d-m-Y',strtotime($sale['entry_date']));?></td>
+									<td style="text-align:left;"><?php echo $sale['bill_no'];?></td>
+									<td style="width:30%;text-align:left;"><?php echo $sale['address1'];?></td>
+									<td style="text-align:left;"><?php if(isset($truckNumbersMap[$sale['truck']])) echo $truckNumbersMap[$sale['truck']];?></td>
+									<td style="text-align:left;"><?php if($sale['order_no']) echo $sale['order_no']; else echo '0';?></td>
+								</tr>																																				<?php									
+							}							
 						}																																						?>	
 						</tbody>
 					</table>
@@ -130,14 +135,14 @@ if(isset($_SESSION["user_name"]))
 					var total = 0;
 						
 					$('.maintable').find('tbody tr:visible').each(function(){
-						total += parseFloat( $(this).find('td:eq(3)').text() );
+						total += parseFloat( $(this).find('td:eq(4)').text() );
 					});
 					$('.total').text(total);
 						
 					$('.maintable').on('initialized filterEnd', function(){
 						var total = 0;
 						$(this).find('tbody tr:visible').each(function(){
-							total += parseFloat( $(this).find('td:eq(3)').text());
+							total += parseFloat( $(this).find('td:eq(4)').text());
 						});
 						$('.total').text(total);
 					})      
