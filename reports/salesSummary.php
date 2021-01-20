@@ -112,8 +112,18 @@ if(isset($_SESSION["user_name"]))
 			
 		</head>
 		<body>
-			<nav class="navbar navbar-light bg-light sticky-top bottom-nav justify-content-center">
-				<span class="navbar-brand" style="font-size:25px;"><i class="fa fa-line-chart"></i> Summary Report</span>
+			<nav class="navbar navbar-light bg-light sticky-top bottom-nav">
+				<div class="btn-group" role="group" style="float:left;margin-left:2%;">
+					<div class="btn-group" role="group">
+						<button id="btnGroupDrop1" type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							Summary Report
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">									
+							<li><a href="truckReport.php" class="dropdown-item">Truck Report</a></li>							
+						</ul>
+					</div>
+				</div>								
+				<span class="navbar-brand" style="font-size:25px;margin-right:45%"><i class="fa fa-line-chart"></i> Summary Report</span>
 			</nav>
 			<div style="width:100%;" class="mainbody">	
 				<br/><br/>
