@@ -125,8 +125,8 @@ if(isset($_SESSION["user_name"]))
 					<div class="card" style="width:65%;">
 						<div class="card-header" style="background-color:#f2cf5b;font-size:20px;font-weight:bold;color:white">Sale <?php echo $row['sales_id']; ?></div>
 						<div class="card-body">
-							<div class="card" id="holding-card" style="width:30%;margin-bottom:50px;">
-							</div>														
+							<div class="card" id="holding-card" style="width:30%;margin-bottom:50px;"></div>
+							<p id="insertError" style="color:red;"></p>							
 							<div class="row">
 								<div class="col col-md-4 offset-1">
 									<div class="input-group">
@@ -139,8 +139,14 @@ if(isset($_SESSION["user_name"]))
 								</div>
 								<div class="col col-md-4 offset-2">
 									<div class="input-group mb-3">
-										<span class="input-group-text col-md-4"><i class="far fa-file-alt"></i>&nbsp;Bill No</span>
-										<input type="text" name="bill" id="bill" class="form-control" value="<?php echo $row['bill_no']; ?>">
+										<span class="input-group-text" style="width:34%"><i class="fas fa-warehouse"></i></i>&nbsp;Godown</span>
+										<select name="godown" id="godown" class="form-control" style="width:60%">
+											<option value = "">---Select---</option>																						<?php
+											foreach($godowns as $godown) 
+											{																							?>
+												<option value="<?php echo $godown['id'];?>" <?php if($godown['id'] == $row['godown']) echo 'selected';?>><?php echo $godown['name'];?></option>			<?php	
+											}																							?>
+										</select>
 									</div>
 								</div>
 							</div>
@@ -156,17 +162,10 @@ if(isset($_SESSION["user_name"]))
 										</select>
 									</div>
 								</div>
-								<div class="col col-md-5 offset-1">
+								<div class="col col-md-4 offset-1">
 									<div class="input-group mb-3">
-										<span class="input-group-text col-md-3"><i class="fas fa-truck-moving"></i>&nbsp;Truck</span>
-										<select name="truck" id="truck" class="form-control" style="line-height:20px;width:46%;">	
-											<option value = "">-- NULL --</option>																																		<?php
-											foreach($trucks as $truck) 
-											{																																												?>
-												<option value="<?php echo $truck['id'];?>" <?php if($truck['id'] == $row['truck']) echo 'selected';?>><?php echo $truck['number'];?></option>								<?php	
-											}																																											?>
-										</select>
-										&nbsp;&nbsp;<a data-toggle="modal" data-target="#newTruckModal" style="color:limegreen;cursor:pointer">New</a>
+										<span class="input-group-text col-md-4"><i class="far fa-file-alt"></i>&nbsp;Bill No</span>
+										<input type="text" name="bill" id="bill" class="form-control" value="<?php echo $row['bill_no']; ?>">										
 									</div>
 								</div>
 							</div>							
@@ -183,10 +182,17 @@ if(isset($_SESSION["user_name"]))
 										</select>
 									</div>
 								</div>
-								<div class="col col-md-4 offset-1">
+								<div class="col col-md-5 offset-1">
 									<div class="input-group mb-3">
-										<span class="input-group-text col-md-4" style="width:120px;"><i class="fa fa-money"></i>&nbsp;Order No</span>
-										<input type="text" name="order_no" id="order_no" class="form-control" value="<?php echo $row['order_no']; ?>">
+										<span class="input-group-text col-md-3"><i class="fas fa-truck-moving"></i>&nbsp;Truck</span>
+										<select name="truck" id="truck" class="form-control" style="line-height:20px;width:46%;">	
+											<option value = "">-- NULL --</option>																																		<?php
+											foreach($trucks as $truck) 
+											{																																												?>
+												<option value="<?php echo $truck['id'];?>" <?php if($truck['id'] == $row['truck']) echo 'selected';?>><?php echo $truck['number'];?></option>								<?php	
+											}																																											?>
+										</select>
+										&nbsp;&nbsp;<a data-toggle="modal" data-target="#newTruckModal" style="color:limegreen;cursor:pointer">New</a>										
 									</div>
 								</div>
 							</div>														
@@ -206,14 +212,8 @@ if(isset($_SESSION["user_name"]))
 								</div>
 								<div class="col col-md-4 offset-2">
 									<div class="input-group mb-3">
-									<span class="input-group-text" style="width:31%"><i class="fas fa-warehouse"></i></i>&nbsp;Godown</span>
-									<select name="godown" id="godown" class="form-control" style="width:60%">
-										<option value = "">---Select---</option>																						<?php
-										foreach($godowns as $godown) 
-										{																							?>
-											<option value="<?php echo $godown['id'];?>" <?php if($godown['id'] == $row['godown']) echo 'selected';?>><?php echo $godown['name'];?></option>			<?php	
-										}																							?>
-									</select>
+										<span class="input-group-text col-md-4" style="width:120px;"><i class="fa fa-money"></i>&nbsp;Order No</span>
+										<input type="text" name="order_no" id="order_no" class="form-control" value="<?php echo $row['order_no']; ?>">									
 									</div>
 								</div>
 							</div>																					

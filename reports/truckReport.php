@@ -94,7 +94,7 @@ if(isset($_SESSION["user_name"]))
 					<br/>
 					<table class="maintable table table-hover table-bordered table-responsive">
 						<thead>
-							<tr class="table-success">
+							<tr style="background-color:#F2CF5B">
 								<th class="header" scope="col"><i class="fa fa-calendar"></i> Date</th>
 								<th class="header" scope="col"><i class="far fa-file-alt"></i> Bill</th>
 								<th style="max-width:500px;" class="header" scope="col"><i class="fas fa-map-marker-alt"></i> Address</th>

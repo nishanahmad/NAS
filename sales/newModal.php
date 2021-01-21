@@ -47,8 +47,14 @@ if(isset($_SESSION["user_name"]))
 							</div>
 							<div class="col-sm-6 col-md-5 offset-md-1" id="content-desktop">
 								<div class="input-group mb-3">
-									<span class="input-group-text col-md-4 col-xs-3"><i class="far fa-file-alt"></i>&nbsp;Bill No</span>
-									<input type="text" name="bill" id="bill" class="form-control">
+									<span class="input-group-text" style="width:40%"><i class="fas fa-warehouse"></i></i>&nbsp;Godown</span>
+									<select name="godown" id="godown" class="form-control" style="width:60%">
+										<option value = "">---Select---</option>																						<?php
+										foreach($godowns as $godown) 
+										{																							?>
+											<option value="<?php echo $godown['id'];?>"><?php echo $godown['name'];?></option>			<?php	
+										}																							?>
+									</select>									
 								</div>
 							</div>
 						</div>
@@ -69,14 +75,8 @@ if(isset($_SESSION["user_name"]))
 							</div>
 							<div class="col-sm-6 col-md-5">
 								<div class="input-group mb-3">
-									<span class="input-group-text col-md-4 col-xs-3"><i class="fa fa-truck-moving"></i>&nbsp;Truck</span>
-									<select name="truck" id="truck" class="form-control" style="width:67%">
-										<option value = "">---Select---</option>																						<?php
-										foreach($trucks as $truck) 
-										{																							?>
-											<option value="<?php echo $truck['id'];?>"><?php echo $truck['number'];?></option>			<?php	
-										}																							?>
-									</select>
+									<span class="input-group-text col-md-4 col-xs-3"><i class="far fa-file-alt"></i>&nbsp;Bill No</span>
+									<input type="text" name="bill" id="bill" class="form-control">
 								</div>
 							</div>
 						</div>
@@ -97,9 +97,15 @@ if(isset($_SESSION["user_name"]))
 								</div>
 							</div>
 							<div class="col-sm-6 col-md-5" id="content-desktop">
-								<div class="input-group mb-3">
-									<span class="input-group-text" style="width:40%"><i class="fa fa-money"></i></i>&nbsp;Order No</span>
-									<input type="text" name="order_no" id="order_no" class="form-control">
+								<div class="input-group mb-3">	
+									<span class="input-group-text col-md-4 col-xs-3"><i class="fa fa-truck-moving"></i>&nbsp;Truck</span>
+									<select name="truck" id="truck" class="form-control" style="width:67%">
+										<option value = "">---Select---</option>																						<?php
+										foreach($trucks as $truck) 
+										{																							?>
+											<option value="<?php echo $truck['id'];?>"><?php echo $truck['number'];?></option>			<?php	
+										}																							?>
+									</select>									
 								</div>
 							</div>
 						</div>
@@ -119,14 +125,8 @@ if(isset($_SESSION["user_name"]))
 							</div>
 							<div class="col-sm-6 col-md-5 offset-md-1" id="content-desktop">
 								<div class="input-group mb-3">
-									<span class="input-group-text" style="width:40%"><i class="fas fa-warehouse"></i></i>&nbsp;Godown</span>
-									<select name="godown" id="godown" class="form-control" style="width:60%">
-										<option value = "">---Select---</option>																						<?php
-										foreach($godowns as $godown) 
-										{																							?>
-											<option value="<?php echo $godown['id'];?>"><?php echo $godown['name'];?></option>			<?php	
-										}																							?>
-									</select>
+									<span class="input-group-text" style="width:40%"><i class="fa fa-money"></i></i>&nbsp;Order No</span>
+									<input type="text" name="order_no" id="order_no" class="form-control">
 								</div>
 							</div>
 						</div>

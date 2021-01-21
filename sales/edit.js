@@ -399,6 +399,19 @@ $(document).ready(function()
 			}
 		}	
 	});
+	
+	$("#editForm").submit(function(){
+		var bill = $("#bill").val().toUpperCase();
+		var godown = $("#godown").val();
+		if(bill.includes('BB') || bill.includes('BC') || bill.includes('GB') || bill.includes('GC') || bill.includes('PB') || bill.includes('PC'))
+		{
+			if(!godown)
+			{
+				$("#insertError").text('Please select the godown');
+				return false;	
+			}
+		}
+	});	
 });
 
 function refreshRate()
