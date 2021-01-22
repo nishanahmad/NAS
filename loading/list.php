@@ -119,7 +119,7 @@ if(isset($_SESSION["user_name"]))
 								foreach($sales as $saleId => $sale)
 								{																																?>
 									<tr>
-										<td><?php echo $truckNumbersMap[$sale['truck']];?></td>
+										<td><?php if(isset($truckNumbersMap[$sale['truck']])) echo $truckNumbersMap[$sale['truck']];?></td>
 										<td><?php echo $productDetailsMap[$sale['product']]['name'];?></td>										<?php 									
 										if(isset($clearedMap[$saleId]))
 										{																														?>
