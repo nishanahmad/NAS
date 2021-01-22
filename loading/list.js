@@ -18,12 +18,12 @@ $(function(){
 
 	
 	var total = 0;
-	$('.table').find('tbody tr:visible').each(function(){
+	$('.sorttable').find('tbody tr:visible').each(function(){
 		total += parseFloat( $(this).find('td:eq(2)').text() );
 	});
 	$('.total').text(total);
 		
-	$('.table').on('initialized filterEnd', function(){
+	$('.sorttable').on('initialized filterEnd', function(){
 		var total = 0;
 		$(this).find('tbody tr:visible').each(function(){
 			total += parseFloat( $(this).find('td:eq(2)').text() );
@@ -31,7 +31,7 @@ $(function(){
 		$('.total').text(total);
 	})      
 	
-	$(".table").tablesorter({
+	$(".sorttable").tablesorter({
 		dateFormat : "ddmmyyyy",
 		theme : 'bootstrap',
 		widgets: ['filter'],

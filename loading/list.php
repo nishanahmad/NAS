@@ -36,7 +36,14 @@ if(isset($_SESSION["user_name"]))
 	foreach($clearedList as $clear)
 		$clearedMap[$clear['cleared_sale']] = $clear['qty'];
 	
-	$pendingList = mysqli_query($con,"SELECT * FROM loading WHERE status = 'pending' ORDER BY date ASC,time ASC") or die(mysqli_error($con));																	?>
+	$pendingList = mysqli_query($con,"SELECT * FROM loading WHERE status = 'pending' ORDER BY date ASC,time ASC") or die(mysqli_error($con));
+
+	$godownQtyMap = array();
+	$godownQtyQuery = mysqli_query($con,"SELECT SUM(qty),godown FROM nas_sale WHERE entry_date = '$date' AND (bill_no LIKE 'BB%' OR bill_no LIKE 'BC%' OR bill_no LIKE 'GB%' OR bill_no LIKE 'GC%' OR bill_no LIKE 'PB%' OR bill_no LIKE 'PC%') GROUP BY godown") or die(mysqli_error($con));
+	foreach($godownQtyQuery as $sale)
+	{
+		$godownQtyMap[$sale['godown']] = $sale['SUM(qty)'];
+	}																																											?>
 	
 <html>
 	<head>
@@ -73,13 +80,33 @@ if(isset($_SESSION["user_name"]))
 			  <div class="input-group" style="width:15%;margin-top:50px;margin-left:40%">
 				  <span class="input-group-text col-md-5"><i class="far fa-calendar-alt"></i>&nbsp;Date</span>
 				  <input type="text" required name="date" id="searchDate" class="form-control datepicker" value="<?php echo date('d-m-Y',strtotime($date)); ?>">
-			  </div>				  	
+			  </div>	
+			<br/><br/>
+			<div class="col-3" style="margin-left:35%;">
+				<table class="table table-hover table-bordered table-sm">
+					<thead>
+						<tr class="table-success">
+							<th style="width:100px;"><i class="fas fa-warehouse"></i> Godown</th>
+							<th style="width:80px;"><i class="fab fa-buffer"></i> Qty</th>
+						</tr>
+					</thead>
+					<tbody><?php				
+					foreach($godownQtyMap as $godown => $qty)
+					{																																?>
+						<tr>
+							<td><?php if(isset($godownMap[$godown])) echo $godownMap[$godown]; else echo 'NIL'?></td>
+							<td><?php echo $qty;?></td>
+						</tr>																														<?php
+					}																																?>
+					</tbody>																														
+				</table>						  			  
+			</div>	
 			  <div id="main" class="row">
 				  <div class="col-5" style="margin-left:5%;">
 					  <div class="card">
 						<div class="card-body">
 							<h4 style="margin-left:35%">Total : <span class="total"></span></h4>
-							<table class="table table-hover table-bordered">
+							<table class="table table-hover table-bordered sorttable">
 								<thead>
 									<tr class="table-success">
 										<th style="width:100px;"><i class="fa fa-truck-moving"></i> Truck</th>
@@ -114,7 +141,7 @@ if(isset($_SESSION["user_name"]))
 					  <div class="card">
 						<div class="card-body">
 							<h4 style="margin-left:35%">Loaded Trucks</span></h4>
-							<table class="table table-hover table-bordered">
+							<table class="table table-hover table-bordered sorttable">
 								<thead>
 									<tr style="background-color:#E9696E;color:#FFFFFF;">
 										<th style="width:100px;"><i class="fa fa-truck-moving"></i> Truck</th>
