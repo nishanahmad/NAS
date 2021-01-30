@@ -12,6 +12,7 @@ class Sheet
 	public $bags;
 	public $area;
 	public $shop;
+	public $coveringBlock;
 	public $remarks;
 	public $requested_by;
 	public $created_on;
@@ -29,7 +30,7 @@ class Sheet
 		$query = "INSERT INTO
 					" . $this->table_name . "
 				SET
-					date=:date, customer_name=:customer_name, customer_phone=:customer_phone, mason_name=:mason_name, mason_phone=:mason_phone, bags=:bags, area=:area, shop=:shop, remarks=:remarks, requested_by=:requested_by, status='requested', created_on=:created_on";
+					date=:date, customer_name=:customer_name, customer_phone=:customer_phone, mason_name=:mason_name, mason_phone=:mason_phone, bags=:bags, area=:area, shop=:shop, coveringBlock=:coveringBlock, remarks=:remarks, requested_by=:requested_by, status='requested', created_on=:created_on";
 	 
 		// prepare query
 		$stmt = $this->conn->prepare($query);
@@ -43,6 +44,7 @@ class Sheet
 		$this->bags=htmlspecialchars(strip_tags($this->bags));
 		$this->area=htmlspecialchars(strip_tags($this->area));
 		$this->shop=htmlspecialchars(strip_tags($this->shop));
+		$this->coveringBlock=htmlspecialchars(strip_tags($this->coveringBlock));
 		$this->remarks=htmlspecialchars(strip_tags($this->remarks));
 		$this->requested_by=htmlspecialchars(strip_tags($this->requested_by));
 		$this->created_on=htmlspecialchars(strip_tags($this->created_on));
@@ -56,6 +58,7 @@ class Sheet
 		$stmt->bindParam(":bags", $this->bags);
 		$stmt->bindParam(":area", $this->area);
 		$stmt->bindParam(":shop", $this->shop);
+		$stmt->bindParam(":coveringBlock", $this->coveringBlock);
 		$stmt->bindParam(":remarks", $this->remarks);
 		$stmt->bindParam(":requested_by", $this->requested_by);
 		$stmt->bindParam(":created_on", $this->created_on);

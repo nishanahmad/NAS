@@ -26,6 +26,7 @@ if(!empty($data->concDate) && !empty($data->bags) && !empty($data->area) && !emp
     $sheet->bags = $data->bags;
     $sheet->area = $data->area;
     $sheet->shop = $data->shop;
+	$sheet->coveringBlock = $data->coveringBlock;
 	$sheet->remarks = $data->remarks;
 	$sheet->requested_by = $data->requested_by;
 	$sheet->created_on = date('Y-m-d H:i:s');
