@@ -19,7 +19,7 @@ if(isset($_SESSION["user_name"]))
 	$shopNameArray = str_replace('\n',' ',$shopNameArray);
 	$shopNameArray = str_replace('\r',' ',$shopNameArray);
 	
-	$engineerObjects = mysqli_query($con,"SELECT id,name,sap_code,shop_name FROM ar_details WHERE type LIKE '%Engineer%' OR type = 'Contractor' ORDER BY name ASC");
+	$engineerObjects = mysqli_query($con,"SELECT id,name,sap_code,shop_name FROM ar_details WHERE type = 'Engineer only' ORDER BY name ASC");
 	$trucks = mysqli_query($con,"SELECT * FROM truck_details ORDER BY number");
 	$godowns = mysqli_query($con,"SELECT * FROM godowns ORDER BY name");																											?>
 

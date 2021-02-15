@@ -23,7 +23,7 @@ if(isset($_SESSION["user_name"]))
 	{
 		if($ar['type'] != 'Engineer Only')
 			$arMap[$ar['id']] = $ar['name']; 
-		if($ar['type'] == 'Engineer' || $ar['type'] == 'Contractor' || $ar['type'] == 'Engineer Only')
+		if($ar['type'] == 'Engineer Only')
 			$engMap[$ar['id']] = $ar['name'];
 		
 		$shopName = strip_tags($ar['shop_name']); 
