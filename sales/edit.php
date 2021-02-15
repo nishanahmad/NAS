@@ -17,14 +17,12 @@ if(isset($_SESSION["user_name"]))
 	$urlsql = $_GET['sql'];
 	$urlrange = $_GET['range'];
 	
+	$engMap = null;
 	$products = mysqli_query($con,"SELECT id,name FROM products WHERE status = 1 ORDER BY id ASC") or die(mysqli_error($con));	
 	$arObjects = mysqli_query($con,"SELECT id,name,type,shop_name FROM ar_details ORDER BY name") or die(mysqli_error($con));	
 	foreach($arObjects as $ar)
 	{
-		if($ar['type'] != 'Engineer Only')
-			$arMap[$ar['id']] = $ar['name']; 
-		if($ar['type'] == 'Engineer Only')
-			$engMap[$ar['id']] = $ar['name'];
+		$arMap[$ar['id']] = $ar['name']; 
 		
 		$shopName = strip_tags($ar['shop_name']); 
 		$shopNameMap[$ar['id']] = $shopName;
