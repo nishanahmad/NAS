@@ -6,7 +6,7 @@ require '../connect.php';
 session_start();
 if(count($_POST)>0) 
 {
-	$result = mysqli_query($con,"SELECT * FROM users WHERE user_name='" . $_POST["user_name"] . "' and password = '". $_POST["password"]."'") or die(mysqli_error($con));				 
+	$result = mysqli_query($con,"SELECT * FROM users WHERE user_name='" . $_POST["user_name"] . "' AND password = '". $_POST["password"]."' AND active = 1") or die(mysqli_error($con));				 
 	$row_cnt = $result->num_rows;
 	if($row_cnt > 0)
 	{

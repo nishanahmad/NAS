@@ -70,11 +70,12 @@ if(isset($_SESSION["user_name"]))
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script>
-		function deliver(id){
+		function deliver(id,coveringBlock){
 			var qty;
 			var driver;
-			var designation = "<?php echo $designation;?>";			
-			
+			var noOfBlocks;
+			var designation = "<?php echo $designation;?>";
+			hrf = 'deliver.php?'
 			var arr1 = [];
 			<?php
 			foreach($driversQuery as $driver)
@@ -98,9 +99,25 @@ if(isset($_SESSION["user_name"]))
 								callback: function (result2) {
 									if(result2)
 									{
-										driver = result2;
-										hrf = 'deliver.php?';
-										window.location.href = hrf +"id="+ id + "&qty=" + qty + "&driver=" + driver;																		
+										driver = result2;					
+										if(coveringBlock)
+										{
+											bootbox.prompt({
+												title: "Enter no of blocks given",
+												inputType: 'number',
+												callback: function (result3) {
+													if(result3)
+													{
+														noOfBlocks = result3;
+														window.location.href = hrf +"id="+ id + "&qty=" + qty + "&driver=" + driver;																																
+													}
+												}
+											});																					
+										}
+										else
+										{
+											window.location.href = hrf +"id="+ id + "&qty=" + qty + "&driver=" + driver;
+										}
 									}
 								}
 							});				
@@ -108,8 +125,24 @@ if(isset($_SESSION["user_name"]))
 						else
 						{
 							driver = "<?php echo $_SESSION["user_id"];?>";
-							hrf = 'deliver.php?';
-							window.location.href = hrf +"id="+ id + "&qty=" + qty + "&driver=" + driver;						
+							if(coveringBlock)
+							{
+								bootbox.prompt({
+									title: "Enter no of blocks given",
+									inputType: 'number',
+									callback: function (result3) {
+										if(result3)
+										{
+											noOfBlocks = result3;
+											window.location.href = hrf +"id="+ id + "&qty=" + qty + "&driver=" + driver;
+										}
+									}
+								});																					
+							}
+							else
+							{
+								window.location.href = hrf +"id="+ id + "&qty=" + qty + "&driver=" + driver;
+							}
 						}
 					}						
 				}
@@ -205,11 +238,15 @@ if(isset($_SESSION["user_name"]))
 							{																																?>
 								<p><i class="fa fa-share"></i> Assigned to <b><?php echo $drivers[$sheet['assigned_to']];?></b></p>								<?php										
 							}																																?>
-							<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>	
+							<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>															<?php 
+							if($sheet['coveringBlock'])
+							{																																?>
+								<p style="color:#cc0000"><i class="fas fa-th"></i> Covering Block</p>														<?php	
+							}																																?>						
 							<br/>
 							<div align="center">
 								<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn" style="color:#ffffff;background-color:e1be5c;width:80px;"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;								
-								<button class="btn" style="color:#ffffff;background-color:7dc37d;width:95px;" onclick="deliver(<?php echo $sheet['id'];?>)"><i class="fas fa-check"></i> Deliver</button>&nbsp;&nbsp;<?php
+								<button class="btn" style="color:#ffffff;background-color:7dc37d;width:100px;" onclick="deliver(<?php echo $sheet['id'].','.$sheet['coveringBlock'];?>)"><i class="fas fa-check"></i> Deliver</button>&nbsp;&nbsp;<?php
 								if($designation != 'driver')
 								{																														?>																																								
 									<button class="btn" onclick="cancel(<?php echo $sheet['id'];?>)" style="background-color:#E6717C;color:#FFFFFF;width:80px;"><i class="far fa-trash-alt"></i> Dlt</button>							<?php

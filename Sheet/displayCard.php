@@ -6,6 +6,8 @@ function displayCard($sheet)
 	$card = $card.$sheet['bags'].' bags<br/>';
 	$card = $card.$sheet['requested_by'].'<br/>';
 	$card = $card.$sheet['shop'].'</b><br/>';
+	if($sheet['coveringBlock'])
+		$card = $card.'<font style="color:red;font-weight:bold">Covering Block</font> <br/>';
 	if(isset($sheet['remarks']) && $sheet['remarks'] != '')
 		$card = $card.$sheet['remarks'].'<br/>';
 	$card = $card.'<font color="limegreen">Created On: '.date('d-M h:i A',strtotime($sheet['created_on'])).'</font>';
