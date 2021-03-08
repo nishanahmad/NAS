@@ -24,7 +24,6 @@ if(!empty($data->entry_date) && !empty($data->product) && !empty($data->qty) && 
 	$RetailOrder->ar_id = $data->ar_id;
 	$RetailOrder->customer_name = $data->customer_name;
     $RetailOrder->customer_phone = $data->customer_phone;
-	$RetailOrder->customer_phone = $data->customer_phone;
 	$RetailOrder->address1 = $data->address1;
 	$RetailOrder->entered_by = $data->entered_by;
 	$RetailOrder->entered_on = date('Y-m-d H:i:s');
