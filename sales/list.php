@@ -195,14 +195,17 @@ if(isset($_SESSION["user_name"]))
 							<tr data-id="<?php echo $sale['id'];?>" data-params="<?php echo explode('?',$_SERVER['REQUEST_URI'])[1];?>" class="saleId" style="cursor:pointer;">
 								<td><?php echo date('d-m-Y',strtotime($sale['date'])).' '; ?></td>
 								<td><?php echo $clientNamesMap[$sale['client']]; 
-										  if($sale['direct_order'] && !billStatus($sale['bill']))
-										  {									 ?>
-											  <i class="fas fa-asterisk" style="color:red"></i><?php
-										  }					
-										  if($sale['direct_order'] && billStatus($sale['bill']))
-										  {									 ?>
-											  <i class="fas fa-asterisk" style="color:green"></i><?php
-										  }									 ?>										  
+										  if(isset($sale['direct_order']))
+										  {
+											  if($sale['direct_order'] && !billStatus($sale['bill']))
+											  {									 ?>
+												  <i class="fas fa-asterisk" style="color:red"></i><?php
+											  }					
+											  if($sale['direct_order'] && billStatus($sale['bill']))
+											  {									 ?>
+												  <i class="fas fa-asterisk" style="color:green"></i><?php
+											  }
+										  }?>
 							    </td>
 								<td><?php echo $productDetailsMap[$sale['product']]['name'];?></td>
 								<td><?php echo $sale['qty']; ?></td>
