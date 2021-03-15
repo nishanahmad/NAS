@@ -73,7 +73,7 @@ if(isset($_SESSION["user_name"]))
 					{																															?>
 						<tr>
 							<td><?php echo date('d-m-Y',strtotime($redemption['date']));?></td>
-							<td><?php echo $arMap[$redemption['ar_id']];?></td>
+							<td><?php if(isset($arMap[$redemption['ar_id']])) echo $arMap[$redemption['ar_id']]; else echo $redemption['ar_id'];?></td>
 							<td><?php echo $redemption['points'];?></td>
 							<td><?php echo $redemption['remarks'];?></td>
 							<td><?php echo date('d-m-Y',strtotime($redemption['entered_on']));?></td>																	
