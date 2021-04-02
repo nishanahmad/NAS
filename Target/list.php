@@ -126,7 +126,7 @@ if(isset($_SESSION["user_name"]))
 $(document).ready(function() {
 	
 	$(".maintable tr").each(function(){
-		var extra = $(this).find("td:eq(5)").text();   
+		var extra = $(this).find("td:eq(6)").text();   
 		if (extra != '0' && extra != ''){
 		  $(this).addClass('selected');
 		}
@@ -222,6 +222,7 @@ function rerender()
 					<th style="text-align:left;">AR</th>
 					<th>Mobile</th>
 					<th style="text-align:left;width:20%">Shop</th>
+					<th>SAP</th>
 					<th>Target</th>
 					<th>Sale</th>
 					<th>Extra</th>
@@ -262,6 +263,7 @@ function rerender()
 						<td style="text-align:left;"><?php echo $arMap[$arId]['name'];?></b></td>
 						<td><?php echo $arMap[$arId]['mobile'];?></b></td>
 						<td style="text-align:left;"><?php echo $arMap[$arId]['shop'];?></b></td>
+						<td><?php echo $arMap[$arId]['sap'];?></b></td>
 						<td><?php echo $target;?></td>
 						<td><?php echo $mainArray[$arId]['actual_sale'];?></td>
 						<td><?php echo $mainArray[$arId]['targetBags'];?></td>
@@ -278,6 +280,7 @@ function rerender()
 						<th><!-- AR --></th>
 						<th><!-- MOBILE --></th>
 						<th><!-- SHOP --></th>
+						<th><!-- SAP --></th>
 						<th><?php echo $totalTarget;?></th>
 						<th><?php echo $totalSale;?></th>
 						<th><!-- EXTRA BAGS --></th>
