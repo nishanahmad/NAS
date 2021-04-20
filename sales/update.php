@@ -5,7 +5,6 @@ session_start();
 if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
-	require '../functions/sms.php';
 	require 'updateHelper.php';
 	
 	if(count($_POST)>0) 

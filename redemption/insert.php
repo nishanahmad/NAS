@@ -3,7 +3,6 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 require '../connect.php';
-//require '../functions/sms.php';
 session_start();
 if(isset($_SESSION["user_name"]))
 {
