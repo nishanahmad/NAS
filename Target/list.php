@@ -230,7 +230,7 @@ function rerender()
 						<div class="input-group">
 							<form method="post" action="whatsapp.php">
 								<input type='hidden' name='input_name' value="<?php echo htmlentities(serialize($mainArray)); ?>" />
-								<button id="whatapp" class="btn" style="width:100px;font-size:18px;background-color:#44C052;color:#F7F7F7"><i class="fa fa-whatsapp" aria-hidden="true"></i> Target</button>
+								<button id="whatapp" class="btn" style="width:100px;font-size:18px;background-color:#44C052;color:#F7F7F7" onclick="return confirm('This will send message on whatsapp. Are you sure you want to proceed?')"><i class="fa fa-whatsapp" aria-hidden="true"></i> Target</button>
 							</form>
 						</div>
 					</div>																																	<?php
