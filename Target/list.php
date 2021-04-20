@@ -52,11 +52,12 @@ if(isset($_SESSION["user_name"]))
 	$zeroTargetIds = implode("','",array_keys($zeroTargetMap));	
 	
 	$arMap = array();
-	$arObjects =  mysqli_query($con,"SELECT id,name,mobile,shop_name,sap_code FROM ar_details WHERE id NOT IN ('$zeroTargetIds') AND Type LIKE '%AR%' ORDER BY name ASC ") or die(mysqli_error($con));		 
+	$arObjects =  mysqli_query($con,"SELECT id,name,mobile,whatsapp,shop_name,sap_code FROM ar_details WHERE id NOT IN ('$zeroTargetIds') AND Type LIKE '%AR%' ORDER BY name ASC ") or die(mysqli_error($con));		 
 	foreach($arObjects as $ar)
 	{
 		$arMap[$ar['id']]['name'] = $ar['name'];
 		$arMap[$ar['id']]['mobile'] = $ar['mobile'];
+		$arMap[$ar['id']]['whatsapp'] = $ar['whatsapp'];
 		$arMap[$ar['id']]['shop'] = $ar['shop_name'];
 		$arMap[$ar['id']]['sap'] = $ar['sap_code'];
 	}				
@@ -98,7 +99,8 @@ if(isset($_SESSION["user_name"]))
 				$payment_points = round($achieved_points * $targetMap[$arId]['payment_perc']/100,0);
 			else
 				$payment_points = 0;			
-
+			
+			$mainArray[$arId]['target'] = $targetMap[$arId]['target'];
 			$mainArray[$arId]['actual_sale'] = $total;
 			$mainArray[$arId]['targetBags'] = $targetBags;
 			$mainArray[$arId]['points'] = $points;
@@ -106,8 +108,16 @@ if(isset($_SESSION["user_name"]))
 			$mainArray[$arId]['point_perc'] = $point_perc;
 			$mainArray[$arId]['achieved_points'] = $achieved_points;
 			$mainArray[$arId]['payment_points'] = $payment_points;			
+			$mainArray[$arId]['whatsapp'] = $arMap[$arId]['whatsapp'];		
+			$mainArray[$arId]['month'] = $month;
+			$mainArray[$arId]['year'] = $year;
 		}
 	}	
+	
+	$whatsapp_status = true;
+	$whatsappQuery =  mysqli_query($con,"SELECT * FROM whatsapp_status WHERE type = 'target' AND year = $year AND month = $month") or die(mysqli_error($con));
+	foreach($whatsappQuery as $status)
+		$whatsapp_status = false;
 ?>
 <html>
 <head>
@@ -213,7 +223,18 @@ function rerender()
 							}																																?>
 						</select>
 					</div>
-				</div>
+				</div>																																		<?php
+				if($whatsapp_status)
+				{																																			?>
+					<div style="width:150px;">
+						<div class="input-group">
+							<form method="post" action="whatsapp.php">
+								<input type='hidden' name='input_name' value="<?php echo htmlentities(serialize($mainArray)); ?>" />
+								<button id="whatapp" class="btn" style="width:100px;font-size:18px;background-color:#44C052;color:#F7F7F7"><i class="fa fa-whatsapp" aria-hidden="true"></i> Target</button>
+							</form>
+						</div>
+					</div>																																	<?php
+				}																																			?>
 			</div>	
 			<br/><br/>
 			<table class="maintable table table-hover table-bordered ui-table-reflow" style="width:92%;margin-left:15%;">
