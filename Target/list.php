@@ -150,6 +150,12 @@ $(document).ready(function() {
 	}); 
 	
 	var $table = $('.maintable');
+	
+	if(window.location.href.includes('success')){
+		var x = document.getElementById("snackbar");
+		x.className = "show";
+		setTimeout(function(){ x.className = x.className.replace("show", ""); }, 2000);	
+	}	
 } );
 
 
@@ -183,6 +189,7 @@ function rerender()
 			</nav>
 		</aside>
 		<div class="container">
+			<div id="snackbar"><i class="fa fa-whatsapp" aria-hidden="true"></i>&nbsp;&nbsp;Message sent successfully !!!</div>
 			<nav class="navbar navbar-light bg-light sticky-top bottom-nav" style="margin-left:12.5%;width:100%">
 				<div class="btn-group" role="group" aria-label="Button group with nested dropdown" style="float:left;margin-left:2%;">
 					<div class="btn-group" role="group">
@@ -204,7 +211,7 @@ function rerender()
 				<div style="width:120px;margin-left:48%">
 					<div class="input-group">
 						<select id="jsYear" name="jsYear" class="form-select" style="width:200px;" onchange="return rerender();">																				<?php	
-							$yearList = mysqli_query($con, "SELECT DISTINCT year FROM target ORDER BY year DESC") or die(mysqli_error($con));	
+							$yearList = mysqli_query($con, "SELECT DISTINCT year FROM target ORDER BY year DESC") or die(mysqli_error($con));
 							foreach($yearList as $yearObj) 
 							{																																	  ?>				
 								<option value="<?php echo $yearObj['year'];?>" <?php if($yearObj['year'] == $year) echo 'selected';?>><?php echo $yearObj['year'];?></option>											<?php	
@@ -227,14 +234,22 @@ function rerender()
 				if($whatsapp_status)
 				{																																			?>
 					<div style="width:150px;">
-						<div class="input-group">
-							<form method="post" action="whatsapp.php">
+						<div class="input-group" title="Dear AR, Ur {X} Month Target is {X} Bags. Achieve Ur Target & Earn Full Lakshya Benefits - AR HELP">
+							<form method="post" action="whatsapp_target.php">
 								<input type='hidden' name='input_name' value="<?php echo htmlentities(serialize($mainArray)); ?>" />
 								<button id="whatapp" class="btn" style="width:100px;font-size:18px;background-color:#44C052;color:#F7F7F7" onclick="return confirm('This will send message on whatsapp. Are you sure you want to proceed?')"><i class="fa fa-whatsapp" aria-hidden="true"></i> Target</button>
 							</form>
 						</div>
 					</div>																																	<?php
 				}																																			?>
+				<div style="width:200px;">
+					<div class="input-group" title="DEAR AR, YOUR BALANCE TO ACHIEVE YOUR MONTHLY TARGET OF {MONTH YEAR} IS {X} BAGS. ACHIEVE YOUR TARGET & EARN SPECIAL BENEFITS - AR HELP">
+						<form method="post" action="whatsapp_reamining_bags.php">
+							<input type='hidden' name='input_name' value="<?php echo htmlentities(serialize($mainArray)); ?>" />
+							<button id="whatapp" class="btn" style="width:180px;font-size:18px;background-color:#44C052;color:#F7F7F7" onclick="return confirm('This will send message on whatsapp. Are you sure you want to proceed?')"><i class="fa fa-whatsapp" aria-hidden="true"></i> Remaining Bags</button>
+						</form>
+					</div>
+				</div>																																					
 			</div>	
 			<br/><br/>
 			<table class="maintable table table-hover table-bordered ui-table-reflow" style="width:92%;margin-left:15%;">
@@ -311,7 +326,7 @@ function rerender()
 						<th></th>	
 						<th></th>
 						<th><?php echo $totalPaymentPoints;?></th>
-					</tr>	
+					</tr>
 				</tfoot>	
 			</table>
 		</div>
