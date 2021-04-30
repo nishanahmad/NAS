@@ -47,8 +47,9 @@ if(isset($_SESSION["user_name"]))
 					<th style="width:20%">Name</th>
 					<th style="width:20%">Shop</th>
 					<th style="text-align:center;width:8%">SAP</th>
+					<th style="text-align:center;width:8%">Old SAP</th>
 					<th>Mobile</th>
-					<th>Area</th>
+					<th>Status</th>
 				</tr>
 			</thead>
 			<tbody>																																			<?php
@@ -58,15 +59,17 @@ if(isset($_SESSION["user_name"]))
 				$arname = $row['name'];
 				$shopName = $row['shop_name'];
 				$sapCode = $row['sap_code'];
-				$area = $row['area'];
+				$oldSap = $row['old_sap'];
+				$dealing = $row['dealing'];
 				$mobile = $row['mobile'];
 			?>	
 			<tr>
 				<td><?php echo $arname; ?></td>	
 				<td><?php echo $shopName; ?></td>	
 				<td style="text-align:center;width:8%"><label align="center"><?php echo $sapCode; ?></td>	
+				<td style="text-align:center;width:8%"><label align="center"><?php echo $oldSap; ?></td>	
 				<td style="text-align:center;width:10%"><?php echo $mobile;?></td>		
-				<td style=""><?php echo $area;?></td>	
+				<td style="width:12%"><?php echo $dealing;?></td>	
 			</tr>																																			<?php
 			}																																																										?>
 			</tbody>	
