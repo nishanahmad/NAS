@@ -136,7 +136,7 @@ if(isset($_SESSION["user_name"]))
 $(document).ready(function() {
 	
 	$(".maintable tr").each(function(){
-		var extra = $(this).find("td:eq(6)").text();   
+		var extra = $(this).find("td:eq(7)").text();   
 		if (extra != '0' && extra != ''){
 		  $(this).addClass('selected');
 		}
@@ -257,6 +257,7 @@ function rerender()
 				<tr class="table-success">
 					<th style="text-align:left;">AR</th>
 					<th>Mobile</th>
+					<th>Whatsapp</th>
 					<th style="text-align:left;width:20%">Shop</th>
 					<th>SAP</th>
 					<th>Target</th>
@@ -298,6 +299,7 @@ function rerender()
 					<tr align="center">
 						<td style="text-align:left;"><?php echo $arMap[$arId]['name'];?></b></td>
 						<td><?php echo $arMap[$arId]['mobile'];?></b></td>
+						<td><?php echo $arMap[$arId]['whatsapp'];?></b></td>
 						<td style="text-align:left;"><?php echo $arMap[$arId]['shop'];?></b></td>
 						<td><?php echo $arMap[$arId]['sap'];?></b></td>
 						<td><?php echo $target;?></td>
