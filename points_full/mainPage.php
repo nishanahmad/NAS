@@ -51,11 +51,12 @@ if(isset($_SESSION["user_name"]))
 		echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';
 	}
 	
-	$arObjects =  mysqli_query($con,"SELECT id,name,mobile,shop_name,sap_code FROM ar_details WHERE Type LIKE '%AR%' ORDER BY name ASC ") or die(mysqli_error($con));		 
+	$arObjects =  mysqli_query($con,"SELECT id,name,mobile,whatsapp,shop_name,sap_code FROM ar_details WHERE Type LIKE '%AR%' ORDER BY name ASC ") or die(mysqli_error($con));		 
 	foreach($arObjects as $ar)
 	{
 		$arMap[$ar['id']]['name'] = $ar['name'];
 		$arMap[$ar['id']]['mobile'] = $ar['mobile'];
+		$arMap[$ar['id']]['whatsapp'] = $ar['whatsapp'];
 		$arMap[$ar['id']]['shop'] = $ar['shop_name'];
 		$arMap[$ar['id']]['sap'] = $ar['sap_code'];
 	}				
@@ -282,13 +283,13 @@ if(isset($_SESSION["user_name"]))
 					</div>				
 				</div>	
 				<br/><br/>
-				<table id="Points" class="maintable table table-hover table-bordered ui-table-reflow" style="width:92%;margin-left:15%;">
+				<table id="Points" class="maintable table table-hover table-bordered" style="width:92%;margin-left:15%;">
 				<thead>
 					<tr class="table-success">
 						<th style="width:20%;text-align:left;">AR</th>
-						<th style="width:12%;">Mobile</th>
-						<th style="width:25%;text-align:left;">Shop</th>
-						<th style="width:10%;">SAP</th>
+						<th>Mobile</th>
+						<th>Whatsapp</th>
+						<th style="width:20%;text-align:left;">Shop</th>
 						<th>Opng Pnts</th>
 						<th>Current Pnts</th>	
 						<th>Redeemed Pnts</th>	
@@ -312,14 +313,14 @@ if(isset($_SESSION["user_name"]))
 						
 						
 						<tr align="center">
-						<td style="text-align:left;"><?php echo $detailMap['name'];?></b></td>
-						<td><?php echo $detailMap['mobile'];?></b></td>
-						<td style="text-align:left;"><?php echo $detailMap['shop'];?></b></td>
-						<td><?php echo $detailMap['sap'];?></b></td>
-						<td><?php echo $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'];?></b></td>
-						<td><?php echo $pointMap[$arId]['points'];?></td>
-						<td><?php echo $redemptionMap[$arId];?></td>
-						<td><?php echo $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'] + $pointMap[$arId]['points'] - $redemptionMap[$arId];?></td>
+							<td style="text-align:left;"><?php echo $detailMap['name'];?></b></td>
+							<td><?php echo $detailMap['mobile'];?></b></td>
+							<td><?php echo $detailMap['whatsapp'];?></b></td>
+							<td style="text-align:left;"><?php echo $detailMap['shop'];?></b></td>
+							<td><?php echo $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'];?></b></td>
+							<td><?php echo $pointMap[$arId]['points'];?></td>
+							<td><?php echo $redemptionMap[$arId];?></td>
+							<td><?php echo $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'] + $pointMap[$arId]['points'] - $redemptionMap[$arId];?></td>
 						</tr>																																							<?php
 						$openingTotal = $openingTotal + $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'];
 						$currentTotal = $currentTotal + $pointMap[$arId]['points'];
@@ -327,11 +328,8 @@ if(isset($_SESSION["user_name"]))
 						$balanceTotal = $balanceTotal + $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'] + $pointMap[$arId]['points'] - $redemptionMap[$arId];
 					}																																									?>
 				<thead>
-					<tr>
-						<th style="width:20%;text-align:left;"></th>
-						<th style="width:12%;"></th>
-						<th style="width:25%;text-align:left;"></th>
-						<th style="width:10%;"></th>
+					<tr style="text-align:center">
+						<th colspan="4"></th>
 						<th><?php echo $openingTotal;?></th>
 						<th><?php echo $currentTotal;?></th>	
 						<th><?php echo $redeemedTotal;?></th>	

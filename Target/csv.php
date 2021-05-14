@@ -29,7 +29,8 @@ require 'sendMessage.php';
 					if($row)
 					{
 						$phone = '91'.$row[0];
-						$message = "Dear AR, Ur AR Incentive credited in your A/C is Rs. ".$row[1]." upto June 2020.";
+						$message = "DEAR AR, CONGRATS!! U ARE CREDITED ".$row[1]." PLUS POINTS FOR MAR 2021. NOW U HAVE ".$row[2]." PLUS POINTS IN UR ACCOUNT.  AR HELP";
+						//echo $phone.'<br/>';
 						//echo $message.'<br/>';
 						$status = sendMessage($message,$phone);
 					}
