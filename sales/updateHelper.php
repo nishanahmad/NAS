@@ -38,7 +38,7 @@ function clearPendingTruck($oldSale,$newSale,$con)
 			$loadId = $load['id'];
 			$date = $load['date'];
 			$time = $load['time'];
-			if( fnmatch("BB*",$bill) || fnmatch("BC*",$bill) || fnmatch("GB*",$bill) || fnmatch("GC*",$bill) || fnmatch("PB*",$bill) || fnmatch("PC*",$bill))
+			if( fnmatch("B*",$bill) || fnmatch("C*",$bill) || fnmatch("GB*",$bill) || fnmatch("GC*",$bill) || fnmatch("PB*",$bill) || fnmatch("PC*",$bill))
 			{
 				if($load['qty'] <= $saleQty)
 				{
