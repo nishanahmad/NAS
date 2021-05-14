@@ -106,7 +106,7 @@ if(isset($_SESSION["user_name"]))
 						$total = 0;
 						foreach($salesList as $sale)
 						{
-							if( fnmatch("BB*",$sale['bill_no']) || fnmatch("BC*",$sale['bill_no']) || fnmatch("GB*",$sale['bill_no']) || fnmatch("GC*",$sale['bill_no']) || fnmatch("PB*",$sale['bill_no']) || fnmatch("PC*",$sale['bill_no']))
+							if( fnmatch("B*",$sale['bill_no']) || fnmatch("C*",$sale['bill_no']) || fnmatch("GB*",$sale['bill_no']) || fnmatch("GC*",$sale['bill_no']) || fnmatch("PB*",$sale['bill_no']) || fnmatch("PC*",$sale['bill_no']))
 							{																																							?>
 								<tr>
 									<td style="text-align:left;"><?php echo date('d-m-Y',strtotime($sale['entry_date']));?></td>

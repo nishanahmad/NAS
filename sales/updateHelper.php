@@ -6,7 +6,7 @@ function billUpdatedCheck($oldSale,$newSale,$con)
 	
 	if($oldBill != $newBill)
 	{
-		if( fnmatch("BB*",$newBill) || fnmatch("BC*",$newBill) || fnmatch("GB*",$newBill) || fnmatch("GC*",$newBill) || fnmatch("PB*",$newBill) || fnmatch("PC*",$newBill))
+		if( fnmatch("B*",$newBill) || fnmatch("C*",$newBill) || fnmatch("GB*",$newBill) || fnmatch("GC*",$newBill) || fnmatch("PB*",$newBill) || fnmatch("PC*",$newBill))
 			return true;
 	}
 	else
