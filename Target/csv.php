@@ -28,8 +28,10 @@ require 'sendMessage.php';
 					$row = fgetcsv($file_handle);
 					if($row)
 					{
+						//$message = "DEAR AR, CONGRATS!! U ARE CREDITED ".$row[1]." PLUS POINTS FOR APR 2021. NOW U HAVE ".$row[2]." PLUS POINTS IN UR ACCOUNT.  AR HELP";
+						//$message = "DEAR AR, CONGRATS!! FOR ACHIEVING UR MONTHLY TARGET OF APR 2021.U ARE CREDITED ".$row[1]." PLUS POINTS. NOW U HAVE ".$row[2]." PLUS POINTS IN UR ACCOUNT.  AR HELP";						
 						$phone = '91'.$row[0];
-						$message = "DEAR AR, CONGRATS!! U ARE CREDITED ".$row[1]." PLUS POINTS FOR MAR 2021. NOW U HAVE ".$row[2]." PLUS POINTS IN UR ACCOUNT.  AR HELP";
+						$message = "Dear AR, Ur June Month Target is ".$row[1]." Bags. Achieve Ur Target & Earn Full Lakshya Benefits - AR HELP.";
 						//echo $phone.'<br/>';
 						//echo $message.'<br/>';
 						$status = sendMessage($message,$phone);

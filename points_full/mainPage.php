@@ -98,11 +98,14 @@ if(isset($_SESSION["user_name"]))
 					$payment_points = round($achieved_points * $targetMap[$arId]['payment_perc']/100,0);
 				else
 					$payment_points = 0;			
-				$pointMap[$arId]['points'] = $payment_points;			
+				
+				$pointMap[$arId]['points'] = $payment_points;
+				$pointMap[$arId]['point_perc'] = $point_perc;
 			}
 			else
 			{
 				$pointMap[$arId]['points'] = 0;
+				$pointMap[$arId]['point_perc'] = 0;
 			}	
 		}			
 	}
@@ -292,6 +295,7 @@ if(isset($_SESSION["user_name"]))
 						<th style="width:20%;text-align:left;">Shop</th>
 						<th>Opng Pnts</th>
 						<th>Current Pnts</th>	
+						<th>Current%</th>	
 						<th>Redeemed Pnts</th>	
 						<th>Balance</th>	
 					</tr>
@@ -319,6 +323,7 @@ if(isset($_SESSION["user_name"]))
 							<td style="text-align:left;"><?php echo $detailMap['shop'];?></b></td>
 							<td><?php echo $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'];?></b></td>
 							<td><?php echo $pointMap[$arId]['points'];?></td>
+							<td><?php if(isset($pointMap[$arId]['point_perc'])) echo $pointMap[$arId]['point_perc'].'%'; else echo '0%';?></td>
 							<td><?php echo $redemptionMap[$arId];?></td>
 							<td><?php echo $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'] + $pointMap[$arId]['points'] - $redemptionMap[$arId];?></td>
 						</tr>																																							<?php

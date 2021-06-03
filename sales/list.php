@@ -272,7 +272,7 @@ if(isset($_SESSION["user_name"]))
 						}																																				?>
 					</tbody>	
 				</table>
-			</div>			
+			</div>
 			<br/><br/><br/>
 		</div>
 		<script src="list.js"></script>
