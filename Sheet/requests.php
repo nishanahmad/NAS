@@ -37,13 +37,16 @@ if(isset($_SESSION["user_name"]))
 	else
 		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' AND assigned_to = '$userId' ORDER BY date ASC" ) or die(mysqli_error($con));		
 	
-	$inHandQuery = mysqli_query($con,"SELECT SUM(qty) FROM sheets_in_hand" ) or die(mysqli_error($con));
+	$damageQuery = mysqli_query($con,"SELECT user_id FROM users WHERE user_name = 'Damage'" ) or die(mysqli_error($con));
+	$damageId = (int)mysqli_fetch_array($damageQuery,MYSQLI_ASSOC)['user_id'];
+	
+	$inHandQuery = mysqli_query($con,"SELECT SUM(qty) FROM sheets_in_hand WHERE user != $damageId" ) or die(mysqli_error($con));
 	$stockInHand = (int)mysqli_fetch_array($inHandQuery,MYSQLI_ASSOC)['SUM(qty)'];
 	
 	$agr = mysqli_query($con,"SELECT SUM(qty) FROM sheets WHERE status ='delivered' " ) or die(mysqli_error($con));
 	$onSite = (int)mysqli_fetch_Array($agr,MYSQLI_ASSOC)['SUM(qty)'];	
 	
-	$yesterday = date('Y-m-d',strtotime("-1 days"));
+	$yesterday = date('Y-m-d',strtotime("-3 days"));
 	$lateAgr = mysqli_query($con,"SELECT SUM(qty),delivered_by FROM sheets WHERE status ='delivered' AND delivered_on < '$yesterday' GROUP BY delivered_by" ) or die(mysqli_error($con));
 	$lateTotal = 0;
 	foreach($lateAgr as $row)
@@ -148,6 +151,7 @@ if(isset($_SESSION["user_name"]))
 				}
 			});							
 		}
+		
 		function cancel(id){
 			bootbox.prompt({
 				title: "Enter reason for cancellation",
@@ -162,6 +166,21 @@ if(isset($_SESSION["user_name"]))
 				}
 			});										
 		}		
+		
+		function addRemarks(id){
+			bootbox.prompt({
+				title: "Enter remarks here",
+				inputType: 'text',
+				callback: function (result) {
+					if(result)
+					{
+						console.log(result);
+						hrf = 'driver_remarks.php?';
+						window.location.href = hrf +"id="+ id + "&remarks=" + result;		
+					}						
+				}
+			});										
+		}						
 		</script>
 	</head>
 	<body>
@@ -183,7 +202,7 @@ if(isset($_SESSION["user_name"]))
 							<th style="width:30%;text-align:center">In hand</th>
 							<th style="width:30%;text-align:center">Late to collect</th>
 						</tr><?php
-						$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand ORDER BY user") or die(mysqli_error($con));
+						$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user != $damageId ORDER BY user") or die(mysqli_error($con));
 						foreach($stockQuery as $stock)
 						{?>
 							<tr>
@@ -230,7 +249,8 @@ if(isset($_SESSION["user_name"]))
 								<p><i class="fa fa-user"></i> Mason :  <?php echo $sheet['mason_name'];?>
 								, <i class="fa fa-mobile"></i> <a href="tel:<?php echo $sheet['mason_phone'];?>"><?php echo $sheet['mason_phone'];?></a></p><?php
 							}?>
-							<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['date']));?>, <i class="fa fa-shopping-bag"></i> <?php echo $sheet['bags'].' bags';?></p>
+							<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['date']));?>, <i class="fa fa-shopping-bag"></i> <?php echo $sheet['bags'].' bags';?>							   
+							</p>
 							<p><i class="fas fa-store"></i> <?php echo $sheet['shop'];?></p>
 							<p><i class="fas fa-desktop"></i> Req by <b><?php echo $sheet['requested_by']; 
 							if($sheet['created_on'] != null && $designation != 'driver')
@@ -239,8 +259,17 @@ if(isset($_SESSION["user_name"]))
 							}
 							if($designation != 'driver' && $sheet['assigned_to'] != 0)
 							{																																?>
-								<p><i class="fa fa-share"></i> Assigned to <b><?php echo $drivers[$sheet['assigned_to']];?></b></p>								<?php										
+								<p><i class="fa fa-share"></i> Assigned to <b><?php echo $drivers[$sheet['assigned_to']];?></b>								<?php
+								if(!empty($sheet['driver_remarks']))
+								{
+									echo ' - <font style="font-weight:bold;color:red">'.$sheet['driver_remarks'].'</font> on '.date('d M, h:i A', strtotime($sheet['driver_remarks_dt']));
+								}
+								else if($sheet['driver_read'] == 1)
+								{																															?>
+									<font style="margin-left:5%"><i class="fa fa-eye fa-lg"style="color:#4285F4"></i></font>																													<?php
+								}								
 							}																																?>
+							</p>
 							<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>															<?php 
 							if($sheet['coveringBlock'])
 							{																																?>
@@ -248,13 +277,24 @@ if(isset($_SESSION["user_name"]))
 							}																																?>						
 							<br/>
 							<div align="center">
-								<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn" style="color:#ffffff;background-color:e1be5c;width:80px;"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;								
-								<button class="btn" style="color:#ffffff;background-color:7dc37d;width:100px;" onclick="deliver(<?php echo $sheet['id'].','.$sheet['coveringBlock'];?>)"><i class="fas fa-check"></i> Deliver</button>&nbsp;&nbsp;<?php
+								<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn" style="margin-right:10px;color:#ffffff;background-color:e1be5c;width:80px;"><i class="fa fa-pencil"></i> Edit</a>	
+								<button class="btn" style="margin-right:10px;color:#ffffff;background-color:7dc37d;width:100px;" onclick="deliver(<?php echo $sheet['id'].','.$sheet['coveringBlock'];?>)"><i class="fas fa-check"></i> Deliver</button><?php
 								if($designation != 'driver')
 								{																														?>																																								
-									<button class="btn" onclick="cancel(<?php echo $sheet['id'];?>)" style="background-color:#E6717C;color:#FFFFFF;width:80px;"><i class="far fa-trash-alt"></i> Dlt</button>							<?php
-								}																														?>
-							</div>							
+									<button class="btn" onclick="cancel(<?php echo $sheet['id'];?>)" style="margin-right:10px;background-color:#E6717C;color:#FFFFFF;width:80px;"><i class="far fa-trash-alt"></i> Dlt</button>							<?php
+								}
+								else
+								{
+									if($sheet['driver_remarks'] == null)
+									{
+										if($sheet['driver_read'] == 0)
+										{																																																																		?>
+											<button class="btn" id="read<?php echo $sheet['id'];?>" value="<?php echo $sheet['id'];?>" style="margin-right:10px;background-color:#4285F4;color:#FFFFFF;width:90px;" onclick="markRead(this.value)"><i class="fa fa-eye" aria-hidden="true"></i> Read</button><?php
+										}																																																																	?>									
+										<button class="btn" onclick="addRemarks(<?php echo $sheet['id'];?>)" style="background-color:#E6717C;color:#FFFFFF;width:110px;"><i class="fa fa-comment"></i> Remark</button><?php
+									}																																																							
+								}?>
+							</div>
 						</div>
 					</div>
 					<br/><br/><br/>																		<?php				
@@ -287,6 +327,24 @@ if(isset($_SESSION["user_name"]))
 
 			});
 
+			function markRead(sheetId){
+				$.ajax({
+					type: "POST",
+					url: "markReadAJAX.php",
+					data:'sheetId='+sheetId,
+					success: function(response){
+						if(response != false){
+							console.log(response);
+							$('#read'+response).hide();
+							//$('#'+response).find('td').eq(6).addClass("green");
+						}
+						else{
+							alert('Some error occured. Try again');
+							location.reload();
+						}
+					}
+				});	  
+			}
 		</script>		
 	</body>
 </html>																				<?php
