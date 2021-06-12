@@ -28,6 +28,9 @@ if(isset($_SESSION["user_name"]))
 	else
 		$range = 'Custom Filter';
 
+	if($range == 'Today')
+		$filterSql = $filterSql.' ORDER BY bill_no';
+
 	$mainMap = array();
 	if(isset($filterSql))
 	{

@@ -36,7 +36,7 @@ function getProductSum($con,$sql)
 {	
 	$productSumMap = array();
 	if(strpos($sql,'ORDER BY bill_no') !== false)
-		$sql = str_replace('ORDER BY bill_no ASC','',$sql);
+		$sql = str_replace('ORDER BY bill_no','',$sql);
 	
 	$sql = str_replace('*','SUM(qty),product',$sql);
 	$sql = $sql.' GROUP BY product';
