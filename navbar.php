@@ -23,7 +23,7 @@ if (strpos($url, 'reports') !== false)
 	$flag = 'reports';
 
 $today = date('Y-m-d');
-$sql = "SELECT * FROM nas_sale WHERE entry_date = '$today' ORDER BY bill_no ASC";
+$sql = "SELECT * FROM nas_sale WHERE entry_date = '$today'";
 
 $url = "javascript:location.href='../sales/list.php?range=Today&sql=".$sql."'";
 ?>

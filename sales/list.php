@@ -30,8 +30,6 @@ if(isset($_SESSION["user_name"]))
 
 	if($range == 'Today')
 		$filterSql = $filterSql.' ORDER BY bill_no';
-		
-	var_dump($filterSql);
 
 	$mainMap = array();
 	if(isset($filterSql))
