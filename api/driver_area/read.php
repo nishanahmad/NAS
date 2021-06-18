@@ -17,7 +17,7 @@ $num = $stmt->rowCount();
 if($num>0)
 { 
     $area_arr=array();
-    $area_arr["records"]=array();
+    $area_arr=array();
  
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 	{
@@ -28,7 +28,7 @@ if($num>0)
 			"name" => $name,
         );
  
-        array_push($area_arr["records"], $area_item);
+        array_push($area_arr, $area_item);
     }
  
     http_response_code(200); 
