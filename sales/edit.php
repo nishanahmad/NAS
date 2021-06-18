@@ -246,13 +246,13 @@ if(isset($_SESSION["user_name"]))
 								</div>								
 							</div>							
 							<div class="row">
-								<div class="col col-md-5 offset-1">
+								<div class="col col-md-4 offset-1">
 									<div class="input-group">
-										<span class="input-group-text col-md-3" style="width:125px;"><i class="far fa-comment-dots"></i>&nbsp;Remarks</span>
-										<textarea name="remarks" id="remarks" class="form-control"><?php echo $row['remarks']; ?></textarea>
-									</div>
+										<span class="input-group-text col-md-5"><i class="fa fa-rupee-sign"></i>&nbsp;Final Rate</span>
+										<input readonly id="final" class="form-control" style="cursor:pointer" data-toggle="modal" data-target="#rateBreakDownModal">
+									</div>								
 								</div>
-								<div class="col col-md-5 offset-1">
+								<div class="col col-md-5 offset-2">
 									<div class="input-group mb-3">
 										<span class="input-group-text col-md-3" style="width:100px;"><i class="fas fa-map-marker-alt"></i>&nbsp;Address</span>
 										<textarea name="address1" id="address" class="form-control"><?php echo $row['address1']; ?></textarea>
@@ -262,9 +262,9 @@ if(isset($_SESSION["user_name"]))
 							<div class="row">
 								<div class="col col-md-4 offset-1">
 									<div class="input-group">
-										<span class="input-group-text col-md-5"><i class="fa fa-rupee-sign"></i>&nbsp;Final Rate</span>
-										<input readonly id="final" class="form-control" style="cursor:pointer" data-toggle="modal" data-target="#rateBreakDownModal">
-									</div>
+										<span class="input-group-text col-md-4"><i class="fas fa-money-check-alt"></i>&nbsp;Total</span>
+										<input readonly class="form-control" name="total" id="total">
+									</div>								
 								</div>
 								<div class="col col-md-5 offset-2">
 									<div class="input-group mb-3">
@@ -274,17 +274,14 @@ if(isset($_SESSION["user_name"]))
 								</div>
 							</div>
 							<div class="row">
-								<div class="col col-md-4 offset-1">
+								<div class="col col-md-6 offset-1">
 									<div class="input-group">
-										<span class="input-group-text col-md-5"><i class="fa fa-truck"></i>&nbsp;Old Truck</span>
-										<input readonly class="form-control" value="<?php echo $row['truck_no'];?>">
+										<span class="input-group-text col-md-3" style="width:125px;"><i class="far fa-comment-dots"></i>&nbsp;Remarks</span>
+										<textarea name="remarks" id="remarks" class="form-control" rows="4"><?php echo $row['remarks']; ?></textarea>
 									</div>
 								</div>
-								<div class="col col-md-4 offset-2">
-									<div class="input-group">
-										<span class="input-group-text col-md-4"><i class="fas fa-money-check-alt"></i>&nbsp;Total</span>
-										<input readonly class="form-control" name="total" id="total">
-									</div>
+								<div class="col col-md-4 offset-1">
+
 								</div>								
 							</div>							
 							<p id="displayError" style="color:red;"></p>

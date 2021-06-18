@@ -25,7 +25,9 @@ if(isset($_SESSION["user_name"]))
 		
 		$shopName = strip_tags($ar['shop_name']); 
 		$shopNameMap[$ar['id']] = $shopName;
-	}																																						?>
+	}
+
+	$areaList = mysqli_query($con,"SELECT id,name FROM sheet_area ORDER BY name ASC");																				?>
 
 	<div class="modal fade" id="sheetModal">
 	  <div class="modal-dialog modal-lg">
@@ -101,6 +103,19 @@ if(isset($_SESSION["user_name"]))
 					<div class="row">
 						<div class="col col-md-6 offset-1">
 							<div class="input-group mb-3">
+								<span class="input-group-text" style="width:27%"><i class="fa fa-map-o"></i>&nbsp;Area</span>
+								<select name="driver_area" id="driver_area" class="form-control">											<?php
+									foreach($areaList as $area) 
+									{																										?>
+										<option value="<?php echo $area['id'];?>"><?php echo $area['name'];?></option>						<?php
+									}																										?>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col col-md-6 offset-1">
+							<div class="input-group mb-3">
 								<span class="input-group-text" style="width:27%"><i class="fas fa-map-marker-alt"></i>&nbsp;Address</span>
 								<textarea name="sheet_area" id="sheet_area" class="form-control" required><?php if(isset($sheet)) echo $sheet['area']; else echo $row['address1']?></textarea>
 							</div>
@@ -114,6 +129,17 @@ if(isset($_SESSION["user_name"]))
 							</div>
 						</div>
 					</div>
+					<div class="row">
+						<div class="col col-md-4 offset-1">
+							<div class="input-group mb-3">
+								<span class="input-group-text col-md-5">&nbsp;Delivery</span>
+								<select name="delivery" id="delivery" class="form-control" required>
+									<option value="lorry">LORRY</option>
+									<option value="upn">UPN</option>
+								</select>
+							</div>
+						</div>
+					</div>					
 					<div class="row">
 						<div class="col col-md-4 offset-1">
 							<div class="input-group mb-3">

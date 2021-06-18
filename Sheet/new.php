@@ -2,7 +2,10 @@
 session_start();
 if(isset($_SESSION["user_name"]))
 {
-	require 'navbar.php'																														?>
+	require 'navbar.php';
+	require '../connect.php';
+	
+	$areaList = mysqli_query($con,"SELECT id,name FROM sheet_area ORDER BY name ASC");	?>
 <html>
 	<head>
 	<meta charset="utf-8">
@@ -77,6 +80,17 @@ if(isset($_SESSION["user_name"]))
 									<input name="shop" type="text" class="form-control"/>
 								</div>
 							</div>																					
+							<div class="col col-md-10 offset-1">
+								<div class="input-group mb-3">
+									<span class="input-group-text col-md-5"><i class="fa fa-map-o"></i>&nbsp;Area</span>
+									<select name="driver_area" id="driver_area" class="form-control">							<?php
+										foreach($areaList as $area) 
+										{																								?>
+											<option value="<?php echo $area['id'];?>"><?php echo $area['name'];?></option>			<?php	
+										}																								?>
+									</select>
+								</div>
+							</div>																																			
 							<div class="col col-md-10 offset-1">
 								<div class="input-group mb-3">
 									<span class="input-group-text col-md-5"><i class="fas fa-map-marker-alt"></i>&nbsp;Address</span>
