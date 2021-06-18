@@ -30,6 +30,8 @@ if(!empty($data->concDate) && !empty($data->bags) && !empty($data->area) && !emp
 	$sheet->remarks = $data->remarks;
 	$sheet->requested_by = $data->requested_by;
 	$sheet->created_on = date('Y-m-d H:i:s');
+	$sheet->driver_area = $data->driver_area;
+	
  
 
     if($sheet->create())

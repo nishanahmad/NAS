@@ -16,6 +16,7 @@ class Sheet
 	public $remarks;
 	public $requested_by;
 	public $created_on;
+	public $driver_area;
 
 	// constructor with $db as database connection
 	public function __construct($db)
@@ -26,11 +27,13 @@ class Sheet
 	// create product
 	function create()
 	{ 
+		$assigned_to = getDriverToAssign($this->driver_area);
+		
 		// query to insert record
 		$query = "INSERT INTO
 					" . $this->table_name . "
 				SET
-					date=:date, customer_name=:customer_name, customer_phone=:customer_phone, mason_name=:mason_name, mason_phone=:mason_phone, bags=:bags, area=:area, shop=:shop, coveringBlock=:coveringBlock, remarks=:remarks, requested_by=:requested_by, status='requested', created_on=:created_on";
+					date=:date, customer_name=:customer_name, customer_phone=:customer_phone, mason_name=:mason_name, mason_phone=:mason_phone, bags=:bags, area=:area, shop=:shop, coveringBlock=:coveringBlock, remarks=:remarks, requested_by=:requested_by, status='requested', created_on=:created_on, driver_area=:driver_area, assigned_to=assigned_to";
 	 
 		// prepare query
 		$stmt = $this->conn->prepare($query);
@@ -48,6 +51,8 @@ class Sheet
 		$this->remarks=htmlspecialchars(strip_tags($this->remarks));
 		$this->requested_by=htmlspecialchars(strip_tags($this->requested_by));
 		$this->created_on=htmlspecialchars(strip_tags($this->created_on));
+		$this->driver_area=htmlspecialchars(strip_tags($this->driver_area));
+		$this->assigned_to=htmlspecialchars(strip_tags($this->assigned_to));
 	 
 		// bind values
 		$stmt->bindParam(":date", $this->date);
@@ -62,6 +67,8 @@ class Sheet
 		$stmt->bindParam(":remarks", $this->remarks);
 		$stmt->bindParam(":requested_by", $this->requested_by);
 		$stmt->bindParam(":created_on", $this->created_on);
+		$stmt->bindParam(":driver_area", $this->driver_area);
+		$stmt->bindParam(":assigned_to", $this->assigned_to);
 	 
 		// execute query
 		if($stmt->execute())
@@ -79,5 +86,13 @@ class Sheet
 		$stmt->execute();
 	 
 		return $stmt;
-	}	
+	}
+
+	function getDriverToAssign($area)
+	{
+		$query = mysqli_query($con, "SELECT driver FROM sheet_area WHERE id = $area") or die(mysqli_error($con));
+		$driver = mysqli_fetch_array($query, MYSQLI_ASSOC)['driver'];		
+	 
+		return $driver;
+	}		
 }
