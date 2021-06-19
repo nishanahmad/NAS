@@ -15,8 +15,9 @@ $db = $database->getConnection();
 $sheet = new Sheet($db);
  
 $data = json_decode(file_get_contents("php://input"));
- 
-if(!empty($data->concDate) && !empty($data->bags) && !empty($data->area) && !empty($data->requested_by))
+//echo json_encode($data);
+
+if(!empty($data->concDate) && !empty($data->bags) && !empty($data->area) && !empty($data->requested_by) && !empty($data->driver_area))
 {
     $sheet->date = date('Y-m-d',strtotime($data->concDate));
 	$sheet->customer_name = $data->customer_name;
@@ -33,8 +34,7 @@ if(!empty($data->concDate) && !empty($data->bags) && !empty($data->area) && !emp
 	$sheet->driver_area = $data->driver_area;
 	
  
-
-    if($sheet->create())
+    if($sheet->create() == "Success")
 	{
         http_response_code(201);
         echo json_encode(array("message" => "Sheet request successfully created."));
@@ -42,7 +42,7 @@ if(!empty($data->concDate) && !empty($data->bags) && !empty($data->area) && !emp
     else
 	{
         http_response_code(503);
-        echo json_encode(array("message" => mysqli_error($database->conn->error)));
+        echo json_encode(array("message" => $sheet->create()));
     }	
 }
 else
@@ -50,4 +50,5 @@ else
     http_response_code(400);
     echo json_encode(array("message" => "Unable to create sheet. Data is incomplete."));
 }
+
 ?>
