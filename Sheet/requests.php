@@ -116,6 +116,7 @@ if(isset($_SESSION["user_name"]))
 		</script>
 	</head>
 	<body>
+		<a href="deliveries.php"><i class="fa fa-truck"></i><span>Delivered</span></a>
 		<div align="center">
 			<h2>Pending Requests</h2><br/>																																	<?php
 			if($designation != 'driver')
@@ -234,7 +235,7 @@ if(isset($_SESSION["user_name"]))
 		</div>
 		<script>
 
-			$(function(){
+			$(function(){				
 				// SHOW ERROR IF RETURNED URL CONTAINS ERROR
 				var error = "<?php echo $error;?>";
 				if(error == 'true')
