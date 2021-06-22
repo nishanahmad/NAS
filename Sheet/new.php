@@ -83,7 +83,8 @@ if(isset($_SESSION["user_name"]))
 							<div class="col col-md-10 offset-1">
 								<div class="input-group mb-3">
 									<span class="input-group-text col-md-5"><i class="fa fa-map-o"></i>&nbsp;Area</span>
-									<select name="driver_area" id="driver_area" class="form-control">							<?php
+									<select name="driver_area" required id="driver_area" class="form-control">
+										<option value="">---- SELECT AREA ---</option>									<?php
 										foreach($areaList as $area) 
 										{																								?>
 											<option value="<?php echo $area['id'];?>"><?php echo $area['name'];?></option>			<?php	

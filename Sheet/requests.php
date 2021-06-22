@@ -20,6 +20,10 @@ if(isset($_SESSION["user_name"]))
 	$driversQuery = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role ='driver' ORDER BY user_name") or die(mysqli_error($con));
 	foreach($driversQuery as $driver)
 		$drivers[$driver['user_id']] = $driver['user_name'];
+		
+	$mainAreaQuery = mysqli_query($con,"SELECT id,name FROM sheet_area ORDER BY name") or die(mysqli_error($con));
+	foreach($mainAreaQuery as $mainArea)
+		$mainAreaMap[$mainArea['id']] = $mainArea['name'];		
 	
 	if($designation != 'driver')
 	{
@@ -165,7 +169,7 @@ if(isset($_SESSION["user_name"]))
 				foreach($sheets as $sheet)
 				{																															?>
 					<div class="card">
-						<div class="card-header" style="background-color:#2a739e;color:#ffffff;font-family:Bookman;text-transform:uppercase;"><i class="fa fa-map-marker"></i> <?php echo $sheet['area']; ?></div>
+						<div class="card-header" style="background-color:#2a739e;color:#ffffff;font-family:Bookman;text-transform:uppercase;"><i class="fa fa-map-marker"></i> <?php echo $sheet['area']; if($sheet['driver_area'] > 0) echo '<font style="margin-left:10%;font-weight:bold">'.$mainAreaMap[$sheet['driver_area']].'</font>'; ?></div>
 						<div class="card-body"><?php
 							if(!empty($sheet['customer_name']))
 							{?>
