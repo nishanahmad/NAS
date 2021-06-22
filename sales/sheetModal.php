@@ -135,8 +135,9 @@ if(isset($_SESSION["user_name"]))
 							<div class="input-group mb-3">
 								<span class="input-group-text col-md-5">&nbsp;Delivery</span>
 								<select name="delivery" id="delivery" class="form-control" required>
-									<option value="lorry">LORRY</option>
+									<option value="">-- SELECT --</option>
 									<option value="upn">UPN</option>
+									<option value="lorry">LORRY</option>
 								</select>
 							</div>
 						</div>
