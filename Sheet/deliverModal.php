@@ -10,7 +10,7 @@ if(isset($_SESSION["user_name"]))
 		$drivers[$driver['user_id']] = $driver['user_name'];?>
 	
 	<div class="modal fade" id="deliverModal" style="margin-top:100px;">
-	  <div class="modal-dialog" style="width:50%">
+	  <div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header" style="background-color:#54698D;color:white">
 				<h4 class="modal-title"><i class="fa fa-truck"></i>&nbsp;&nbsp;Deliver</h4>
