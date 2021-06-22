@@ -6,6 +6,7 @@ if(isset($_SESSION["user_name"]))
 {	
 	require '../connect.php';
 	require 'navbar.php';
+	require 'deliverModal.php';
 	
 	$designation = $_SESSION['role'];
 	
@@ -71,87 +72,13 @@ if(isset($_SESSION["user_name"]))
 		<title>Pending Requests</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link href="../css/styles.css" rel="stylesheet" type="text/css">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<script>
-		function deliver(id,coveringBlock){
-			var qty;
-			var driver;
-			var noOfBlocks;
-			var designation = "<?php echo $designation;?>";
-			hrf = 'deliver.php?'
-			var arr1 = [];
-			<?php
-			foreach($driversQuery as $driver)
-			{?>
-				arr1.push({text:"<?php echo $driver['user_name'];?>", value:"<?php echo $driver['user_id'];?>"});<?php
-			}?>	
-			
-			bootbox.prompt({
-				title: "Enter number of sheets delivered to this site",
-				inputType: 'number',
-				callback: function (result1) {
-					if(result1)
-					{
-						qty = result1;
-						if(designation != 'driver')
-						{
-							bootbox.prompt({
-								title: "Select the driver",
-								inputType: 'select',
-								inputOptions: arr1,
-								callback: function (result2) {
-									if(result2)
-									{
-										driver = result2;					
-										if(coveringBlock)
-										{
-											bootbox.prompt({
-												title: "Enter no of blocks given",
-												inputType: 'number',
-												callback: function (result3) {
-													if(result3)
-													{
-														noOfBlocks = result3;
-														window.location.href = hrf +"id="+ id + "&qty=" + qty + "&driver=" + driver;																																
-													}
-												}
-											});																					
-										}
-										else
-										{
-											window.location.href = hrf +"id="+ id + "&qty=" + qty + "&driver=" + driver;
-										}
-									}
-								}
-							});				
-						}
-						else
-						{
-							driver = "<?php echo $_SESSION["user_id"];?>";
-							if(coveringBlock)
-							{
-								bootbox.prompt({
-									title: "Enter no of blocks given",
-									inputType: 'number',
-									callback: function (result3) {
-										if(result3)
-										{
-											noOfBlocks = result3;
-											window.location.href = hrf +"id="+ id + "&qty=" + qty + "&driver=" + driver;
-										}
-									}
-								});																					
-							}
-							else
-							{
-								window.location.href = hrf +"id="+ id + "&qty=" + qty + "&driver=" + driver;
-							}
-						}
-					}						
-				}
-			});							
-		}
-		
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css">
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+		<script>		
 		function cancel(id){
 			bootbox.prompt({
 				title: "Enter reason for cancellation",
@@ -180,7 +107,8 @@ if(isset($_SESSION["user_name"]))
 					}						
 				}
 			});										
-		}						
+		}	
+
 		</script>
 	</head>
 	<body>
@@ -255,8 +183,9 @@ if(isset($_SESSION["user_name"]))
 							<p><i class="fas fa-desktop"></i> Req by <b><?php echo $sheet['requested_by']; 
 							if($sheet['created_on'] != null && $designation != 'driver')
 							{																																?>
-								</b> on <?php echo date('d M, h:i A', strtotime($sheet['created_on']));?></p>			<?php
-							}
+								</b> on <?php echo date('d M, h:i A', strtotime($sheet['created_on']));?></p>												<?php
+							}?>
+							<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>															<?php
 							if($designation != 'driver' && $sheet['assigned_to'] != 0)
 							{																																?>
 								<p><i class="fa fa-share"></i> Assigned to <b><?php echo $drivers[$sheet['assigned_to']];?></b>								<?php
@@ -269,8 +198,7 @@ if(isset($_SESSION["user_name"]))
 									<font style="margin-left:5%"><i class="fa fa-eye fa-lg"style="color:#4285F4"></i></font>																													<?php
 								}								
 							}																																?>
-							</p>
-							<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>															<?php 
+							</p>																															<?php 
 							if($sheet['coveringBlock'])
 							{																																?>
 								<p style="color:#cc0000"><i class="fas fa-th"></i> Covering Block</p>														<?php	
@@ -278,7 +206,7 @@ if(isset($_SESSION["user_name"]))
 							<br/>
 							<div align="center">
 								<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn" style="margin-right:10px;color:#ffffff;background-color:e1be5c;width:80px;"><i class="fa fa-pencil"></i> Edit</a>	
-								<button class="btn" style="margin-right:10px;color:#ffffff;background-color:7dc37d;width:100px;" onclick="deliver(<?php echo $sheet['id'].','.$sheet['coveringBlock'];?>)"><i class="fas fa-check"></i> Deliver</button><?php
+								<button class="btn deliverId" style="margin-right:10px;color:#ffffff;background-color:7dc37d;width:100px;" data-id="<?php echo $sheet['id'];?>" data-toggle="modal" data-target="#deliverModal"><i class="fas fa-check"></i> Deliver</button><?php
 								if($designation != 'driver')
 								{																														?>																																								
 									<button class="btn" onclick="cancel(<?php echo $sheet['id'];?>)" style="margin-right:10px;background-color:#E6717C;color:#FFFFFF;width:80px;"><i class="far fa-trash-alt"></i> Dlt</button>							<?php
@@ -303,28 +231,20 @@ if(isset($_SESSION["user_name"]))
 		<script>
 
 			$(function(){
-
-				var menu = $('.menu-navigation-dark');
-
-				menu.slicknav();
-
-				// Mark the clicked item as selected
-
-				menu.on('click', 'a', function(){
-					var a = $(this);
-
-					a.siblings().removeClass('selected');
-					a.addClass('selected');
-				});
-				
-
 				// SHOW ERROR IF RETURNED URL CONTAINS ERROR
 				var error = "<?php echo $error;?>";
 				if(error == 'true')
 				{
 					bootbox.alert("Not enough sheets in hand to deliver!!!");					
 				}
-
+				
+				$('.deliverId').click(function(){
+					var deliverId = $(this).data('id');
+					$("#deliverIdhidden").val(deliverId);
+				});	
+				
+				var pickeropts = { dateFormat:"dd-mm-yy"};
+				$( ".datepicker" ).datepicker(pickeropts);				
 			});
 
 			function markRead(sheetId){
