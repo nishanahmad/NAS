@@ -2,12 +2,43 @@
 
 function getSales($con,$sql)
 {	
-	if(!strpos($sql,'ORDER BY bill_no') !== false)
-		$sql = $sql.' ORDER BY entry_date DESC';
-				
 	$mainMap = array();
-	$salesQuery = mysqli_query($con,$sql) or die(mysqli_error($con));
 	
+	if(!strpos($sql,'ORDER BY bill_no') !== false)
+	{
+		$sql = $sql.' ORDER BY entry_date DESC';
+	}
+	else
+	{
+		$today = date('Y-m-d');
+		$day10backwards = date( 'Y-m-d', strtotime('-10 days') );		
+		$unbilledOldSalesQuery = mysqli_query($con,"SELECT * FROM nas_sale WHERE entry_date < '$today' AND entry_date > '$day10backwards'") or die(mysqli_error($con));
+		foreach($unbilledOldSalesQuery as $sale) 
+		{
+			if( !(fnmatch("B*",$sale['bill_no']) || fnmatch("C*",$sale['bill_no']) || fnmatch("GB*",$sale['bill_no']) || fnmatch("GC*",$sale['bill_no']) || fnmatch("PB*",$sale['bill_no']) || fnmatch("PC*",$sale['bill_no'])))
+			{
+				$saleArray = array();
+				$saleArray['id'] = $sale['sales_id'];
+				$saleArray['date'] = $sale['entry_date'];
+				$saleArray['client'] = $sale['ar_id'];
+				$saleArray['engineer'] = $sale['eng_id'];
+				$saleArray['product'] = $sale['product'];
+				$saleArray['qty'] = $sale['qty'];
+				$saleArray['discount'] = $sale['discount'];
+				$saleArray['bill'] = $sale['bill_no'];
+				$saleArray['truck'] = $sale['truck'];
+				$saleArray['name'] = $sale['customer_name'];
+				$saleArray['phone'] = $sale['customer_phone'];
+				$saleArray['remarks'] = $sale['remarks'];
+				$saleArray['address'] = $sale['address1'];
+				$saleArray['direct_order'] = $sale['direct_order'];
+				
+				$mainMap[] = $saleArray;			
+			}			
+		}
+	}
+		
+	$salesQuery = mysqli_query($con,$sql) or die(mysqli_error($con));	
 	foreach($salesQuery as $sale) 
 	{ 
 		$saleArray = array();
