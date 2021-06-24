@@ -1,3 +1,3 @@
 <?php
-	$string = "B1123";
-	echo fnmatch("B*",$string);
+	similar_text("Ajman","Ajmal",$percent);
+	echo $percent;

@@ -21,6 +21,10 @@ if(isset($_SESSION["user_name"]))
 	else
 		$delivered_by = 'All';
 	
+	$mainAreaQuery = mysqli_query($con,"SELECT id,name FROM sheet_area ORDER BY name") or die(mysqli_error($con));
+	foreach($mainAreaQuery as $mainArea)
+		$mainAreaMap[$mainArea['id']] = $mainArea['name'];		
+		
 	$users = mysqli_query($con,"SELECT * FROM users WHERE role ='driver' ORDER BY user_name ASC" ) or die(mysqli_error($con));
 	foreach($users as $user)
 	{
@@ -128,7 +132,7 @@ if(isset($_SESSION["user_name"]))
 			foreach($sheets as $sheet)
 			{																							?>
 					<div class="card" id="panel<?php echo $divId;?>">
-						<div class="card-header" style="background-color:#2a739e;color:#ffffff;font-family:Bookman;text-transform:uppercase;"><i class="fa fa-map-marker"></i> <?php echo $sheet['area']; ?></div>
+						<div class="card-header" style="background-color:#2a739e;color:#ffffff;font-family:Bookman;text-transform:uppercase;"><i class="fa fa-map-marker"></i> <?php echo $sheet['area']; if($sheet['driver_area'] > 0) echo '<font style="margin-left:10%;font-weight:bold">'.$mainAreaMap[$sheet['driver_area']].'</font>' ?></div>
 						<div class="card-body"><?php
 							if($sheet['customer_name'])
 							{?>
