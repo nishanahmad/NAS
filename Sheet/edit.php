@@ -7,8 +7,10 @@ if(isset($_SESSION["user_name"]))
 	
 	$designation = $_SESSION['role'];
 	$id = $_GET['id'];
+	$areaList = mysqli_query($con,"SELECT id,name FROM sheet_area ORDER BY name ASC");
 	$sql = mysqli_query($con,"SELECT * FROM sheets WHERE id='$id'") or die(mysqli_error($con));
 	$request = mysqli_fetch_array($sql,MYSQLI_ASSOC);
+	
 	?>
 	<html>
 	<head>
@@ -110,7 +112,19 @@ if(isset($_SESSION["user_name"]))
 							<span class="input-group-text col-md-4"><i class="fa fa-address-card-o"></i>&nbsp;Shop</span>
 							<input name="shop" type="text" class="form-control" placeholder="Shop" placeholder="Shop" value="<?php echo $request['shop'];?>"/>
 						</div>
-					</div>																					
+					</div>
+						<div class="col col-md-10">
+							<div class="input-group mb-3">
+								<span class="input-group-text col-md-4"><i class="fa fa-map-o"></i>&nbsp;Area</span>
+								<select name="driver_area" required id="driver_area" class="form-control">
+									<option value="">---- SELECT AREA ---</option>															<?php
+									foreach($areaList as $area) 
+									{																										?>
+										<option <?php if($request['driver_area'] == $area['id']) echo 'selected';?> value="<?php echo $area['id'];?>"><?php echo $area['name'];?></option>						<?php
+									}																										?>
+								</select>
+							</div>
+						</div>																																								
 					<div class="col col-md-10">
 						<div class="input-group mb-3">
 							<span class="input-group-text col-md-4"><i class="fas fa-map-marker-alt"></i>&nbsp;Address</span>

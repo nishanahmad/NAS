@@ -13,11 +13,12 @@ if(isset($_SESSION["user_name"]))
 		$mason_name = $_POST['mason_name'];
 		$mason_phone = $_POST['mason_phone'];		
 		$area = $_POST['area'];
+		$driver_area = $_POST['driver_area'];
 		$shop = $_POST['shop'];
 		$remarks = $_POST['remarks'];
 		
 		
-		$update = mysqli_query($con,"UPDATE sheets SET customer_name='$customer_name', customer_phone='$customer_phone',mason_name='$mason_name', mason_phone='$mason_phone',shop='$shop',area='$area',remarks='$remarks' WHERE id=$id") or die(mysqli_error($con));	
+		$update = mysqli_query($con,"UPDATE sheets SET customer_name='$customer_name', customer_phone='$customer_phone',mason_name='$mason_name', mason_phone='$mason_phone',shop='$shop',driver_area=$driver_area,area='$area',remarks='$remarks' WHERE id=$id") or die(mysqli_error($con));	
 			  
 		if(isset($_POST['date']))
 		{
