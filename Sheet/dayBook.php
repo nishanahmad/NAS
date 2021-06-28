@@ -29,7 +29,7 @@ if(isset($_SESSION["user_name"]))
 		$agr2 = mysqli_query($con,"SELECT count(id) FROM sheets WHERE closed_on ='$date' AND closed_by = $driverId  AND status ='closed'" ) or die(mysqli_error($con));
 		$taken = (int)mysqli_fetch_Array($agr2,MYSQLI_ASSOC)['count(id)'];		
 		
-		$agr3 = mysqli_query($con,"SELECT count(id) FROM sheets WHERE date ='$date' AND driver_area IN ('$areaList') AND status ='pending'" ) or die(mysqli_error($con));
+		$agr3 = mysqli_query($con,"SELECT count(id) FROM sheets WHERE date ='$date' AND driver_area IN ('$areaList') AND status ='requested'" ) or die(mysqli_error($con));
 		$pending = (int)mysqli_fetch_Array($agr3,MYSQLI_ASSOC)['count(id)'];		
 		
 		$mainMap[$driver['user_name']]['delivered'] = $delivered;
