@@ -23,7 +23,7 @@ if(isset($_SESSION["user_name"]))
 				
 		$areaList = implode("','",array_keys($areaList));
 		
-		$agr1 = mysqli_query($con,"SELECT count(id) FROM sheets WHERE date ='$date' AND delivered_by = $driverId AND status ='delivered'" ) or die(mysqli_error($con));
+		$agr1 = mysqli_query($con,"SELECT count(id) FROM sheets WHERE delivered_on ='$date' AND delivered_by = $driverId AND status ='delivered'" ) or die(mysqli_error($con));
 		$delivered = (int)mysqli_fetch_Array($agr1,MYSQLI_ASSOC)['count(id)'];
 
 		$agr2 = mysqli_query($con,"SELECT count(id) FROM sheets WHERE closed_on ='$date' AND closed_by = $driverId  AND status ='closed'" ) or die(mysqli_error($con));
