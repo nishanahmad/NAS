@@ -177,7 +177,7 @@ if(isset($_SESSION["user_name"]))
 		<script>
 
 			$(function(){
-
+				
 				var menu = $('.menu-navigation-dark');
 
 				menu.slicknav();

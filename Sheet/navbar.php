@@ -17,6 +17,8 @@ if (strpos($url, 'transfer_logs') !== false)
 	$flag = 'transfer_logs';
 if (strpos($url, 'closed') !== false)
 	$flag = 'closed';
+if (strpos($url, 'dayBook') !== false)
+	$flag = 'reports';	
 
 ?>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -135,6 +137,7 @@ if (strpos($url, 'closed') !== false)
 			if($_SESSION['role'] != 'driver')
 			{																									?>				
 				<a href="transfer_logs.php" class="<?php if($flag == 'transfer_logs') echo 'selected';?>"><i class="fa fa-file-text"></i><span>Transfer Logs</span></a>
-				<a href="closed.php" class="<?php if($flag == 'closed') echo 'selected';?>"><i class="fa fa-check-square"></i><span>Closed</span></a><?php
+				<a href="closed.php" class="<?php if($flag == 'closed') echo 'selected';?>"><i class="fa fa-check-square"></i><span>Closed</span></a>
+				<a href="dayBook.php?date=<?php echo date('Y-m-d');?>" class="<?php if($flag == 'reports') echo 'selected';?>"><i class="fa fa-chart-area"></i><span>Reports</span></a><?php
 			}?>				
 		</nav>		
