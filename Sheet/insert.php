@@ -19,25 +19,26 @@ if(isset($_SESSION["user_name"]))
 	$bags = (int)$_POST['bags'];
 	$requested_by = $_SESSION['user_name'];
 	$created_on = date('Y-m-d H:i:s');
-	$priority = $_POST['priority'];
-	var_dump($priority);
-	/*
+	if(isset($_POST['priority']))
+		$priority = 1;
+	else	
+		$priority = 0;
+	
+	
 	//  FETCH DRIVER TO ASSIGN
 	$driverQuery = mysqli_query($con, "SELECT driver FROM sheet_area WHERE id = $driver_area") or die(mysqli_error($con));
 	$driver = mysqli_fetch_array($driverQuery, MYSQLI_ASSOC)['driver'];
 
 	
-	$sql="INSERT INTO sheets (date, customer_name, customer_phone, mason_name, mason_phone, bags, area, driver_area, shop, remarks, requested_by, status, created_on, assigned_to)
+	$sql="INSERT INTO sheets (date, customer_name, customer_phone, mason_name, mason_phone, bags, area, driver_area, shop, remarks, requested_by, status, created_on, assigned_to, priority)
 		 VALUES
-		 ('$sqlDate', '$customer_name', '$customer_phone', '$mason_name', '$mason_phone', $bags, '$area', '$driver_area', '$shop', '$remarks', '$requested_by', 'requested', '$created_on', '$driver')";
+		 ('$sqlDate', '$customer_name', '$customer_phone', '$mason_name', '$mason_phone', $bags, '$area', '$driver_area', '$shop', '$remarks', '$requested_by', 'requested', '$created_on', '$driver', $priority)";
 
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));
 	
 
 
 	header( "Location:new.php?success" );
-	*/
-
 }
 else
 	header( "Location: ../index.php" );

@@ -104,11 +104,11 @@ if(isset($_SESSION["user_name"]))
 									<textarea name="remarks" class="form-control"></textarea>
 								</div>
 							</div>
-							<div class="col col-md-10 offset-1 form-check">
-								  <input class="form-check-input" type="checkbox" value="" id="priority" name="priority">
-								  <label class="form-check-label" for="flexCheckDefault">
-									Default checkbox
-								  </label>
+							<div class="col col-md-10 offset-1">
+								<div class="input-group mb-3">
+								  <input class="form-check-input" type="checkbox" id="priority" name="priority">
+								  <label class="form-check-label" for="flexCheckDefault">Priority</label>
+								</div>	  
 							</div>							
 							<br/>
 							<button type="submit" class="btn" style="width:150px;font-size:18px;background-color:#3498db;color:white;"><i class="fa fa-paper-plane"></i> REQUEST</button>
