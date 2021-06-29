@@ -54,9 +54,11 @@ if(isset($_SESSION["user_name"]))
 				<thead>
 					<tr class="table-success">
 						<th style="text-align:left;">Driver</th>
+						<th>Total</th>
 						<th>Delivered</th>
-						<th>Taken</th>
 						<th>Pending</th>
+						<th>Taken</th>
+						
 					</tr>
 				</thead>
 				<tbody>																																			<?php
@@ -64,9 +66,10 @@ if(isset($_SESSION["user_name"]))
 				{																																				?>
 					<tr align="center">
 						<td style="text-align:left;"><?php echo $driver;?></b></td>
+						<td><b><?php echo $status['delivered'] + $status['pending'];?></b></td>
 						<td><?php echo $status['delivered'];?></td>
-						<td><?php echo $status['taken'];?></td>
 						<td><?php echo $status['pending'];?></td>
+						<td><?php echo $status['taken'];?></td>
 					</tr>																																		<?php
 				}																																				?>
 				</tbody>	
