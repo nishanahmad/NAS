@@ -51,8 +51,8 @@ if(isset($_SESSION["user_name"]))
 	$agr = mysqli_query($con,"SELECT SUM(qty) FROM sheets WHERE status ='delivered' " ) or die(mysqli_error($con));
 	$onSite = (int)mysqli_fetch_Array($agr,MYSQLI_ASSOC)['SUM(qty)'];	
 	
-	$yesterday = date('Y-m-d',strtotime("-3 days"));
-	$lateAgr = mysqli_query($con,"SELECT SUM(qty),delivered_by FROM sheets WHERE status ='delivered' AND delivered_on < '$yesterday' GROUP BY delivered_by" ) or die(mysqli_error($con));
+	$yesterday = date('Y-m-d',strtotime("-2 days"));
+	$lateAgr = mysqli_query($con,"SELECT SUM(qty),delivered_by FROM sheets WHERE status ='delivered' AND date < '$yesterday' GROUP BY delivered_by" ) or die(mysqli_error($con));
 	$lateTotal = 0;
 	foreach($lateAgr as $row)
 	{
