@@ -63,15 +63,25 @@ if(isset($_SESSION["user_name"]))
 				</thead>
 				<tbody>																																			<?php
 				foreach($mainMap as $driver => $status)
-				{																																				?>
-					<tr align="center">
-						<td style="text-align:left;"><?php echo $driver;?></b></td>
-						<td><b><?php echo $status['delivered'] + $status['pending'];?></b></td>
-						<td><?php echo $status['delivered'];?></td>
-						<td><?php echo $status['pending'];?></td>
-						<td><?php echo $status['taken'];?></td>
-					</tr>																																		<?php
+				{
+					if($driver != 'GODOWN')
+					{																																			?>
+						<tr align="center">
+							<td style="text-align:left;"><?php echo $driver;?></b></td>
+							<td><b><?php echo $status['delivered'] + $status['pending'];?></b></td>
+							<td><?php echo $status['delivered'];?></td>
+							<td><?php echo $status['pending'];?></td>
+							<td><?php echo $status['taken'];?></td>
+						</tr>																																	<?php							
+					}																																			?>																																								<?php
 				}																																				?>
+					<tr align="center">
+						<td style="text-align:left;">GODOWN</b></td>
+						<td><b><?php echo $mainMap['GODOWN']['delivered'];?></b></td>
+						<td><?php echo $mainMap['GODOWN']['delivered'];?></td>
+						<td style="background-color:#d3d3d3"></td>
+						<td style="background-color:#d3d3d3"></td>
+					</tr>																																					
 				</tbody>	
 			</table>
 			<br/><br/>
