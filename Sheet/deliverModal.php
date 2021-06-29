@@ -23,12 +23,6 @@ if(isset($_SESSION["user_name"]))
 					<input type="hidden" id="deliverIdhidden" name="deliverIdhidden">
 					<div class="col col-md-7 offset-1">
 						<div class="input-group mb-3">
-							<span class="input-group-text" style="width:80px;"><i class="far fa-calendar-alt"></i>&nbsp;Date</span>
-							<input type="text" required name="date" id="date" class="form-control datepicker" value="<?php echo date('d-m-Y'); ?>" autocomplete="off">
-						</div>
-					</div>
-					<div class="col col-md-7 offset-1">
-						<div class="input-group mb-3">
 							<span class="input-group-text" style="width:80px;"><i class="fab fa-buffer"></i>&nbsp;Qty</span>
 							<input type="text" required name="qty" id="qty" class="form-control" autocomplete="off">
 						</div>

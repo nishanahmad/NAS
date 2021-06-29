@@ -7,7 +7,7 @@ session_start();
 if(isset($_SESSION["user_name"]))
 {
 	$id = $_POST['deliverIdhidden'];
-	$date = date('Y-m-d',strtotime($_POST['date']));
+	$date = date('Y-m-d');
 	$qty = (int)$_POST['qty'];
 	if(isset($_POST['driverId']))
 		$delivered_by = (int)$_POST['driverId'];
