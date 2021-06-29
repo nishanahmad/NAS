@@ -19,7 +19,9 @@ if(isset($_SESSION["user_name"]))
 	$bags = (int)$_POST['bags'];
 	$requested_by = $_SESSION['user_name'];
 	$created_on = date('Y-m-d H:i:s');
-
+	$priority = $_POST['priority'];
+	var_dump($priority);
+	/*
 	//  FETCH DRIVER TO ASSIGN
 	$driverQuery = mysqli_query($con, "SELECT driver FROM sheet_area WHERE id = $driver_area") or die(mysqli_error($con));
 	$driver = mysqli_fetch_array($driverQuery, MYSQLI_ASSOC)['driver'];
@@ -34,6 +36,7 @@ if(isset($_SESSION["user_name"]))
 
 
 	header( "Location:new.php?success" );
+	*/
 
 }
 else
