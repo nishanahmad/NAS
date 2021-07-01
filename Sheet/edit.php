@@ -130,14 +130,25 @@ if(isset($_SESSION["user_name"]))
 							<span class="input-group-text col-md-4"><i class="fas fa-map-marker-alt"></i>&nbsp;Address</span>
 							<textarea name="area" class="form-control"><?php echo $request['area'];?></textarea>
 						</div>
-					</div>																												
-					<div class="col col-md-10">
+					</div>																	<div class="col col-md-10">
 						<div class="input-group mb-3">
 							<span class="input-group-text col-md-4"><i class="far fa-comment-dots"></i>&nbsp;Remarks</span>
 							<textarea name="remarks" class="form-control" placeholder="Remarks" ><?php echo $request['remarks'];?></textarea>
 						</div>
 					</div>																																			
 					<br/>
+					<div class="col col-md-10 offset-1">
+						<div style="float:left">
+						  <input class="form-check-input" type="checkbox" id="priority" name="priority" <?php if ( $request['priority'] ) echo 'checked="checked" '; ?>>
+						  <label class="form-check-label" for="flexCheckDefault">Priority</label>
+						</div>	  
+						<div style="float:right;margin-right:20px;">
+						  <input class="form-check-input" type="checkbox" id="block" name="block" <?php if ( $request['coveringBlock'] ) echo 'checked="checked" '; ?>>
+						  <label class="form-check-label" for="flexCheckDefault">Concrete Block</label>
+						</div>	  								
+					</div>
+					<br/><br/>
+
 					<button type="submit" class="btn" style="width:150px;font-size:18px;background-color:#3498db;color:white;"><i class="fa fa-paper-plane"></i> UPDATE</button>
 				</div>
 				<div class="card-footer" style="background-color:#3498db;padding:1px;"></div>

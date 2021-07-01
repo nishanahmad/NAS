@@ -16,9 +16,19 @@ if(isset($_SESSION["user_name"]))
 		$driver_area = $_POST['driver_area'];
 		$shop = $_POST['shop'];
 		$remarks = $_POST['remarks'];
+
+		if(isset($_POST['priority']))
+			$priority = 1;
+		else	
+			$priority = 0;
+			
+		if(isset($_POST['block']))
+			$block = 1;
+		else	
+			$block = 0;				
 		
 		
-		$update = mysqli_query($con,"UPDATE sheets SET customer_name='$customer_name', customer_phone='$customer_phone',mason_name='$mason_name', mason_phone='$mason_phone',shop='$shop',driver_area=$driver_area,area='$area',remarks='$remarks' WHERE id=$id") or die(mysqli_error($con));	
+		$update = mysqli_query($con,"UPDATE sheets SET customer_name='$customer_name', customer_phone='$customer_phone',mason_name='$mason_name', mason_phone='$mason_phone',shop='$shop',driver_area=$driver_area,area='$area',remarks='$remarks',priority=$priority,coveringBlock=$block WHERE id=$id") or die(mysqli_error($con));	
 			  
 		if(isset($_POST['date']))
 		{
