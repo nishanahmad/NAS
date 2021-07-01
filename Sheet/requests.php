@@ -35,9 +35,9 @@ if(isset($_SESSION["user_name"]))
 		$users = mysqli_query($con,"SELECT DISTINCT(assigned_to) FROM sheets WHERE status ='requested' AND assigned_to > 0 ORDER BY assigned_to ASC" ) or die(mysqli_error($con));
 		
 		if($assigned_to == 'All')
-			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' ORDER BY date ASC" ) or die(mysqli_error($con));
+			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' ORDER BY date ASC, priority DESC" ) or die(mysqli_error($con));
 		else
-			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' AND assigned_to = '$assigned_to' ORDER BY date ASC" ) or die(mysqli_error($con));		
+			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' AND assigned_to = '$assigned_to' ORDER BY date ASC, priority DESC" ) or die(mysqli_error($con));		
 	}
 	else
 		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='requested' AND assigned_to = '$userId' ORDER BY date ASC" ) or die(mysqli_error($con));		
@@ -167,6 +167,10 @@ if(isset($_SESSION["user_name"]))
 					<div class="card">
 						<div class="card-header" style="background-color:#2a739e;color:#ffffff;font-family:Bookman;text-transform:uppercase;"><i class="fa fa-map-marker"></i> <?php echo $sheet['area']; if($sheet['driver_area'] > 0) echo '<font style="margin-left:10%;font-weight:bold">'.$mainAreaMap[$sheet['driver_area']].'</font>'; ?></div>
 						<div class="card-body"><?php
+							if($sheet['priority'])
+							{																																?>
+								<p style="color:#cc0000;font-size:18px;"><b><i class="fas fa-exclamation-triangle"></i> Priority Site</b></p>														<?php	
+							}																									
 							if(!empty($sheet['customer_name']))
 							{?>
 								<p><i class="fa fa-user"></i> Cust :  <?php echo $sheet['customer_name'];?>
