@@ -10,7 +10,7 @@
 	else
 		$date = date("Y-m-d");
 	
-	$drivers = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role = 'driver' ORDER BY user_id ASC") or die(mysqli_error($con));	
+	$drivers = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role = 'driver' AND active=1 AND user_name != 'Damage' ORDER BY user_id ASC") or die(mysqli_error($con));	
 ?>
 <html>
 <head>

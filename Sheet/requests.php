@@ -171,12 +171,12 @@ if(isset($_SESSION["user_name"]))
 							{																																?>
 								<p style="color:#cc0000;font-size:18px;"><b><i class="fas fa-exclamation-triangle"></i> Priority Site</b></p>														<?php	
 							}																									
-							if(!empty($sheet['customer_name']))
+							if(!empty($sheet['customer_name']) || !empty($sheet['customer_phone']))
 							{?>
 								<p><i class="fa fa-user"></i> Cust :  <?php echo $sheet['customer_name'];?>
 								, <i class="fa fa-mobile"></i> <a href="tel:<?php echo $sheet['customer_phone'];?>"><?php echo $sheet['customer_phone'];?></a></p><?php
 							}
-							if(!empty($sheet['mason_name']))
+							if(!empty($sheet['mason_name']) || !empty($sheet['mason_phone']))
 							{?>
 								<p><i class="fa fa-user"></i> Mason :  <?php echo $sheet['mason_name'];?>
 								, <i class="fa fa-mobile"></i> <a href="tel:<?php echo $sheet['mason_phone'];?>"><?php echo $sheet['mason_phone'];?></a></p><?php
