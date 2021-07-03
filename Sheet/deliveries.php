@@ -160,68 +160,70 @@ if(isset($_SESSION["user_name"]))
 		</script>		
 	</head>
 	<body>
-		<br/><br/>
 		<div align="center">
-			<h2><i class="fa fa-truck"></i> Delivered</h2><br/><?php
-			if($designation != 'driver')
-			{										?>
-				<table class="stockTable" style="width:35%">
-					<tr>
-						<th></th>
-						<th style="text-align:center">In hand</th>
-						<th style="text-align:center">To collect</th>
-						<th style="text-align:center">Pending Today</th>
-					</tr><?php
-					$totalInHand = 0;
-					$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user != $damageId") or die(mysqli_error($con));
-					foreach($stockQuery as $stock)
-					{	
-						$totalInHand = $totalInHand + $stock['qty'];																	?>
-						<tr>
-							<td><?php echo $drivers[$stock['user']];?></td>
-							<td style="text-align:center"><?php echo $stock['qty'];?></td>
-							<td style="text-align:center"><?php 
-								if(isset($driverToCollectMap[$stock['user']]))
-								{
-									echo '<font style="float:left;margin-left:10px;">'.$driverToCollectMap[$stock['user']].'</font>'; 
-									if(isset($driverLateMap[$stock['user']])) 
-										echo '<font style="float:right;color:#DC143C;margin-right:10px;">'.$driverLateMap[$stock['user']].'</font>';
-								}																										?>
-							</td>
-							<td style="text-align:center"><?php 
-								if(isset($todayPendingMap[$stock['user']])) 
-									echo $todayPendingMap[$stock['user']].' sites'; 													?>
-							</td>
-						</tr>																											<?php					
-					}																													?>
-					<tr>
-						<th></th>
-						<th style="text-align:center"><?php echo $totalInHand;?></th>
-						<th style="text-align:center"><?php echo '<font style="float:left;margin-left:10px;">'.$totalToCollect.'</font>';?></th>
-					</tr>																										
-					<tr>
-						<th>Total</th>
-						<th colspan="2" style="text-align:center"><?php echo $totalInHand + $totalToCollect;?></th>
-					</tr>																																
-				</table>
-				<br/><br/>			
-				<select name="delivered_by" id="delivered_by" onchange="document.location.href = 'deliveries.php?delivered_by=' + this.value" class="form-control col-md-2">
-					<option value = "All" <?php if($delivered_by == 'All') echo 'selected';?> >ALL</option>													    	<?php
-					foreach($users as $user)
-					{																																			?>
-						<option value="<?php echo $user['user_id'];?>" <?php if($delivered_by == $user['user_id']) echo 'selected';?>><?php echo $user['user_name'];?></option> 						<?php
-					}																																			?>
-				</select>																						<?php							
-			}
-			else
-			{																									?>
-				<font size="5"><b><?php echo $driverToCollectMap[$_SESSION['user_id']];?></b> sheets on site<br/>
-							   <b><font style="color:#DC143C"><?php echo $driverLateMap[$_SESSION['user_id']];?></font></b> sheets late to collect<br/>
-				</font>												<?php
-			}																									?>		
-			
 			<br/><br/>
-		</div>	 			
+			<h2>Delivered</h2><br/>
+			<div class="col-md-4 col-lg-4"><?php
+				if($designation != 'driver')
+				{										?>
+					<table class="stockTable" style="width:100%">
+						<tr>
+							<th></th>
+							<th style="text-align:center">In hand</th>
+							<th style="text-align:center">To collect</th>
+							<th style="text-align:center">Pend Today</th>
+						</tr><?php
+						$totalInHand = 0;
+						$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user != $damageId") or die(mysqli_error($con));
+						foreach($stockQuery as $stock)
+						{	
+							$totalInHand = $totalInHand + $stock['qty'];																	?>
+							<tr>
+								<td><?php echo $drivers[$stock['user']];?></td>
+								<td style="text-align:center"><?php echo $stock['qty'];?></td>
+								<td style="text-align:center"><?php 
+									if(isset($driverToCollectMap[$stock['user']]))
+									{
+										echo '<font style="float:left;margin-left:10px;">'.$driverToCollectMap[$stock['user']].'</font>'; 
+										if(isset($driverLateMap[$stock['user']])) 
+											echo '<font style="float:right;color:#DC143C;margin-right:10px;">'.$driverLateMap[$stock['user']].'</font>';
+									}																										?>
+								</td>
+								<td style="text-align:center"><?php 
+									if(isset($todayPendingMap[$stock['user']])) 
+										echo $todayPendingMap[$stock['user']].' sites'; 													?>
+								</td>
+							</tr>																											<?php					
+						}																													?>
+						<tr>
+							<th></th>
+							<th style="text-align:center"><?php echo $totalInHand;?></th>
+							<th style="text-align:center"><?php echo '<font style="float:left;margin-left:10px;">'.$totalToCollect.'</font>';?></th>
+						</tr>																										
+						<tr>
+							<th>Total</th>
+							<th colspan="2" style="text-align:center"><?php echo $totalInHand + $totalToCollect;?></th>
+						</tr>																																
+					</table>
+					<br/><br/>			
+					<select name="delivered_by" id="delivered_by" onchange="document.location.href = 'deliveries.php?delivered_by=' + this.value" class="form-control col-md-4 col-lg-4">
+						<option value = "All" <?php if($delivered_by == 'All') echo 'selected';?> >ALL</option>													    	<?php
+						foreach($users as $user)
+						{																																			?>
+							<option value="<?php echo $user['user_id'];?>" <?php if($delivered_by == $user['user_id']) echo 'selected';?>><?php echo $user['user_name'];?></option> 						<?php
+						}																																			?>
+					</select>																						<?php							
+				}
+				else
+				{																									?>
+					<font size="5"><b><?php echo $driverToCollectMap[$_SESSION['user_id']];?></b> sheets on site<br/>
+								   <b><font style="color:#DC143C"><?php echo $driverLateMap[$_SESSION['user_id']];?></font></b> sheets late to collect<br/>
+					</font>												<?php
+				}																									?>		
+				
+				<br/><br/>
+			</div>
+		</div>		
 		<div class="container"><?php 
 			$divId = 1;																				
 			foreach($sheets as $sheet)
