@@ -79,7 +79,6 @@ if(isset($_SESSION["user_name"]))
 						<th>Total</th>
 						<th>Delivered</th>
 						<th>Pending</th>
-						<th style="width:10px;background-color:white;border:1px solid white"></th>
 						<th>Taken</th>
 						
 					</tr>
@@ -94,7 +93,6 @@ if(isset($_SESSION["user_name"]))
 							<td><b><?php echo $status['delivered'] + $status['pending'];?></b></td>
 							<td><?php echo $status['delivered'];?></td>
 							<td><?php echo $status['pending'];?></td>
-							<td style="border:1px solid white"></td>
 							<td><?php echo $status['taken'];?></td>
 						</tr>																																	<?php							
 					}																																			?>																																								<?php
@@ -103,7 +101,6 @@ if(isset($_SESSION["user_name"]))
 						<td style="text-align:left;">GODOWN</b></td>
 						<td><b><?php echo $mainMap['31']['delivered'];?></b></td>
 						<td><?php echo $mainMap['31']['delivered'];?></td>
-						<td></td>
 						<td></td>
 						<td></td>
 					</tr>																																					

@@ -13,39 +13,78 @@ if(isset($_SESSION["user_name"]))
 		$panelId = 'mainView';   // Don't scroll
 		
 	$designation = $_SESSION['role'];	
+
+	$damageQuery = mysqli_query($con,"SELECT user_id FROM users WHERE user_name = 'Damage'" ) or die(mysqli_error($con));
+	$damageId = (int)mysqli_fetch_array($damageQuery,MYSQLI_ASSOC)['user_id'];
 	
 	$driversQuery = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role ='driver' ORDER BY user_name") or die(mysqli_error($con));
+	foreach($driversQuery as $driver)
+		$drivers[$driver['user_id']] = $driver['user_name'];
+
+	$users = mysqli_query($con,"SELECT * FROM users WHERE role ='driver' ORDER BY user_name ASC" ) or die(mysqli_error($con));
+	foreach($users as $user)
+		$userMap[$user['user_id']] = $user['user_name']; 
 	
 	if(isset($_GET['delivered_by']))
 		$delivered_by = $_GET['delivered_by'];
 	else
 		$delivered_by = 'All';
 	
-	$mainAreaQuery = mysqli_query($con,"SELECT id,name FROM sheet_area ORDER BY name") or die(mysqli_error($con));
+	$mainAreaQuery = mysqli_query($con,"SELECT id,name,driver FROM sheet_area ORDER BY name") or die(mysqli_error($con));
 	foreach($mainAreaQuery as $mainArea)
+	{
 		$mainAreaMap[$mainArea['id']] = $mainArea['name'];		
+		$areaDriverMap[$mainArea['id']] = $mainArea['driver'];
+		$driverAreaMap[$mainArea['driver']][] = $mainArea['id'];
+	}
+
+	if($designation != 'driver')
+	{
+		if($delivered_by == 'All')	
+			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' ORDER BY delivered_on ASC" ) or die(mysqli_error($con));		 	 
+		else
+			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' AND delivered_by = '$delivered_by' ORDER BY delivered_on ASC" ) or die(mysqli_error($con));		 	 																															
+	}
+	else
+	{
+		$areaIds = implode("','",$driverAreaMap[$_SESSION['user_id']]);
+		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' AND driver_area IN('$areaIds') ORDER BY delivered_on ASC" ) or die(mysqli_error($con));
+	}
+	
+	$driverToCollectMap = array();
+	$totalToCollect = 0;
+	$toCollectQuery = mysqli_query($con,"SELECT SUM(qty),driver_area FROM sheets WHERE status ='delivered' GROUP BY driver_area" ) or die(mysqli_error($con));
+	foreach($toCollectQuery as $toCollect)
+	{
+		$driver = $areaDriverMap[$toCollect['driver_area']];
+		if(!isset($driverToCollectMap[$driver]))
+			$driverToCollectMap[$driver] = $toCollect['SUM(qty)'];
+		else
+			$driverToCollectMap[$driver] = $driverToCollectMap[$driver] + $toCollect['SUM(qty)'];
+			
+		$totalToCollect = $totalToCollect + $toCollect['SUM(qty)'];
+	}
+	
+	$lateDate = date('Y-m-d',strtotime("-3 days"));
+	$driverLateMap = array();
+	$lateQuery = mysqli_query($con,"SELECT SUM(qty),driver_area FROM sheets WHERE status ='delivered' AND date < '$lateDate' GROUP BY driver_area" ) or die(mysqli_error($con));
+	foreach($lateQuery as $late)
+	{
+		$driver = $areaDriverMap[$late['driver_area']];
+		if(!isset($driverLateMap[$driver]))
+			$driverLateMap[$driver] = $late['SUM(qty)'];
+		else
+			$driverLateMap[$driver] = $driverLateMap[$driver] + $late['SUM(qty)'];
+	}	
 		
-	$users = mysqli_query($con,"SELECT * FROM users WHERE role ='driver' ORDER BY user_name ASC" ) or die(mysqli_error($con));
-	foreach($users as $user)
+	$today = date('Y-m-d');
+	$todayPendingMap = array();
+	$todayPendingQuery = mysqli_query($con,"SELECT count(id),assigned_to FROM sheets WHERE status ='requested' AND date = '$today' GROUP BY assigned_to" ) or die(mysqli_error($con));
+	foreach($todayPendingQuery as $todayPending)
 	{
-		$userMap[$user['user_id']] = $user['user_name']; 
-	}
-	
-	if($delivered_by == 'All')	
-		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' ORDER BY delivered_on ASC" ) or die(mysqli_error($con));		 	 
-	else
-		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' AND delivered_by = '$delivered_by' ORDER BY delivered_on ASC" ) or die(mysqli_error($con));		 	 
-	
-	if($delivered_by == 'All')
-	{
-		$agr = mysqli_query($con,"SELECT SUM(qty) FROM sheets WHERE status ='delivered'" ) or die(mysqli_error($con));
-		$onSite = (int)mysqli_fetch_Array($agr,MYSQLI_ASSOC)['SUM(qty)'];			
-	}		
-	else
-	{
-		$agr = mysqli_query($con,"SELECT SUM(qty) FROM sheets WHERE status ='delivered' AND delivered_by = '$delivered_by' " ) or die(mysqli_error($con));
-		$onSite = (int)mysqli_fetch_Array($agr,MYSQLI_ASSOC)['SUM(qty)'];					
-	}
+		$driver = $todayPending['assigned_to'];
+		$todayPendingMap[$driver] = $todayPending['count(id)'];
+	}	
 ?>	
 <html>
 	<head>
@@ -53,7 +92,16 @@ if(isset($_SESSION["user_name"]))
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-
+		<style>
+		.stockTable{
+			border: 1px solid black;
+			width:300px;
+		}	
+		.stockTable th,td {
+			padding: 5px;	
+			border: 1px solid black;
+		}
+		</style>
 		<script>
 			$(function() {
 				var elmnt = document.getElementById("<?php echo $panelId;?>");
@@ -114,17 +162,64 @@ if(isset($_SESSION["user_name"]))
 	<body>
 		<br/><br/>
 		<div align="center">
-			<h2><i class="fa fa-truck"></i> Delivered</h2><br/>
-			<select name="delivered_by" id="delivered_by" onchange="document.location.href = 'deliveries.php?delivered_by=' + this.value" class="form-control col-md-2">
-				<option value = "All" <?php if($delivered_by == 'All') echo 'selected';?> >ALL</option>													    	<?php
-				foreach($users as $user)
-				{																																			?>
-					<option value="<?php echo $user['user_id'];?>" <?php if($delivered_by == $user['user_id']) echo 'selected';?>><?php echo $user['user_name'];?></option> 						<?php
-				}																																			?>
-			</select>			
-		
-			<br/><br/>
-			<h2><?php echo $onSite;?> Sheets to collect</h2>
+			<h2><i class="fa fa-truck"></i> Delivered</h2><br/><?php
+			if($designation != 'driver')
+			{										?>
+				<table class="stockTable" style="width:35%">
+					<tr>
+						<th></th>
+						<th style="text-align:center">In hand</th>
+						<th style="text-align:center">To collect</th>
+						<th style="text-align:center">Pending Today</th>
+					</tr><?php
+					$totalInHand = 0;
+					$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user != $damageId") or die(mysqli_error($con));
+					foreach($stockQuery as $stock)
+					{	
+						$totalInHand = $totalInHand + $stock['qty'];																	?>
+						<tr>
+							<td><?php echo $drivers[$stock['user']];?></td>
+							<td style="text-align:center"><?php echo $stock['qty'];?></td>
+							<td style="text-align:center"><?php 
+								if(isset($driverToCollectMap[$stock['user']]))
+								{
+									echo '<font style="float:left;margin-left:10px;">'.$driverToCollectMap[$stock['user']].'</font>'; 
+									if(isset($driverLateMap[$stock['user']])) 
+										echo '<font style="float:right;color:#DC143C;margin-right:10px;">'.$driverLateMap[$stock['user']].'</font>';
+								}																										?>
+							</td>
+							<td style="text-align:center"><?php 
+								if(isset($todayPendingMap[$stock['user']])) 
+									echo $todayPendingMap[$stock['user']].' sites'; 													?>
+							</td>
+						</tr>																											<?php					
+					}																													?>
+					<tr>
+						<th></th>
+						<th style="text-align:center"><?php echo $totalInHand;?></th>
+						<th style="text-align:center"><?php echo '<font style="float:left;margin-left:10px;">'.$totalToCollect.'</font>';?></th>
+					</tr>																										
+					<tr>
+						<th>Total</th>
+						<th colspan="2" style="text-align:center"><?php echo $totalInHand + $totalToCollect;?></th>
+					</tr>																																
+				</table>
+				<br/><br/>			
+				<select name="delivered_by" id="delivered_by" onchange="document.location.href = 'deliveries.php?delivered_by=' + this.value" class="form-control col-md-2">
+					<option value = "All" <?php if($delivered_by == 'All') echo 'selected';?> >ALL</option>													    	<?php
+					foreach($users as $user)
+					{																																			?>
+						<option value="<?php echo $user['user_id'];?>" <?php if($delivered_by == $user['user_id']) echo 'selected';?>><?php echo $user['user_name'];?></option> 						<?php
+					}																																			?>
+				</select>																						<?php							
+			}
+			else
+			{																									?>
+				<font size="5"><b><?php echo $driverToCollectMap[$_SESSION['user_id']];?></b> sheets on site<br/>
+							   <b><font style="color:#DC143C"><?php echo $driverLateMap[$_SESSION['user_id']];?></font></b> sheets late to collect<br/>
+				</font>												<?php
+			}																									?>		
+			
 			<br/><br/>
 		</div>	 			
 		<div class="container"><?php 

@@ -5,22 +5,35 @@ if(isset($_SESSION['user_name']))
 {
 	require '../connect.php';
 	require 'navbar.php';
-    
-	$logs = mysqli_query($con,"SELECT * FROM transfer_logs ORDER BY transferred_on DESC") or die(mysqli_error($con));
-		
+    		
 	$users = mysqli_query($con,"SELECT * FROM users") or die(mysqli_error($con));
 	foreach($users as $user)
 		$userMap[$user['user_id']] = $user['user_name'];		
-		
-																														?>
+
+	if(isset($_POST['startDate']))
+	{
+		$startDate = date('Y-m-d',strtotime($_POST['startDate']));
+		$endDate = date('Y-m-d',strtotime($_POST['endDate']));
+	}
+	else
+	{
+		$startDate = date('Y-m-d');		
+		$endDate = date('Y-m-d');		
+	}
+
+	$endDateTime = date('Y-m-d H:i:s', strtotime($endDate . ' +1 day'));
+	
+	$logs = mysqli_query($con,"SELECT * FROM transfer_logs WHERE transferred_on >= '$startDate' AND transferred_on <= '$endDateTime' ORDER BY transferred_on DESC") or die(mysqli_error($con));									?>
 <html>
 	<head>
 		<title>Sheet transfer Logs</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 		<style>
 		.tablesorter .tablesorter-filter {
 			width: 99%;
@@ -40,6 +53,30 @@ if(isset($_SESSION['user_name']))
 		<br/><br/>		
 			<div align="center">
 				<h2><i class="fa fa-file-text"></i> Transfer Logs</i></h2><br/>
+				<form method="post" action="">
+					<div class="row" style="margin-left:35%">
+						<div style="width:220px;">
+							<div class="input-group">
+								<span class="input-group-text col-md-5"><i class="far fa-calendar-alt"></i>&nbsp;From</span>
+								<input type="text" required name="startDate" id="startDate" class="form-control datepicker" autocomplete="off" value="<?php echo date('d-m-Y',strtotime($startDate)); ?>">
+							</div>
+						</div>
+						<div style="width:220px;">
+							<div class="input-group">
+								<span class="input-group-text col-md-5"><i class="far fa-calendar-alt"></i>&nbsp;To</span>
+								<input type="text" required name="endDate" id="endDate" class="form-control datepicker" value="<?php echo date('d-m-Y',strtotime($endDate)); ?>">
+							</div>
+						</div>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<div style="width:220px;">
+							<div class="input-group">
+								<input type="submit" class="btn" style="background-color:#54698D;color:white;" value="Search">		
+							</div>
+						</div>
+					</div>
+					<br/>
+				</form>	
+				<br/><br/>				
 				<table class="table table-hover table-bordered" style="width:60%">
 					<thead>
 						<tr class="table-info">
@@ -104,6 +141,9 @@ if(isset($_SESSION['user_name']))
 					widgets: ['filter'],
 					filter_columnAnyMatch: true
 				}); 
+				
+				var pickerOpts = { dateFormat:"dd-mm-yy"}; 
+				$( ".datepicker" ).datepicker(pickerOpts);	
 			});
 		</script>
 	</body>

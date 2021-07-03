@@ -21,10 +21,13 @@ if(isset($_SESSION["user_name"]))
 	foreach($driversQuery as $driver)
 		$drivers[$driver['user_id']] = $driver['user_name'];
 		
-	$mainAreaQuery = mysqli_query($con,"SELECT id,name FROM sheet_area ORDER BY name") or die(mysqli_error($con));
+	$mainAreaQuery = mysqli_query($con,"SELECT id,name,driver FROM sheet_area ORDER BY name") or die(mysqli_error($con));
 	foreach($mainAreaQuery as $mainArea)
+	{
 		$mainAreaMap[$mainArea['id']] = $mainArea['name'];		
-	
+		$areaDriverMap[$mainArea['id']] = $mainArea['driver'];		
+	}
+		
 	if($designation != 'driver')
 	{
 		if(isset($_GET['assigned_to']))
@@ -48,17 +51,43 @@ if(isset($_SESSION["user_name"]))
 	$inHandQuery = mysqli_query($con,"SELECT SUM(qty) FROM sheets_in_hand WHERE user != $damageId" ) or die(mysqli_error($con));
 	$stockInHand = (int)mysqli_fetch_array($inHandQuery,MYSQLI_ASSOC)['SUM(qty)'];
 	
-	$agr = mysqli_query($con,"SELECT SUM(qty) FROM sheets WHERE status ='delivered' " ) or die(mysqli_error($con));
-	$onSite = (int)mysqli_fetch_Array($agr,MYSQLI_ASSOC)['SUM(qty)'];	
+	//$agr = mysqli_query($con,"SELECT SUM(qty) FROM sheets WHERE status ='delivered' " ) or die(mysqli_error($con));
+	//$onSite = (int)mysqli_fetch_Array($agr,MYSQLI_ASSOC)['SUM(qty)'];	
 	
-	$yesterday = date('Y-m-d',strtotime("-2 days"));
-	$lateAgr = mysqli_query($con,"SELECT SUM(qty),delivered_by FROM sheets WHERE status ='delivered' AND date < '$yesterday' GROUP BY delivered_by" ) or die(mysqli_error($con));
-	$lateTotal = 0;
-	foreach($lateAgr as $row)
+	$driverToCollectMap = array();
+	$totalToCollect = 0;
+	$toCollectQuery = mysqli_query($con,"SELECT SUM(qty),driver_area FROM sheets WHERE status ='delivered' GROUP BY driver_area" ) or die(mysqli_error($con));
+	foreach($toCollectQuery as $toCollect)
 	{
-		$feQtyMap[$row['delivered_by']] = $row['SUM(qty)'];
-		$lateTotal = $lateTotal + $row['SUM(qty)'];
+		$driver = $areaDriverMap[$toCollect['driver_area']];
+		if(!isset($driverToCollectMap[$driver]))
+			$driverToCollectMap[$driver] = $toCollect['SUM(qty)'];
+		else
+			$driverToCollectMap[$driver] = $driverToCollectMap[$driver] + $toCollect['SUM(qty)'];
+			
+		$totalToCollect = $totalToCollect + $toCollect['SUM(qty)'];
 	}
+	
+	$lateDate = date('Y-m-d',strtotime("-3 days"));
+	$driverLateMap = array();
+	$lateQuery = mysqli_query($con,"SELECT SUM(qty),driver_area FROM sheets WHERE status ='delivered' AND date < '$lateDate' GROUP BY driver_area" ) or die(mysqli_error($con));
+	foreach($lateQuery as $late)
+	{
+		$driver = $areaDriverMap[$late['driver_area']];
+		if(!isset($driverLateMap[$driver]))
+			$driverLateMap[$driver] = $late['SUM(qty)'];
+		else
+			$driverLateMap[$driver] = $driverLateMap[$driver] + $late['SUM(qty)'];
+	}
+	
+	$today = date('Y-m-d');
+	$todayPendingMap = array();
+	$todayPendingQuery = mysqli_query($con,"SELECT count(id),assigned_to FROM sheets WHERE status ='requested' AND date = '$today' GROUP BY assigned_to" ) or die(mysqli_error($con));
+	foreach($todayPendingQuery as $todayPending)
+	{
+		$driver = $todayPending['assigned_to'];
+		$todayPendingMap[$driver] = $todayPending['count(id)'];
+	}	
 		
 ?>	
 <html>
@@ -113,52 +142,68 @@ if(isset($_SESSION["user_name"]))
 	</head>
 	<body>
 		<div align="center">
+			<br/><br/>
 			<h2>Pending Requests</h2><br/>																																	<?php
 			if($designation != 'driver')
 			{																																							?>
-				<select name="assigned_to" id="assigned_to" onchange="document.location.href = 'requests.php?assigned_to=' + this.value" class="form-control col-md-2">
+					<table class="stockTable" style="width:35%">
+						<tr>
+							<th></th>
+							<th style="text-align:center">In hand</th>
+							<th style="text-align:center">To collect</th>
+							<th style="text-align:center">Pending Today</th>
+						</tr><?php
+						$totalInHand = 0;
+						$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user != $damageId") or die(mysqli_error($con));
+						foreach($stockQuery as $stock)
+						{	
+							$totalInHand = $totalInHand + $stock['qty'];																	?>
+							<tr>
+								<td><?php echo $drivers[$stock['user']];?></td>
+								<td style="text-align:center"><?php echo $stock['qty'];?></td>
+								<td style="text-align:center"><?php 
+									if(isset($driverToCollectMap[$stock['user']]))
+									{
+										echo '<font style="float:left;margin-left:10px;">'.$driverToCollectMap[$stock['user']].'</font>'; 
+										if(isset($driverLateMap[$stock['user']])) 
+											echo '<font style="float:right;color:#DC143C;margin-right:10px;">'.$driverLateMap[$stock['user']].'</font>';
+									}																										?>
+								</td>
+								<td style="text-align:center"><?php 
+									if(isset($todayPendingMap[$stock['user']])) 
+										echo $todayPendingMap[$stock['user']].' sites'; 													?>
+								</td>
+							</tr>																											<?php					
+						}																													?>
+						<tr>
+							<th></th>
+							<th style="text-align:center"><?php echo $totalInHand;?></th>
+							<th style="text-align:center"><?php echo '<font style="float:left;margin-left:10px;">'.$totalToCollect.'</font>';?></th>
+						</tr>																										
+						<tr>
+							<th>Total</th>
+							<th colspan="2" style="text-align:center"><?php echo $totalInHand + $totalToCollect;?></th>
+						</tr>																																
+					</table>
+					<br/><br/>
+					<select name="assigned_to" id="assigned_to" onchange="document.location.href = 'requests.php?assigned_to=' + this.value" class="form-control col-md-2">
 						<option value = "All" <?php if($assigned_to == 'All') echo 'selected';?> >ALL</option>													    	<?php
 						foreach($users as $user)
 						{																																				?>
 							<option value="<?php echo $user['assigned_to'];?>" <?php if($assigned_to == $user['assigned_to']) echo 'selected';?>><?php echo $drivers[$user['assigned_to']];?></option> 						<?php
 						}																																			?>
-					</select>			
-					<br/><br/>
-					<table class="stockTable">
-						<tr>
-							<th style="width:40%;"></th>
-							<th style="width:30%;text-align:center">In hand</th>
-							<th style="width:30%;text-align:center">Late to collect</th>
-						</tr><?php
-						$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user != $damageId ORDER BY user") or die(mysqli_error($con));
-						foreach($stockQuery as $stock)
-						{?>
-							<tr>
-								<td><?php echo $drivers[$stock['user']];?></td>
-								<td style="text-align:center"><?php echo $stock['qty'];?></td>
-								<td style="text-align:center"><?php if(isset($feQtyMap[$stock['user']])) echo $feQtyMap[$stock['user']]; else echo '0';?></td>
-							</tr>																											<?php					
-						}?>
-						<tr>
-							<td>On site</td>
-							<td style="text-align:center"><?php echo $onSite;?></td>
-						</tr>						
-						<tr>
-							<th>Total</th>
-							<th style="text-align:center"><?php echo $stockInHand + $onSite;?></th>
-							<th style="text-align:center"><?php echo $lateTotal;?></th>
-						</tr>																										
-					</table>
-					<br/><br/>																												<?php	 				
+					</select>
+					<br/><br/>					<?php	 				
 			}
 			else
 			{
 				$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user = '$userId'") or die(mysqli_error($con));
 				$stock = mysqli_fetch_array($stockQuery,MYSQLI_ASSOC);
-				echo '<b>'.$stock['qty'].' sheets in hand</b><br/><br/>';
-				$godownQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user = 31") or die(mysqli_error($con));
-				$godown = mysqli_fetch_array($godownQuery,MYSQLI_ASSOC);
-				echo '<b>'.$godown['qty'].' sheets in Godown</b><br/><br/>';				
+				echo '<b>'.$stock['qty'].' sheets in hand<br/><br/>';
+				//$godownQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user = 31") or die(mysqli_error($con));
+				//$godown = mysqli_fetch_array($godownQuery,MYSQLI_ASSOC);
+				//echo $godown['qty'].' sheets in Godown<br/><br/>';
+				echo $todayPendingMap[$userId].' sites pending today</b><br/><br/>';		
 			}				?>
 		</div>
 		<div class="container" >																											<?php 
