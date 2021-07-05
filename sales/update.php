@@ -11,7 +11,7 @@ if(isset($_SESSION["user_name"]))
 	{	
 
 		$id = $_POST['id'];
-		$result = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id='$id'") or die(mysqli_error($con));	
+		$result = mysqli_query($con,"SELECT * FROM nas_sale WHERE deleted IS NULL AND sales_id='$id'") or die(mysqli_error($con));	
 		$oldSale= mysqli_fetch_array($result,MYSQLI_ASSOC);
 		
 		$sqlDate = date("Y-m-d", strtotime($_POST["entryDate"])); 
@@ -61,7 +61,7 @@ if(isset($_SESSION["user_name"]))
 											customer_phone='$customerPhone',ar_direct=$ar_direct, locked = $locked
 									 WHERE sales_id='$id'") or die(mysqli_error($con));
 					
-		$resultNew = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id='$id'") or die(mysqli_error($con));	
+		$resultNew = mysqli_query($con,"SELECT * FROM nas_sale WHERE deleted IS NULL AND sales_id='$id'") or die(mysqli_error($con));	
 		$newSale= mysqli_fetch_array($resultNew,MYSQLI_ASSOC);					
 
 		updateUserDetails($oldSale,$newSale);

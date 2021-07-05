@@ -93,14 +93,14 @@ if(isset($_SESSION["user_name"]))
 	
 	if(isset($_GET['removeToday']) && $_GET['removeToday'] == 'true')
 	{
-		$sales = mysqli_query($con,"SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate'
+		$sales = mysqli_query($con,"SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate'
 											AND entry_date <= '$toDate' AND entry_date < CURDATE() 
 											AND ar_id IN ('$array')
 											GROUP BY ar_id")
 											or die(mysqli_error($con));												
 	}
 	else
-		$sales = mysqli_query($con,"SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate'
+		$sales = mysqli_query($con,"SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate'
 											AND entry_date <= '$toDate'
 											AND ar_id IN ('$array')
 											GROUP BY ar_id")

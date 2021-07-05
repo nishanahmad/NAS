@@ -9,7 +9,7 @@ if(isset($_SESSION["user_name"]))
 	
 	$productDetailsMap = getProductDetails($con);
 	$namesMap = getClientNames($con);
-	$salesList = mysqli_query($con, "select entry_date,ar_id,product,qty,customer_name,customer_phone,address1,remarks from nas_sale where ar_id IN (SELECT id from ar_details where type = 'Engineer') AND entry_date > '2020-12-01'" ) or die(mysqli_error($con));	
+	$salesList = mysqli_query($con, "select entry_date,ar_id,product,qty,customer_name,customer_phone,address1,remarks FROM nas_sale WHERE deleted IS NULL AND ar_id IN (SELECT id from ar_details where type = 'Engineer') AND entry_date > '2020-12-01'" ) or die(mysqli_error($con));	
   		
 ?>
 	<html>

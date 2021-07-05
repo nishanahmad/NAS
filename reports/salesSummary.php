@@ -29,16 +29,16 @@ if(isset($_SESSION["user_name"]))
 	if($product == 'all')
 	{
 		if($type == 'all')
-			$salesList = mysqli_query($con, "SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' GROUP BY ar_id" ) or die(mysqli_error($con));
+			$salesList = mysqli_query($con, "SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' GROUP BY ar_id" ) or die(mysqli_error($con));
 		else
-			$salesList = mysqli_query($con, "SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' AND ar_id IN (SELECT id FROM ar_details WHERE type = '$type') GROUP BY ar_id" ) or die(mysqli_error($con));
+			$salesList = mysqli_query($con, "SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' AND ar_id IN (SELECT id FROM ar_details WHERE type = '$type') GROUP BY ar_id" ) or die(mysqli_error($con));
 	}		
 	else
 	{
 		if($type == 'all')
-			$salesList = mysqli_query($con, "SELECT ar_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' AND product = $product GROUP BY ar_id,product" ) or die(mysqli_error($con));
+			$salesList = mysqli_query($con, "SELECT ar_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' AND product = $product GROUP BY ar_id,product" ) or die(mysqli_error($con));
 		else
-			$salesList = mysqli_query($con, "SELECT ar_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' AND product = $product AND ar_id IN (SELECT id FROM ar_details WHERE type = '$type') GROUP BY ar_id,product" ) or die(mysqli_error($con));
+			$salesList = mysqli_query($con, "SELECT ar_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' AND product = $product AND ar_id IN (SELECT id FROM ar_details WHERE type = '$type') GROUP BY ar_id,product" ) or die(mysqli_error($con));
 	}
 		
 

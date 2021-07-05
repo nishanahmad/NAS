@@ -39,7 +39,7 @@ if(isset($_SESSION["user_name"]))
 	$billedCount = 0;
 	$unbilledCount = 0;
 	$today = date('Y-m-d');
-	$todaySales = mysqli_query($con, "SELECT * FROM nas_sale WHERE entry_date = '$today'") or die(mysqli_error($con));
+	$todaySales = mysqli_query($con, "SELECT * FROM nas_sale WHERE deleted IS NULL AND entry_date = '$today'") or die(mysqli_error($con));
 	foreach($todaySales as $sale)
 	{
 		if( fnmatch("B*",$sale['bill_no']) || fnmatch("C*",$sale['bill_no']) || fnmatch("GB*",$sale['bill_no']) || fnmatch("GC*",$sale['bill_no']) || fnmatch("PB*",$sale['bill_no']) || fnmatch("PC*",$sale['bill_no']))
@@ -76,23 +76,23 @@ if(isset($_SESSION["user_name"]))
 	$week4 = getWeekMonSat(-1);
 	$week5 = getWeekMonSat(0);
 	
-	$query1 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week1['Mon']."' AND entry_date <='".$week1['Sat']."'") or die(mysqli_error($con));		
+	$query1 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE deleted IS NULL AND entry_date >='".$week1['Mon']."' AND entry_date <='".$week1['Sat']."'") or die(mysqli_error($con));		
 	$sum1 = (int)mysqli_fetch_array($query1, MYSQLI_ASSOC);
 
-	$query2 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week2['Mon']."' AND entry_date <='".$week2['Sat']."'") or die(mysqli_error($con));		
+	$query2 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE deleted IS NULL AND entry_date >='".$week2['Mon']."' AND entry_date <='".$week2['Sat']."'") or die(mysqli_error($con));		
 	$sum2 = (int)mysqli_fetch_array($query2, MYSQLI_ASSOC);
 
-	$query3 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week3['Mon']."' AND entry_date <='".$week3['Sat']."'") or die(mysqli_error($con));		
+	$query3 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE deleted IS NULL AND entry_date >='".$week3['Mon']."' AND entry_date <='".$week3['Sat']."'") or die(mysqli_error($con));		
 	$sum3 = (int)mysqli_fetch_array($query3, MYSQLI_ASSOC);
 
-	$query4 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week4['Mon']."' AND entry_date <='".$week4['Sat']."'") or die(mysqli_error($con));		
+	$query4 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE deleted IS NULL AND entry_date >='".$week4['Mon']."' AND entry_date <='".$week4['Sat']."'") or die(mysqli_error($con));		
 	$sum4 = (int)mysqli_fetch_array($query4, MYSQLI_ASSOC);
 
-	$query5 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week5['Mon']."' AND entry_date <='".$week5['Sat']."'") or die(mysqli_error($con));		
+	$query5 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE deleted IS NULL AND entry_date >='".$week5['Mon']."' AND entry_date <='".$week5['Sat']."'") or die(mysqli_error($con));		
 	$sum5 = (int)mysqli_fetch_array($query5, MYSQLI_ASSOC);																																						
 
 	$today = date('Y-m-d');	
-	$sql = "SELECT * FROM nas_sale WHERE entry_date = '$today' ORDER BY bill_no ASC";
+	$sql = "SELECT * FROM nas_sale WHERE deleted IS NULL AND entry_date = '$today' ORDER BY bill_no ASC";
 	
 	?>
 
@@ -121,7 +121,7 @@ if(isset($_SESSION["user_name"]))
 									if(getForwardStatus($unlocked['sale'],$con) == null)
 									{
 										$id = $unlocked['sale'];
-										$query = mysqli_query($con, "SELECT * FROM nas_sale WHERE sales_id = $id") or die(mysqli_error($con));
+										$query = mysqli_query($con, "SELECT * FROM nas_sale WHERE deleted IS NULL AND sales_id = $id") or die(mysqli_error($con));
 										$sale = mysqli_fetch_array($query, MYSQLI_ASSOC);																							?>
 										<a class="card list-group-item list-group-item-action" href="../reports/tallyVerification.php?date=<?php echo $sale['entry_date'];?>">
 											<h3><?php echo $sale['bill_no'];?></h3>
@@ -143,7 +143,7 @@ if(isset($_SESSION["user_name"]))
 								foreach($forwardedList as $forward)
 								{
 									$id = $forward['sale'];
-									$query = mysqli_query($con, "SELECT * FROM nas_sale WHERE sales_id = $id") or die(mysqli_error($con));
+									$query = mysqli_query($con, "SELECT * FROM nas_sale WHERE deleted IS NULL AND sales_id = $id") or die(mysqli_error($con));
 									$sale = mysqli_fetch_array($query, MYSQLI_ASSOC);																							?>
 									<div class="card list-group-item list-group-item-action" href="../reports/tallyVerification.php?date=<?php echo $sale['entry_date'];?>">
 										<h3><a href="../sales/edit.php?sales_id=<?php echo $sale['sales_id'];?>&range=Today&sql=<?php echo $sql;?>"><?php echo $sale['bill_no'];?></a></h3>
@@ -177,7 +177,7 @@ if(isset($_SESSION["user_name"]))
 												$holdings = mysqli_query($con,"SELECT * FROM holdings WHERE cleared_sale IS NULL") or die(mysqli_error($con));
 												foreach($holdings as $holding)
 												{
-													$saleQuery = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id = ".$holding['returned_sale']) or die(mysqli_error($con));
+													$saleQuery = mysqli_query($con,"SELECT * FROM nas_sale WHERE deleted IS NULL AND sales_id = ".$holding['returned_sale']) or die(mysqli_error($con));
 													$sale = mysqli_fetch_array($saleQuery, MYSQLI_ASSOC);
 													?>
 													<tr>

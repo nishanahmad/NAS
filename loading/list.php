@@ -20,7 +20,7 @@ if(isset($_SESSION["user_name"]))
 		$date = date('Y-m-d');
 		
 	$sales = array();
-	$salesQuery = mysqli_query($con,"SELECT * FROM nas_sale WHERE entry_date = '$date' AND (bill_no LIKE 'BB%' OR bill_no LIKE 'BC%' OR bill_no LIKE 'GB%' OR bill_no LIKE 'GC%' OR bill_no LIKE 'PB%' OR bill_no LIKE 'PC%')") or die(mysqli_error($con));
+	$salesQuery = mysqli_query($con,"SELECT * FROM nas_sale WHERE deleted IS NULL AND entry_date = '$date' AND (bill_no LIKE 'BB%' OR bill_no LIKE 'BC%' OR bill_no LIKE 'GB%' OR bill_no LIKE 'GC%' OR bill_no LIKE 'PB%' OR bill_no LIKE 'PC%')") or die(mysqli_error($con));
 	foreach($salesQuery as $sale)
 	{
 		$sales[$sale['sales_id']] = $sale;
@@ -39,7 +39,7 @@ if(isset($_SESSION["user_name"]))
 	$pendingList = mysqli_query($con,"SELECT * FROM loading WHERE status = 'pending' ORDER BY date ASC,time ASC") or die(mysqli_error($con));
 
 	$godownQtyMap = array();
-	$godownQtyQuery = mysqli_query($con,"SELECT SUM(qty),godown FROM nas_sale WHERE entry_date = '$date' AND (bill_no LIKE 'BB%' OR bill_no LIKE 'BC%' OR bill_no LIKE 'GB%' OR bill_no LIKE 'GC%' OR bill_no LIKE 'PB%' OR bill_no LIKE 'PC%') GROUP BY godown") or die(mysqli_error($con));
+	$godownQtyQuery = mysqli_query($con,"SELECT SUM(qty),godown FROM nas_sale WHERE deleted IS NULL AND entry_date = '$date' AND (bill_no LIKE 'BB%' OR bill_no LIKE 'BC%' OR bill_no LIKE 'GB%' OR bill_no LIKE 'GC%' OR bill_no LIKE 'PB%' OR bill_no LIKE 'PC%') GROUP BY godown") or die(mysqli_error($con));
 	foreach($godownQtyQuery as $sale)
 	{
 		$godownQtyMap[$sale['godown']] = $sale['SUM(qty)'];

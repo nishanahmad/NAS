@@ -8,7 +8,7 @@ if(isset($_SESSION["user_name"]))
 	$urlsql = $_GET['sql'];
 	$urlrange = $_GET['range'];
 	
-	$result = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
+	$result = mysqli_query($con,"SELECT * FROM nas_sale WHERE deleted IS NULL AND sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	
 	$row= mysqli_fetch_array($result,MYSQLI_ASSOC);
 	
 	$sheetQuery = mysqli_query($con,"SELECT * FROM sheets WHERE site='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));	

@@ -27,25 +27,25 @@ if(isset($_SESSION["user_name"]))
 	$week4 = getWeekMonSat(-1);
 	$week5 = getWeekMonSat(0);
 	
-	$query1 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week1['Mon']."' AND entry_date <='".$week1['Sat']."'") or die(mysqli_error($con));		
+	$query1 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE deleted IS NULL AND entry_date >='".$week1['Mon']."' AND entry_date <='".$week1['Sat']."'") or die(mysqli_error($con));		
 	$sum1 = (int)mysqli_fetch_array($query1, MYSQLI_ASSOC);
 
-	$query2 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week2['Mon']."' AND entry_date <='".$week2['Sat']."'") or die(mysqli_error($con));		
+	$query2 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE deleted IS NULL AND entry_date >='".$week2['Mon']."' AND entry_date <='".$week2['Sat']."'") or die(mysqli_error($con));		
 	$sum2 = (int)mysqli_fetch_array($query2, MYSQLI_ASSOC);
 
-	$query3 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week3['Mon']."' AND entry_date <='".$week3['Sat']."'") or die(mysqli_error($con));		
+	$query3 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE deleted IS NULL AND entry_date >='".$week3['Mon']."' AND entry_date <='".$week3['Sat']."'") or die(mysqli_error($con));		
 	$sum3 = (int)mysqli_fetch_array($query3, MYSQLI_ASSOC);
 
-	$query4 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week4['Mon']."' AND entry_date <='".$week4['Sat']."'") or die(mysqli_error($con));		
+	$query4 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE deleted IS NULL AND entry_date >='".$week4['Mon']."' AND entry_date <='".$week4['Sat']."'") or die(mysqli_error($con));		
 	$sum4 = (int)mysqli_fetch_array($query4, MYSQLI_ASSOC);
 
-	$query5 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE entry_date >='".$week5['Mon']."' AND entry_date <='".$week5['Sat']."'") or die(mysqli_error($con));		
+	$query5 = mysqli_query($con,"SELECT SUM(qty) FROM nas_sale WHERE deleted IS NULL AND entry_date >='".$week5['Mon']."' AND entry_date <='".$week5['Sat']."'") or die(mysqli_error($con));		
 	$sum5 = (int)mysqli_fetch_array($query5, MYSQLI_ASSOC);																																						
 	
     $arr=[$sum1, $sum2, $sum3, $sum4, $sum5];
 	
 	$today = date('Y-m-d');	
-	$sql = "SELECT * FROM nas_sale WHERE entry_date = '$today' ORDER BY bill_no ASC";																									?>
+	$sql = "SELECT * FROM nas_sale WHERE deleted IS NULL AND entry_date = '$today' ORDER BY bill_no ASC";																									?>
 	
 <head>
     <meta charset="utf-8">

@@ -51,7 +51,7 @@ function getSaleList($product,$startDate,$endDate,$con)
 	$db = $database->getConnection();	
 	
 	$saleList = array();
-	$saleQuery = "SELECT * FROM nas_sale WHERE product = $product AND entry_date >= '$startDate' AND entry_date <= '$endDate' ORDER BY entry_date ASC";
+	$saleQuery = "SELECT * FROM nas_sale WHERE deleted IS NULL AND product = $product AND entry_date >= '$startDate' AND entry_date <= '$endDate' ORDER BY entry_date ASC";
 	$sales = mysqli_query($con,$saleQuery) or die(mysqli_error($con));				 	 
 	foreach($sales as $sale)
 	{

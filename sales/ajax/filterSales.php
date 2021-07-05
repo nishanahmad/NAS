@@ -1,7 +1,7 @@
 <?php
 	require '../../connect.php';
 	
-	$sql = "SELECT * FROM nas_sale WHERE 1 = 1";
+	$sql = "SELECT * FROM nas_sale WHERE deleted IS NULL";
 	if(!empty($_POST['startDate']))
 	{
 		$startDate = date('Y-m-d',strtotime($_POST['startDate']));

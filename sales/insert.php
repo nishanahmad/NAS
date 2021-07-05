@@ -69,7 +69,7 @@ if(isset($_SESSION["user_name"]))
 		}
 	}
 	
-	$newSaleSql = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id = $saleId") or die(mysqli_error($con));
+	$newSaleSql = mysqli_query($con,"SELECT * FROM nas_sale WHERE deleted IS NULL AND sales_id = $saleId") or die(mysqli_error($con));
 	$newSale = mysqli_fetch_array($newSaleSql, MYSQLI_ASSOC);
 	clearPendingTruck(null,$newSale,$con);
 	

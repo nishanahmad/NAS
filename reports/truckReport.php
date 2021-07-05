@@ -19,7 +19,7 @@ if(isset($_SESSION["user_name"]))
 		$toDate = date("Y-m-d");		
 	
 
-	$salesList = mysqli_query($con, "SELECT * FROM nas_sale WHERE entry_date >= '$fromDate' AND entry_date <= '$toDate' ORDER BY entry_date") or die(mysqli_error($con));
+	$salesList = mysqli_query($con, "SELECT * FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' ORDER BY entry_date") or die(mysqli_error($con));
 			
 	if($_POST)
 	{

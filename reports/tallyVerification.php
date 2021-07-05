@@ -62,7 +62,7 @@ if(isset($_SESSION["user_name"]))
 	foreach($userObjects as $user)
 		$userMap[$user['user_id']] = $user['user_name'];
 		
-	$salesList = mysqli_query($con, "SELECT * FROM nas_sale WHERE entry_date = '$date' ORDER BY bill_no ASC" ) or die(mysqli_error($con));
+	$salesList = mysqli_query($con, "SELECT * FROM nas_sale WHERE deleted IS NULL AND entry_date = '$date' ORDER BY bill_no ASC" ) or die(mysqli_error($con));
 	
 	if(isset($_POST['date']))
 	{
