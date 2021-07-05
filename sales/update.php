@@ -50,11 +50,15 @@ if(isset($_SESSION["user_name"]))
 		if(empty($godown))
 			$godown = null;	
 		
+		if( fnmatch("B*",$bill) || fnmatch("C*",$bill) || fnmatch("GB*",$bill) || fnmatch("GC*",$bill) || fnmatch("PB*",$bill) || fnmatch("PC*",$bill))
+			$locked = 1;
+		else	
+			$locked = 0;
 		
 		$update = mysqli_query($con,"UPDATE nas_sale SET entry_date='$sqlDate', ar_id='$arId', eng_id = ".var_export($engId, true).", truck=".var_export($truck, true).",
 											bill_no='$bill',order_no = ".var_export($order_no, true).",product='$product',qty='$qty',godown=".var_export($godown, true).",
 											discount=".var_export($discount, true).",remarks='$remarks',address1='$address1',customer_name='$customerName', 
-											customer_phone='$customerPhone',ar_direct=$ar_direct
+											customer_phone='$customerPhone',ar_direct=$ar_direct, locked = $locked
 									 WHERE sales_id='$id'") or die(mysqli_error($con));
 					
 		$resultNew = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id='$id'") or die(mysqli_error($con));	

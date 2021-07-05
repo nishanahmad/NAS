@@ -40,10 +40,16 @@ if(isset($_SESSION["user_name"]))
 
 	if($designation != 'driver')
 	{
-		if($delivered_by == 'All')	
+		if($delivered_by == 'All')
+		{
 			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' ORDER BY delivered_on ASC" ) or die(mysqli_error($con));		 	 
+		}		
 		else
-			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' AND delivered_by = '$delivered_by' ORDER BY delivered_on ASC" ) or die(mysqli_error($con));		 	 																															
+		{
+			$areaIds = implode("','",$driverAreaMap[$delivered_by]);
+			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' AND driver_area IN('$areaIds') ORDER BY delivered_on ASC" ) or die(mysqli_error($con));		 	 																															
+		}
+			
 	}
 	else
 	{
@@ -206,11 +212,14 @@ if(isset($_SESSION["user_name"]))
 						</tr>																																
 					</table>
 					<br/><br/>			
-					<select name="delivered_by" id="delivered_by" onchange="document.location.href = 'deliveries.php?delivered_by=' + this.value" class="form-control col-md-4 col-lg-4">
+					<select name="delivered_by" id="delivered_by" onchange="document.location.href = 'deliveries.php?delivered_by=' + this.value" class="form-control col-md-6 col-lg-6">
 						<option value = "All" <?php if($delivered_by == 'All') echo 'selected';?> >ALL</option>													    	<?php
 						foreach($users as $user)
-						{																																			?>
-							<option value="<?php echo $user['user_id'];?>" <?php if($delivered_by == $user['user_id']) echo 'selected';?>><?php echo $user['user_name'];?></option> 						<?php
+						{
+							if($user['user_id'] != '31' && $user['user_id'] != '38')
+							{																								?>
+								<option value="<?php echo $user['user_id'];?>" <?php if($delivered_by == $user['user_id']) echo 'selected';?>><?php echo $user['user_name'];?></option> 						<?php								
+							}
 						}																																			?>
 					</select>																						<?php							
 				}

@@ -44,9 +44,14 @@ if(isset($_SESSION["user_name"]))
 	if(empty($godown))
 		$godown = null;			
 	
-	$sql="INSERT INTO nas_sale (entry_date, ar_id, eng_id, truck, godown, order_no, product, qty, discount, remarks, bill_no, customer_name, customer_phone, ar_direct, address1,entered_by,entered_on)
+	if( fnmatch("B*",$bill) || fnmatch("C*",$bill) || fnmatch("GB*",$bill) || fnmatch("GC*",$bill) || fnmatch("PB*",$bill) || fnmatch("PC*",$bill))
+		$locked = 1;
+	else	
+		$locked = 0;
+			
+	$sql="INSERT INTO nas_sale (entry_date, ar_id, eng_id, truck, godown, order_no, product, qty, discount, remarks, bill_no, customer_name, customer_phone, ar_direct, address1, entered_by, entered_on, locked)
 		 VALUES
-		 ('$sqlDate', '$arId', ".var_export($engId, true).", ".var_export($truck, true).", ".var_export($godown, true).", ".var_export($order_no, true).",'$product', '$qty',".var_export($discount, true).", '$remarks', '$bill', '$customerName', '$customerPhone', $ar_direct, '$address1', '$entered_by', '$entered_on')";
+		 ('$sqlDate', '$arId', ".var_export($engId, true).", ".var_export($truck, true).", ".var_export($godown, true).", ".var_export($order_no, true).",'$product', '$qty',".var_export($discount, true).", '$remarks', '$bill', '$customerName', '$customerPhone', $ar_direct, '$address1', '$entered_by', '$entered_on', $locked)";
 
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));
 	

@@ -52,8 +52,7 @@ if(isset($_SESSION["user_name"]))
 	$holdings = mysqli_query($con,"SELECT * FROM holdings WHERE returned_sale =".$row['sales_id']." OR cleared_sale =".$row['sales_id']) or die(mysqli_error($con));
 	
 	$unlocked = true;
-	$lockedQuery = mysqli_query($con,"SELECT * FROM lock_sale WHERE sale =".$row['sales_id']) or die(mysqli_error($con));
-	if(mysqli_num_rows($lockedQuery) > 0)
+	if($row['locked'])
 		$unlocked = false;																																								?>
 	
 	
