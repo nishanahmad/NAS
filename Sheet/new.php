@@ -22,10 +22,14 @@ if(isset($_SESSION["user_name"]))
 				var x = document.getElementById("snackbar");
 				x.className = "show";
 				setTimeout(function(){ x.className = x.className.replace("show", ""); }, 2000);					
-			}		
+			}	
+
+			$("#driver_area").select2();			
 		});
 	</script>	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"/>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>			
 	<title>Sheet Request New</title>
 	</head>
 	<body>

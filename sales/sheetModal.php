@@ -104,7 +104,7 @@ if(isset($_SESSION["user_name"]))
 						<div class="col col-md-6 offset-1">
 							<div class="input-group mb-3">
 								<span class="input-group-text" style="width:27%"><i class="fa fa-map-o"></i>&nbsp;Area</span>
-								<select name="driver_area" required id="driver_area" class="form-control">
+								<select name="driver_area" required id="driver_area" class="form-control" style="width:250px;">
 									<option value="">--- SELECT ---</option>								<?php
 									foreach($areaList as $area) 
 									{																										?>
