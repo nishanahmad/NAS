@@ -88,7 +88,6 @@ if(isset($_SESSION["user_name"]))
 		$driver = $todayPending['assigned_to'];
 		$todayPendingMap[$driver] = $todayPending['count(id)'];
 	}	
-	var_dump($todayPendingMap);	
 ?>	
 <html>
 	<style>
@@ -205,7 +204,7 @@ if(isset($_SESSION["user_name"]))
 					//$godownQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user = 31") or die(mysqli_error($con));
 					//$godown = mysqli_fetch_array($godownQuery,MYSQLI_ASSOC);
 					//echo $godown['qty'].' sheets in Godown<br/><br/>';
-					echo $todayPendingMap[$userId].' sites pending today</b><br/><br/>';		
+					if(isset($todayPendingMap[$userId])) echo $todayPendingMap[$userId].' sites pending today</b><br/><br/>';
 				}				?>
 			</div>
 		</div>	
