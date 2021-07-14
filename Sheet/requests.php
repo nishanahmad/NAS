@@ -88,7 +88,7 @@ if(isset($_SESSION["user_name"]))
 		$driver = $todayPending['assigned_to'];
 		$todayPendingMap[$driver] = $todayPending['count(id)'];
 	}	
-		
+	var_dump($todayPendingMap);	
 ?>	
 <html>
 	<style>
