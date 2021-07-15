@@ -63,7 +63,7 @@ if(isset($_SESSION["user_name"]))
 						<div class="col col-md-10 col-sm-12">
 							<div class="input-group mb-3">
 								<span class="input-group-text col-md-4 col-sm-3"><i class="far fa-calendar-alt"></i>&nbsp;Date</span>
-								<input name="delivered_on" type="text" class="feedback-input" placeholder="Date" class="form-control datepicker" value="<?php echo date("d-m-Y",strtotime($request['delivered_on']));?>"/>
+								<input name="delivered_on" type="text" class="feedback-input" placeholder="Date" class="form-control datepicker" value="<?php echo date("d-m-Y",strtotime($request['date']));?>"/>
 							</div>
 						</div>																																							<?php
 					}																																									?>								
