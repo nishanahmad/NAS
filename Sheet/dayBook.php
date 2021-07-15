@@ -26,7 +26,7 @@ if(isset($_SESSION["user_name"]))
 		
 		$driverId = $driver['user_id'];
 		
-		$agr1 = mysqli_query($con,"SELECT count(id) FROM sheets WHERE delivered_on ='$date' AND delivered_by = $driverId" ) or die(mysqli_error($con));
+		$agr1 = mysqli_query($con,"SELECT count(id) FROM sheets WHERE date ='$date' AND delivered_by = $driverId" ) or die(mysqli_error($con));
 		$delivered = (int)mysqli_fetch_Array($agr1,MYSQLI_ASSOC)['count(id)'];
 
 		$agr2 = mysqli_query($con,"SELECT count(id) FROM sheets WHERE date ='$date' AND assigned_to = $driverId AND status ='requested'" ) or die(mysqli_error($con));
