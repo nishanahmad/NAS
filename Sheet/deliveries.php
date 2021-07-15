@@ -42,19 +42,19 @@ if(isset($_SESSION["user_name"]))
 	{
 		if($delivered_by == 'All')
 		{
-			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' ORDER BY delivered_on ASC" ) or die(mysqli_error($con));		 	 
+			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' ORDER BY date ASC" ) or die(mysqli_error($con));		 	 
 		}		
 		else
 		{
 			$areaIds = implode("','",$driverAreaMap[$delivered_by]);
-			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' AND driver_area IN('$areaIds') ORDER BY delivered_on ASC" ) or die(mysqli_error($con));		 	 																															
+			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' AND driver_area IN('$areaIds') ORDER BY date ASC" ) or die(mysqli_error($con));		 	 																															
 		}
 			
 	}
 	else
 	{
 		$areaIds = implode("','",$driverAreaMap[$_SESSION['user_id']]);
-		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' AND driver_area IN('$areaIds') ORDER BY delivered_on ASC" ) or die(mysqli_error($con));
+		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' AND driver_area IN('$areaIds') ORDER BY date ASC" ) or die(mysqli_error($con));
 	}
 	
 	$driverToCollectMap = array();
