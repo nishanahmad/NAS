@@ -7,20 +7,38 @@ session_start();
 if(isset($_SESSION["user_name"]))
 {
 	$sqlDate = date("Y-m-d");
-	$id = $_GET['id'];
-	$closed_by = (int)$_GET['driver'];
-	$panelId = 'panel'.$_GET['panelId'];
+	$id = $_POST['closeIdhidden'];
+	$qty = (int)$_POST['qty'];
+	
+	if(isset($_POST['driverId']))
+		$closed_by = (int)$_POST['driverId'];
+	else
+		$closed_by = (int)$_SESSION['user_id'];
+	
+	//$panelId = 'panel'.$_GET['panelId'];
 
 	$sheet = mysqli_query($con,"SELECT * FROM sheets WHERE id=$id ") or die(mysqli_error($con));
-	$qty = (int)mysqli_fetch_array($sheet,MYSQLI_ASSOC)['qty'];
+	$originalQty = (int)mysqli_fetch_array($sheet,MYSQLI_ASSOC)['qty'];
+
+	if($qty == $originalQty)
+	{
+		$updateQuery = mysqli_query($con,"UPDATE sheets SET status ='closed', closed_on='$sqlDate', closed_by = $closed_by WHERE id=$id ") or die(mysqli_error($con));	
+	}
+	else if($qty < $originalQty)
+	{
+		$diff = $originalQty - $qty;
+		$updateQuery = mysqli_query($con,"UPDATE sheets SET qty = $diff WHERE id=$id ") or die(mysqli_error($con));	
+	}
+	else
+	{
+		echo 'Error !!!!';
+		exit;
+	}
+	
 
 
-	$updateQuery = mysqli_query($con,"UPDATE sheets SET status ='closed', closed_on='$sqlDate', closed_by = $closed_by WHERE id=$id ") or die(mysqli_error($con));
-
-
-
+	
 	/********************				UPDATE SHEETS IN HAND FOR THE USER				********************/
-
 	$selectUser = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user=$closed_by ") or die(mysqli_error($con));
 	
 	if(mysqli_num_rows($selectUser) > 0)
@@ -40,7 +58,7 @@ if(isset($_SESSION["user_name"]))
 
 	$insertLogs = mysqli_query($con, "INSERT INTO transfer_logs (user_to, qty, transferred_on, transferred_by, toStock, site) VALUES ('$closed_by', '$qty', '$transferred_on', '$transferred_by', '$toStock', '$id')") or die(mysqli_error($con));	
 
-	header( "Location: deliveries.php?panelId=$panelId");
+	header( "Location: deliveries.php?");
 }
 else
 	header( "Location: ../index.php" );

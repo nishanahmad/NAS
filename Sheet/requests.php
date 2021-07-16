@@ -200,7 +200,7 @@ if(isset($_SESSION["user_name"]))
 				{
 					$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user = '$userId'") or die(mysqli_error($con));
 					$stock = mysqli_fetch_array($stockQuery,MYSQLI_ASSOC);
-					echo '<b>'.$stock['qty'].' sheets in hand<br/><br/>';
+					echo '<b>'.$stock['qty'].'</b> sheets in hand<br/><br/>';
 					//$godownQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user = 31") or die(mysqli_error($con));
 					//$godown = mysqli_fetch_array($godownQuery,MYSQLI_ASSOC);
 					//echo $godown['qty'].' sheets in Godown<br/><br/>';
@@ -281,7 +281,7 @@ if(isset($_SESSION["user_name"]))
 		</div>
 		<script>
 
-			$(function(){	
+			$(function(){
 
 				var menu = $('.menu-navigation-dark');
 

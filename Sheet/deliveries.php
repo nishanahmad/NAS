@@ -6,6 +6,7 @@ if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';	
 	require 'navbar.php';	
+	require 'closeModal.php';	
 	
 	if(isset($_GET['panelId']))
 		$panelId = $_GET['panelId'];
@@ -108,62 +109,6 @@ if(isset($_SESSION["user_name"]))
 			border: 1px solid black;
 		}
 		</style>
-		<script>
-			$(function() {
-				var elmnt = document.getElementById("<?php echo $panelId;?>");
-				elmnt.scrollIntoView();					
-			});
-		
-			function closeRequest(id,divId){
-				var designation = "<?php echo $designation;?>";
-				if(designation != 'driver')
-				{
-					var arr1 = [];
-					<?php
-					foreach($driversQuery as $driver)
-					{?>
-						arr1.push({text:"<?php echo $driver['user_name'];?>", value:"<?php echo $driver['user_id'];?>"});<?php
-					}?>						
-					bootbox.prompt({
-						title: "Select the driver",
-						inputType: 'select',
-						inputOptions: arr1,
-						callback: function (result) {
-							if(result)
-							{
-								driver = result;
-								hrf = 'close.php?';
-								window.location.href = hrf +"id="+ id + "&driver=" + driver;		
-							}
-						}
-					});				
-				}
-				else
-				{
-					driver = "<?php echo $_SESSION["user_id"];?>";
-					bootbox.confirm({
-						title: "Confirm?",
-						message: "Sheets will be added to stock.",
-						buttons: {
-							confirm: {
-								label: '<i class="fa fa-check"></i> Confirm'
-							},							
-							cancel: {
-								label: '<i class="fa fa-times"></i> Cancel'
-							}
-						},
-						callback: function (result) {
-							if(result)
-							{
-								hrf = 'close.php?';
-								divId = divId - 1;
-								window.location.href = hrf +"id="+ id + "&driver=" + driver + "&panelId=" + divId;		
-							}
-						}
-					});		
-				}
-			}
-		</script>		
 	</head>
 	<body>
 		<div align="center">
@@ -271,8 +216,8 @@ if(isset($_SESSION["user_name"]))
 							</p>
 							<br/>
 							<div align="center">
-								<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn" style="color:#ffffff;background-color:e1be5c;width:100px;"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;								
-								<button class="btn" style="color:#ffffff;background-color:7dc37d;width:100px;" onclick="closeRequest(<?php echo $sheet['id'];?>,<?php echo $divId;?>)"> <i class="fas fa-check"></i> Close</button>				
+								<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn" style="color:#ffffff;background-color:e1be5c;width:100px;"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;
+								<button class="btn closeId" style="color:#ffffff;background-color:7dc37d;width:100px;" data-id="<?php echo $sheet['id'];?>" data-closeqty="<?php echo $sheet['qty'];?>" data-toggle="modal" data-target="#closeModal"><i class="fas fa-check"></i> Close</button>
 							</div>
 						</div>
 					</div>
@@ -296,6 +241,13 @@ if(isset($_SESSION["user_name"]))
 					a.siblings().removeClass('selected');
 					a.addClass('selected');
 				});
+				
+				$('.closeId').click(function(){
+					var closeId = $(this).data('id');
+					var closeqty = $(this).data('closeqty');
+					$("#closeIdhidden").val(closeId);
+					$("#qty").val(closeqty);
+				});					
 			});
 
 		</script>				

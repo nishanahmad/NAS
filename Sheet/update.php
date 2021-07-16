@@ -59,8 +59,8 @@ if(isset($_SESSION["user_name"]))
 		
 		if(isset($_POST['delivered_on']))
 		{
-			$delivered_on = date("Y-m-d",strtotime($_POST['delivered_on']));
-			$update = mysqli_query($con,"UPDATE sheets SET delivered_on='$delivered_on' WHERE id=$id") or die(mysqli_error($con));	
+			$sqlDate = date("Y-m-d",strtotime($_POST['delivered_on']));
+			$update = mysqli_query($con,"UPDATE sheets SET date='$sqlDate' WHERE id=$id") or die(mysqli_error($con));	
 		}				
 			
 		
