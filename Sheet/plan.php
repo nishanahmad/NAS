@@ -11,6 +11,10 @@
 		$date = date("Y-m-d");
 	
 	$drivers = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role = 'driver' AND active=1 AND user_name != 'Damage' ORDER BY user_id ASC") or die(mysqli_error($con));	
+	
+	$areas = mysqli_query($con,"SELECT id,name FROM sheet_area") or die(mysqli_error($con));
+	foreach($areas as $area)
+		$areaMap[$area['id']] = $area['name']
 ?>
 <html>
 <head>
@@ -120,7 +124,7 @@
 			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE assigned_to = 0 AND date = '$date' AND status = 'requested' ORDER BY requested_by") or die(mysqli_error($con));
 			foreach ($sheets as $sheet) 
 			{
-				$card = displayCard($sheet)																									?>
+				$card = displayCard($sheet,$areaMap)																									?>
 				<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet['id']; ?>"><?php echo $card;?></li>				<?php
 			}																																?>
 			</ul>
@@ -136,7 +140,7 @@
 				<ul class="sortable ui-sortable" id="sort<?php echo $driverId; ?>" data-driver-id="<?php echo $driver['user_id']; ?>"><?php
 				foreach ($sheets as $sheet) 
 				{
-					$card = displayCard($sheet)																									?>
+					$card = displayCard($sheet,$areaMap)																									?>
 					<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet['id']; ?>"><?php echo $card;?></li>				<?php
 				}																																?>
 				</ul>

@@ -1,7 +1,8 @@
 <?php
-function displayCard($sheet)
+function displayCard($sheet,$areaMap)
 {
-	$card = $sheet['area'].'<br/>';
+	$card = '<b>'.$areaMap[$sheet['driver_area']].'</b><br/>';
+	$card = $card.$sheet['area'].'<br/>';
 	$card = $card.$sheet['customer_name'].', '.$sheet['customer_phone'].'<br/><b>';
 	$card = $card.$sheet['bags'].' bags<br/>';
 	$card = $card.$sheet['requested_by'].'<br/>';

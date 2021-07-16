@@ -138,6 +138,6 @@ if (strpos($url, 'dayBook') !== false)
 			{																									?>				
 				<a href="transfer_logs.php" class="<?php if($flag == 'transfer_logs') echo 'selected';?>"><i class="fa fa-file-text"></i><span>Transfer Logs</span></a>
 				<a href="closed.php" class="<?php if($flag == 'closed') echo 'selected';?>"><i class="fa fa-check-square"></i><span>Closed</span></a>
-				<a href="dayBook.php?date=<?php echo date('Y-m-d');?>" class="<?php if($flag == 'reports') echo 'selected';?>"><i class="fa fa-chart-area"></i><span>Reports</span></a><?php
+				<a href="dayBook.php?date=<?php echo date('Y-m-d');?>" class="<?php if($flag == 'reports') echo 'selected';?>"><i class="fa fa-chart-area"></i><span>Day Book</span></a><?php
 			}?>				
 		</nav>		

@@ -41,7 +41,7 @@ if(isset($_SESSION["user_name"]))
 		$mainMap[$driverId]['taken'] = $taken;
 		
 		
-		$deliverQuery = mysqli_query($con,"SELECT * FROM sheets WHERE delivered_on ='$date' AND delivered_by = $driverId" ) or die(mysqli_error($con));		
+		$deliverQuery = mysqli_query($con,"SELECT * FROM sheets WHERE date ='$date' AND delivered_by = $driverId" ) or die(mysqli_error($con));		
 		foreach($deliverQuery as $del)
 			$deliveryMap[$driverId][] = $del;
 
@@ -77,8 +77,8 @@ if(isset($_SESSION["user_name"]))
 					<tr class="table-info">
 						<th style="text-align:left;">Driver</th>
 						<th>Total</th>
-						<th>Delivered</th>
 						<th>Pending</th>
+						<th>Delivered</th>
 						<th>Taken</th>
 						
 					</tr>
@@ -91,8 +91,8 @@ if(isset($_SESSION["user_name"]))
 						<tr align="center" onclick="reload(<?php echo $driver;?>,<?php echo "'".$urlDate."'";?>)" style="cursor:pointer">
 							<td style="text-align:left;"><?php echo $driverMap[$driver];?></b></td>
 							<td><b><?php echo $status['delivered'] + $status['pending'];?></b></td>
-							<td><?php echo $status['delivered'];?></td>
 							<td><?php echo $status['pending'];?></td>
+							<td><?php echo $status['delivered'];?></td>
 							<td><?php echo $status['taken'];?></td>
 						</tr>																																	<?php							
 					}																																			?>																																								<?php
@@ -115,10 +115,7 @@ if(isset($_SESSION["user_name"]))
 							<div class="card-header">
 								<ul class="nav nav-tabs card-header-tabs" id="bologna-list" role="tablist">
 									<li class="nav-item">
-										<a class="nav-link active" href="#delivered" role="tab" aria-controls="delivered" aria-selected="true">Delivered</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link"  href="#pending" role="tab" aria-controls="pending" aria-selected="false">Pending</a>
+										<a class="nav-link active" href="#delivered" role="tab" aria-controls="delivered" aria-selected="true">Pending & Delivered</a>
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" href="#taken" role="tab" aria-controls="taken" aria-selected="false">Taken</a>
@@ -142,6 +139,24 @@ if(isset($_SESSION["user_name"]))
 												</tr>
 											</thead>
 											<tbody>																										<?php
+											if(isset($pendingMap[$urlId]))
+											{
+												foreach($pendingMap[$urlId] as $pend)
+												{																										?>				
+													<tr>
+														<td style="background-color:#ffe6e6"><?php echo $areaMap[$pend['driver_area']];?></td>
+														<td><?php echo $pend['area'];?></td>
+														<td><?php 
+															if(!empty($pend['customer_name']) || !empty($pend['customer_phone']))
+																	echo 'Cust : '.$pend['customer_name'].', '.$pend['customer_phone'].'<br/>';
+															if(!empty($pend['mason_name']) || !empty($pend['mason_phone']))							
+																	echo 'Mason : '.$pend['mason_name'].', '.$pend['mason_phone'];						?>
+														</td>
+														<td><?php echo $pend['qty'];?></td>
+														<td><?php echo $pend['remarks'];?></td>
+													</tr>																								<?php				
+												}																																						
+											}																											
 											if(isset($deliveryMap[$urlId]))
 											{
 												foreach($deliveryMap[$urlId] as $del)
@@ -160,49 +175,11 @@ if(isset($_SESSION["user_name"]))
 													</tr>																								<?php				
 												}																																						
 											}																											?>
-
 											</tbody>																											
 										</table>
 										<br/>
 									</div>
 
-
-
-									<div class="tab-pane" id="pending" role="tabpanel" aria-labelledby="pending-tab">  
-										<table class="table table-hover table-bordered" style="width:95%">
-											<thead>
-												<tr class="table-danger">
-													<th style="width:15%;"><i class="fa fa-map-o"></i> Area</th>
-													<th style="width:25%;"><i class="fas fa-map-marker-alt"></i> Address</th>
-													<th style="width:20%;"><i class="far fa-user"></i> Contacts</th>
-													<th style="width:6%;"><i class="fab fa-buffer"></i> Qty</th>
-													<th style="width:15%;"><i class="far fa-comment-dots"></i> Remarks</th>
-												</tr>
-											</thead>
-											<tbody>																										<?php
-											if(isset($pendingMap[$urlId]))
-											{
-												foreach($pendingMap[$urlId] as $pend)
-												{																										?>				
-													<tr>
-														<td><?php echo $areaMap[$pend['driver_area']];?></td>
-														<td><?php echo $pend['area'];?></td>
-														<td><?php 
-															if(!empty($pend['customer_name']) || !empty($pend['customer_phone']))
-																	echo 'Cust : '.$pend['customer_name'].', '.$pend['customer_phone'].'<br/>';
-															if(!empty($pend['mason_name']) || !empty($pend['mason_phone']))							
-																	echo 'Mason : '.$pend['mason_name'].', '.$pend['mason_phone'];						?>
-														</td>
-														<td><?php echo $pend['qty'];?></td>
-														<td><?php echo $pend['remarks'];?></td>
-													</tr>																								<?php				
-												}																																						
-											}																											?>
-
-											</tbody>																											
-										</table>
-										<br/>
-									</div>
 
 									<div class="tab-pane" id="taken" role="tabpanel" aria-labelledby="taken-tab">
 										<table class="table table-hover table-bordered" style="width:95%">
