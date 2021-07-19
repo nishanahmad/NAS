@@ -213,6 +213,7 @@ if(isset($_SESSION["user_name"]))
 														{
 															echo $userMap[$sheet['delivered_by']];
 														}																											?>
+								on <?php echo date("d-m-Y",strtotime($sheet['delivered_on']));?>						
 							</p>
 							<br/>
 							<div align="center">
