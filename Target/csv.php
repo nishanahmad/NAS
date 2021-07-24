@@ -29,12 +29,12 @@ require 'sendMessage.php';
 					if($row)
 					{
 						
-						$message = "DEAR AR YOUR INCENTIVE RS.".$row[1]." ( UPTO MARCH 2021) IS CREDITED IN YOUR ACCOUNT ON 01/07/2021 - AR HELP";
+						$message = "DEAR AR,YOUR BALANCE TO ACHIEVE YOUR MONTHLY TARGET OF JULY 2021 IS ".$row[1]." BAGS. ACHIEVE YOUR TARGET & EARN SPECIAL BENEFITS - AR HELP";
 						
 						$phone = '91'.$row[0];
-						//echo $phone.'<br/>';
-						//echo $message.'<br/>';
-						$status = sendMessage($message,$phone);
+						echo $phone.'<br/>';
+						echo $message.'<br/>';
+						//$status = sendMessage($message,$phone);
 					}
 				}
 				fclose($file_handle);
