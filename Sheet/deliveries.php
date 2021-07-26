@@ -201,7 +201,7 @@ if(isset($_SESSION["user_name"]))
 							<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>																	<?php
 							if($designation != 'driver')
 							{?>
-								<p><i class="fas fa-desktop"></i> Req by <?php echo $sheet['requested_by'];?></p>														<?php
+								<p><i class="fas fa-desktop"></i> Req by <b><?php echo $sheet['requested_by'];?> </b> on <?php echo date('d M, h:i A', strtotime($sheet['created_on']));?></p>														<?php
 							}?>									
 							<p><i class="fa fa-truck"></i> Deliv by																									<?php
 														if($userMap[$sheet['delivered_by']] == 'GODOWN')
