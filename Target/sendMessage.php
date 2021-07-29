@@ -6,7 +6,7 @@ function sendMessage($message,$phone)
 	$uri =  "https://api.wa.anant.io/v1/send";
 
 	$instanceId = '458f01be-f075-4745-8639-f6632c7a3697';
-	$authToken = 'c4b4997fbff09e74e53f90bb0c2b55b3';
+	$authToken = '3a9344a4-600e-47b2-ab8a-4c42e64adda7';
 
 	$response = \Httpful\Request::post($uri)
                     ->body([

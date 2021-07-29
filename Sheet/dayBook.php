@@ -77,8 +77,8 @@ if(isset($_SESSION["user_name"]))
 					<tr class="table-info">
 						<th style="text-align:left;">Driver</th>
 						<th>Total</th>
-						<th>Pending</th>
 						<th>Delivered</th>
+						<th>Pending</th>
 						<th>Taken</th>
 						
 					</tr>
@@ -91,8 +91,8 @@ if(isset($_SESSION["user_name"]))
 						<tr align="center" onclick="reload(<?php echo $driver;?>,<?php echo "'".$urlDate."'";?>)" style="cursor:pointer">
 							<td style="text-align:left;"><?php echo $driverMap[$driver];?></b></td>
 							<td><b><?php echo $status['delivered'] + $status['pending'];?></b></td>
-							<td><?php echo $status['pending'];?></td>
 							<td><?php echo $status['delivered'];?></td>
+							<td><?php echo $status['pending'];?></td>
 							<td><?php echo $status['taken'];?></td>
 						</tr>																																	<?php							
 					}																																			?>																																								<?php
