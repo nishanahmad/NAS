@@ -40,7 +40,7 @@ if(isset($_SESSION["user_name"]))
 		<br/><br/>
 		<table class="maintable table table-hover table-bordered" style="width:70%;margin-left:10%;">
 		<?php
-			$sql = "SELECT * FROM ar_details WHERE type LIKE '%AR%' ORDER BY name ASC";
+			$sql = "SELECT * FROM ar_details WHERE type NOT LIKE '%Engineer%' ORDER BY name ASC";
 			$result = mysqli_query($con, $sql) or die(mysqli_error($con));																					?>
 			<thead>
 				<tr class="table-success">
