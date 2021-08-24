@@ -29,8 +29,7 @@ require 'sendMessage.php';
 					if($row)
 					{
 						
-						$message = "DEAR AR, YOUR BALANCE TO ACHIEVE YOUR MONTHLY TARGET OF JULY 2021 IS ".$row[1]." BAGS. ACHIEVE YOUR TARGET & EARN SPECIAL BENEFITS - AR HELP";
-						
+						$message = "DEAR AR, YOUR BALANCE TO ACHIEVE YOUR MONTHLY TARGET OF AUG 2021 IS ".$row[1]." BAGS. ACHIEVE YOUR TARGET & EARN SPECIAL BENEFITS - AR HELP";
 						$phone = '91'.$row[0];
 						echo $phone.'<br/>';
 						echo $message.'<br/>';

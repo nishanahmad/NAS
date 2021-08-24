@@ -50,6 +50,7 @@ if(isset($_SESSION["user_name"]))
 					<th style="text-align:center;width:8%">Old SAP</th>
 					<th>Mobile</th>
 					<th>Whatsapp</th>
+					<th>Type</th>
 					<th>Status</th>
 				</tr>
 			</thead>
@@ -61,9 +62,10 @@ if(isset($_SESSION["user_name"]))
 				$shopName = $row['shop_name'];
 				$sapCode = $row['sap_code'];
 				$oldSap = $row['old_sap'];
-				$dealing = $row['dealing'];
 				$mobile = $row['mobile'];
 				$whatsapp = $row['whatsapp'];
+				$type = $row['type'];
+				$status = $row['status'];
 			?>	
 			<tr>
 				<td><?php echo $arname; ?></td>	
@@ -72,7 +74,8 @@ if(isset($_SESSION["user_name"]))
 				<td style="text-align:center;width:8%"><label align="center"><?php echo $oldSap; ?></td>	
 				<td style="text-align:center;width:10%"><?php echo $mobile;?></td>		
 				<td style="text-align:center;width:10%"><?php echo $whatsapp;?></td>		
-				<td style="width:12%"><?php echo $dealing;?></td>	
+				<td><?php echo $type;?></td>
+				<td><?php echo $status;?></td>
 			</tr>																																			<?php
 			}																																																										?>
 			</tbody>	
