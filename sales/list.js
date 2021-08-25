@@ -387,7 +387,7 @@ $(function(){
 				refreshRate();				
 			}
 		}	
-	});		
+	});
 });
 
 function refreshRate()
@@ -433,32 +433,16 @@ $('.maintable').on('initialized filterEnd', function(){
 	}
 })	
 
-/*
-$('#newSaleForm').on('submit', function(event){
-	event.preventDefault();
-	var holdings = document.getElementsByClassName('clearHolding');
-	for(var i=0;i<holdings.length;i++)
-	{
-		var holdingId = holdings[i].id;
-		var checkboxValue = $('#'+holdingId).prop('checked');
-		var input = $("<input>").attr("type", "hidden").attr("name","clearHolding["+holdingId+"]").val(checkboxValue);
-		$('#newSaleForm').append(input);		
-		console.log(holdingId);
-		console.log(checkboxValue);
-	}
-	//$('form#newSaleForm').submit();
+$("#newSaleForm").submit( function(eventObj) {
+var holdings = document.getElementsByClassName('clearHolding');
+for(var i=0;i<holdings.length;i++)
+{	  
+  var holdingId = holdings[i].id;
+  var checkboxValue = $('#'+holdingId).prop('checked');	
+  $("<input>").attr("type", "hidden")
+	  .attr("name", "clearHolding["+holdingId+"]")
+	  .attr("value", checkboxValue)
+	  .appendTo("#newSaleForm");
+}	  
+  return true;
 });
-*/
-  $("#newSaleForm").submit( function(eventObj) {
-	var holdings = document.getElementsByClassName('clearHolding');
-	for(var i=0;i<holdings.length;i++)
-	{	  
-      var holdingId = holdings[i].id;
-      var checkboxValue = $('#'+holdingId).prop('checked');	
-      $("<input>").attr("type", "hidden")
-          .attr("name", "clearHolding["+holdingId+"]")
-          .attr("value", checkboxValue)
-          .appendTo("#newSaleForm");
-	}	  
-      return true;
-  });

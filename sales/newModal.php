@@ -23,6 +23,12 @@ if(isset($_SESSION["user_name"]))
 	$trucks = mysqli_query($con,"SELECT * FROM truck_details ORDER BY number");
 	$godowns = mysqli_query($con,"SELECT * FROM godowns ORDER BY name");																											?>
 
+	<style>
+	#country-list{list-style:none;margin-top:-3px;margin-left:120px;padding:0;width:190px;}
+	#country-list li{padding: 10px; background: #f0f0f0; border-bottom: #bbb9b9 1px solid;}
+	#country-list li:hover{background:#ece3d2;cursor: pointer;}
+	#phone{padding: 10px;border: #a8d4b1 1px solid;border-radius:4px;}	
+	</style>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<div class="modal fade" id="saleModal">
 	  <div class="modal-dialog modal-lg modal-fullscreen-sm-down">
@@ -139,12 +145,11 @@ if(isset($_SESSION["user_name"]))
 									<input type="text" name="qty" id="qty" required class="form-control" pattern="[0-9]+" title="Input a valid number">
 								</div>
 							</div>
-							<div class="col-sm-6 col-md-6 offset-md-1">
+							<div class="col-sm-6 col-md-5 offset-md-1">
 								<div class="input-group mb-3">
-									<span class="input-group-text" style="width:33%"><i class="far fa-user"></i></i>&nbsp;Customer</span>
-									<input type="text" name="customerName" id="customer" class="form-control">
-									&nbsp;&nbsp;
-									<input class="form-check-input" name="ar_direct" type="checkbox" id="autoDiscount">&nbsp;AR
+									<span class="input-group-text" style="width:40%"><i class="fas fa-mobile-alt"></i>&nbsp;Phone</span>
+									<input type="text" name="customerPhone" id="phone" class="form-control" autocomplete="off">
+									<div id="suggesstion-box"></div> 
 								</div>
 							</div>
 						</div>
@@ -157,10 +162,12 @@ if(isset($_SESSION["user_name"]))
 									<input type="text" name="bd" id="bd" class="form-control">
 								</div>
 							</div>
-							<div class="col-sm-6 col-md-5 offset-md-1">
+							<div class="col-sm-6 col-md-6 offset-md-1">
 								<div class="input-group mb-3">
-									<span class="input-group-text" style="width:40%"><i class="fas fa-mobile-alt"></i>&nbsp;Phone</span>
-									<input type="text" name="customerPhone" id="phone" class="form-control">
+									<span class="input-group-text" style="width:33%"><i class="far fa-user"></i></i>&nbsp;Customer</span>
+									<input type="text" name="customerName" id="customer" class="form-control">
+									&nbsp;&nbsp;
+									<input class="form-check-input" name="ar_direct" type="checkbox" id="autoDiscount">&nbsp;AR								
 								</div>
 							</div>
 						</div>
@@ -231,7 +238,8 @@ if(isset($_SESSION["user_name"]))
 		</div>
 		<div class="modal-footer"></div>
 	  </div>
-	</div>																																					<?php
+	</div>	
+																																				<?php
 }
 else
 	header( "Location: ../index/home.php" );	
