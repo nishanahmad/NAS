@@ -60,8 +60,7 @@ if(isset($_SESSION["user_name"]))
 		$shopNameArray = json_encode($shopNameMap);
 		$shopNameArray = str_replace('\n',' ',$shopNameArray);
 		$shopNameArray = str_replace('\r',' ',$shopNameArray);		
-	}																																				?>	
-
+	}																																			?>	
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
