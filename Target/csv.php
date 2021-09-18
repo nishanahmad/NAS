@@ -29,7 +29,7 @@ require 'sendMessage.php';
 					if($row)
 					{
 						
-						$message = "Dear AR, Ur SEPT Month Trgt is ".$row[1]." Bgs. Achieve Ur Trgt Earn Full Lakshya Benefits - AR HELP";
+						$message = "DEAR AR, CONGRATS!! U HAVE CREDITED ".$row[1]." PLUS POINTS FOR JULY 2021. NOW U HAVE  ".$row[2]." PLUS POINTS IN UR ACCOUNT.  AR HELP";
 						$phone = '91'.$row[0];
 						echo $phone.'<br/>';
 						echo $message.'<br/>';
