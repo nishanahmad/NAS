@@ -15,7 +15,8 @@ function sendMessage($message,$phone)
 						'to' => $phone,
 						'channel' => 'whatsapp',
 						'messageType' => 'TEXT',
-						'message' => $message
+						'message' => $message,
+						'safeDelivery' => true
                             ], \Httpful\Mime::FORM)
                     ->send();
 					

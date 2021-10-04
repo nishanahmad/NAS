@@ -171,7 +171,7 @@ if(isset($_SESSION["user_name"]))
 				else
 				{																									?>
 					<font size="5"><b><?php echo $driverToCollectMap[$_SESSION['user_id']];?></b> sheets on site<br/>
-								   <b><font style="color:#DC143C"><?php echo $driverLateMap[$_SESSION['user_id']];?></font></b> sheets late to collect<br/>
+								   <b><font style="color:#DC143C"><?php if(isset($driverLateMap[$_SESSION['user_id']])) echo $driverLateMap[$_SESSION['user_id']];else echo '0'?></font></b> sheets late to collect<br/>
 					</font>												<?php
 				}																									?>		
 				

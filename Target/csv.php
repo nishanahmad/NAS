@@ -28,8 +28,7 @@ require 'sendMessage.php';
 					$row = fgetcsv($file_handle);
 					if($row)
 					{
-						
-						$message = "DEAR AR, CONGRATS!! U HAVE CREDITED ".$row[1]." PLUS POINTS FOR JULY 2021. NOW U HAVE  ".$row[2]." PLUS POINTS IN UR ACCOUNT.  AR HELP";
+						$message = "Dear AR, Ur OCT Month Trgt is ".$row[1]." Bgs. Achieve Ur Trgt Earn Full Lakshya Benefits - AR HELP";
 						$phone = '91'.$row[0];
 						echo $phone.'<br/>';
 						echo $message.'<br/>';
