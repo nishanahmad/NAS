@@ -113,6 +113,7 @@ if(isset($_SESSION['user_name']))
 						<th>Qty</th>
 						<th style="width:120px;">Closed On</th>
 						<th>Closed By</th>
+						<th>Req By</th>
 					</tr>
 				</thead>
 				<tbody>																								<?php
@@ -126,6 +127,7 @@ if(isset($_SESSION['user_name']))
 						<td style="text-align:center;"><?php echo $sheet['qty'];?></td>
 						<td><?php echo date('d-m-Y',strtotime($sheet['closed_on']));?></td>
 						<td><?php echo $userMap[$sheet['closed_by']];?></td>
+						<td><?php echo $sheet['requested_by'];?></td>
 					</tr>																											<?php
 				}																													?>
 				</tbody>
