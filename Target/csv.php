@@ -19,23 +19,18 @@ require 'sendMessage.php';
 			</form>
 		</div>
 		<?php
-			if ((isset($_FILES["ip_file"])) && ($_FILES["ip_file"]["error"] <= 0))
+			$files = glob("send.csv");
+			foreach($files as $file)
 			{
-				$file_handle = fopen($_FILES["ip_file"]["tmp_name"], "r");
-
-				while (!feof($file_handle))
+				$csvFile = file($file);
+				foreach ($csvFile as $row)
 				{
-					$row = fgetcsv($file_handle);
-					if($row)
-					{
-						$message = "Dear AR, Ur OCT Month Trgt is ".$row[1]." Bgs. Achieve Ur Trgt Earn Full Lakshya Benefits - AR HELP";
-						$phone = '91'.$row[0];
-						echo $phone.'<br/>';
-						echo $message.'<br/>';
-						$status = sendMessage($message,$phone);
-					}
+					$message = "Dear AR, Ur OCT Month Trgt is ".$row[1]." Bgs. Achieve Ur Trgt Earn Full Lakshya Benefits - AR HELP";
+					$phone = '91'.$row[0];
+					echo $phone.'<br/>';
+					echo $message.'<br/>';
+					//$status = sendMessage($message,$phone);
 				}
-				fclose($file_handle);
 			}
 		?>
 	</body>

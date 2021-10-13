@@ -145,6 +145,7 @@ if(isset($_SESSION['user_name']))
 						<th style="width:120px;">Deleted On</th>
 						<th>DeletedBy</th>
 						<th style="width:250px;">Delete Reason</th>
+						<th>Requested By</th>
 					</tr>
 				</thead>
 				<tbody>																								<?php
@@ -158,6 +159,7 @@ if(isset($_SESSION['user_name']))
 						<td><?php echo date('d-m-Y',strtotime($sheet['closed_on']));?></td>
 						<td><?php echo $userMap[$sheet['closed_by']];?></td>
 						<td><?php echo $sheet['cancel_reason'];?></td>
+						<td><?php echo $sheet['requested_by'];?></td>
 					</tr>																											<?php
 				}																													?>
 				</tbody>
