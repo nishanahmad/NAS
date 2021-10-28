@@ -217,12 +217,16 @@ a {
 		  Sales
 		</a>
 	  </li>	  
-	  <li class="nav-item">
-		<a class="nav-link" <?php if($flag == 'loading') echo 'href="#"'; else echo 'href="../loading/list.php"';?>>
-		  <i class="fa fas fa-dolly <?php if($flag == 'loading') echo 'glow';?> aria-hidden="true"></i>
-		  Loading
-		</a>
-	  </li>	  	  
+	  <?php	
+	  if($_SESSION['role'] != 'marketing')
+	  {																																				?>	  
+		  <li class="nav-item">
+			<a class="nav-link" <?php if($flag == 'loading') echo 'href="#"'; else echo 'href="../loading/list.php"';?>>
+			  <i class="fa fas fa-dolly <?php if($flag == 'loading') echo 'glow';?> aria-hidden="true"></i>
+			  Loading
+			</a>
+		  </li>																																		<?php
+	  }																																				?>	  
 	  <li class="nav-item">
 		<a class="nav-link" <?php if($flag == 'ar') echo 'href="#"'; else echo 'href="../ar/list.php"';?>>
 		  <i class="fa fa-address-card-o <?php if($flag == 'ar') echo 'glow';?> aria-hidden="true"></i>
@@ -234,19 +238,23 @@ a {
 		  <i class="fa fa-hard-hat <?php if($flag == 'engineers') echo 'glow';?> aria-hidden="true"></i>
 		  Engineers
 		</a>
-	  </li>	  	  
-	  <li class="nav-item">
-		<a class="nav-link" <?php if($flag == 'rate') echo 'href="#"'; else echo 'href="../rate/list.php"';?>>
-		  <i class="fa fa-rupee-sign <?php if($flag == 'rate') echo 'glow';?> aria-hidden="true"></i>
-		  Rate
-		</a>
-	  </li>	  
-	  <li class="nav-item">
-		<a class="nav-link" <?php if($flag == 'discounts') echo 'href="#"'; else echo 'href="../discounts/list.php"';?>>
-		  <i class="fa fa-tags <?php if($flag == 'discounts') echo 'glow';?> aria-hidden="true"></i>
-		  Discounts
-		</a>
-	  </li>	  
+	  </li>
+	  <?php	
+	  if($_SESSION['role'] != 'marketing')
+	  {																																				?>
+		  <li class="nav-item">
+			<a class="nav-link" <?php if($flag == 'rate') echo 'href="#"'; else echo 'href="../rate/list.php"';?>>
+			  <i class="fa fa-rupee-sign <?php if($flag == 'rate') echo 'glow';?> aria-hidden="true"></i>
+			  Rate
+			</a>
+		  </li>	  
+		  <li class="nav-item">
+			<a class="nav-link" <?php if($flag == 'discounts') echo 'href="#"'; else echo 'href="../discounts/list.php"';?>>
+			  <i class="fa fa-tags <?php if($flag == 'discounts') echo 'glow';?> aria-hidden="true"></i>
+			  Discounts
+			</a>
+		  </li>																																		<?php
+	  }																																				?>
 	  <li class="nav-item">
 		<a class="nav-link" <?php if($flag == 'Sheet') echo 'href="#"'; else echo 'href="../Sheet/requests.php"';?>>
 		  <i class="fa fa-clone <?php if($flag == 'Sheet') echo 'glow';?> aria-hidden="true"></i>

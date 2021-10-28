@@ -1,4 +1,6 @@
 <?php
+ini_set('max_execution_time', '0'); // for infinite time of execution 
+ini_set('memory_limit', '-1');
 
 function getSales($con,$sql)
 {	

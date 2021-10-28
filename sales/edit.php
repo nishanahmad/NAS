@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
-if(isset($_SESSION["user_name"]))
+if(isset($_SESSION["user_name"]) && $_SESSION["role"] != 'marketing')
 {
 	require '../connect.php';
 	require 'getHistory.php';
