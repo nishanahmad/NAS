@@ -73,6 +73,7 @@ if(isset($_SESSION["user_name"]))
 			$targetMap[$target['ar_id']]['target'] = $target['target'];
 			$targetMap[$target['ar_id']]['rate'] = $target['rate'];
 			$targetMap[$target['ar_id']]['payment_perc'] = $target['payment_perc'];
+			$monthTgtDetails[$target['ar_id']][$year][$month] = $target['target'];
 		}
 		
 		$sales = mysqli_query($con,"SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND '$year' = year(`entry_date`) AND '$month' = month(`entry_date`) AND ar_id IN ('$arIds') GROUP BY ar_id") or die(mysqli_error($con));	
@@ -293,6 +294,7 @@ if(isset($_SESSION["user_name"]))
 						<th>Mobile</th>
 						<th>Whatsapp</th>
 						<th style="width:20%;text-align:left;">Shop</th>
+						<th>target</th>
 						<th>Opng Pnts</th>
 						<th>Current Pnts</th>	
 						<th>Current%</th>	
@@ -321,6 +323,7 @@ if(isset($_SESSION["user_name"]))
 							<td><?php echo $detailMap['mobile'];?></b></td>
 							<td><?php echo $detailMap['whatsapp'];?></b></td>
 							<td style="text-align:left;"><?php echo $detailMap['shop'];?></b></td>
+							<td><?php if(isset($monthTgtDetails[$arId][$year][$month]))echo $monthTgtDetails[$arId][$year][$month]; else echo '0';?></b></td>
 							<td><?php echo $prevMap[$arId]['prevPoints'] - $prevMap[$arId]['prevRedemption'];?></b></td>
 							<td><?php echo $pointMap[$arId]['points'];?></td>
 							<td><?php if(isset($pointMap[$arId]['point_perc'])) echo $pointMap[$arId]['point_perc'].'%'; else echo '0%';?></td>
