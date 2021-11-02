@@ -132,10 +132,10 @@ if (strpos($url, 'dayBook') !== false)
 				<a href="plan.php"  class="<?php if($flag == 'plan') echo 'selected';?>"><i class="fa fa-list-alt"></i><span>Driver Assign</span></a>					<?php
 			}																									?>	
 			<a href="requests.php" class="<?php if($flag == 'requests') echo 'selected';?>"><i class="fa fa-spinner"></i><span>Pending ...</span></a>
-			<a href="deliveries.php"  class="<?php if($flag == 'deliveries') echo 'selected';?>"><i class="fa fa-truck"></i><span>Delivered</span></a>
-			<a href="transfer.php" class="<?php if($flag == 'transfer') echo 'selected';?>"><i class="fa fa-exchange"></i><span>Transfer</span></a>					<?php
+			<a href="deliveries.php"  class="<?php if($flag == 'deliveries') echo 'selected';?>"><i class="fa fa-truck"></i><span>Delivered</span></a>					<?php
 			if($_SESSION['role'] != 'driver')
 			{																									?>				
+				<a href="transfer.php" class="<?php if($flag == 'transfer') echo 'selected';?>"><i class="fa fa-exchange"></i><span>Transfer</span></a>					
 				<a href="transfer_logs.php" class="<?php if($flag == 'transfer_logs') echo 'selected';?>"><i class="fa fa-file-text"></i><span>Transfer Logs</span></a>
 				<a href="closed.php" class="<?php if($flag == 'closed') echo 'selected';?>"><i class="fa fa-check-square"></i><span>Closed</span></a>
 				<a href="dayBook.php?date=<?php echo date('Y-m-d');?>" class="<?php if($flag == 'reports') echo 'selected';?>"><i class="fa fa-chart-area"></i><span>Day Book</span></a><?php
