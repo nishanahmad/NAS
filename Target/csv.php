@@ -18,10 +18,11 @@ require 'sendMessage.php';
 				foreach ($csvFile as $str)
 				{
 					$row = explode(",",$str);
-					$message = "DEAR AR, YOUR BALANCE TO ACHIEVE YOUR MONTHLY TARGET OF OCT 2021 IS ".$row[1]." BAGS. ACHIEVE YOUR TARGET & EARN SPECIAL BENEFITS - AR HELP";
+					$message = "Dear AR, Your Special Target for Nov 2021 is ".$row[1]." Bags. Achieve Ur target, Earn Spcl Benefits & Full Lakshya Benefits - AR HELP";
 					$phone = '91'.$row[0];
 					echo $phone.'<br/>';
 					echo $message.'<br/>';
+					sleep(1);
 					//$status = sendMessage($message,$phone);
 				}
 			}
