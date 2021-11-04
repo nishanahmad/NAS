@@ -68,7 +68,7 @@ if(isset($_SESSION["user_name"]))
 		$totalToCollect = $totalToCollect + $toCollect['SUM(qty)'];
 	}
 	
-	$lateDate = date('Y-m-d',strtotime("-3 days"));
+	$lateDate = date('Y-m-d',strtotime("-2 days"));
 	$driverLateMap = array();
 	$lateQuery = mysqli_query($con,"SELECT SUM(qty),driver_area FROM sheets WHERE status ='delivered' AND date < '$lateDate' GROUP BY driver_area" ) or die(mysqli_error($con));
 	foreach($lateQuery as $late)
