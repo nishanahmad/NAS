@@ -43,7 +43,7 @@ $(document).ready(function()
 		url: "ajax/checkEngineer.php",
 		data:'client='+client,
 		success: function(data){
-			if(data.includes("Engineer"))
+			if(  !(data.includes("AR") || data.includes("SR"))  )
 			{
 				$("#wd").val(0);
 				refreshRate();
