@@ -1,6 +1,8 @@
 <?php
 require '../connect.php';
 require 'sendMessage.php';
+ini_set('max_execution_time', '0');
+ini_set('memory_limit', '-1');
 ?>
 <html>
 	<head>
@@ -18,11 +20,11 @@ require 'sendMessage.php';
 				foreach ($csvFile as $str)
 				{
 					$row = explode(",",$str);
-					$message = "Dear AR, Your Special Target for Nov 2021 is ".$row[1]." Bags. Achieve Ur target, Earn Spcl Benefits & Full Lakshya Benefits - AR HELP";
+					$message = "DEAR AR, YOUR BALANCE TO ACHEIVE YOUR SPECIAL TARGET OF 10th TO 20th Nov IS ".$row[1]." BAGS.ACHEIVE YOUR TARGET & EARN SPECIAL BENEFITS - AR HELP";
 					$phone = '91'.$row[0];
 					echo $phone.'<br/>';
 					echo $message.'<br/>';
-					sleep(1);
+					sleep(2);
 					//$status = sendMessage($message,$phone);
 				}
 			}
