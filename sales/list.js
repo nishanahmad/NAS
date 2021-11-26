@@ -116,8 +116,10 @@ $(function(){
 	$('.saleId').click(function(){
 		var saleId = $(this).data('id');
 		var params = $(this).data('params');
+		var userRole = $('#userRole').val();
 		params = params.replace('success&','');
-		window.location.href = 'edit.php?sales_id='+saleId + '&' + params;
+		if(userRole != 'marketing')
+			window.location.href = 'edit.php?sales_id='+saleId + '&' + params;
 	});
 
 				

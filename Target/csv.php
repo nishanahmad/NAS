@@ -20,7 +20,7 @@ ini_set('memory_limit', '-1');
 				foreach ($csvFile as $str)
 				{
 					$row = explode(",",$str);
-					$message = "DEAR AR, YOUR BALANCE TO ACHEIVE YOUR SPECIAL TARGET OF 10th TO 20th Nov IS ".$row[1]." BAGS.ACHEIVE YOUR TARGET & EARN SPECIAL BENEFITS - AR HELP";
+					$message = "DEAR AR, YOUR BALANCE TO ACHEIVE SPECIAL TARGET OF 21st TO 30th Nov IS ".$row[1]." BAGS.ACHEIVE YOUR TARGET & EARN SPECIAL BENEFITS - AR HELP";
 					$phone = '91'.$row[0];
 					echo $phone.'<br/>';
 					echo $message.'<br/>';

@@ -165,6 +165,7 @@ if(isset($_SESSION["user_name"]))
 			</div>
 			<div id="content-desktop">
 				<br/><br/>
+				<input type="hidden" id="userRole" value="<?php echo $_SESSION['role'];?>">
 				<table class="maintable table table-hover table-bordered" style="width:95%;margin-left:2%;">
 					<thead>
 						<tr class="table-success">
