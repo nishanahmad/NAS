@@ -24,8 +24,8 @@ ini_set('memory_limit', '-1');
 					$phone = '91'.$row[0];
 					echo $phone.'<br/>';
 					echo $message.'<br/>';
-					sleep(2);
-					$status = sendMessage($message,$phone);
+					//sleep(2);
+					//$status = sendMessage($message,$phone);
 				}
 			}
 		?>
