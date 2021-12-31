@@ -31,14 +31,24 @@ if(isset($_SESSION["user_name"]))
 		if($type == 'all')
 			$salesList = mysqli_query($con, "SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' GROUP BY ar_id" ) or die(mysqli_error($con));
 		else
-			$salesList = mysqli_query($con, "SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' AND ar_id IN (SELECT id FROM ar_details WHERE type = '$type') GROUP BY ar_id" ) or die(mysqli_error($con));
+		{
+			if($type == 'AR')
+				$salesList = mysqli_query($con, "SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' AND ar_id IN (SELECT id FROM ar_details WHERE type = 'AR' OR type = 'SR') GROUP BY ar_id" ) or die(mysqli_error($con));
+			else if(($type == 'Engineer'))
+				$salesList = mysqli_query($con, "SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' AND ar_id IN (SELECT id FROM ar_details WHERE type = 'Engineer') GROUP BY ar_id" ) or die(mysqli_error($con));
+		}			
 	}		
 	else
 	{
 		if($type == 'all')
 			$salesList = mysqli_query($con, "SELECT ar_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' AND product = $product GROUP BY ar_id,product" ) or die(mysqli_error($con));
 		else
-			$salesList = mysqli_query($con, "SELECT ar_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' AND product = $product AND ar_id IN (SELECT id FROM ar_details WHERE type = '$type') GROUP BY ar_id,product" ) or die(mysqli_error($con));
+		{
+			if($type == 'AR')
+				$salesList = mysqli_query($con, "SELECT ar_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' AND product = $product AND ar_id IN (SELECT id FROM ar_details WHERE type = 'AR' OR type = 'SR') GROUP BY ar_id,product" ) or die(mysqli_error($con));			
+			else if(($type == 'Engineer'))			
+				$salesList = mysqli_query($con, "SELECT ar_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' AND product = $product AND ar_id IN (SELECT id FROM ar_details WHERE type = 'Engineer') GROUP BY ar_id,product" ) or die(mysqli_error($con));			
+		}
 	}
 		
 
@@ -159,7 +169,7 @@ if(isset($_SESSION["user_name"]))
 									<span class="input-group-text col-md-5"><i class="fa fa-address-card-o"></i>&nbsp;Type</span>
 										<select name="type" id="type" required class="form-control">
 											<option <?php if($type == 'all') echo 'selected';?> value="all">ALL</option>
-											<option <?php if($type == 'AR/SR') echo 'selected';?> value="AR/SR">AR</option>
+											<option <?php if($type == 'AR') echo 'selected';?> value="AR">AR</option>
 											<option <?php if($type == 'Engineer') echo 'selected';?> value="Engineer">Engineers</option>
 										</select>					
 								</div>
