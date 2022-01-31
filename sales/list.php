@@ -264,12 +264,12 @@ if(isset($_SESSION["user_name"]))
 							else
 								$cd = 0;
 							
-							if(isset($wdMap[$sale['product']][$sale['date']]) && $clientTypeMap[$sale['client']] == 'AR/SR')
+							if(isset($wdMap[$sale['product']][$sale['date']]) && ($clientTypeMap[$sale['client']] == 'AR' || $clientTypeMap[$sale['client']] == 'SR'))
 								$wd = $wdMap[$sale['product']][$sale['date']];
 							else
 								$wd = 0;
 							
-							$finalRate = $rate - $cd - $wd - $sale['discount'];																					?>	
+							$finalRate = $rate - $cd - $wd - $sale['discount'];																					?>
 							
 							<tr data-id="<?php echo $sale['id'];?>" data-params="<?php echo explode('?',$_SERVER['REQUEST_URI'])[1];?>" class="saleId" style="cursor:pointer;">
 								<td><?php echo date('d-m-Y',strtotime($sale['date'])); ?></td>
