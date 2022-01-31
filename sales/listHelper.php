@@ -14,7 +14,7 @@ function getSales($con,$sql)
 	{
 		$today = date('Y-m-d');
 		$day10backwards = date( 'Y-m-d', strtotime('-10 days') );		
-		$unbilledOldSalesQuery = mysqli_query($con,"SELECT * FROM nas_sale WHERE deleted IS NULL AND entry_date < '$today' AND entry_date > '2020-01-01' ") or die(mysqli_error($con));
+		$unbilledOldSalesQuery = mysqli_query($con,"SELECT * FROM nas_sale WHERE deleted IS NULL AND entry_date < '$today' AND entry_date > '$day10backwards' ") or die(mysqli_error($con));
 		foreach($unbilledOldSalesQuery as $sale) 
 		{
 			if( !(fnmatch("B*",$sale['bill_no']) || fnmatch("C*",$sale['bill_no']) || fnmatch("GB*",$sale['bill_no']) || fnmatch("GC*",$sale['bill_no']) || fnmatch("PB*",$sale['bill_no']) || fnmatch("TRF*",$sale['bill_no']) || fnmatch("PC*",$sale['bill_no'])))
