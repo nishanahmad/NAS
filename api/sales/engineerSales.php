@@ -26,14 +26,17 @@ if($num>0)
  
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 	{
+		$customer_name = str_replace(",","-",$row['customer_name']);
+		$customer_phone = str_replace(",","-",$row['customer_phone']);
+		$remarks = str_replace(",","-",$row['remarks']);
         $sale_item=array(
 			"date" => $row['entry_date'],		
 			"shop" => $row['ar_id'],		
 			"product" => $row['product'],
 			"qty" => $row['qty'],
-			"customer_name" => $row['customer_name'],
-			"customer_phone" => $row['customer_phone'],
-			"remarks" => $row['remarks'],
+			"customer_name" => $customer_name,
+			"customer_phone" => $customer_phone,
+			"remarks" => $remarks,
         );
  
         array_push($sales_arr["records"], $sale_item);
