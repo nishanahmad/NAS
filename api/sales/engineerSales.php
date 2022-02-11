@@ -29,7 +29,7 @@ if($num>0)
         $sale_item=array(
 			"date" => $row['entry_date'],		
 			"shop" => $row['ar_id'],		
-			"product" => $row['qty'],
+			"product" => $row['product'],
 			"qty" => $row['qty'],
 			"customer_name" => $row['customer_name'],
 			"customer_phone" => $row['customer_phone'],
