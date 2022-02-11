@@ -18,6 +18,15 @@ class Sale
 	 
 		return $stmt;
 	}	
+
+	function getEngineerSales($startDate,$endDate)
+	{
+		$query = "SELECT * FROM ".$this->table_name." WHERE entry_date >= '$startDate' AND entry_date <= '$endDate' AND ar_id IN (SELECT id FROM ar_details WHERE type = 'Engineer')";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute();
+	 
+		return $stmt;
+	}
 	
 	function getSaleSum($startDate,$endDate)
 	{

@@ -1,5 +1,4 @@
 <?php
-require '../connect.php';
 require 'sendMessage.php';
 ini_set('max_execution_time', '0');
 ini_set('memory_limit', '-1');
@@ -20,7 +19,7 @@ ini_set('memory_limit', '-1');
 				foreach ($csvFile as $str)
 				{
 					$row = explode(",",$str);
-					$message = "Dear AR, Congrats!! You have credited ".$row[1]." plus points for C+ purchase in Dec 2021. Now you have a total of ".$row[2]." plus points in your account. AR HELP";
+					$message = "DEAR AR, CONGRATS!! U HAVE CREDITED ".$row[1]." PLUS POINTS FOR JAN 2022. NOW U HAVE ".$row[2]." PLUS POINTS IN UR ACCOUNT.  AR HELP";
 					$phone = '91'.$row[0];
 					echo $phone.'<br/>';
 					echo $message.'<br/>';
