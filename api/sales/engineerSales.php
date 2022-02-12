@@ -30,7 +30,8 @@ if($num>0)
 		$customer_phone = str_replace(",","-",$row['customer_phone']);
 		$remarks = str_replace(",","-",$row['remarks']);
         $sale_item=array(
-			"date" => $row['entry_date'],		
+			"sales_id" => $row['sales_id'],
+			"date" => $row['entry_date'],
 			"shop" => $row['ar_id'],		
 			"product" => $row['product'],
 			"qty" => $row['qty'],
