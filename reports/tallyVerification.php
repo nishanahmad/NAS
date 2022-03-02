@@ -158,7 +158,7 @@ if(isset($_SESSION["user_name"]))
 		else
 			$cd = 0;
 		
-		if(isset($wdMap[$sale['product']][$sale['entry_date']]) && $clientTypeMap[$sale['ar_id']] == 'AR/SR')
+		if(isset($wdMap[$sale['product']][$sale['entry_date']]) && ($clientTypeMap[$sale['ar_id']] == 'AR' || $clientTypeMap[$sale['ar_id']] == 'SR'))
 			$wd = $wdMap[$sale['product']][$sale['entry_date']];
 		else
 			$wd = 0;
