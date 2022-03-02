@@ -234,8 +234,7 @@ if(isset($_SESSION["user_name"]) && $_SESSION["role"] != 'marketing')
 										<input type="text" name="customerName" id="customer" class="form-control" value="<?php echo $row['customer_name']; ?>">
 									</div>
 								</div>
-								&nbsp;&nbsp;
-								<input class="form-check-input" type="checkbox" name="ar_direct" id="autoDiscount" <?php echo ($row['ar_direct']==1 ? 'checked' : '');?>>&nbsp;Shop
+								<!--input class="form-check-input" type="checkbox" name="ar_direct" id="autoDiscount" <?php //echo ($row['ar_direct']==1 ? 'checked' : '');?>-->
 							</div>
 							<div class="row">
 								<div class="col col-md-4 offset-1">
