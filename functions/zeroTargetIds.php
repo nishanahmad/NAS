@@ -11,7 +11,7 @@ function getZeroTargetIds($year,$month,$con)
 	}	
 	
 	$array = implode("','",$tempIds);	
-	$arObjects = mysqli_query($con, "SELECT id FROM ar_details WHERE type = 'AR/SR' AND id NOT IN ('$array') ORDER BY name") or die(mysqli_error($con));
+	$arObjects = mysqli_query($con, "SELECT id FROM ar_details WHERE (type = 'AR' OR type = 'SR') AND id NOT IN ('$array') ORDER BY name") or die(mysqli_error($con));
 	foreach($arObjects as $ar)
 	{
 		$arIds[] = $ar['id'];
