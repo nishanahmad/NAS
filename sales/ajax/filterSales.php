@@ -32,6 +32,16 @@
 		$phone = $_POST['phone'];
 		$sql = $sql." AND customer_phone = '$phone'";
 	}		
+	if(!empty($_POST['customer']))
+	{
+		$customer = $_POST['customer'];
+		$sql = $sql." AND customer_name LIKE '%$customer%'";
+	}		
+	if(!empty($_POST['remarks']))
+	{
+		$remarks = $_POST['remarks'];
+		$sql = $sql." AND remarks LIKE '%$remarks%'";
+	}			
 		
 	$result=mysqli_query($con,$sql);
 	$rowcount=mysqli_num_rows($result);

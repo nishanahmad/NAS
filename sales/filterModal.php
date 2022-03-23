@@ -78,6 +78,20 @@ if(isset($_SESSION["user_name"]))
 						<input type="text" name="phone-filter" id="phone-filter" class="form-control" autocomplete="off">
 					</div>
 				</div>				
+				<br/>
+				<div class="col col-md-5 offset-1">
+					<div class="input-group">
+						<span class="input-group-text col-md-5"><i class="fas fa-user"></i>&nbsp;Cust. Name</span>
+						<input type="text" name="customer-filter" id="customer-filter" class="form-control" autocomplete="off">
+					</div>
+				</div>				
+				<br/>
+				<div class="col col-md-5 offset-1">
+					<div class="input-group">
+						<span class="input-group-text col-md-5">Remarks</span>
+						<input type="text" name="remarks-filter" id="remarks-filter" class="form-control" autocomplete="off">
+					</div>
+				</div>								
 				<br/><br/>
 				<div class="col col-md-5 offset-5">
 					<div class="input-group">
@@ -97,6 +111,8 @@ if(isset($_SESSION["user_name"]))
 						var client = $("#client-filter").val();
 						var eng = $("#eng-filter").val();
 						var phone = $("#phone-filter").val();
+						var customer = $("#customer-filter").val();
+						var remarks = $("#remarks-filter").val();
 						var data = '';
 						if(startDate)
 							data = data + 'startDate='+ startDate + '&';
@@ -109,7 +125,11 @@ if(isset($_SESSION["user_name"]))
 						if(eng)
 							data = data + 'eng='+ eng + '&';		
 						if(phone)
-							data = data + 'phone='+ phone;												
+							data = data + 'phone='+ phone + '&';		
+						if(customer)
+							data = data + 'customer='+ customer + '&';
+						if(remarks)
+							data = data + 'remarks='+ remarks;						
 						
 						$.ajax({
 							type: "POST",
@@ -122,7 +142,7 @@ if(isset($_SESSION["user_name"]))
 									console.log(response);
 								}
 								else
-									$("#error").text('Search returned too many sales. Please apply more filters');
+									$("#displayError").text('Search returned too many sales. Please apply more filters');
 							},
 							error: function (jqXHR, exception) {
 								var msg = '';
