@@ -102,7 +102,7 @@ if(isset($_SESSION["user_name"]))
 									</select>
 								</div>
 							</div>
-							<div class="col-sm-6 col-md-5" id="content-desktop">
+							<div class="col-sm-6 col-md-5">
 								<div class="input-group mb-3">	
 									<span class="input-group-text col-md-4 col-xs-3"><i class="fa fa-truck-moving"></i>&nbsp;Truck</span>
 									<select name="truck" id="truck" class="form-control" style="width:67%">
