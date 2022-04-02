@@ -42,7 +42,7 @@ if(isset($_SESSION["user_name"]))
 	$todaySales = mysqli_query($con, "SELECT * FROM nas_sale WHERE deleted IS NULL AND entry_date = '$today'") or die(mysqli_error($con));
 	foreach($todaySales as $sale)
 	{
-		if( fnmatch("B*",$sale['bill_no']) || fnmatch("C*",$sale['bill_no']) || fnmatch("GB*",$sale['bill_no']) || fnmatch("GC*",$sale['bill_no']) || fnmatch("PB*",$sale['bill_no']) || fnmatch("PC*",$sale['bill_no']))
+		if( fnmatch("B*",$sale['bill_no']) || fnmatch("C*",$sale['bill_no']) || fnmatch("D*",$sale['bill_no']) || fnmatch("GB*",$sale['bill_no']) || fnmatch("GC*",$sale['bill_no']) || fnmatch("PB*",$sale['bill_no']) || fnmatch("PC*",$sale['bill_no']))
 		{
 			$billed = $billed + $sale['qty'];
 			$billedCount++;
