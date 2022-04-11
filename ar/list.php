@@ -68,7 +68,7 @@ if(isset($_SESSION["user_name"]))
 				$status = $row['status'];
 			?>	
 			<tr>
-				<td><?php echo $arname; ?></td>	
+				<td><a href="view.php?id=<?php echo $arId;?>"><?php echo $arname; ?></a></td>	
 				<td><?php echo $shopName; ?></td>	
 				<td style="text-align:center;width:8%"><label align="center"><?php echo $sapCode; ?></td>	
 				<td style="text-align:center;width:8%"><label align="center"><?php echo $oldSap; ?></td>	

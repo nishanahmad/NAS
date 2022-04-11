@@ -5,6 +5,7 @@ if(isset($_SESSION["user_name"]))
 	require '../connect.php';
 	require '../functions/monthMap.php';
 	require '../functions/ledger.php';
+	require '../navbar.php';
     
 	$urlId = $_GET['id'];
 	$sql = mysqli_query($con,"SELECT * FROM ar_details WHERE id='$urlId'") or die(mysqli_error($con));
@@ -29,15 +30,14 @@ if(isset($_SESSION["user_name"]))
 <html>
 	<head>
 		<title><?php echo $ar['name'];?></title>
-		<meta charset="utf-8">
-		<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
-		<link href="../css/bootstrap.min.css" rel="stylesheet">
-		<link href="../css/dashio.css" rel="stylesheet">
-		<link href="../css/dashio-responsive.css" rel="stylesheet">	
-		<link href="../css/font-awesome.min.css" rel="stylesheet">		
-		<script type="text/javascript" language="javascript" src="../js/jquery.js"></script>
-		<script type="text/javascript" language="javascript" src="../js/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="../css/styles.css" rel="stylesheet" type="text/css">	
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css">
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js"></script>
 		<script type="text/javascript">
 		function rerender()
 		{
@@ -62,9 +62,6 @@ if(isset($_SESSION["user_name"]))
 
 		</style>	
 		<section class="wrapper">
-		<div align="center" style="padding-bottom:5px;">
-			<a href="../index.php" class="link"><img alt='home' title='home' src='../images/home.png' width='50px' height='50px'/> </a>
-		</div>
 			<h2 style="margin-left:150px;" <label id="name"><?php echo $ar['name'];?></label></h2>
 			<div class="col-md-10 col-md-offset-1">	
 				<div class="row content-panel">
@@ -108,11 +105,11 @@ if(isset($_SESSION["user_name"]))
 			</div>
 
 			
-			<div class="col-md-10 col-md-offset-1">	
+			<div class="col-md-10" style="margin-left:20%">	
 				<div class="row mt">
 					<div class="content-panel">
-						<h3 style="margin-left:100px;"><i class="fa fa-book"></i>&nbsp;&nbsp;Points Ledger</h3>
-						<div class="form-group">
+						<h3 style="margin-left:20%;"><i class="fa fa-book"></i>&nbsp;&nbsp;Points Ledger</h3>
+						<div class="form-group" style="margin-left:25%;">
 							<div class="col-sm-6 col-md-offset-4">
 								<select id="year" name="year" onchange="return rerender();">																							<?php	
 								$yearList = mysqli_query($con, "SELECT DISTINCT YEAR(entry_date) FROM nas_sale ORDER BY entry_date DESC" ) or die(mysqli_error($con));	
@@ -125,8 +122,8 @@ if(isset($_SESSION["user_name"]))
 							</div>
 						</div>																	
 						<br/><br/>
-						<section id="unseen">
-							<table class="table table-bordered table-condensed col-md-offset-1" style="width:60%;">							<?php
+						<div>
+							<table class="table table-bordered table-condensed" style="width:60%;">							<?php
 							foreach($targetMap as $month => $target) 
 							{																																	?>							
 								<thead>
@@ -154,7 +151,11 @@ if(isset($_SESSION["user_name"]))
 												<td><?php echo $subArray['target'];?></td>
 												<td><?php echo $subArray['sale'];?></td>
 												<td><?php 
-													$actual_percentage = round(  $subArray['sale'] * 100 / $subArray['target'],0);							
+													if($subArray['target'] > 0)
+														$actual_percentage = round(  $subArray['sale'] * 100 / $subArray['target'],0);							
+													else
+														$actual_percentage = 0;
+													
 													if(isset($boosterMap[$month][$dateString]['achieved'])) 
 													{
 														if($actual_percentage >= (float)$boosterMap[$month][$dateString]['achieved'] )
@@ -223,7 +224,7 @@ if(isset($_SESSION["user_name"]))
 								</tbody>
 							</table>
 							<br/><br/>
-						</section>
+						</div>
 					</div>
 				</div>
 			</div>

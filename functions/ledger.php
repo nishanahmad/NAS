@@ -190,7 +190,11 @@ function getOpeningPoints($year,$arId)
 				{
 					foreach($subArray as $dateString => $value)
 					{
-						$actual_percentage = round(  $value['sale'] * 100 / $value['target'],0);							
+						if($value['target'] > 0)
+							$actual_percentage = round(  $value['sale'] * 100 / $value['target'],0);							
+						else
+							$actual_percentage = 0;
+						
 						if(isset($boosterMap[$month][$dateString]['achieved'])) 
 						{
 							if($actual_percentage >= (float)$boosterMap[$month][$dateString]['achieved'] )
