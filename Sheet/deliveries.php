@@ -214,7 +214,12 @@ if(isset($_SESSION["user_name"]))
 															echo $userMap[$sheet['delivered_by']];
 														}																											?>
 								on <?php echo date("d-m-Y",strtotime($sheet['delivered_on']));?>						
-							</p>
+							</p>																															<?php 
+							if($sheet['coveringBlock'])
+							{																																?>
+								<p style="color:#cc0000"><i class="fas fa-th"></i> Covering Block</p>														<?php	
+							}																																?>						
+							<br/>							
 							<br/>
 							<div align="center">
 								<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn" style="color:#ffffff;background-color:e1be5c;width:100px;"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;
