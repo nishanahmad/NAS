@@ -7,6 +7,8 @@ if (strpos($url, 'sales') !== false)
 	$flag = 'sales';
 if (strpos($url, 'loading') !== false)
 	$flag = 'loading';
+if (strpos($url, 'coveringBlock') !== false)
+	$flag = 'coveringBlock';	
 if (strpos($url, 'trucks') !== false)
 	$flag = 'loading';
 if (strpos($url, 'ar') !== false || strpos($url, 'points') !== false || strpos($url, 'Target') !== false || strpos($url, 'redemption') !== false)
@@ -226,7 +228,16 @@ a {
 			  Loading
 			</a>
 		  </li>																																		<?php
-	  }																																				?>	  
+	  }																																					  
+	  if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'marketing' || $_SESSION['user_name'] == 'Jaseem Puthiyatheru')
+	  {																																				?>	  
+		  <li class="nav-item">
+			<a class="nav-link" <?php if($flag == 'coveringBlock') echo 'href="#"'; else echo 'href="../coveringBlock/list.php"';?>>
+			  <i class="fa fa-th <?php if($flag == 'coveringBlock') echo 'glow';?> aria-hidden="true"></i>
+			  Covering Block
+			</a>
+		  </li>																																		<?php
+	  }																																				?>	  	  
 	  <li class="nav-item">
 		<a class="nav-link" <?php if($flag == 'ar') echo 'href="#"'; else echo 'href="../ar/list.php"';?>>
 		  <i class="fa fa-address-card-o <?php if($flag == 'ar') echo 'glow';?> aria-hidden="true"></i>
