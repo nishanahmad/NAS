@@ -8,7 +8,8 @@ if(isset($_SESSION["user_name"]))
 	require '../navbar.php';
 	require 'listHelper.php';
 	
-	$clientNamesMap = getClientNames($con);
+	$arNamesMap = getARNames($con);
+	$shopNamesMap = getShopNames($con);
 	$productDetailsMap = getProductDetails($con);
 	$truckNumbersMap = getTruckNumbers($con);	
 	
@@ -41,15 +42,13 @@ if(isset($_SESSION["user_name"]))
 				<table class="maintable table table-hover table-bordered" style="width:95%;margin-left:2%;">
 					<thead>
 						<tr class="table-success">
-							<th><i class="fa fa-th"></i> Block Status</th>
+							<th style="width:20px;">Status</th>
 							<th style="min-width:110px;"><i class="far fa-calendar-alt"></i> Date</th>
-							<th><i class="fa fa-address-card-o"></i> AR</th>
+							<th style="width:250px;"><i class="fa fa-address-card-o"></i> AR</th>
 							<th style="width:70px;"><i class="fa fa-shield"></i> PRO</th>
 							<th style="width:70px;"><i class="fab fa-buffer"></i> QTY</th>
-							<th style="width:120px;"><i class="far fa-file-alt"></i> BILL NO</th>
 							<th style="width:95px;"><i class="fas fa-truck-moving"></i> TRUCK</th>
 							<th style="width:180px;"><i class="far fa-user"></i> CUSTOMER</th>
-							<th><i class="far fa-comment-dots"></i> REMARKS</th>
 							<th><i class="fas fa-map-marker-alt"></i> ADDRESS</th>
 						</tr>	
 					</thead>
@@ -63,13 +62,13 @@ if(isset($_SESSION["user_name"]))
 									</div>
 								</td>
 								<td><?php echo date('d-m-Y',strtotime($sale['entry_date'])).' '; ?></td>
-								<td><?php echo $clientNamesMap[$sale['ar_id']];?></td>
+								<td><?php echo $arNamesMap[$sale['ar_id']];?><br/>
+									<?php echo $shopNamesMap[$sale['ar_id']];?>
+								</td>
 								<td><?php echo $productDetailsMap[$sale['product']]['name'];?></td>
 								<td><?php echo $sale['qty']; ?></td>
-								<td><?php echo $sale['bill_no']; ?></td>
 								<td><?php if(isset($truckNumbersMap[$sale['truck']])) echo $truckNumbersMap[$sale['truck']]; ?></td>
 								<td><?php echo $sale['customer_name'].'<br/><font>'.$sale['customer_phone'].'</font>'; ?></td>
-								<td><?php echo $sale['remarks']; ?></td>
 								<td><?php echo $sale['address1']; ?></td>
 							</tr>																																		<?php				
 						}																																				?>

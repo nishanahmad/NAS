@@ -2,7 +2,7 @@
 ini_set('max_execution_time', '0'); // for infinite time of execution 
 ini_set('memory_limit', '-1');
 
-function getClientNames($con)
+function getARNames($con)
 {
 	$clientMap = array();
 	$clients = mysqli_query($con,"SELECT id,name FROM ar_details ORDER BY name ASC");	
@@ -12,6 +12,15 @@ function getClientNames($con)
 	return $clientMap;	
 }
 
+function getShopNames($con)
+{
+	$clientMap = array();
+	$clients = mysqli_query($con,"SELECT id,shop_name FROM ar_details ORDER BY name ASC");	
+	foreach($clients as $client)
+		$clientMap[$client['id']] = $client['shop_name'];	
+		
+	return $clientMap;	
+}
 
 function getGodownNames($con)
 {
