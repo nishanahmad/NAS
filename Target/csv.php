@@ -19,7 +19,7 @@ ini_set('memory_limit', '-1');
 				foreach ($csvFile as $str)
 				{
 					$row = explode(",",$str);
-					$message = "DEAR AR,YOUR BALANCE TO ACHIEVE YOUR MONTHLY TARGET OF APRIL 2022 IS ".$row[1]." BAGS. ACHIEVE YOUR TARGET & EARN SPECIAL BENEFITS - AR HELP";
+					$message = "Dear AR, The Special Target for 24th May to 31st May 2022. Suraksha target is ".$row[1]." bags and C+ target is ".$row[2]." bags. Your total target is ".$row[3]." bags. Achieve target and earn & full Lakshya benefits - AR HELP";
 					$phone = '91'.$row[0];
 					echo $phone.'<br/>';
 					echo $message.'<br/>';

@@ -13,7 +13,7 @@ if(isset($_SESSION["user_name"]))
 	$truckNumbersMap = getTruckNumbers($con);	
 	
 	$today = date('Y-m-d');
-	$sales = mysqli_query($con,"SELECT * FROM nas_sale WHERE deleted IS NULL AND entry_date = '$today' ORDER BY bill_no") or die(mysqli_error($con));
+	$sales = mysqli_query($con,"SELECT * FROM nas_sale WHERE deleted IS NULL AND entry_date = '$today' ORDER BY product DESC,bill_no") or die(mysqli_error($con));
 ?>
 
 <html>
@@ -38,7 +38,6 @@ if(isset($_SESSION["user_name"]))
 		<br/><br/>
 			<div id="content-desktop">
 				<br/><br/>
-				<input type="hidden" id="userRole" value="<?php echo $_SESSION['role'];?>">
 				<table class="maintable table table-hover table-bordered" style="width:95%;margin-left:2%;">
 					<thead>
 						<tr class="table-success">
@@ -59,7 +58,7 @@ if(isset($_SESSION["user_name"]))
 						{																																				?>	
 							<tr>
 								<td><div class="form-check">
-										<input class="form-check-input" type="checkbox" id="check1" name="<?php echo $sale['sales_id'];?>" 
+										<input class="form-check-input check1" type="checkbox" id="check1" name="<?php echo $sale['sales_id'];?>" 
 										<?php if($sale['coveringblock']) echo 'checked';?> />
 									</div>
 								</td>
@@ -92,15 +91,15 @@ $(document).ready(function() {
 	}); 
 } );
 
-document.getElementById('check1').onclick = function() {
-    var checkbox = document.getElementById('check1');
-	if (checkbox.checked)
+
+$('.check1').change(function () {
+    if(this.checked)
 		checked = 'True';
 	else
 		checked = 'False';
 	
-	var saleId = this.name;
-	
+	var saleId = this.name;	
+
 	$.ajax({
 		type: "POST",
 		url: "updateCoveringBlock.php",
@@ -112,7 +111,7 @@ document.getElementById('check1').onclick = function() {
 			}
 		}
 	});
-}
+ });
 </script>
 </html>																														<?php
 
