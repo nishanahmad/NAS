@@ -60,7 +60,7 @@ if(isset($_SESSION["user_name"]))
 		<br/><br/>
 		<div style="margin-left:46%;">
 			<select id="selectbox" name="" onchange="javascript:location.href = this.value;">
-				<option value="daybook.php?date=<?php echo date('Y-m-d');?>">Day Book</option>
+				<option value="dayBook.php?date=<?php echo date('Y-m-d');?>">Day Book</option>
 				<option value="monthReport.php" selected>Month Report</option>
 			</select>
 		</div>	
