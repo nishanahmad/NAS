@@ -68,8 +68,14 @@ if(isset($_SESSION["user_name"]))
 	</head>
 	<body>
 		<br/><br/>
+		<div style="margin-left:46%;">
+			<select id="selectbox" name="" onchange="javascript:location.href = this.value;">
+				<option value="#" selected>Day Book</option>
+				<option value="monthReport.php">Month Report</option>
+			</select>
+		</div>		
+		<br/><br/>
 		<div align="center">
-			<h2><i class="fa fa-calendar"></i> Day Book</h2><br/>
 			<input type="text" name="date" id="date" onchange="document.location.href = 'dayBook.php?date=' + this.value" class="form-control datepicker col-md-1" autocomplete="off" value="<?php echo date('d-m-Y',strtotime($urlDate)); ?>">
 			<br/><br/>
 			<table class="table table-hover table-bordered" style="width:30%;">
