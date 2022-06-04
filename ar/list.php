@@ -44,6 +44,7 @@ if(isset($_SESSION["user_name"]))
 			$result = mysqli_query($con, $sql) or die(mysqli_error($con));																					?>
 			<thead>
 				<tr class="table-success">
+					<th>Id</th>
 					<th style="width:20%">Name</th>
 					<th style="width:20%">Shop</th>
 					<th style="text-align:center;width:8%">SAP</th>
@@ -68,8 +69,9 @@ if(isset($_SESSION["user_name"]))
 				$status = $row['status'];
 			?>	
 			<tr>
+				<td><?php echo $arId; ?></td>
 				<td><a href="view.php?id=<?php echo $arId;?>"><?php echo $arname; ?></a></td>	
-				<td><?php echo $shopName; ?></td>	
+				<td><?php echo $shopName; ?></td>
 				<td style="text-align:center;width:8%"><label align="center"><?php echo $sapCode; ?></td>	
 				<td style="text-align:center;width:8%"><label align="center"><?php echo $oldSap; ?></td>	
 				<td style="text-align:center;width:10%"><?php echo $mobile;?></td>		
