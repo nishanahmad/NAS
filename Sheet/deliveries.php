@@ -177,7 +177,11 @@ if(isset($_SESSION["user_name"]))
 				
 				<br/><br/>
 			</div>
-		</div>		
+		</div><?php
+		if($designation != 'driver')
+		{																																?>
+			<a href="deliveries_table.php" style="margin-left:46%">Table View</a><br/><br/>												<?php
+		}																																?>		
 		<div class="container"><?php 
 			$divId = 1;																				
 			foreach($sheets as $sheet)

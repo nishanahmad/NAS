@@ -207,9 +207,12 @@ if(isset($_SESSION["user_name"]))
 					if(isset($todayPendingMap[$userId])) echo $todayPendingMap[$userId].' sites pending today</b><br/><br/>';
 				}				?>
 			</div>
-		</div>
-		<button id="tglbtn" style="margin-left:46%">Switch View</button><br/><br/>
-		<div class="container" id="boxview">																											<?php 
+		</div><?php
+		if($designation != 'driver')
+		{																																?>
+			<a href="requests_table.php" style="margin-left:46%">Table View</a><br/><br/>												<?php
+		}																																?>
+		<div class="container">																											<?php 
 				foreach($sheets as $sheet)
 				{																															?>
 					<div class="card">
@@ -279,37 +282,7 @@ if(isset($_SESSION["user_name"]))
 					</div>
 					<br/><br/><br/>																		<?php				
 				}																							?>
-		</div>
-		<div class="container" id="tableview">
-			<table class="table table-hover table-bordered" style="width:60%">
-				<thead>
-					<tr class="table-info">
-						<th></th>
-						<th style="width:200px;">Address</th>
-						<th style="width:120px;">Date</th>
-						<th>Bags</th>
-						<th style="width:50px;">Qty</th>
-						<th style="width:120px;">Transfrd By</th>
-						<th style="width:140px;">Stock</th>
-					</tr>
-				</thead>
-				<tbody>		<?php 
-				foreach($sheets as $sheet)
-				{																															?>
-					<tr>
-						<td></td>
-						<td><?php if($sheet['driver_area'] > 0) echo '<font style="font-weight:bold">'.$mainAreaMap[$sheet['driver_area']].'</font>';echo '<br/>'.$sheet['area']; ?></td>
-						<td><?php echo date("d-m-Y",strtotime($sheet['date']));?></td>
-						<td><?php echo date('h:i:s A',strtotime($log['transferred_on']));?></td>
-						<td><?php echo $sheet['bags'];?></td>
-						<td><?php echo $log['qty'];?></td>				
-						<td><?php echo $userMap[$log['transferred_by']];?></td>
-						<td></td>									
-					</tr>																												<?php				
-				}																															?>
-				<tbody>
-			</table>	
-		</div>		
+		</div>	
 		<script>
 
 			$(function(){
@@ -341,13 +314,9 @@ if(isset($_SESSION["user_name"]))
 				});	
 				
 				var pickeropts = { dateFormat:"dd-mm-yy"};
-				$( ".datepicker" ).datepicker(pickeropts);				
+				$( ".datepicker" ).datepicker(pickeropts);	
 			});
 
-			$("#tglbtn").click(function() { 
-				$("#boxview").toggle();
-				$("#tableview").toggle();
-			});
 			
 			function markRead(sheetId){
 				$.ajax({
