@@ -8,7 +8,7 @@ ini_set('memory_limit', '-1');
 	
 	</head>
 	<body>
-		<div align="center"><h2><font face="Tahoma, Trebuchet MS">Upload CSV</font></h2></div>
+		<div align="center"><h2><font face="Tahoma, Trebuchet MS">Upload CSV</font></h2>
 		<br /><br/>
 		<?php
 			$files = glob("send.csv");
@@ -18,7 +18,7 @@ ini_set('memory_limit', '-1');
 				foreach ($csvFile as $str)
 				{
 					$row = explode(",",$str);
-					$message = "Dear AR, Ur July  Month Trgt is ".$row[1]." bags. Achieve Ur Trgt Earn Full Lakshya Benefits - AR HELP";
+					$message = "DEAR AR, CONGRATS!! U HAVE CREDITED ".$row[1]." PLUS POINTS FOR JUNE 2022. NOW U HAVE ".$row[2]." PLUS POINTS IN UR ACCOUNT - AR HELP";
 					$phone = '91'.$row[0];
 					echo $phone.'<br/>';
 					echo $message.'<br/>';
@@ -27,5 +27,6 @@ ini_set('memory_limit', '-1');
 				}
 			}
 		?>
+		</div>
 	</body>
 </html>
