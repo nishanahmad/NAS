@@ -28,6 +28,15 @@ if(isset($_SESSION["user_name"]))
 		$ar_direct = 0;
 		
 	$address1 = $_POST['address1'];
+	$driverName = $_POST['driverName'];
+	$driverPhone = $_POST['driverPhone'];
+	
+	if(isset($_POST['otherPurchase']))
+		$otherPurchase = 1;
+	else	
+		$otherPurchase = 0;
+	
+	$address1 = $_POST['address1'];
 	$entered_by = $_SESSION["user_name"];
 	$entered_on = date('Y-m-d H:i:s');	
 	$userId = $_SESSION["user_id"];
@@ -42,16 +51,16 @@ if(isset($_SESSION["user_name"]))
 	if(empty($truck))
 		$truck = null;		
 	if(empty($godown))
-		$godown = null;			
+		$godown = null;
 	
 	if( fnmatch("B*",$bill) || fnmatch("C*",$bill) || fnmatch("GB*",$bill) || fnmatch("GC*",$bill) || fnmatch("PB*",$bill) || fnmatch("PC*",$bill))
 		$locked = 1;
 	else	
 		$locked = 0;
 			
-	$sql="INSERT INTO nas_sale (entry_date, ar_id, eng_id, truck, godown, order_no, product, qty, discount, remarks, bill_no, customer_name, customer_phone, ar_direct, address1, entered_by, entered_on, locked)
+	$sql="INSERT INTO nas_sale (entry_date, ar_id, eng_id, truck, godown, order_no, product, qty, discount, remarks, bill_no, customer_name, customer_phone, ar_direct, address1, entered_by, entered_on, locked, driver_name, driver_phone, other_purchase)
 		 VALUES
-		 ('$sqlDate', '$arId', ".var_export($engId, true).", ".var_export($truck, true).", ".var_export($godown, true).", ".var_export($order_no, true).",'$product', '$qty',".var_export($discount, true).", '$remarks', '$bill', '$customerName', '$customerPhone', $ar_direct, '$address1', '$entered_by', '$entered_on', $locked)";
+		 ('$sqlDate', '$arId', ".var_export($engId, true).", ".var_export($truck, true).", ".var_export($godown, true).", ".var_export($order_no, true).",'$product', '$qty',".var_export($discount, true).", '$remarks', '$bill', '$customerName', '$customerPhone', $ar_direct, '$address1', '$entered_by', '$entered_on', $locked, '$driverName', '$driverPhone', $otherPurchase)";
 
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));
 	

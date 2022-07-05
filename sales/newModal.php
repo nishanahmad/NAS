@@ -7,21 +7,9 @@ if(isset($_SESSION["user_name"]))
 	$products = mysqli_query($con,"SELECT id,name FROM products WHERE status = 1 ORDER BY id ASC");
 
 	$arObjects = mysqli_query($con,"SELECT id,name,sap_code,shop_name,type FROM ar_details WHERE type <> 'Engineer Only' OR type IS NULL ORDER BY name ASC");
-	foreach($arObjects as $arObject)
-	{
-		$arId = $arObject['id'];
-		
-		$shopName = strip_tags($arObject['shop_name']);
-		$shopNameMap[$arId] = $shopName;
-	}
-	
-	$shopNameArray = json_encode($shopNameMap);
-	$shopNameArray = str_replace('\n',' ',$shopNameArray);
-	$shopNameArray = str_replace('\r',' ',$shopNameArray);
-	
-	$engineerObjects = mysqli_query($con,"SELECT id,name,sap_code,shop_name FROM ar_details WHERE type = 'Engineer only' ORDER BY name ASC");
-	$trucks = mysqli_query($con,"SELECT * FROM truck_details ORDER BY number");
-	$godowns = mysqli_query($con,"SELECT * FROM godowns ORDER BY name");																											?>
+	$engineerObjects = mysqli_query($con,"SELECT id,name,sap_code,shop_name FROM ar_details WHERE type = 'Engineer only' ORDER BY name ASC");	
+	$godowns = mysqli_query($con,"SELECT * FROM godowns ORDER BY name");	
+	$trucks = mysqli_query($con,"SELECT * FROM truck_details ORDER BY number");				?>
 
 	<style>
 	#country-list{list-style:none;margin-top:-3px;margin-left:120px;padding:0;width:190px;}
@@ -199,6 +187,32 @@ if(isset($_SESSION["user_name"]))
 								<div class="input-group mb-3">
 									<span class="input-group-text col-md-4"><i class="fa fa-address-card-o"></i>&nbsp;Shop</span>
 									<input type="text" readonly name="shopName" id="shopName" class="form-control">
+								</div>
+							</div>
+						</div>
+					</div>	
+					<div class="row">
+						<div class="form-group row">
+							<div class="col-sm-6 col-md-4 offset-md-1">
+								<div class="input-group mb-3">
+									<span class="input-group-text col-md-5">Driver</span>
+									<input type="text" name="driverName" id="driverName" class="form-control">
+								</div>
+							</div>
+							<div class="col-sm-6 col-md-5 offset-md-1">
+								<div class="input-group mb-3">
+									<span class="input-group-text" style="width:40%"><i class="fas fa-mobile-alt"></i>&nbsp; Driver Phone</span>
+									<input type="text" name="driverPhone" id="driverPhone" class="form-control" autocomplete="off">
+								</div>
+							</div>
+						</div>
+					</div>																				
+					<div class="row">
+						<div class="form-group row">
+							<div class="col-sm-6 col-md-4 offset-md-1">
+								<div class="input-group mb-3">
+									<input class="form-check-input" type="checkbox" id="otherPurchase" name="otherPurchase">
+									<label class="form-check-label" for="flexCheckDefault">&nbsp;&nbsp;Other Purhase</label>
 								</div>
 							</div>
 						</div>

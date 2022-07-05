@@ -354,6 +354,14 @@ $(function(){
 	$("#bd").change(function(){
 		refreshRate();
 	});		
+	
+	$("#truck").change(function(){
+		var truckId = $('#truck').val();
+		var driverName = driverNameArray[truckId];
+		var driverPhone = driverPhoneArray[truckId];
+		$('#driverName').val(driverName);
+		$('#driverPhone').val(driverPhone);
+	});			
 
 	$("#autoDiscount").click(function(){
 		var product = $("#product").val();

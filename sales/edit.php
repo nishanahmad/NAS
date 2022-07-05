@@ -288,7 +288,32 @@ if(isset($_SESSION["user_name"]) && $_SESSION["role"] != 'marketing')
 								<div class="col col-md-4 offset-1">
 
 								</div>								
-							</div>							
+							</div>
+							<br/>
+							<div class="row">
+								<div class="col col-md-4 offset-1">
+									<div class="input-group">
+										<span class="input-group-text col-md-5">Driver</span>
+										<input type="text" name="driverName" id="driverName" value="<?php echo $row['driver_name'];?>" class="form-control">
+									</div>								
+								</div>
+								<div class="col col-md-5 offset-2">
+									<div class="input-group mb-3">
+										<span class="input-group-text" style="width:40%"><i class="fas fa-mobile-alt"></i>&nbsp; Driver Phone</span>
+										<input type="text" name="driverPhone" id="driverPhone" value="<?php echo $row['driver_phone'];?>" class="form-control" autocomplete="off">
+									</div>
+								</div>
+							</div>		
+							<div class="row">
+								<div class="form-group row">
+									<div class="col-sm-6 col-md-4 offset-md-1">
+										<div class="input-group mb-3">
+											<input class="form-check-input" <?php if($row['other_purchase']) echo 'checked'?> type="checkbox" id="otherPurchase" name="otherPurchase">
+											<label class="form-check-label" for="flexCheckDefault">&nbsp;&nbsp;Other Purhase</label>
+										</div>
+									</div>
+								</div>
+							</div>																																
 							<p id="displayError" style="color:red;"></p>
 							<br/><?php
 							$entryDate = date('Y-m-d',strtotime($row['entry_date']));

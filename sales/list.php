@@ -58,11 +58,27 @@ if(isset($_SESSION["user_name"]))
 		
 		$shopName = strip_tags($ar['shop_name']); 
 		$shopNameMap[$ar['id']] = $shopName;
+	}
 
-		$shopNameArray = json_encode($shopNameMap);
-		$shopNameArray = str_replace('\n',' ',$shopNameArray);
-		$shopNameArray = str_replace('\r',' ',$shopNameArray);		
-	}																																			?>	
+	$shopNameArray = json_encode($shopNameMap);
+	$shopNameArray = str_replace('\n',' ',$shopNameArray);
+	$shopNameArray = str_replace('\r',' ',$shopNameArray);		
+		
+	$driverNameMap = array();
+	$driverPhoneMap = array();
+	$trucks = mysqli_query($con,"SELECT * FROM truck_details ORDER BY number");
+	foreach($trucks as $truck)
+	{
+		$driverNameMap[$truck['id']] = $truck['driver'];
+		$driverPhoneMap[$truck['id']] = $truck['phone'];
+	}
+	$driverNameArray = json_encode($driverNameMap);
+	$driverNameArray = str_replace('\n',' ',$driverNameArray);
+	$driverNameArray = str_replace('\r',' ',$driverNameArray);
+	
+	$driverPhoneArray = json_encode($driverPhoneMap);
+	$driverPhoneArray = str_replace('\n',' ',$driverPhoneArray);
+	$driverPhoneArray = str_replace('\r',' ',$driverPhoneArray);																			?>	
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -293,6 +309,14 @@ if(isset($_SESSION["user_name"]))
 			var shopNameList = '<?php echo $shopNameArray;?>';
 			var shopName_array = JSON.parse(shopNameList);
 			var shopNameArray = shopName_array;											
+			
+			var driverNameList = '<?php echo $driverNameArray;?>';
+			var driverName_array = JSON.parse(driverNameList);
+			var driverNameArray = driverName_array;											
+
+			var driverPhoneList = '<?php echo $driverPhoneArray;?>';
+			var driverPhone_array = JSON.parse(driverPhoneList);
+			var driverPhoneArray = driverPhone_array;											
 		</script>
 	</body>
 </html>																																					<?php
