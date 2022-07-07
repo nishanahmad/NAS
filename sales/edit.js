@@ -269,6 +269,14 @@ $(document).ready(function()
 		refreshRate();
 	});	
 
+	$("#truck").change(function(){
+		var truckId = $('#truck').val();
+		var driverName = driverNameArray[truckId];
+		var driverPhone = driverPhoneArray[truckId];
+		$('#driverName').val(driverName);
+		$('#driverPhone').val(driverPhone);
+	});
+	
 	$("#sheetMdlBtn").click(function(){
 		var truck = $("#sheet_truck").val();
 		truck = truck.replace("-", "").toUpperCase();

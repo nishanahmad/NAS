@@ -26,16 +26,28 @@ if(isset($_SESSION["user_name"]) && $_SESSION["role"] != 'marketing')
 		
 		$shopName = strip_tags($ar['shop_name']); 
 		$shopNameMap[$ar['id']] = $shopName;
-
-		$shopNameArray = json_encode($shopNameMap);
-		$shopNameArray = str_replace('\n',' ',$shopNameArray);
-		$shopNameArray = str_replace('\r',' ',$shopNameArray);		
 	}
+	$shopNameArray = json_encode($shopNameMap);
+	$shopNameArray = str_replace('\n',' ',$shopNameArray);
+	$shopNameArray = str_replace('\r',' ',$shopNameArray);			
+		
 	$result = mysqli_query($con,"SELECT * FROM nas_sale WHERE sales_id='" . $_GET["sales_id"] . "'") or die(mysqli_error($con));
 	$row= mysqli_fetch_array($result,MYSQLI_ASSOC);
 	$historyList = (getHistory($row['sales_id']));	
 
 	$trucks = mysqli_query($con,"SELECT * FROM truck_details ORDER BY number");
+	foreach($trucks as $truck)
+	{
+		$driverNameMap[$truck['id']] = $truck['driver'];
+		$driverPhoneMap[$truck['id']] = $truck['phone'];
+	}
+	$driverNameArray = json_encode($driverNameMap);
+	$driverNameArray = str_replace('\n',' ',$driverNameArray);
+	$driverNameArray = str_replace('\r',' ',$driverNameArray);
+	
+	$driverPhoneArray = json_encode($driverPhoneMap);
+	$driverPhoneArray = str_replace('\n',' ',$driverPhoneArray);
+	$driverPhoneArray = str_replace('\r',' ',$driverPhoneArray);
 	$godowns = mysqli_query($con,"SELECT * FROM godowns ORDER BY name");
 
 	if($_POST)
@@ -68,12 +80,20 @@ if(isset($_SESSION["user_name"]) && $_SESSION["role"] != 'marketing')
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js"></script>
 		<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"/>
-		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>		
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 		<script src='edit.js' type='text/javascript'></script>
 		<script>
 			var shopNameList = '<?php echo $shopNameArray;?>';
 			var shopName_array = JSON.parse(shopNameList);
 			var shopNameArray = shopName_array;
+			
+			var driverNameList = '<?php echo $driverNameArray;?>';
+			var driverName_array = JSON.parse(driverNameList);
+			var driverNameArray = driverName_array;											
+
+			var driverPhoneList = '<?php echo $driverPhoneArray;?>';
+			var driverPhone_array = JSON.parse(driverPhoneList);
+			var driverPhoneArray = driverPhone_array;														
 		</script>
 	</head>
 	<body>
