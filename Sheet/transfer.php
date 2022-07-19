@@ -5,14 +5,17 @@ if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';	
 	require 'navbar.php';		
-	
-	$driversQuery = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role ='driver' ORDER BY user_name") or die(mysqli_error($con));
-	
-	
+		
 	$users = mysqli_query($con,"SELECT * FROM users WHERE role ='driver' ORDER BY user_name ASC" ) or die(mysqli_error($con));
 	foreach($users as $user)
 	{
-		$userMap[$user['user_id']] = $user['user_name']; 
+		if($user['user_name'] == 'Damage')
+		{
+			if($_SESSION["user_name"] == 'Aparna' || $_SESSION["role"]== 'admin')
+				$userMap[$user['user_id']] = $user['user_name'];
+		}
+		else
+			$userMap[$user['user_id']] = $user['user_name'];
 	}
 	
 	if($_POST)
@@ -105,9 +108,9 @@ if(isset($_SESSION["user_name"]))
 					<div style="margin-left:30px;">
 						<select required name="from" id="from" class="form-control">
 							<option value="">--- FROM ---</option><?php
-							foreach($users as $user)
+							foreach($userMap as $userId => $userName)
 							{																																			?>
-								<option value="<?php echo $user['user_id'];?>"><?php echo $user['user_name'];?></option> 						<?php
+								<option value="<?php echo $userId;?>"><?php echo $userName;?></option> 						<?php
 							}																																			?>
 						</select>
 					</div>
@@ -117,9 +120,9 @@ if(isset($_SESSION["user_name"]))
 					<div>
 						<select required name="to" id="to" class="form-control">
 							<option value="">---- TO ----</option><?php
-							foreach($users as $user)
+							foreach($userMap as $userId => $userName)
 							{																																			?>
-								<option value="<?php echo $user['user_id'];?>"><?php echo $user['user_name'];?></option> 						<?php
+								<option value="<?php echo $userId;?>"><?php echo $userName;?></option> 						<?php
 							}																																			?>
 						</select>
 					</div>						
