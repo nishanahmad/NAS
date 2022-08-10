@@ -18,12 +18,20 @@ ini_set('memory_limit', '-1');
 				foreach ($csvFile as $str)
 				{
 					$row = explode(",",$str);
-					$message = "DEAR AR, CONGRATS!! U HAVE CREDITED ".$row[1]." PLUS POINTS FOR JUNE 2022. NOW U HAVE ".$row[2]." PLUS POINTS IN UR ACCOUNT - AR HELP";
+					$message = "Dear AR, Ur Aug  Month Trgt is ".$row[1]." bags. Achieve Ur Trgt Earn Full Lakshya Benefits - AR HELP";
+/*
+$message = 
+"Beach Residency, Kannur would love your feedback. Post a review to our profile.
+
+https://g.page/r/CWic1xXVc4IFEB0/review";
+// Change the instance ids also
+*/
+
 					$phone = '91'.$row[0];
 					echo $phone.'<br/>';
 					echo $message.'<br/>';
-					//sleep(2);
-					//$status = sendMessage($message,$phone);
+					sleep(2);
+					$status = sendMessage($message,$phone);
 				}
 			}
 		?>

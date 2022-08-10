@@ -28,6 +28,7 @@ if(isset($_SESSION["user_name"]))
 				<li class="active"><a href="#">AR List</a></li>
 				<li><a href="../Target/list.php?">Target</a></li>
 				<li><a href="../SpecialTarget/list.php?">Special Target</a></li>
+				<li><a href="../gold_points/list.php">Gold Points</a></li>
 				<li><a href="../redemption/list.php?">Redemption</a></li>
 			</ul>
 		</nav>
