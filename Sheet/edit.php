@@ -8,6 +8,7 @@ if(isset($_SESSION["user_name"]))
 	$designation = $_SESSION['role'];
 	$id = $_GET['id'];
 	$areaList = mysqli_query($con,"SELECT id,name FROM sheet_area ORDER BY name ASC");
+	$shopList = mysqli_query($con,"SELECT id,shop_name FROM ar_details WHERE shop_name IS NOT NULL AND shop_name != '' ORDER BY shop_name ASC");
 	$sql = mysqli_query($con,"SELECT * FROM sheets WHERE id='$id'") or die(mysqli_error($con));
 	$request = mysqli_fetch_array($sql,MYSQLI_ASSOC);
 	
@@ -116,18 +117,30 @@ if(isset($_SESSION["user_name"]))
 							<input name="shop" type="text" class="form-control" placeholder="Shop" placeholder="Shop" value="<?php echo $request['shop'];?>"/>
 						</div>
 					</div>
-						<div class="col col-md-10">
-							<div class="input-group mb-3">
-								<span class="input-group-text col-md-4"><i class="fa fa-map-o"></i>&nbsp;Area</span>
-								<select name="driver_area" required id="driver_area" class="form-control">
-									<option value="">---- SELECT AREA ---</option>															<?php
-									foreach($areaList as $area) 
-									{																										?>
-										<option <?php if($request['driver_area'] == $area['id']) echo 'selected';?> value="<?php echo $area['id'];?>"><?php echo $area['name'];?></option>						<?php
-									}																										?>
-								</select>
-							</div>
-						</div>																																								
+					<div class="col col-md-10">
+						<div class="input-group mb-3">
+							<span class="input-group-text col-md-4"><i class="fa fa-address-card-o"></i>&nbsp;Shop</span>
+							<select name="shop1" id="shop1" class="form-control">
+								<option value="">---- SELECT SHOP ---</option>															<?php
+								foreach($shopList as $shop) 
+								{																										?>
+									<option <?php if($request['shop1'] == $shop['id']) echo 'selected';?> value="<?php echo $shop['id'];?>"><?php echo $shop['shop_name'];?></option>						<?php
+								}																										?>
+							</select>
+						</div>
+					</div>																																													
+					<div class="col col-md-10">
+						<div class="input-group mb-3">
+							<span class="input-group-text col-md-4"><i class="fa fa-map-o"></i>&nbsp;Area</span>
+							<select name="driver_area" required id="driver_area" class="form-control">
+								<option value="">---- SELECT AREA ---</option>															<?php
+								foreach($areaList as $area) 
+								{																										?>
+									<option <?php if($request['driver_area'] == $area['id']) echo 'selected';?> value="<?php echo $area['id'];?>"><?php echo $area['name'];?></option>						<?php
+								}																										?>
+							</select>
+						</div>
+					</div>																																								
 					<div class="col col-md-10">
 						<div class="input-group mb-3">
 							<span class="input-group-text col-md-4"><i class="fas fa-map-marker-alt"></i>&nbsp;Address</span>

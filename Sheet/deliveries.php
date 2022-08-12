@@ -22,6 +22,10 @@ if(isset($_SESSION["user_name"]))
 	foreach($driversQuery as $driver)
 		$drivers[$driver['user_id']] = $driver['user_name'];
 
+	$shopsQuery = mysqli_query($con,"SELECT id,shop_name FROM ar_details WHERE shop_name IS NOT NULL AND shop_name != '' ORDER BY shop_name ASC");
+	foreach($shopsQuery as $shop)
+		$shops[$shop['id']] = $shop['shop_name'];		
+		
 	$users = mysqli_query($con,"SELECT * FROM users WHERE role ='driver' ORDER BY user_name ASC" ) or die(mysqli_error($con));
 	foreach($users as $user)
 		$userMap[$user['user_id']] = $user['user_name']; 
@@ -201,7 +205,12 @@ if(isset($_SESSION["user_name"]))
 							}?>									
 							<p><i class="fa fa-file"></i> <?php echo $sheet['qty'].' sheets for '.$sheet['bags']. ' bags';?></p>
 							<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['date']));?></p>
-							<p><i class="fas fa-store"></i> <?php echo $sheet['shop'];?></p>
+							<p><i class="fas fa-store"></i> <?php 							
+								if(isset($sheet['shop1']) && $sheet['shop1'] != 0)
+									echo $shops[$sheet['shop1']];
+								else
+									echo $sheet['shop'];?>
+							</p>
 							<p><i class="fa fa-align-left"></i> <?php echo $sheet['remarks'];?></p>																	<?php
 							if($designation != 'driver')
 							{?>

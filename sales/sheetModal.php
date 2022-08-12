@@ -57,7 +57,7 @@ if(isset($_SESSION["user_name"]))
 					<input type="text" hidden name="id" value="<?php echo $sheet['id'];?>"> 							<?php
 				  }																										?>					  
 				  <input type="text" hidden name="site" value="<?php echo $row['sales_id'];?>">				  
-				  <input type="text" hidden name="sheet_shop" value="<?php echo $shopNameMap[$row['ar_id']];?>" >
+				  <input type="text" hidden name="sheet_shop" value="<?php echo $row['ar_id'];?>" >
 					<div class="row">
 						<div class="col col-md-4 offset-1">
 							<div class="input-group">
@@ -73,13 +73,13 @@ if(isset($_SESSION["user_name"]))
 						</div>													
 					</div>				  
 					<div class="row">
-						<div class="col col-md-4 offset-1">
+						<div class="col col-md-5 offset-1">
 							<div class="input-group">
-								<span class="input-group-text col-md-5"><i class="fas fa-user-tie"></i>&nbsp;Cust</span>
+								<span class="input-group-text col-md-4"><i class="fas fa-user-tie"></i>&nbsp;Cust</span>
 								<input type="text" name="sheet_customer_name" id="sheet_customer_name" class="form-control" value="<?php if(isset($sheet)) echo $sheet['customer_name']; else echo $row['customer_name']?>">
 							</div>
 						</div>
-						<div class="col col-md-4 offset-2">
+						<div class="col col-md-4 offset-1">
 							<div class="input-group mb-3">
 								<span class="input-group-text col-md-4"><i class="fas fa-mobile-alt"></i>&nbsp;Phone</span>
 								<input type="text" name="sheet_customer_phone" id="sheet_customer_phone" class="form-control" value="<?php if(isset($sheet)) echo $sheet['customer_phone']; else echo $row['customer_phone']?>">
@@ -87,13 +87,13 @@ if(isset($_SESSION["user_name"]))
 						</div>
 					</div>				  					
 					<div class="row">
-						<div class="col col-md-4 offset-1">
+						<div class="col col-md-5 offset-1">
 							<div class="input-group">
-								<span class="input-group-text col-md-5"><i class="far fa-user"></i>&nbsp;Mason</span>
+								<span class="input-group-text col-md-4"><i class="far fa-user"></i>&nbsp;Mason</span>
 								<input type="text" name="sheet_mason_name" id="sheet_mason_name" class="form-control" value="<?php if(isset($sheet)) echo $sheet['mason_name'];?>">
 							</div>
 						</div>
-						<div class="col col-md-4 offset-2">
+						<div class="col col-md-4 offset-1">
 							<div class="input-group mb-3">
 								<span class="input-group-text col-md-4"><i class="fas fa-mobile-alt"></i>&nbsp;Phone</span>
 								<input type="text" name="sheet_mason_phone" id="sheet_mason_phone" class="form-control" value="<?php if(isset($sheet)) echo $sheet['mason_phone'];?>">

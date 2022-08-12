@@ -20,6 +20,10 @@ if(isset($_SESSION["user_name"]))
 	foreach($driversQuery as $driver)
 		$drivers[$driver['user_id']] = $driver['user_name'];
 		
+	$shopsQuery = mysqli_query($con,"SELECT id,shop_name FROM ar_details WHERE shop_name IS NOT NULL AND shop_name != '' ORDER BY shop_name ASC");
+	foreach($shopsQuery as $shop)
+		$shops[$shop['id']] = $shop['shop_name'];				
+		
 	$mainAreaQuery = mysqli_query($con,"SELECT id,name,driver FROM sheet_area ORDER BY name") or die(mysqli_error($con));
 	foreach($mainAreaQuery as $mainArea)
 	{
@@ -71,7 +75,12 @@ if(isset($_SESSION["user_name"]))
 					<td><?php echo $sheet['bags'];?></td>
 					<td><?php echo $sheet['customer_name'];?></td>
 					<td><?php echo $sheet['mason_name'];?></td>
-					<td><?php echo $sheet['shop'];?></td>
+					<td><?php 
+						if(isset($sheet['shop1']) && $sheet['shop1'] != 0)
+							echo $shops[$sheet['shop1']];
+						else
+							echo $sheet['shop'];?>
+					</td>
 					<td><?php echo $sheet['requested_by'];?></td>
 					<td><?php echo date('d-m-Y h:i A',strtotime($sheet['created_on']));?></td>
 					<td><?php echo $sheet['remarks'];?></td>

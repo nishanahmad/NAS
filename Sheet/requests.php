@@ -20,6 +20,10 @@ if(isset($_SESSION["user_name"]))
 	$driversQuery = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role ='driver' ORDER BY user_name") or die(mysqli_error($con));
 	foreach($driversQuery as $driver)
 		$drivers[$driver['user_id']] = $driver['user_name'];
+		 	
+	$shopsQuery = mysqli_query($con,"SELECT id,shop_name FROM ar_details WHERE shop_name IS NOT NULL AND shop_name != '' ORDER BY shop_name ASC");
+	foreach($shopsQuery as $shop)
+		$shops[$shop['id']] = $shop['shop_name'];		
 		
 	$mainAreaQuery = mysqli_query($con,"SELECT id,name,driver FROM sheet_area ORDER BY name") or die(mysqli_error($con));
 	foreach($mainAreaQuery as $mainArea)
@@ -234,7 +238,12 @@ if(isset($_SESSION["user_name"]))
 							}?>
 							<p><i class="fa fa-calendar"></i> <?php echo date("d-m-Y",strtotime($sheet['date']));?>, <i class="fa fa-shopping-bag"></i> <?php echo $sheet['bags'].' bags';?>							   
 							</p>
-							<p><i class="fas fa-store"></i> <?php echo $sheet['shop'];?></p>
+							<p><i class="fas fa-store"></i> <?php 
+							if(isset($sheet['shop1']) && $sheet['shop1'] != 0)
+								echo $shops[$sheet['shop1']];
+							else
+								echo $sheet['shop'];?>
+							</p>
 							<p><i class="fas fa-desktop"></i> Req by <b><?php echo $sheet['requested_by']; 
 							if($sheet['created_on'] != null && $designation != 'driver')
 							{																																?>

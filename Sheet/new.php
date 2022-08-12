@@ -5,7 +5,8 @@ if(isset($_SESSION["user_name"]))
 	require 'navbar.php';
 	require '../connect.php';
 	
-	$areaList = mysqli_query($con,"SELECT id,name FROM sheet_area ORDER BY name ASC");	?>
+	$areaList = mysqli_query($con,"SELECT id,name FROM sheet_area ORDER BY name ASC");
+	$shopList = mysqli_query($con,"SELECT id,shop_name FROM ar_details WHERE shop_name IS NOT NULL AND shop_name != '' ORDER BY shop_name ASC");	?>
 <html>
 	<head>
 	<meta charset="utf-8">
@@ -83,7 +84,19 @@ if(isset($_SESSION["user_name"]))
 									<span class="input-group-text col-md-5"><i class="fa fa-address-card-o"></i>&nbsp;Shop</span>
 									<input name="shop" type="text" class="form-control"/>
 								</div>
-							</div>																					
+							</div>	
+							<div class="col col-md-10 offset-1">
+								<div class="input-group mb-3">
+									<span class="input-group-text col-md-5"><i class="fa fa-address-card-o"></i>&nbsp;Shop</span>
+									<select name="shop1" id="shop1" class="form-control">
+										<option value="">---- SELECT SHOP ---</option>									<?php
+										foreach($shopList as $shop) 
+										{																								?>
+											<option value="<?php echo $shop['id'];?>"><?php echo $shop['shop_name'];?></option>			<?php	
+										}																								?>
+									</select>
+								</div>
+							</div>							
 							<div class="col col-md-10 offset-1">
 								<div class="input-group mb-3">
 									<span class="input-group-text col-md-5"><i class="fa fa-map-o"></i>&nbsp;Area</span>

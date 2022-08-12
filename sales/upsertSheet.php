@@ -17,7 +17,7 @@ if(isset($_SESSION["user_name"]))
 	$bags = $_POST['sheet_bags'];
 	$area = $_POST['sheet_area'];
 	$driver_area = $_POST['driver_area'];
-	$shop = $_POST['sheet_shop'];		
+	$shop1 = $_POST['sheet_shop'];		
 	$remarks = $_POST['sheet_remarks'];	
 	$site = $_POST['site'];
 	$truck = $_POST['sheet_truck'];
@@ -43,15 +43,15 @@ if(isset($_SESSION["user_name"]))
 	if(isset($id))
 	{
 		$query = "UPDATE sheets SET date = '$sqlDate', customer_name = '$customer_name', customer_phone = '$customer_phone', 
-								  mason_name = '$mason_name', mason_phone = '$mason_phone', bags = $bags, area = '$area', shop = '$shop', remarks = '$remarks',
+								  mason_name = '$mason_name', mason_phone = '$mason_phone', bags = $bags, area = '$area', shop1 = '$shop1', remarks = '$remarks',
 								  truck = '$truck', driver = '$driver_name', phone = '$driver_phone', assigned_to = '$deliveryDriver', driver_area = '$driver_area'
 				WHERE id = $id";
 	}
 	else
 	{
-		$query="INSERT INTO sheets (date, customer_name, customer_phone, mason_name, mason_phone, bags, area, shop, remarks, site, requested_by, status, created_on, truck, driver, phone, assigned_to, driver_area)
+		$query="INSERT INTO sheets (date, customer_name, customer_phone, mason_name, mason_phone, bags, area, shop1, remarks, site, requested_by, status, created_on, truck, driver, phone, assigned_to, driver_area)
 			 VALUES
-			 ('$sqlDate', '$customer_name', '$customer_phone', '$mason_name', '$mason_phone', $bags, '$area', '$shop', '$remarks', $site , '$requested_by', 'requested', '$created_on', '$truck', '$driver_name', '$driver_phone', '$deliveryDriver', '$driver_area')";
+			 ('$sqlDate', '$customer_name', '$customer_phone', '$mason_name', '$mason_phone', $bags, '$area', '$shop1', '$remarks', $site , '$requested_by', 'requested', '$created_on', '$truck', '$driver_name', '$driver_phone', '$deliveryDriver', '$driver_area')";
 	}
 
 	$result = mysqli_query($con, $query) or die(mysqli_error($con));				 
