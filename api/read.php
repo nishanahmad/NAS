@@ -23,12 +23,17 @@ if($num>0)
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 	{
         extract($row);
-		$result = mysqli_query($db,"SELECT shop_name FROM ar_details WHERE id='$shop1'") or die(mysqli_error($db));
-		$row= mysqli_fetch_array($result,MYSQLI_ASSOC);		
-		if(mysqli_num_rows($row) > 0)
+
+		if(!empty($shop1))
+		{
+			$result = $db -> query("SELECT shop_name FROM ar_details WHERE id='$shop1'");	
+			$row = $result -> fetch_assoc();
 			$shopName = $row['shop_name'];
+		}
 		else
+		{
 			$shopName = '';
+		}
 		
         $sheet_item=array(
             "id" => $id,
