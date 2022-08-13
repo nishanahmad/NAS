@@ -39,7 +39,7 @@ class Sheet
 		$query = "INSERT INTO
 					" . $this->table_name . "
 				SET
-					date=:date, customer_name=:customer_name, customer_phone=:customer_phone, mason_name=:mason_name, mason_phone=:mason_phone, bags=:bags, area=:area, shop=:shop, coveringBlock=:coveringBlock, remarks=:remarks, requested_by=:requested_by, status='requested', created_on=:created_on, driver_area=:driver_area, assigned_to=:assigned_to";
+					date=:date, customer_name=:customer_name, customer_phone=:customer_phone, mason_name=:mason_name, mason_phone=:mason_phone, bags=:bags, area=:area, shop1=:shop1, coveringBlock=:coveringBlock, remarks=:remarks, requested_by=:requested_by, status='requested', created_on=:created_on, driver_area=:driver_area, assigned_to=:assigned_to";
 	 
 		// prepare query
 		$stmt = $this->conn->prepare($query);
@@ -52,7 +52,7 @@ class Sheet
 		$this->mason_phone=htmlspecialchars(strip_tags($this->mason_phone));		
 		$this->bags=htmlspecialchars(strip_tags($this->bags));
 		$this->area=htmlspecialchars(strip_tags($this->area));
-		$this->shop=htmlspecialchars(strip_tags($this->shop));
+		$this->shop1=htmlspecialchars(strip_tags($this->shop1));
 		$this->coveringBlock=htmlspecialchars(strip_tags($this->coveringBlock));
 		$this->remarks=htmlspecialchars(strip_tags($this->remarks));
 		$this->requested_by=htmlspecialchars(strip_tags($this->requested_by));
@@ -68,7 +68,7 @@ class Sheet
 		$stmt->bindParam(":mason_phone", $this->mason_phone);		
 		$stmt->bindParam(":bags", $this->bags);
 		$stmt->bindParam(":area", $this->area);
-		$stmt->bindParam(":shop", $this->shop);
+		$stmt->bindParam(":shop1", $this->shop1);
 		$stmt->bindParam(":coveringBlock", $this->coveringBlock);
 		$stmt->bindParam(":remarks", $this->remarks);
 		$stmt->bindParam(":requested_by", $this->requested_by);
