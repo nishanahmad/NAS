@@ -33,7 +33,7 @@ if($num>0)
             "mason_phone" => $mason_phone,			
             "bags" => $bags,
 			"area" => $area,
-			"shop" => $shop,
+			"shop1" => $shop1,
 			"remarks" => $remarks
         );
  
