@@ -82,12 +82,6 @@ if(isset($_SESSION["user_name"]))
 							<div class="col col-md-10 offset-1">
 								<div class="input-group mb-3">
 									<span class="input-group-text col-md-5"><i class="fa fa-address-card-o"></i>&nbsp;Shop</span>
-									<input name="shop" type="text" class="form-control"/>
-								</div>
-							</div>	
-							<div class="col col-md-10 offset-1">
-								<div class="input-group mb-3">
-									<span class="input-group-text col-md-5"><i class="fa fa-address-card-o"></i>&nbsp;Shop</span>
 									<select name="shop1" id="shop1" class="form-control">
 										<option value="">---- SELECT SHOP ---</option>									<?php
 										foreach($shopList as $shop) 

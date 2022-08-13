@@ -14,7 +14,6 @@ if(isset($_SESSION["user_name"]))
 		$mason_phone = $_POST['mason_phone'];		
 		$area = $_POST['area'];
 		$driver_area = $_POST['driver_area'];
-		$shop = $_POST['shop'];
 		if(isset($_POST['shop1']) && !empty($_POST['shop1']))
 			$shop1 = $_POST['shop1'];
 		else
@@ -30,10 +29,10 @@ if(isset($_SESSION["user_name"]))
 		if(isset($_POST['block']))
 			$block = 1;
 		else	
-			$block = 0;				
+			$block = 0;
 		
 		
-		$update = mysqli_query($con,"UPDATE sheets SET customer_name='$customer_name', customer_phone='$customer_phone',mason_name='$mason_name', mason_phone='$mason_phone',shop='$shop',shop1='$shop1',driver_area=$driver_area,area='$area',remarks='$remarks',priority=$priority,coveringBlock=$block WHERE id=$id") or die(mysqli_error($con));	
+		$update = mysqli_query($con,"UPDATE sheets SET customer_name='$customer_name', customer_phone='$customer_phone',mason_name='$mason_name', mason_phone='$mason_phone',shop1='$shop1',driver_area=$driver_area,area='$area',remarks='$remarks',priority=$priority,coveringBlock=$block WHERE id=$id") or die(mysqli_error($con));	
 			  
 		if(isset($_POST['date']))
 		{
