@@ -25,7 +25,7 @@ if($num>0)
  
         $shop_item=array(
             "id" => $id,
-			"name" => $name,
+			"name" => $shop_name,
         );
  
         array_push($shop_arr, $shop_item);
