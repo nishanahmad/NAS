@@ -26,7 +26,7 @@ if(!empty($data->concDate) && !empty($data->bags) && !empty($data->area) && !emp
     $sheet->mason_phone = $data->mason_phone;	
     $sheet->bags = $data->bags;
     $sheet->area = $data->area;
-    $sheet->shop = $data->shop;
+    $sheet->shop1 = $data->shop1;
 	$sheet->coveringBlock = $data->coveringBlock;
 	$sheet->remarks = $data->remarks;
 	$sheet->requested_by = $data->requested_by;
