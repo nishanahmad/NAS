@@ -23,8 +23,12 @@ if($num>0)
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 	{
         extract($row);
-		if(empty($shop1))
-			$shop1 = 0;
+		$result = mysqli_query($con,"SELECT shop_name FROM ar_details WHERE id=$shop1") or die(mysqli_error($con));
+		$row= mysqli_fetch_array($result,MYSQLI_ASSOC);		
+		if(mysqli_num_rows($row) > 0)
+			$shopName = $row['shop_name'];
+		else
+			$shopName = '';
 		
         $sheet_item=array(
             "id" => $id,
@@ -35,7 +39,7 @@ if($num>0)
             "mason_phone" => $mason_phone,			
             "bags" => $bags,
 			"area" => $area,
-			"shop1" => $shop1,
+			"shop1" => $shopName,
 			"remarks" => $remarks
         );
  
