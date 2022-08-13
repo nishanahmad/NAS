@@ -26,9 +26,10 @@ if($num>0)
 
 		if(!empty($shop1))
 		{
-			$result = $db -> query("SELECT shop_name FROM ar_details WHERE id='$shop1'");	
-			$row = $result -> fetch_assoc();
-			$shopName = $row['shop_name'];
+			$result = $db -> query("SELECT shop_name FROM ar_details WHERE id=$shop1");
+			while( $row = $result->fetch(PDO::FETCH_ASSOC) ) {
+			  $shopName = $row['shop_name'];
+			}
 		}
 		else
 		{
