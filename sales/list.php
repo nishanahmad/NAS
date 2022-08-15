@@ -139,45 +139,49 @@ if(isset($_SESSION["user_name"]))
 		<div style="width:100%;" class="mainbody">	
 			<div id="snackbar"><i class="fa fa-bolt"></i>&nbsp;&nbsp;Sale detail saved successfully !!!</div>
 			<br/><br/>
-			<div align="center">
-				<table class="ratetable table table-hover table-bordered" <?php if($range == 'Today') echo 'style="width:35%;"'; else echo 'style="width:20%;"';?> id="ratetable">
-					<thead>
-						<tr class="table-info">
-							<th><i class="fa fa-shield"></i> Product</th>
-							<th style="width:90px;"><i class="fab fa-buffer"></i> Qty</th>															<?php 
-							if($range == 'Today')
-							{																														?>
-								<th style="width:90px;"><i class="fa fa-rupee-sign"></i> Rate</th>
-								<th style="width:110px;"><i class="fa fa-tags"></i> Discount</th>													<?php
-							}																														?>
-						</tr>
-					</thead>
-					<tbody id="ratebody"><?php				
-						foreach($currentRateMap as $product=>$rate)
-						{
-							if(isset($productSumMap[$product]))
-							{																														?>
+			<div align="center"><?php
+				if($_SESSION['role'] != 'marketing')
+				{																																		?>
+					<table class="ratetable table table-hover table-bordered" <?php if($range == 'Today') echo 'style="width:35%;"'; else echo 'style="width:20%;"';?> id="ratetable">
+						<thead>
+							<tr class="table-info">
+								<th><i class="fa fa-shield"></i> Product</th>
+								<th style="width:90px;"><i class="fab fa-buffer"></i> Qty</th>															<?php 
+								if($range == 'Today')
+								{																														?>
+									<th style="width:90px;"><i class="fa fa-rupee-sign"></i> Rate</th>
+									<th style="width:110px;"><i class="fa fa-tags"></i> Discount</th>													<?php
+								}																														?>
+							</tr>
+						</thead>
+						<tbody id="ratebody"><?php				
+							foreach($currentRateMap as $product=>$rate)
+							{
+								if(isset($productSumMap[$product]))
+								{																														?>
+									<tr>
+										<td><?php echo $productDetailsMap[$product]['name'];?></td>
+										<td><?php echo $productSumMap[$product];?></td><?php 
+										if($range == 'Today')
+										{																												?>
+											<td><?php if($_SESSION['role'] != 'marketing') echo $rate.'/-';?></td>
+											<td><?php if(isset($discountMap[$product]) && $_SESSION['role'] != 'marketing') echo $discountMap[$product].'/-';?></td>						<?php
+										}																												?>	
+									</tr>																												<?php
+								}	
+							}																															?>
+						</tbody>																														<?php 
+						if($range == 'Today')
+						{																																?>
+							<tfoot id="ratefoot">
 								<tr>
-									<td><?php echo $productDetailsMap[$product]['name'];?></td>
-									<td><?php echo $productSumMap[$product];?></td><?php 
-									if($range == 'Today')
-									{																												?>
-										<td><?php if($_SESSION['role'] != 'marketing') echo $rate.'/-';?></td>
-										<td><?php if(isset($discountMap[$product]) && $_SESSION['role'] != 'marketing') echo $discountMap[$product].'/-';?></td>						<?php
-									}																												?>	
-								</tr>																												<?php
-							}	
-						}																															?>
-					</tbody>																														<?php 
-					if($range == 'Today')
-					{																																?>
-						<tfoot id="ratefoot">
-							<tr>
-								<td colspan="4" style="text-align:center"><a href="#" class="link-success" data-toggle="modal" data-target="#rateModal">All Product Rates</a></td>
-							</tr>			
-						</tfoot>																														<?php
-					}																																?>
-				</table>
+									<td colspan="4" style="text-align:center"><a href="#" class="link-success" data-toggle="modal" data-target="#rateModal">All Product Rates</a></td>
+								</tr>			
+							</tfoot>																														<?php
+						}																																?>
+					</table>																															<?php
+				}																																		?>
+
 			</div>
 			<div id="content-desktop">
 				<br/><br/>
@@ -188,8 +192,11 @@ if(isset($_SESSION["user_name"]))
 							<th style="min-width:110px;"><i class="far fa-calendar-alt"></i> Date</th>
 							<th><i class="fa fa-address-card-o"></i> AR</th>
 							<th style="width:70px;"><i class="fa fa-shield"></i> PRO</th>
-							<th style="width:70px;"><i class="fab fa-buffer"></i> QTY</th>
-							<th style="width:70px;"><i class="fa fa-rupee-sign"></i> RATE</th>
+							<th style="width:70px;"><i class="fab fa-buffer"></i> QTY</th>																	<?php
+							if($_SESSION['role'] != 'marketing')
+							{																																?>
+								<th style="width:70px;"><i class="fa fa-rupee-sign"></i> RATE</th>															<?php
+							}																																?>
 							<th style="width:120px;"><i class="far fa-file-alt"></i> BILL NO</th>
 							<th style="width:95px;"><i class="fas fa-truck-moving"></i> TRUCK</th>
 							<th style="width:180px;"><i class="far fa-user"></i> CUSTOMER</th>
@@ -236,8 +243,11 @@ if(isset($_SESSION["user_name"]))
 										  }?>
 							    </td>
 								<td><?php echo $productDetailsMap[$sale['product']]['name'];?></td>
-								<td><?php echo $sale['qty']; ?></td>
-								<td><?php if($finalRate > 0 ) echo $finalRate.'/-';?></td>							
+								<td><?php echo $sale['qty']; ?></td>																	<?php
+								if($_SESSION['role'] != 'marketing')
+								{																										?>
+									<td><?php if($finalRate > 0 ) echo $finalRate.'/-';?></td>											<?php
+								}																										?>
 								<td><?php echo $sale['bill']; ?></td>
 								<td><?php if(isset($truckNumbersMap[$sale['truck']])) echo $truckNumbersMap[$sale['truck']]; ?></td>
 								<td><?php echo $sale['name'].'<br/><font>'.$sale['phone'].'</font>'; ?></td>
