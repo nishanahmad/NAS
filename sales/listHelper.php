@@ -261,6 +261,22 @@ function getCDMap()
 	return $cdMap;	
 }
 
+function getTodayCDMap()
+{
+	require '../connect.php';	
+	
+	$cdMap = array();
+
+	$discounts = mysqli_query($con, "SELECT * FROM discounts WHERE type = 'Cash Discount' ORDER BY date ASC") or die(mysqli_error($con));				 	 
+	foreach($discounts as $discount)
+	{
+		$today = date('Y-m-d');
+		$cdMap[$discount['product']][$discount['client']][$today ] = $discount['discount'];
+	}
+		
+	return $cdMap;	
+}
+
 function get_array_key_first(array $arr) 
 {
 	foreach($arr as $key => $unused) 

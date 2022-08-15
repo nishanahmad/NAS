@@ -41,7 +41,11 @@ if(isset($_SESSION["user_name"]))
 	}
 
 	$rateMap = getRateMap();
-	$cdMap = getCDMap();
+	if($range == 'Today')
+		$cdMap = getTodayCDMap();
+	else	
+		$cdMap = getCDMap();
+	
 	$wdMap = getWDMap();
 	
 	$productDates = mysqli_query($con, "SELECT * FROM rate ORDER BY date") or die(mysqli_error($con));				 	 
