@@ -7,6 +7,7 @@ if(isset($_SESSION["user_name"]))
 	require '../connect.php';
 	require '../navbar.php';
 	require 'listHelper.php';
+	require 'viewModal.php';
 	
 	$arNamesMap = getARNames($con);
 	$shopNamesMap = getShopNames($con);
@@ -14,7 +15,28 @@ if(isset($_SESSION["user_name"]))
 	$truckNumbersMap = getTruckNumbers($con);	
 	
 	$today = date('Y-m-d');
-	$sales = mysqli_query($con,"SELECT * FROM nas_sale WHERE deleted IS NULL AND entry_date = '$today' ORDER BY product DESC,bill_no") or die(mysqli_error($con));
+	$tomorrow = date('Y-m-d', strtotime(' +1 day'));
+
+	$sales = mysqli_query($con,"SELECT * FROM nas_sale WHERE deleted IS NULL AND entry_date = '$today' AND product = 6 ORDER BY bill_no") or die(mysqli_error($con));
+	foreach($sales as $sale)
+	{
+		$saleShops[$sale['sales_id']] = $sale['ar_id'];
+		if(!empty($sale['customer_phone']))
+			$saleNumbers[$sale['sales_id']] = trim($sale['customer_phone']);
+	}
+	
+	$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE coveringBlock = 1 AND (date = '$today' OR date = '$tomorrow')") or die(mysqli_error($con));
+	foreach($sheets as $sheet)
+	{
+		if($sheet['shop1'] > 0)
+			$sheetShops[$sheet['id']] = $sheet['shop1'];
+		if(!empty($sheet['customer_phone']))
+			$sheetCustomers[$sheet['id']] = trim($sheet['customer_phone']);
+		if(!empty($sheet['mason_phone']))
+			$sheetMasons[$sheet['id']] = trim($sheet['mason_phone']);
+	}
+
+	$duplicateShops = array_intersect($saleShops,$sheetShops);
 ?>
 
 <html>
@@ -28,6 +50,12 @@ if(isset($_SESSION["user_name"]))
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js"></script>
 <title>Covering Block</title>
+<style>
+    input{
+        border: none;
+    }
+</style>
+
 </head>
 <body>
 <div id="main" class="main">
@@ -42,6 +70,7 @@ if(isset($_SESSION["user_name"]))
 				<table class="maintable table table-hover table-bordered" style="width:95%;margin-left:2%;">
 					<thead>
 						<tr class="table-success">
+							<th></th>
 							<th style="width:20px;">Status</th>
 							<th style="min-width:110px;"><i class="far fa-calendar-alt"></i> Date</th>
 							<th style="width:250px;"><i class="fa fa-address-card-o"></i> AR</th>
@@ -56,6 +85,12 @@ if(isset($_SESSION["user_name"]))
 						foreach($sales as $sale) 
 						{																																				?>	
 							<tr>
+								<td style="text-align:center">																																	<?php 
+									if(array_key_exists($sale['sales_id'],$duplicateShops))
+									{																																	?>
+										<button class="btn viewDuplicate" style="color:#FFFFFF;background-color:#FF9A3C" data-id="<?php echo $sale['sales_id'];?>"><i class="fas fa-clone"></i>&nbsp;Duplicate?</button><?php
+									}																																	?>
+								</td>
 								<td><div class="form-check">
 										<input class="form-check-input check1" type="checkbox" id="check1" name="<?php echo $sale['sales_id'];?>" 
 										<?php if($sale['coveringblock']) echo 'checked';?> />
@@ -90,6 +125,33 @@ $(document).ready(function() {
 	}); 
 } );
 
+$('.viewDuplicate').click(function () {
+	var saleId = $(this).data('id');
+	$.ajax({
+		type: "POST",
+		url: "getDetails.php",
+		data:'saleId='+saleId,
+		success: function(response){
+			if(response.status == true){
+				console.log(response);
+				$("#sheet_id").val(response.sheet_id);
+				$("#area").val(response.area);
+				$("#driver_area").val(response.driver_area);
+				$("#customer_name").val(response.customer_name);
+				$("#customer_phone").val(response.customer_phone);
+				$("#mason_name").val(response.mason_name);
+				$("#mason_phone").val(response.mason_phone);
+				$("#shop").val(response.shop);
+				var viewModal = new bootstrap.Modal(document.getElementById('viewModal'), {})
+				viewModal.show();				
+			}
+			else{
+				alert('Some error occured. Try again');
+				location.reload();				
+			}
+		}
+	});	
+ });
 
 $('.check1').change(function () {
     if(this.checked)
