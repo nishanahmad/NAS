@@ -25,7 +25,7 @@ if(isset($_SESSION["user_name"]))
 			$saleNumbers[$sale['sales_id']] = trim($sale['customer_phone']);
 	}
 	
-	$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE coveringBlock = 1 AND (date = '$today' OR date = '$tomorrow')") or die(mysqli_error($con));
+	$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE coveringBlock = 1 AND (date = '$today' OR date = '$tomorrow') AND ignore_dup = 0 AND status != 'cancelled'") or die(mysqli_error($con));
 	foreach($sheets as $sheet)
 	{
 		if($sheet['shop1'] > 0)
@@ -35,8 +35,10 @@ if(isset($_SESSION["user_name"]))
 		if(!empty($sheet['mason_phone']))
 			$sheetMasons[$sheet['id']] = trim($sheet['mason_phone']);
 	}
-
+	
 	$duplicateShops = array_intersect($saleShops,$sheetShops);
+	$duplicateCustomers = array_intersect($saleNumbers,$sheetCustomers);
+	$duplicateMasons = array_intersect($saleNumbers,$sheetMasons);
 ?>
 
 <html>
@@ -86,10 +88,14 @@ if(isset($_SESSION["user_name"]))
 						{																																				?>	
 							<tr>
 								<td style="text-align:center">																																	<?php 
-									if(array_key_exists($sale['sales_id'],$duplicateShops))
+									if(array_key_exists($sale['sales_id'],$duplicateCustomers) || array_key_exists($sale['sales_id'],$duplicateMasons))
 									{																																	?>
-										<button class="btn viewDuplicate" style="color:#FFFFFF;background-color:#FF9A3C" data-id="<?php echo $sale['sales_id'];?>"><i class="fas fa-clone"></i>&nbsp;Duplicate?</button><?php
-									}																																	?>
+										<button class="btn viewDuplicate"  style="color:#FFFFFF;background-color:#BA0517" data-id="<?php echo $sale['sales_id'];?>"><i class="fas fa-clone"></i>&nbsp;Duplicate?</button><?php
+									}
+									else if(array_key_exists($sale['sales_id'],$duplicateShops))
+									{																														?>
+										<button class="btn viewDuplicate"  style="color:#FFFFFF;background-color:#F88960" data-id="<?php echo $sale['sales_id'];?>"><i class="fas fa-clone"></i>&nbsp;Duplicate?</button><?php
+									}																																							?>
 								</td>
 								<td><div class="form-check">
 										<input class="form-check-input check1" type="checkbox" id="check1" name="<?php echo $sale['sales_id'];?>" 
@@ -141,7 +147,19 @@ $('.viewDuplicate').click(function () {
 				$("#customer_phone").val(response.customer_phone);
 				$("#mason_name").val(response.mason_name);
 				$("#mason_phone").val(response.mason_phone);
+				$("#sheet_date").val(response.sheet_date);
+				$("#bags").val(response.bags);
 				$("#shop").val(response.shop);
+				$("#requested_by").val(response.requested_by);
+				$("#created_on").val(response.created_on);
+				$("#remarks").val(response.remarks);
+				$("#assigned_to").val(response.assigned_to);
+				
+				if(response.priority == true)
+					$("#priority").show();
+				else
+					$("#priority").hide();
+					
 				var viewModal = new bootstrap.Modal(document.getElementById('viewModal'), {})
 				viewModal.show();				
 			}
@@ -149,7 +167,27 @@ $('.viewDuplicate').click(function () {
 				alert('Some error occured. Try again');
 				location.reload();				
 			}
-		}
+		},
+		error: function (jqXHR, exception) {
+			var msg = '';
+			if (jqXHR.status === 0) {
+				msg = 'Not connect.\n Verify Network.';
+			} else if (jqXHR.status == 404) {
+				msg = 'Requested page not found. [404]';
+			} else if (jqXHR.status == 500) {
+				msg = 'Internal Server Error [500].';
+			} else if (exception === 'parsererror') {
+				msg = 'Requested JSON parse failed.';
+			} else if (exception === 'timeout') {
+				msg = 'Time out error.';
+			} else if (exception === 'abort') {
+				msg = 'Ajax request aborted.';
+			} else {
+				msg = 'Uncaught Error.\n' + jqXHR.responseText;
+			}
+			console.log(jqXHR.responseText);
+			return false;
+		}								
 	});	
  });
 
