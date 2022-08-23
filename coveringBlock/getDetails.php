@@ -28,32 +28,35 @@ $sale = mysqli_fetch_array($saleQuery, MYSQLI_ASSOC);
 $salePhone = trim($sale['customer_phone']);
 $saleShop = $sale['ar_id'];
 
-$sheetPhoneQuery = mysqli_query($con,"SELECT * FROM sheets WHERE (TRIM(customer_phone) = '$salePhone' OR TRIM(mason_phone) = '$salePhone') AND coveringBlock = 1 AND (date = '$today' OR date = '$tomorrow') AND ignore_dup = 0 AND status != 'cancelled'") or die(mysqli_error($con));
-if(mysqli_num_rows($sheetPhoneQuery))
+if(!empty($salePhone))
 {
-	$sheet = mysqli_fetch_array($sheetPhoneQuery, MYSQLI_ASSOC);	
-	$response_array['status'] = true;
-	$response_array['sheet_id'] = $sheet['id'];
-	$response_array['area'] = $sheet['area'];
-	$response_array['driver_area'] = $mainAreaMap[$sheet['driver_area']];
-	$response_array['customer_name'] = $sheet['customer_name'];
-	$response_array['customer_phone'] = trim($sheet['customer_phone']);
-	$response_array['mason_name'] = $sheet['mason_name'];
-	$response_array['mason_phone'] = trim($sheet['mason_phone']);
-	$response_array['sheet_date'] = date('d-m-Y',strtotime($sheet['date']));
-	$response_array['bags'] = $sheet['bags'];
-	$response_array['requested_by'] = $sheet['requested_by'];
-	$response_array['created_on'] = date('d M, h:i A', strtotime($sheet['created_on']));
-	$response_array['remarks'] = $sheet['remarks'];
-	$response_array['assigned_to'] = $driverMap[$sheet['assigned_to']];
-	
-	
-	if($sheet['shop1'] > 0)
-		$response_array['shop'] = $shopMap[$sheet['shop1']];
-	if($sheet['priority'])
-		$response_array['priority'] = true;
-	else
-		$response_array['priority'] = false;
+	$sheetPhoneQuery = mysqli_query($con,"SELECT * FROM sheets WHERE (TRIM(customer_phone) = '$salePhone' OR TRIM(mason_phone) = '$salePhone') AND coveringBlock = 1 AND (date = '$today' OR date = '$tomorrow') AND ignore_dup = 0 AND status != 'cancelled'") or die(mysqli_error($con));
+	if(mysqli_num_rows($sheetPhoneQuery))
+	{
+		$sheet = mysqli_fetch_array($sheetPhoneQuery, MYSQLI_ASSOC);	
+		$response_array['status'] = true;
+		$response_array['sheet_id'] = $sheet['id'];
+		$response_array['area'] = $sheet['area'];
+		$response_array['driver_area'] = $mainAreaMap[$sheet['driver_area']];
+		$response_array['customer_name'] = $sheet['customer_name'];
+		$response_array['customer_phone'] = trim($sheet['customer_phone']);
+		$response_array['mason_name'] = $sheet['mason_name'];
+		$response_array['mason_phone'] = trim($sheet['mason_phone']);
+		$response_array['sheet_date'] = date('d-m-Y',strtotime($sheet['date']));
+		$response_array['bags'] = $sheet['bags'];
+		$response_array['requested_by'] = $sheet['requested_by'];
+		$response_array['created_on'] = date('d M, h:i A', strtotime($sheet['created_on']));
+		$response_array['remarks'] = $sheet['remarks'];
+		$response_array['assigned_to'] = $driverMap[$sheet['assigned_to']];
+		
+		
+		if($sheet['shop1'] > 0)
+			$response_array['shop'] = $shopMap[$sheet['shop1']];
+		if($sheet['priority'])
+			$response_array['priority'] = true;
+		else
+			$response_array['priority'] = false;
+	}	
 }
 else
 {
