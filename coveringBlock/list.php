@@ -17,6 +17,10 @@ if(isset($_SESSION["user_name"]))
 	$today = date('Y-m-d');
 	$tomorrow = date('Y-m-d', strtotime(' +1 day'));
 
+	$saleNumbers = array();
+	$sheetShops = array();
+	$sheetMasons = array();
+	
 	$sales = mysqli_query($con,"SELECT * FROM nas_sale WHERE deleted IS NULL AND entry_date = '$today' AND product = 6 ORDER BY bill_no") or die(mysqli_error($con));
 	foreach($sales as $sale)
 	{

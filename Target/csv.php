@@ -27,11 +27,12 @@ https://g.page/r/CWic1xXVc4IFEB0/review";
 // Change the instance ids also
 */
 
+
 					$phone = '91'.$row[0];
 					echo $phone.'<br/>';
 					echo $message.'<br/>';
 					sleep(2);
-					$status = sendMessage($message,$phone);
+					//$status = sendMessage($message,$phone);
 				}
 			}
 		?>
