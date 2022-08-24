@@ -30,7 +30,7 @@ $saleShop = $sale['ar_id'];
 
 if(!empty($salePhone))
 {
-	$sheetPhoneQuery = mysqli_query($con,"SELECT * FROM sheets WHERE (TRIM(customer_phone) = '$salePhone' OR TRIM(mason_phone) = '$salePhone') AND coveringBlock = 1 AND (date = '$today' OR date = '$tomorrow') AND ignore_dup = 0 AND status != 'cancelled'") or die(mysqli_error($con));
+	$sheetPhoneQuery = mysqli_query($con,"SELECT * FROM sheets WHERE (TRIM(customer_phone) = $salePhone OR TRIM(mason_phone) = $salePhone) AND coveringBlock = 1 AND (date = '$today' OR date = '$tomorrow') AND ignore_dup = 0 AND status != 'cancelled'") or die(mysqli_error($con));
 	if(mysqli_num_rows($sheetPhoneQuery))
 	{
 		$sheet = mysqli_fetch_array($sheetPhoneQuery, MYSQLI_ASSOC);	

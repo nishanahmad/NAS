@@ -168,6 +168,7 @@ $('.viewDuplicate').click(function () {
 				viewModal.show();				
 			}
 			else{
+				console.log(response);
 				alert('Some error occured. Try again');
 				location.reload();				
 			}
