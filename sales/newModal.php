@@ -251,8 +251,7 @@ if(isset($_SESSION["user_name"]))
 		</div>
 		<div class="modal-footer"></div>
 	  </div>
-	</div>	
-																																				<?php
+	</div>																																				<?php
 }
 else
 	header( "Location: ../index/home.php" );	

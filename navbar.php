@@ -229,7 +229,7 @@ a {
 			</a>
 		  </li>																																		<?php
 	  }																																					  
-	  if($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'marketing' || $_SESSION['user_name'] == 'Jaseem Puthiyatheru')
+	  if($_SESSION['role'] == 'admin' || $_SESSION['user_name'] == 'Aparna' || $_SESSION['user_name'] == 'Jaseem Puthiyatheru')
 	  {																																				?>	  
 		  <li class="nav-item">
 			<a class="nav-link" <?php if($flag == 'coveringBlock') echo 'href="#"'; else echo 'href="../coveringBlock/list.php"';?>>

@@ -82,6 +82,7 @@ if(isset($_SESSION["user_name"]))
 							<th style="width:250px;"><i class="fa fa-address-card-o"></i> AR</th>
 							<th style="width:70px;"><i class="fa fa-shield"></i> PRO</th>
 							<th style="width:70px;"><i class="fab fa-buffer"></i> QTY</th>
+							<th style="width:120px;"><i class="far fa-file-alt"></i> BILL NO</th>
 							<th style="width:95px;"><i class="fas fa-truck-moving"></i> TRUCK</th>
 							<th style="width:180px;"><i class="far fa-user"></i> CUSTOMER</th>
 							<th><i class="fas fa-map-marker-alt"></i> ADDRESS</th>
@@ -112,6 +113,7 @@ if(isset($_SESSION["user_name"]))
 								</td>
 								<td><?php echo $productDetailsMap[$sale['product']]['name'];?></td>
 								<td><?php echo $sale['qty']; ?></td>
+								<td><?php echo $sale['bill']; ?></td>
 								<td><?php if(isset($truckNumbersMap[$sale['truck']])) echo $truckNumbersMap[$sale['truck']]; ?></td>
 								<td><?php echo $sale['customer_name'].'<br/><font>'.$sale['customer_phone'].'</font>'; ?></td>
 								<td><?php echo $sale['address1']; ?></td>
