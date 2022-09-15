@@ -113,7 +113,7 @@ if(isset($_SESSION["user_name"]))
 								</td>
 								<td><?php echo $productDetailsMap[$sale['product']]['name'];?></td>
 								<td><?php echo $sale['qty']; ?></td>
-								<td><?php echo $sale['bill']; ?></td>
+								<td><?php echo $sale['bill_no']; ?></td>
 								<td><?php if(isset($truckNumbersMap[$sale['truck']])) echo $truckNumbersMap[$sale['truck']]; ?></td>
 								<td><?php echo $sale['customer_name'].'<br/><font>'.$sale['customer_phone'].'</font>'; ?></td>
 								<td><?php echo $sale['address1']; ?></td>
