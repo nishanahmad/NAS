@@ -31,6 +31,7 @@ if(isset($_SESSION["user_name"]))
 
 		$sales = mysqli_query($con,"SELECT ar_id,SUM(qty),MONTH(entry_date) FROM nas_sale WHERE 
 											deleted IS NULL AND 
+											other_purchase = 0 AND
 											YEAR(entry_date) = $year AND 
 											ar_id IN ('$array')
 											GROUP BY ar_id,MONTH(entry_date)")
