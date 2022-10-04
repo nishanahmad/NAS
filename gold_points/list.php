@@ -19,6 +19,14 @@ if(isset($_SESSION["user_name"]))
 	else
 		$year = (int)date("Y");
 	
+	$startYearMonthMap = array();
+	$goldQuery = mysqli_query($con,"SELECT ar_id, start_year, start_month FROM gold_ar") or die(mysqli_error($con));
+	foreach($goldQuery as $gold)
+	{
+		$startYearMonthMap[$gold['ar_id']]['year'] = (int)$gold['start_year'];
+		$startYearMonthMap[$gold['ar_id']]['month'] = (int)$gold['start_month'];
+	}
+		
 	$arList = mysqli_query($con,"SELECT id, name, mobile, whatsapp, shop_name FROM ar_details WHERE id IN (SELECT ar_id FROM gold_ar) ") or die(mysqli_error($con));		 
 	foreach($arList as $arObject)
 	{
@@ -41,12 +49,16 @@ if(isset($_SESSION["user_name"]))
 	{
 		$ar = $sale['ar_id'];
 		$month = (int)$sale['MONTH(entry_date)'];
-		$qty = (int)$sale['SUM(qty)'];
-		$mainMap[$ar][$month] = $qty;
-		if(isset($totalMap[$ar]))
-			$totalMap[$ar] = $totalMap[$ar] + $qty;
-		else
-			$totalMap[$ar] = $qty;
+		if($month >= $startYearMonthMap[$ar]['month'])
+		{
+			$qty = (int)$sale['SUM(qty)'];
+			$mainMap[$ar][$month] = $qty;
+			if(isset($totalMap[$ar]))
+				$totalMap[$ar] = $totalMap[$ar] + $qty;
+			else
+				$totalMap[$ar] = $qty;			
+		}
+
 	}	
 ?>
 <html>
@@ -83,9 +95,12 @@ if(isset($_SESSION["user_name"]))
 						<select id="jsYear" name="jsYear" class="form-select" onchange="return refreshYear();">																<?php	
 							$yearList = getYears();	
 							foreach($yearList as $yr)
-							{																																				?>
-								<option value="<?php echo $yr;?>" <?php if($year == $yr) echo 'selected';?>><?php echo $yr;?></option>									<?php										
-							} 			?>		
+							{
+								if($yr >= 2022)
+								{																																			?>
+									<option value="<?php echo $yr;?>" <?php if($year == $yr) echo 'selected';?>><?php echo $yr;?></option>									<?php										
+								}
+							} 																																				?>		
 						</select>
 					</div>
 				</div>
@@ -149,12 +164,6 @@ $(document).ready(function() {
 		filter_columnAnyMatch: true
 	});
 
-	var checkbox = getUrlParameter('removeToday');
-	if(checkbox =='true')
-		$('#removeToday').prop('checked', true);
-	else
-		$('#removeToday').prop('checked', false);	
-	
 			
 	if(window.location.href.includes('success')){
 		var x = document.getElementById("snackbar");
@@ -180,29 +189,6 @@ function refreshYear()
 	
 	window.location.href = hrf +"?year="+ year;
 }	
-
-function refreshMonth()
-{
-	var year = document.getElementById("jsYear").options[document.getElementById("jsYear").selectedIndex].value;
-	var month=document.getElementById("jsMonth").value;
-	
-	var hrf = window.location.href;
-	hrf = hrf.slice(0,hrf.indexOf("?"));
-	
-	window.location.href = hrf +"?year="+ year + "&month=" + month;
-}
-
-function refreshString()
-{
-	var year = document.getElementById("jsYear").options[document.getElementById("jsYear").selectedIndex].value;
-	var month=document.getElementById("jsMonth").value;
-	var dateString = document.getElementById("jsDateString").options[document.getElementById("jsDateString").selectedIndex].value;
-	
-	var hrf = window.location.href;
-	hrf = hrf.slice(0,hrf.indexOf("?"));
-	
-	window.location.href = hrf +"?year="+ year + "&month=" + month + "&dateString=" + dateString;
-}
 
 var getUrlParameter = function getUrlParameter(sParam) {
 	var sPageURL = decodeURIComponent(window.location.search.substring(1)),
