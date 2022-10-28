@@ -19,6 +19,12 @@ if(isset($_SESSION["user_name"]))
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.widgets.min.js"></script>
 <title>AR List</title>
+<style>
+#tableDiv {
+    overflow-x: auto;
+}
+
+</style>
 </head>
 <body>
 <div id="main" class="main">
@@ -37,22 +43,24 @@ if(isset($_SESSION["user_name"]))
 		<nav class="navbar navbar-light bg-light sticky-top bottom-nav" style="margin-left:13%;width:100%">
 			<span class="navbar-brand" style="font-size:25px;margin-left:40%;"><i class="fa fa-address-card-o"></i> AR List</span>
 		</nav>	
-		<div align="center">
+		<div align="center" id="tableDiv">
 		<br/><br/>
-		<table class="maintable table table-hover table-bordered" style="width:70%;margin-left:10%;">
+		<table class="maintable table table-hover table-bordered" style="width:85%;margin-left:15%;">
 		<?php
 			$sql = "SELECT * FROM ar_details WHERE type != 'Engineer' ORDER BY name ASC";
 			$result = mysqli_query($con, $sql) or die(mysqli_error($con));																					?>
 			<thead>
 				<tr class="table-success">
 					<th>Id</th>
-					<th style="width:20%">Name</th>
-					<th style="width:20%">Shop</th>
+					<th style="width:15%">Name</th>
+					<th style="width:15%">Shop</th>
 					<th style="text-align:center;width:8%">SAP</th>
 					<th style="text-align:center;width:8%">Old SAP</th>
 					<th>Mobile</th>
 					<th>Whatsapp</th>
 					<th>Type</th>
+					<th>Parent Code</th>
+					<th>Child Code</th>
 					<th>Status</th>
 				</tr>
 			</thead>
@@ -67,6 +75,8 @@ if(isset($_SESSION["user_name"]))
 				$mobile = $row['mobile'];
 				$whatsapp = $row['whatsapp'];
 				$type = $row['type'];
+				$parentCode = $row['parent_code'];
+				$childCode = $row['child_code'];
 				$status = $row['status'];
 			?>	
 			<tr>
@@ -78,6 +88,8 @@ if(isset($_SESSION["user_name"]))
 				<td style="text-align:center;width:10%"><?php echo $mobile;?></td>		
 				<td style="text-align:center;width:10%"><?php echo $whatsapp;?></td>		
 				<td><?php echo $type;?></td>
+				<td><?php echo $parentCode;?></td>
+				<td><?php echo $childCode;?></td>
 				<td><?php echo $status;?></td>
 			</tr>																																			<?php
 			}																																																										?>
