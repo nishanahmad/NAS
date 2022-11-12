@@ -54,9 +54,19 @@ if(isset($_SESSION["user_name"]))
 			$qty = (int)$sale['SUM(qty)'];
 			$mainMap[$ar][$month] = $qty;
 			if(isset($totalMap[$ar]))
-				$totalMap[$ar] = $totalMap[$ar] + $qty;
+			{
+				if(in_array($ar,$doublePointsAR))
+					$totalMap[$ar] = $totalMap[$ar] + $qty * 2;
+				else
+					$totalMap[$ar] = $totalMap[$ar] + $qty;
+			}
 			else
-				$totalMap[$ar] = $qty;			
+			{
+				if(in_array($ar,$doublePointsAR))
+					$totalMap[$ar] = $qty * 2;
+				else
+					$totalMap[$ar] = $qty;
+			}
 		}
 
 	}	
