@@ -10,7 +10,7 @@ if(isset($_SESSION["user_name"]))
 	require '../navbar.php';
 	
 	
-	$doublePointsAR = array(156,221);
+	$doublePointsAR = array(24,156,163,221);
 	$totalMap = array();
 	$monthMap = array(1=>"Jan",2=>"Feb",3=>"Mar",4=>"Apr",5=>"May",6=>"Jun",7=>"Jul",8=>"Aug",9=>"Sep",10=>"Oct",11=>"Nov",12=>"Dec");
 	$mainMap  = array();

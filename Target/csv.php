@@ -18,7 +18,7 @@ ini_set('memory_limit', '-1');
 				foreach ($csvFile as $str)
 				{
 					$row = explode(",",$str);
-					$message ="DEAR AR, YOUR BALANCE TO ACHIEVE YOUR MONTHLY TARGET OF OCT 2022 IS ".$row[1]." BAGS. ACHIEVE YOUR TARGET & EARN SPECIAL BENEFITS - AR HELP";
+					$message ="DEAR AR, CONGRATS!! U HAVE CREDITED ".$row[1]." PLUS POINTS FOR OCT 2022. NOW U HAVE ".$row[2]." PLUS POINTS IN UR ACCOUNT.  AR HELP";
 /*					
 $message = 
 "Beach Residency, Kannur would love your feedback. Post a review to our profile.
