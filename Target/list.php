@@ -52,14 +52,15 @@ if(isset($_SESSION["user_name"]))
 	$zeroTargetIds = implode("','",array_keys($zeroTargetMap));	
 	
 	$arMap = array();
-	$arObjects =  mysqli_query($con,"SELECT id,name,mobile,whatsapp,shop_name,sap_code FROM ar_details WHERE id NOT IN ('$zeroTargetIds') AND Type != 'Engineer' ORDER BY name ASC ") or die(mysqli_error($con));		 
+	$arObjects =  mysqli_query($con,"SELECT * FROM ar_details WHERE id NOT IN ('$zeroTargetIds') AND Type != 'Engineer' ORDER BY name ASC ") or die(mysqli_error($con));		 
 	foreach($arObjects as $ar)
 	{
 		$arMap[$ar['id']]['name'] = $ar['name'];
 		$arMap[$ar['id']]['mobile'] = $ar['mobile'];
 		$arMap[$ar['id']]['whatsapp'] = $ar['whatsapp'];
 		$arMap[$ar['id']]['shop'] = $ar['shop_name'];
-		$arMap[$ar['id']]['sap'] = $ar['sap_code'];
+		$arMap[$ar['id']]['child_code'] = $ar['child_code'];
+		$arMap[$ar['id']]['parent_code'] = $ar['parent_code'];
 	}				
 	
 	$targetMap = array();
@@ -260,7 +261,7 @@ function rerender()
 					<th>Mobile</th>
 					<th>Whatsapp</th>
 					<th style="text-align:left;width:20%">Shop</th>
-					<th>SAP</th>
+					<th>Child/Parent</th>
 					<th>Target</th>
 					<th>Sale</th>
 					<th>Extra</th>
@@ -302,7 +303,7 @@ function rerender()
 						<td><?php echo $arMap[$arId]['mobile'];?></b></td>
 						<td><?php echo $arMap[$arId]['whatsapp'];?></b></td>
 						<td style="text-align:left;"><?php echo $arMap[$arId]['shop'];?></b></td>
-						<td><?php echo $arMap[$arId]['sap'];?></b></td>
+						<td><?php echo $arMap[$arId]['child_code'].'<br/>'.$arMap[$arId]['parent_code'];?></b></td>
 						<td><?php echo $target;?></td>
 						<td><?php echo $mainArray[$arId]['actual_sale'];?></td>
 						<td><?php echo $mainArray[$arId]['targetBags'];?></td>

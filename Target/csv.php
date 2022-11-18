@@ -18,7 +18,7 @@ ini_set('memory_limit', '-1');
 				foreach ($csvFile as $str)
 				{
 					$row = explode(",",$str);
-					$message ="DEAR AR, CONGRATS!! U HAVE CREDITED ".$row[1]." PLUS POINTS FOR OCT 2022. NOW U HAVE ".$row[2]." PLUS POINTS IN UR ACCOUNT.  AR HELP";
+					//$message ="DEAR AR, CONGRATS!! U HAVE CREDITED ".$row[1]." PLUS POINTS FOR OCT 2022. NOW U HAVE ".$row[2]." PLUS POINTS IN UR ACCOUNT.  AR HELP";
 /*					
 $message = 
 "Beach Residency, Kannur would love your feedback. Post a review to our profile.
@@ -26,7 +26,6 @@ $message =
 https://g.page/r/CWic1xXVc4IFEB0/review";
 // Change the instance ids also
 */
-
 					$phone = '91'.$row[0];
 					echo $phone.'<br/>';
 					echo $message.'<br/>';

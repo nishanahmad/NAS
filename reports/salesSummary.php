@@ -63,7 +63,8 @@ if(isset($_SESSION["user_name"]))
 	foreach($arObjects as $ar)
 	{
 		$arNameMap[$ar['id']] = $ar['name'];
-		$arCodeMap[$ar['id']] = $ar['sap_code'];
+		$arParentCodeMap[$ar['id']] = $ar['parent_code'];
+		$arChildCodeMap[$ar['id']] = $ar['child_code'];
 		$arShopMap[$ar['id']] = $ar['shop_name'];
 		$arPhoneMap[$ar['id']] = $ar['mobile'];
 	}
@@ -188,14 +189,14 @@ if(isset($_SESSION["user_name"]))
 						}																																												  ?>
 					</div>
 					<br/>
-					<div class="col-md-6 table-responsive-sm">
+					<div class="col-md-8 table-responsive-sm">
 					<table class="maintable table table-hover table-bordered table-responsive">
 						<thead>
 							<tr class="table-success">
 								<th style="text-align:left;" class="header" scope="col"><i class="fa fa-map-o"></i> AR</th>
 								<th style="width:12%;text-align:center" class="header" scope="col"><i class="fab fa-buffer"></i> Qty</th>
 								<th style="text-align:left;" class="header" scope="col"><i class="fas fa-store"></i> Shop Name</th>	
-								<th style="text-align:left;" class="header" scope="col"> SAP</th>	
+								<th style="text-align:left;" class="header" scope="col"> Child/Parent</th>	
 								<th style="width:15%;" class="header" scope="col"><i class="fa fa-mobile"></i> Phone</th>	<?php
 								if($tallyFlag)
 								{																								?>
@@ -211,7 +212,7 @@ if(isset($_SESSION["user_name"]))
 								<td style="text-align:left;"><?php echo $arNameMap[$arSale['ar_id']];?></td>
 								<td style="text-align:center"><b><?php echo $arSale['SUM(qty)'];?></b></td>
 								<td style="text-align:left;"><?php echo $arShopMap[$arSale['ar_id']];?></td>			
-								<td style="text-align:left;"><?php echo $arCodeMap[$arSale['ar_id']];?></td>			
+								<td style="text-align:left;"><?php echo $arChildCodeMap[$arSale['ar_id']] .'<br/>'. $arParentCodeMap[$arSale['ar_id']];?></td>			
 								<td><?php echo $arPhoneMap[$arSale['ar_id']];?></td>										<?php
 								if($tallyFlag == true)
 								{		

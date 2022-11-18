@@ -54,13 +54,11 @@ if(isset($_SESSION["user_name"]))
 					<th>Id</th>
 					<th style="width:15%">Name</th>
 					<th style="width:15%">Shop</th>
-					<th style="text-align:center;width:8%">SAP</th>
-					<th style="text-align:center;width:8%">Old SAP</th>
+					<th style="text-align:center;width:8%">SAP/Old SAP</th>
 					<th>Mobile</th>
 					<th>Whatsapp</th>
 					<th>Type</th>
-					<th>Parent Code</th>
-					<th>Child Code</th>
+					<th>Child/Parent</th>
 					<th>Status</th>
 				</tr>
 			</thead>
@@ -83,13 +81,11 @@ if(isset($_SESSION["user_name"]))
 				<td><?php echo $arId; ?></td>
 				<td><a href="view.php?id=<?php echo $arId;?>"><?php echo $arname; ?></a></td>	
 				<td><?php echo $shopName; ?></td>
-				<td style="text-align:center;width:8%"><label align="center"><?php echo $sapCode; ?></td>	
-				<td style="text-align:center;width:8%"><label align="center"><?php echo $oldSap; ?></td>	
+				<td style="text-align:center;width:8%"><label align="center"><?php echo $sapCode.'<br/>'.$oldSap; ?></td>	
 				<td style="text-align:center;width:10%"><?php echo $mobile;?></td>		
 				<td style="text-align:center;width:10%"><?php echo $whatsapp;?></td>		
 				<td><?php echo $type;?></td>
-				<td><?php echo $parentCode;?></td>
-				<td><?php echo $childCode;?></td>
+				<td><?php echo $childCode.'<br/>'.$parentCode;?></td>
 				<td><?php echo $status;?></td>
 			</tr>																																			<?php
 			}																																																										?>
