@@ -261,7 +261,7 @@ function rerender()
 					<th>Mobile</th>
 					<th>Whatsapp</th>
 					<th style="text-align:left;width:20%">Shop</th>
-					<th>Child/Parent</th>
+					<th>Child</th>
 					<th>Target</th>
 					<th>Sale</th>
 					<th>Extra</th>
@@ -303,7 +303,7 @@ function rerender()
 						<td><?php echo $arMap[$arId]['mobile'];?></b></td>
 						<td><?php echo $arMap[$arId]['whatsapp'];?></b></td>
 						<td style="text-align:left;"><?php echo $arMap[$arId]['shop'];?></b></td>
-						<td><?php echo $arMap[$arId]['child_code'].'<br/>'.$arMap[$arId]['parent_code'];?></b></td>
+						<td><?php echo $arMap[$arId]['child_code'];?></b></td>
 						<td><?php echo $target;?></td>
 						<td><?php echo $mainArray[$arId]['actual_sale'];?></td>
 						<td><?php echo $mainArray[$arId]['targetBags'];?></td>
