@@ -1,32 +1,26 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-
-require '../connect.php';
 session_start();
 if(isset($_SESSION["user_name"]))
 {
-	$arId = $_POST['id'];
-	$name = $_POST['name'];
-	$mobile = $_POST['mobile'];
-	$shop = $_POST['shop'];
-	$sap = $_POST['sap'];
+	require '../connect.php';
 	
-	if(empty($mobile))
-		$mobile = 'null';
-	if(empty($sap))
-		$sap = 'null';	
-	
-	if(empty($shop))
-		$sql = "UPDATE ar_details SET name='$name',mobile=$mobile,sap_code=$sap,shop_name=NULL WHERE id=$arId";
-	else
-		$sql = "UPDATE ar_details SET name='$name',mobile=$mobile,sap_code=$sap,shop_name='$shop' WHERE id=$arId";
-	
-	$result = mysqli_query($con, $sql) or die(mysqli_error($con));				 
-
-	header( "Location: view.php?id=".$arId );
-
+	if(count($_POST)>0) 
+	{
+		$arId = $_POST['ar'];
+		$shop_name = $_POST['shop_name'];
+		$whatsapp = $_POST['whatsapp'];
+		$child_code = $_POST['child_code'];
+		$parent_code = $_POST['parent_code'];
+		
+		$sql = "UPDATE ar_details SET shop_name='$shop_name',whatsapp='$whatsapp',child_code='$child_code',parent_code='$parent_code' WHERE id = $arId";
+		$update = mysqli_query($con,$sql) or die(mysqli_error($con));
+							
+		$url = 'edit.php?success&id='.$arId;
+		
+		header( "Location: $url" );
+	}																						
 }
 else
-	header( "Location:../index.php" );
-?> 
+	header("Location:../index.php");
