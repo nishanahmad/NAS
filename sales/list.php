@@ -52,7 +52,7 @@ if(isset($_SESSION["user_name"]))
 	foreach($productDates as $rate)
 		$productDateMap[$rate['product']][] = strtotime($rate['date']);
 
-	$arObjects = mysqli_query($con,"SELECT id,name,type,shop_name FROM ar_details ORDER BY name") or die(mysqli_error($con));	
+	$arObjects = mysqli_query($con,"SELECT id,name,type,shop_name,child_code FROM ar_details ORDER BY name") or die(mysqli_error($con));	
 	foreach($arObjects as $ar)
 	{
 		if($ar['type'] != 'Engineer Only')
@@ -62,6 +62,7 @@ if(isset($_SESSION["user_name"]))
 		
 		$shopName = strip_tags($ar['shop_name']); 
 		$shopNameMap[$ar['id']] = $shopName;
+		$childCodeMap[$ar['id']] = $ar['child_code'];
 	}
 
 	$shopNameArray = json_encode($shopNameMap);
@@ -195,6 +196,7 @@ if(isset($_SESSION["user_name"]))
 						<tr class="table-success">
 							<th style="min-width:110px;"><i class="far fa-calendar-alt"></i> Date</th>
 							<th><i class="fa fa-address-card-o"></i> AR</th>
+							<th>C Code</th>
 							<th style="width:70px;"><i class="fa fa-shield"></i> PRO</th>
 							<th style="width:70px;"><i class="fab fa-buffer"></i> QTY</th>																	<?php
 							if($_SESSION['role'] != 'marketing')
@@ -246,6 +248,7 @@ if(isset($_SESSION["user_name"]))
 											  }
 										  }?>
 							    </td>
+								<td><?php if(isset($childCodeMap[$sale['client']])) echo $childCodeMap[$sale['client']];?></td>
 								<td><?php echo $productDetailsMap[$sale['product']]['name'];?></td>
 								<td><?php echo $sale['qty']; ?></td>																	<?php
 								if($_SESSION['role'] != 'marketing')

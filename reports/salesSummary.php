@@ -59,6 +59,7 @@ if(isset($_SESSION["user_name"]))
 		$productMap[$pro['id']] = $pro['name'];
 	}
 	
+	$activeList = array();
 	$arObjects = mysqli_query($con, "SELECT * FROM ar_details order by name ASC" ) or die(mysqli_error($con));	
 	foreach($arObjects as $ar)
 	{
@@ -67,7 +68,12 @@ if(isset($_SESSION["user_name"]))
 		$arChildCodeMap[$ar['id']] = $ar['child_code'];
 		$arShopMap[$ar['id']] = $ar['shop_name'];
 		$arPhoneMap[$ar['id']] = $ar['mobile'];
+		if($ar['status'] == 'Active')
+			$activeList[] = $ar['id'];	
 	}
+	
+	if (in_array(33290, $activeList))
+		echo "INARRAY";
 	
 	$tallyFlag = false;
 	if($fromDate == $toDate && $product == 'All')
