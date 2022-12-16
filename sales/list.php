@@ -234,8 +234,8 @@ if(isset($_SESSION["user_name"]))
 							$finalRate = $rate - $cd - $wd - $sale['discount'];																					?>	
 							
 							<tr data-id="<?php echo $sale['id'];?>" data-params="<?php echo explode('?',$_SERVER['REQUEST_URI'])[1];?>" class="saleId" style="cursor:pointer;">
-								<td><?php echo date('d-m-Y',strtotime($sale['date'])).' '; ?></td>
-								<td><?php echo $clientNamesMap[$sale['client']]; 
+								<td <?php if($sale['sap']) echo 'style="background-color:#d3fac5;"'?>><?php echo date('d-m-Y',strtotime($sale['date'])).' '; ?></td>
+								<td <?php if($sale['sap']) echo 'style="background-color:#d3fac5;"'?>><?php echo $clientNamesMap[$sale['client']]; 
 										  if(isset($sale['direct_order']))
 										  {
 											  if($sale['direct_order'] && !billStatus($sale['bill']))
@@ -248,7 +248,7 @@ if(isset($_SESSION["user_name"]))
 											  }
 										  }?>
 							    </td>
-								<td><?php if(isset($childCodeMap[$sale['client']])) echo $childCodeMap[$sale['client']];?></td>
+								<td <?php if($sale['sap']) echo 'style="background-color:#d3fac5;"'?>><?php if(isset($childCodeMap[$sale['client']])) echo $childCodeMap[$sale['client']];?></td>
 								<td><?php echo $productDetailsMap[$sale['product']]['name'];?></td>
 								<td><?php echo $sale['qty']; ?></td>																	<?php
 								if($_SESSION['role'] != 'marketing')
