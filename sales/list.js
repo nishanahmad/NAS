@@ -416,11 +416,11 @@ $('.maintable').on('initialized filterEnd', function(){
 	qtyMap.clear();
 	var qty;
 	$(this).find('tbody tr:visible').each(function(){
-		var productName = $(this).find('td:eq(2)').text();
+		var productName = $(this).find('td:eq(3)').text();
 		if(qtyMap.has(productName))
-			qty = parseFloat( qtyMap.get(productName) ) + parseFloat( $(this).find('td:eq(3)').text() );
+			qty = parseFloat( qtyMap.get(productName) ) + parseFloat( $(this).find('td:eq(4)').text() );
 		else
-			qty = parseFloat( $(this).find('td:eq(3)').text() );
+			qty = parseFloat( $(this).find('td:eq(4)').text() );
 		
 		qtyMap.set(productName,qty);
 	});

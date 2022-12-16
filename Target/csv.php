@@ -18,7 +18,7 @@ ini_set('memory_limit', '-1');
 				foreach ($csvFile as $str)
 				{
 					$row = explode(",",$str);
-					$message ="DEAR AR, CONGRATS!! FOR ACHIEVING 50% UR SPECIAL TARGET OF DEC 01st TO 10th 2022.U ARE CREDITED ".$row[1]." PLUS POINTS. NOW U HAVE ".$row[2]." PLUS POINTS IN UR ACCOUNT - AR HELP";
+					$message ="Dear AR, For achieving your Spcl Trgt for the period 11th to 17th Dec 2022, you have ".$row[1]." balance bags. Achieve target and earn & full Lakshya benefits - AR HELP";
 /*					
 $message = 
 "Beach Residency, Kannur would love your feedback. Post a review to our profile.
