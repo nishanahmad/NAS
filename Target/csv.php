@@ -18,7 +18,7 @@ ini_set('memory_limit', '-1');
 				foreach ($csvFile as $str)
 				{
 					$row = explode(",",$str);
-					$message ="Dear AR, For achieving your Spcl Trgt for the period 11th to 17th Dec 2022, you have ".$row[1]." balance bags. Achieve target and earn & full Lakshya benefits - AR HELP";
+					$message ="Dear AR, Your Spcl Trgt for the period 25th Dec to 31st Dec 2022 is ".$row[1]." Bgs. Achieve target and earn & full Lakshya benefits - AR HELP";
 /*					
 $message = 
 "Beach Residency, Kannur would love your feedback. Post a review to our profile.
@@ -29,7 +29,7 @@ https://g.page/r/CWic1xXVc4IFEB0/review";
 					$phone = '91'.$row[0];
 					echo $phone.'<br/>';
 					echo $message.'<br/>';
-					//sleep(2);
+					//sleep(1);
 					//$status = sendMessage($message,$phone);
 				}
 			}

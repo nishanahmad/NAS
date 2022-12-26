@@ -71,7 +71,16 @@ if(isset($_SESSION["user_name"]))
 									<span class="input-group-text col-md-4">Parent Code</span>
 									<input type="text" name="parent_code" class="form-control" value="<?php if(isset($ar['parent_code'])) echo $ar['parent_code'];?>">
 								</div>
-							</div>														
+							</div>
+							<div class="col-8">
+								<div class="input-group mb-3">
+								<span class="input-group-text col-md-4">Type</span>
+									<select name="type" id="type" class="form-control" style="width:60%">
+										<option <?php if($ar['type'] == 'AR') echo 'selected';?> value = "AR">AR</option>
+										<option <?php if($ar['type'] == 'SR') echo 'selected';?> value = "SR">SR</option>
+									</select>																
+								</div>
+							</div>							
 							<br/>	
 							<button type="submit" class="btn" style="background-color:#4BA6AD;color:#FFFFFF"><i class="fas fa-save"></i> Update</button>
 						</div>

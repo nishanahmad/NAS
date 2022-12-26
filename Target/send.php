@@ -27,40 +27,11 @@ if(isset($_POST["submit"]))
 				if(isset($row[3]))
 					$message = str_replace("[C4]",$row[3],$message);
 				
-				$checkMap[$phone]['message'] = $message;
-				$checkMap[$phone]['status'] = 'Not Sent';
+				sleep(1);
 				$status = sendMessage($message,$phone);
-				foreach($status as $key => $value)
-					$checkMap[$phone]['status'] = $key;
 			}
-			sleep(2);
-			foreach($checkMap as $phone => $row)
-			{
-				$message = $row['message'];
-				$status = $row['status'];
-				if($status == 'Not Sent')
-				{
-					echo 'RESEND ACTIVATED IN LOOP 2<br/>';
-					$status = sendMessage($message,$phone);
-					foreach($status as $key => $value)
-						$checkMap[$phone]['status'] = $key;
-				}
-			}
-			sleep(2);
-			foreach($checkMap as $phone => $row)
-			{
-				$message = $row['message'];
-				$status = $row['status'];
-				if($status == 'Not Sent')
-				{
-					echo 'RESEND ACTIVATED IN LOOP 3<br/>';
-					$status = sendMessage($message,$phone);
-					foreach($status as $key => $value)
-						$checkMap[$phone]['status'] = $key;
-				}
-			}			
 		}
-	} 
+	}
 	else 
 	{
 		echo "No file selected <br />";
@@ -70,7 +41,7 @@ if(isset($_POST["submit"]))
 	<body>
 		<div align="center">
 			Whatsapp number in column 1<br/>
-			Add [C2] for column2, [C3] for column3 and so on ...
+			Add [C2] for column2, [C3] for column3, [C4] for column4
 			<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" enctype="multipart/form-data">
 				<br/><br/>
 				<textarea name="message" rows="4" cols="100"></textarea><br/><br/>
