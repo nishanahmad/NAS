@@ -6,7 +6,6 @@ if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
 	require '../functions/monthMap.php';
-	require '../SpecialTarget/dropDownGenerator.php';
 	require '../navbar.php';
 	
 	
@@ -103,7 +102,7 @@ if(isset($_SESSION["user_name"]))
 				<div style="width:120px;margin-left:49%">
 					<div class="input-group">
 						<select id="jsYear" name="jsYear" class="form-select" onchange="return refreshYear();">																<?php	
-							$yearList = getYears();	
+							$yearList = [2022,2023];	
 							foreach($yearList as $yr)
 							{
 								if($yr >= 2022)
