@@ -127,6 +127,7 @@ if(isset($_POST["submit"]))
 							$("#dvCSV").append(mainString);
 						}
 						reader.readAsText($("#file")[0].files[0]);
+						return false;
 					} else {
 						alert("This browser does not support HTML5.");
 					}
