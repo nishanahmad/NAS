@@ -16,7 +16,7 @@ if(isset($_POST["submit"]))
 		{
 			$checkMap = array();
 			$tmpName = $_FILES['file']['tmp_name'];
-			$csvAsArray = array_map('str_getcsv', file($tmpName));	
+			$csvAsArray = array_map('str_getcsv', file($tmpName));
 			foreach($csvAsArray as $index => $row)
 			{
 				$message = $_POST['message'];
@@ -26,6 +26,8 @@ if(isset($_POST["submit"]))
 					$message = str_replace("[C3]",$row[2],$message);
 				if(isset($row[3]))
 					$message = str_replace("[C4]",$row[3],$message);
+				if(isset($row[4]))
+					$message = str_replace("[C5]",$row[4],$message);
 				
 				sleep(1);
 				$status = sendMessage($message,$phone);
