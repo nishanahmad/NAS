@@ -38,6 +38,11 @@ if(isset($_POST["submit"]))
 					$message = str_replace("[C5]",$row[4],$message);
 					$message = str_replace("[c5]",$row[4],$message);
 				}
+				if(isset($row[5]))
+				{
+					$message = str_replace("[C6]",$row[5],$message);
+					$message = str_replace("[c6]",$row[5],$message);
+				}
 					
 				sleep(1);
 				$status = sendMessage($message,$phone);
@@ -66,7 +71,7 @@ if(isset($_POST["submit"]))
 		  <div class="card-body">
 			  <ul>
 				<li>Always keep the Whatsapp number in column 1</li>
-				<li>Add <b>[C2]</b> for second column, <b>[C3]</b> for third column & <b>[C4]</b> for fourth column</li>
+				<li>Add <b>[C2]</b> for second column, <b>[C3]</b> for third column and so on ...</li>
 			  </ul>
 		  </div>
 		</div>	
@@ -118,6 +123,16 @@ if(isset($_POST["submit"]))
 										{
 											msg = msg.replace("[C4]", cells[j]);
 											msg = msg.replace("[c4]", cells[j]);
+										}
+										if(j == 4)
+										{
+											msg = msg.replace("[C5]", cells[j]);
+											msg = msg.replace("[c5]", cells[j]);
+										}
+										if(j == 5)
+										{
+											msg = msg.replace("[C6]", cells[j]);
+											msg = msg.replace("[c6]", cells[j]);
 										}
 									}
 									mainString = mainString + msg + '<br/>';									
