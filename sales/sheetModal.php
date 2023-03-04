@@ -108,7 +108,7 @@ if(isset($_SESSION["user_name"]))
 									<option value="">--- SELECT ---</option>								<?php
 									foreach($areaList as $area) 
 									{																										?>
-										<option value="<?php echo $area['id'];?>" <?php if($sheet['driver_area'] == $area['id']) echo 'selected';?>><?php echo $area['name'];?></option>						<?php
+										<option value="<?php echo $area['id'];?>" <?php if(isset($sheet['driver_area']) && $sheet['driver_area'] == $area['id']) echo 'selected';?>><?php echo $area['name'];?></option>						<?php
 									}																										?>
 								</select>
 							</div>
