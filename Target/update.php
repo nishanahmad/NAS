@@ -29,11 +29,11 @@ if(isset($_SESSION["user_name"]))
 				$sql="UPDATE target SET rate = '$value' WHERE ar_id = '$arId' AND month = '$month' AND year = '$year' ";
 				$result = mysqli_query($con, $sql) or die(mysqli_error($con));				   			
 			}	
-			else if($arr[1] == 'pp')	
+			else if($arr[1] == 'mult')	
 			{
-				$sql="UPDATE target SET payment_perc = '$value' WHERE ar_id = '$arId' AND month = '$month' AND year = '$year' ";
+				$sql="UPDATE target SET multiplier = '$value' WHERE ar_id = '$arId' AND month = '$month' AND year = '$year' ";
 				$result = mysqli_query($con, $sql) or die(mysqli_error($con));				   			
-			}						
+			}									
 		}
 	}
 	

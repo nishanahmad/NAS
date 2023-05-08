@@ -54,7 +54,7 @@ if(isset($_SESSION["user_name"]))
 	
 	$array = implode("','",array_keys($arMap));	
 	
-	$sql = "SELECT ar_id, target, rate, payment_perc FROM target WHERE year='$year' AND month='$month' AND ar_id IN ('$array')";
+	$sql = "SELECT ar_id, target, rate, payment_perc, multiplier FROM target WHERE year='$year' AND month='$month' AND ar_id IN ('$array')";
 	$result = mysqli_query($con, $sql) or die(mysqli_error($con));		
 
 	$yearObjects = mysqli_query($con,"SELECT DISTINCT year FROM target ORDER BY year DESC");	
@@ -147,7 +147,7 @@ function rerender()
 							<th style="width:10%">SAP</th>
 							<th style="width:10%;text-align:center;">TARGET</th>
 							<th style="width:10%;text-align:center;">RATE</th>
-							<!--th style="width:10%;text-align:center;">PAYMENT %</th--> 
+							<th style="width:10%;text-align:center;">MULTIPLIER</th> 
 						</tr>	
 					</thead>
 					<tbody>	<?php
@@ -158,7 +158,8 @@ function rerender()
 							$target = $row['target'];
 							$total = $total + $target;
 							$rate = $row['rate'];
-							$pp = $row['payment_perc'];																							?>				
+							$pp = $row['payment_perc'];
+							$mult = $row['multiplier'];							?>				
 							<tr>
 								<td><label align="center"><?php echo $arMap[$arId]; ?></td>	
 								<td><label align="center"><?php echo $shopMap[$arId]; ?></td>	
@@ -166,15 +167,15 @@ function rerender()
 								<td><label align="center"><?php echo $codeMap[$arId]; ?></td>						
 								<td style="text-align:center;"><input type="text" style="text-align:center;width:70px;border:0px;background-color: transparent;" name="<?php echo $arId.'-target';?>" value="<?php echo $target; ?>"></td>	
 								<td style="text-align:center;"><input type="text" style="text-align:center;width:70px;border:0px;background-color: transparent;" name="<?php echo $arId.'-rate';?>" value="<?php echo $rate; ?>"></td>
-								<!--td style="text-align:center;"><input type="text" style="text-align:center;width:70px;border:0px;background-color: transparent;" name="<?php //echo $arId.'-pp';?>" value="<?php //echo $pp; ?>"></td-->		
+								<td style="text-align:center;"><input type="text" style="text-align:center;width:70px;border:0px;background-color: transparent;" name="<?php echo $arId.'-mult';?>" value="<?php echo $mult; ?>"></td>		
 							</tr>																												<?php
 						}																														?>
 						<tr>
 							<th></th>
 							<th></th>
 							<th></th>
-							<th><?php echo $total;?></th>
 							<th></th>
+							<th><?php echo $total;?></th>
 							<th></th>
 						</tr>
 					</tbody>
