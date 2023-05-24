@@ -23,6 +23,7 @@ if(isset($_SESSION["user_name"]))
 		$from = (int)$_POST['from'];
 		$to = (int)$_POST['to'];
 		$qty = (int)$_POST['qty'];
+		$remarks = $_POST['remarks'];
 		$transferred_on = date('Y-m-d H:i:s');
 		$transferred_by = $_SESSION['user_id'];
 		
@@ -54,19 +55,24 @@ if(isset($_SESSION["user_name"]))
 		
 		$toStock = mysqli_fetch_array($queryTo,MYSQLI_ASSOC)['qty'];
 
-		$insertLogs = mysqli_query($con, "INSERT INTO transfer_logs (user_from, user_to, qty, transferred_on, transferred_by, fromStock, toStock) VALUES ('$from', '$to', '$qty', '$transferred_on', '$transferred_by', '$fromStock', '$toStock')");
+		$insertLogs = mysqli_query($con, "INSERT INTO transfer_logs (user_from, user_to, qty, transferred_on, transferred_by, fromStock, toStock, remarks) 
+															VALUES ('$from', '$to', '$qty', '$transferred_on', '$transferred_by', '$fromStock', '$toStock', '$remarks')");
 		if(!$insertLogs)
 			$commitFlag = false;		
 		
 		if($commitFlag)
 		{
 			mysqli_commit($con);	
-			header( "Location: requests.php" );
+			echo '<script type="text/javascript"> 
+			window.location.href="requests.php"; 
+			</script>';
 		}
 		else
 		{
 			mysqli_rollback($con);
-			header( "Location: requests.php?error=true" );		
+			echo '<script type="text/javascript"> 
+			window.location.href="requests.php?error=true"; 
+			</script>';
 		}
 	}
 ?>	
@@ -126,12 +132,16 @@ if(isset($_SESSION["user_name"]))
 							}																																			?>
 						</select>
 					</div>						
-				</div>						
+				</div>		
+				<div class="form-group">
+					<div style="width:60%">
+						<input type="text" name="remarks" id="remarks" class="form-control" placeholder="Remarks"/>
+					</div>
+				</div>
 				<br/><br/><br/><br/><br/><br/>
 				<div class="form-group">
 					<button type="submit" class="btn btn-info">Submit</button>
 				</div>
-
 			</form>
 		</div>	 			
 		<script>

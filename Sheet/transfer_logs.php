@@ -77,7 +77,7 @@ if(isset($_SESSION['user_name']))
 					<br/>
 				</form>	
 				<br/><br/>				
-				<table class="table table-hover table-bordered" style="width:60%">
+				<table class="table table-hover table-bordered" style="width:70%">
 					<thead>
 						<tr class="table-info">
 							<th style="width:120px;">Date</th>
@@ -86,6 +86,7 @@ if(isset($_SESSION['user_name']))
 							<th style="width:50px;">Qty</th>
 							<th style="width:120px;">Transfrd By</th>
 							<th style="width:140px;">Stock</th>
+							<th style="width:250px;">Remarks</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -120,7 +121,7 @@ if(isset($_SESSION['user_name']))
 											echo $site['mason_name'];?></a><?php
 								}?>
 							</td>
-							<td><?php echo $log['qty'];?></td>				
+							<td><?php echo $log['qty'];?></td>
 							<td><?php echo $userMap[$log['transferred_by']];?></td>
 							<td><?php 
 								if(isset($userMap[$log['user_from']]))
@@ -128,6 +129,7 @@ if(isset($_SESSION['user_name']))
 								if(isset($userMap[$log['user_to']]))
 									echo $userMap[$log['user_to']].' : '.$log['toStock'];?>
 							</td>									
+							<td><?php echo $log['remarks'];?></td>
 						</tr>																											<?php
 					}																													?>
 					</tbody>
