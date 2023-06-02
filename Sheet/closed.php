@@ -103,7 +103,7 @@ if(isset($_SESSION['user_name']))
 	<div align="center">																							<?php 
 		if($status == 'closed')
 		{																											?>
-			<table class="table table-hover table-bordered" style="width:90%">
+			<table class="table table-hover table-bordered" style="width:95%">
 				<thead>
 					<tr class="table-success">
 						<th>Area</th>
@@ -111,6 +111,7 @@ if(isset($_SESSION['user_name']))
 						<th>Customer</th>
 						<th>Mason</th>
 						<th>Qty</th>
+						<th style="width:120px;">Delvrd On</th>
 						<th style="width:120px;">Closed On</th>
 						<th>Closed By</th>
 						<th>Req By</th>
@@ -125,6 +126,7 @@ if(isset($_SESSION['user_name']))
 						<td><?php echo $sheet['customer_name'].'<br/>'.$sheet['customer_phone'];?></td>
 						<td><?php echo $sheet['mason_name'].'<br/>'.$sheet['mason_phone'];?></td>
 						<td style="text-align:center;"><?php echo $sheet['qty'];?></td>
+						<td><?php echo date('d-m-Y',strtotime($sheet['delivered_on']));?></td>
 						<td><?php echo date('d-m-Y',strtotime($sheet['closed_on']));?></td>
 						<td><?php echo $userMap[$sheet['closed_by']];?></td>
 						<td><?php echo $sheet['requested_by'];?></td>
