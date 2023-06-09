@@ -19,7 +19,7 @@ if (strpos($url, 'closed') !== false)
 	$flag = 'closed';
 if (strpos($url, 'dayBook') !== false)
 	$flag = 'reports';	
-if (strpos($url, 'duplicates') !== false)
+if (strpos($url, 'duplicate_checker') !== false)
 	$flag = 'duplicates';	
 
 ?>
@@ -141,6 +141,6 @@ if (strpos($url, 'duplicates') !== false)
 				<a href="transfer_logs.php" class="<?php if($flag == 'transfer_logs') echo 'selected';?>"><i class="fa fa-file-text"></i><span>Transfer Logs</span></a>
 				<a href="closed.php" class="<?php if($flag == 'closed') echo 'selected';?>"><i class="fa fa-check-square"></i><span>Closed</span></a>
 				<a href="dayBook.php?date=<?php echo date('Y-m-d');?>" class="<?php if($flag == 'reports') echo 'selected';?>"><i class="fa fa-chart-area"></i><span>Day Book</span></a>
-				<a href="duplicates.php" class="<?php if($flag == 'duplicates') echo 'selected';?>"><i class="fa fa-clone"></i><span>Dup Check</span></a><?php
+				<a href="duplicate_checker.php" class="<?php if($flag == 'duplicates') echo 'selected';?>"><i class="fa fa-clone"></i><span>Dup Check</span></a><?php
 			}?>				
 		</nav>		

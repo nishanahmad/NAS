@@ -110,7 +110,7 @@ if(isset($_SESSION["user_name"]))
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<link href="../css/styles.css" rel="stylesheet" type="text/css">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<script>		
+		<script>
 		function cancel(id){
 			bootbox.prompt({
 				title: "Enter reason for cancellation",
@@ -120,7 +120,7 @@ if(isset($_SESSION["user_name"]))
 					{
 						console.log(result);
 						hrf = 'cancel.php?';
-						window.location.href = hrf +"id="+ id + "&reason=" + result;		
+						window.location.href = hrf +"id="+ id + "&returl=requests.php&reason=" + result;		
 					}						
 				}
 			});										
@@ -284,8 +284,13 @@ if(isset($_SESSION["user_name"]))
 											<button class="btn" id="read<?php echo $sheet['id'];?>" value="<?php echo $sheet['id'];?>" style="margin-right:10px;background-color:#4285F4;color:#FFFFFF;width:90px;" onclick="markRead(this.value)"><i class="fa fa-eye" aria-hidden="true"></i> Read</button><?php
 										}																																																																	?>									
 										<button class="btn" onclick="addRemarks(<?php echo $sheet['id'];?>)" style="background-color:#E6717C;color:#FFFFFF;width:110px;"><i class="fa fa-comment"></i> Remark</button><?php
-									}																																																							
-								}?>
+									}																																																					?>
+									<br/><br/>
+									<form name="duplicateForm" id="duplicateForm" method="post" action="duplicate.php">
+										<input type="hidden" id="dulpicateId" name="dulpicateId" value="<?php echo $sheet['id'];?>">
+										<button type="submit" class="btn" id="duplicate" onclick="return confirm('Mark this as duplicate and send to office?')" style="margin-right:10px;background-color:#E6717C;color:#FFFFFF;width:80px;"><i class="far fa-trash-alt"></i> Dupl</button>
+									</form>																																															<?php
+								}																																						?>
 							</div>
 						</div>
 					</div>
