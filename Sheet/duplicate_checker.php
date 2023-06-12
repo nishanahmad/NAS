@@ -74,10 +74,10 @@ if(isset($_SESSION["user_name"]))
 					<td><?php if($sheet['driver_area'] > 0) echo '<font style="font-weight:bold">'.$mainAreaMap[$sheet['driver_area']].'</font>';echo '<br/>'.$sheet['area']; ?></td>
 					<td><?php echo date("d-m-Y",strtotime($sheet['date']));?></td>
 					<td><?php echo $sheet['bags'];?></td>
-					<td><?php echo $sheet['customer_name'];?></td>
-					<td><?php echo $sheet['mason_name'];?></td>
+					<td><?php echo $sheet['customer_name'].'<br/>'.$sheet['customer_phone'];?></td>
+					<td><?php echo $sheet['mason_name'].'<br/>'.$sheet['mason_phone'];?></td>
 					<td><?php 
-						if(isset($sheet['shop1']) && $sheet['shop1'] != 0)
+						if(isset($sheet['shop1']) && $sheet['shop1'] != 0 && isset($shops[$sheet['shop1']]))
 							echo $shops[$sheet['shop1']];
 						else
 							echo $sheet['shop'];?>
