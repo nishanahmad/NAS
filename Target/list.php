@@ -331,8 +331,8 @@ function rerender()
 						<td><?php echo $mainArray[$arId]['targetBags'];?></td>
 						<td><?php echo $rate;?></td>
 						<td><?php echo $mainArray[$arId]['points'];?></td>
-						<td><?php echo $mainArray[$arId]['actual_perc'].'%';?></td>
-						<td><?php echo $mainArray[$arId]['point_perc'].'%';?></td>
+						<td><?php if($mainArray[$arId]['actual_perc'] != null) echo $mainArray[$arId]['actual_perc'].'%';?></td>
+						<td><?php if($mainArray[$arId]['point_perc'] != null) echo $mainArray[$arId]['point_perc'].'%';?></td>
 						<td><?php echo $mainArray[$arId]['achieved_points'];?></td><?php
 						if($currentDate >= $startDate)
 						{																															?>
