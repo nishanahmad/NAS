@@ -326,10 +326,10 @@ function rerender()
 						<td><?php echo $arMap[$arId]['whatsapp'];?></b></td>
 						<td style="text-align:left;"><?php echo $arMap[$arId]['shop'];?></b></td>
 						<td><?php echo $arMap[$arId]['child_code'];?></b></td>
-						<td><?php echo $target;?></td>
+						<td><?php if($target >0) echo $target;?></td>
 						<td><?php echo $mainArray[$arId]['actual_sale'];?></td>
 						<td><?php echo $mainArray[$arId]['targetBags'];?></td>
-						<td><?php echo $rate;?></td>
+						<td><?php if($rate > 0) echo $rate;?></td>
 						<td><?php echo $mainArray[$arId]['points'];?></td>
 						<td><?php if($mainArray[$arId]['actual_perc'] != null) echo $mainArray[$arId]['actual_perc'].'%';?></td>
 						<td><?php if($mainArray[$arId]['point_perc'] != null) echo $mainArray[$arId]['point_perc'].'%';?></td>
