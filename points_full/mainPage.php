@@ -73,7 +73,7 @@ if(isset($_SESSION["user_name"]))
 			$targetMap[$target['ar_id']]['target'] = $target['target'];
 			$targetMap[$target['ar_id']]['rate'] = $target['rate'];
 			$targetMap[$target['ar_id']]['payment_perc'] = $target['payment_perc'];
-			$targetMap[$target['ar_id']]['multiplier'] = $target['multiplier'];
+			//$targetMap[$target['ar_id']]['multiplier'] = $target['multiplier'];
 			$monthTgtDetails[$target['ar_id']][$year][$month] = $target['target'];
 		}
 		
@@ -101,7 +101,7 @@ if(isset($_SESSION["user_name"]))
 				else
 					$payment_points = 0;			
 				
-				$payment_points = round($payment_points * $targetMap[$arId]['multiplier'],0);
+				//$payment_points = round($payment_points * $targetMap[$arId]['multiplier'],0);
 				
 				$pointMap[$arId]['points'] = $payment_points;
 				$pointMap[$arId]['point_perc'] = $point_perc;
@@ -427,7 +427,7 @@ function getPrevPoints($arList,$endYear,$endMonth,$dateString)
 						else if(isset($detailArray))
 							$payment_points = 0;			
 						
-						$payment_points = round($payment_points * $detailArray['multiplier'],0);
+						//$payment_points = round($payment_points * $detailArray['multiplier'],0);
 						
 						$arMap[$arId]['prevPoints'] = $arMap[$arId]['prevPoints'] + $payment_points;												
 					}
