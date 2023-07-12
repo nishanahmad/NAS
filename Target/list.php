@@ -105,13 +105,8 @@ if(isset($_SESSION["user_name"]))
 			$point_perc = getPointPercentage($actual_perc,$year,$month);			 
 			$achieved_points = round($points * $point_perc/100,0);
 			
-			if($total > 0)		
-			{
-				if($currentDate >= $startDate)
-					$payment_points = round($points * $targetMap[$arId]['multiplier'],0);
-				else
-					$payment_points = round($achieved_points * $targetMap[$arId]['payment_perc']/100,0);
-			}
+			if($total > 0)
+				$payment_points = round($achieved_points * $targetMap[$arId]['payment_perc']/100,0);
 			else
 				$payment_points = 0;											
 
@@ -123,9 +118,8 @@ if(isset($_SESSION["user_name"]))
 			$mainArray[$arId]['actual_perc'] = $actual_perc;
 			$mainArray[$arId]['point_perc'] = $point_perc;
 			$mainArray[$arId]['achieved_points'] = $achieved_points;
-			if($currentDate >= $startDate)
-				$mainArray[$arId]['multiplier'] = $targetMap[$arId]['multiplier'];			
-			$mainArray[$arId]['payment_points'] = $payment_points;			
+			$mainArray[$arId]['multiplier'] = $targetMap[$arId]['multiplier'];			
+			$mainArray[$arId]['payment_points'] = $payment_points * $targetMap[$arId]['multiplier'];			
 			$mainArray[$arId]['whatsapp'] = $arMap[$arId]['whatsapp'];		
 			$mainArray[$arId]['month'] = $month;
 			$mainArray[$arId]['year'] = $year;
@@ -284,16 +278,10 @@ function rerender()
 					<th>Extra</th>
 					<th>Rate</th>
 					<th>Points</th>
-					<th>Actual%</th>																<?php
-					if($currentDate >= $startDate)
-					{																				?>
-						<th style="align:center">X</th>												<?php
-					}
-					else
-					{																				?>
-						<th>Point%</th>
-						<th>Achieved Pnts</th>						<?php		
-					}																				?>
+					<th>Actual%</th>
+					<th style="align:center">X</th>
+					<th>Point%</th>
+					<th>Achieved Pnts</th>
 					<th>Points</th>	
 				</tr>
 			</thead>	
@@ -334,16 +322,10 @@ function rerender()
 						<td><?php echo $mainArray[$arId]['targetBags'];?></td>
 						<td><?php if($rate > 0) echo $rate;?></td>
 						<td><?php echo $mainArray[$arId]['points'];?></td>
-						<td><?php if($mainArray[$arId]['actual_perc'] != null) echo $mainArray[$arId]['actual_perc'].'%';?></td><?php
-						if($currentDate >= $startDate)
-						{																															?>
-							<td><?php echo $mainArray[$arId]['multiplier'];?></td><?php
-						}
-						else
-						{																															?>
-							<td><?php if($mainArray[$arId]['point_perc'] != null) echo $mainArray[$arId]['point_perc'].'%';?></td>
-							<td><?php echo $mainArray[$arId]['achieved_points'];?></td>																<?php
-						}																															?>		
+						<td><?php if($mainArray[$arId]['actual_perc'] != null) echo $mainArray[$arId]['actual_perc'].'%';?></td>
+						<td><?php echo $mainArray[$arId]['multiplier'];?></td>
+						<td><?php if($mainArray[$arId]['point_perc'] != null) echo $mainArray[$arId]['point_perc'].'%';?></td>
+						<td><?php echo $mainArray[$arId]['achieved_points'];?></td>
 						<td><?php echo '<b>'.$mainArray[$arId]['payment_points'].'</b>';?></td>
 					</tr>																															<?php
 				}																																	?>
@@ -360,17 +342,10 @@ function rerender()
 						<th><!-- RATE --></th>
 						<th><?php echo $totalPoints;?></th>
 						<th><?php if($totalTarget >0) echo round($totalSale/$totalTarget*100,1)?>%</th>
-						<th></th><?php
-						if($currentDate >= $startDate)
-						{																															?>
-							<th><?php echo $totalPaymentPoints;?></th>																				<?php
-						}
-						else
-						{																															?>
-							<th></th>	
-							<th><?php echo $totalPaymentPoints;?></th>																				<?php
-						}																															?>
-						
+						<th></th>
+						<th></th>
+						<th></th>	
+						<th><?php echo $totalPaymentPoints;?></th>						
 					</tr>
 				</tfoot>	
 			</table>
