@@ -191,7 +191,7 @@ function rerender()
 </body>
 <script>
 $(function(){		
-	$(".download-table").tablesorter({
+	$(".table").tablesorter({
 		theme : 'bootstrap',
 		widgets: ['filter'],
 		filter_columnAnyMatch: true
