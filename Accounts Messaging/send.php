@@ -44,7 +44,7 @@ if(isset($_POST["submit"]))
 					$message = str_replace("[c6]",$row[5],$message);
 				}
 					
-				sleep(1);
+				sleep(60);
 				$status = sendMessage($message,$phone);
 			}
 		}
