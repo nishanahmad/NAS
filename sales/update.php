@@ -47,6 +47,11 @@ if(isset($_SESSION["user_name"]))
 		else	
 			$sap = 0;				
 		
+		if(isset($_POST['pending_sale']))
+			$pending_sale = 1;
+		else	
+			$pending_sale = 0;						
+		
 		$entered_by = $_SESSION["user_name"];
 		$entered_on = date('Y-m-d H:i:s');
 		$sql = $_POST['sql'];
@@ -74,7 +79,7 @@ if(isset($_SESSION["user_name"]))
 											bill_no='$bill',order_no = ".var_export($order_no, true).",product='$product',qty='$qty',godown=".var_export($godown, true).",
 											discount=".var_export($discount, true).",remarks='$remarks',address1='$address1',customer_name='$customerName', 
 											customer_phone='$customerPhone',ar_direct=$ar_direct, locked = $locked, driver_name = '$driverName', driver_phone = '$driverPhone', 
-											other_purchase = $otherPurchase, sap = $sap
+											other_purchase = $otherPurchase, sap = $sap, pending_sale = $pending_sale
 									 WHERE sales_id='$id'") or die(mysqli_error($con));
 					
 		$resultNew = mysqli_query($con,"SELECT * FROM nas_sale WHERE deleted IS NULL AND sales_id='$id'") or die(mysqli_error($con));	
