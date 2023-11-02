@@ -21,6 +21,8 @@ if (strpos($url, 'discounts') !== false)
 	$flag = 'discounts';
 if (strpos($url, 'Sheet') !== false)
 	$flag = 'Sheet';
+if (strpos($url, 'company_sale') !== false)
+	$flag = 'company_sale';
 if (strpos($url, 'reports') !== false)
 	$flag = 'reports';
 
@@ -272,6 +274,12 @@ a {
 		  Sheets
 		</a>
 	  </li>	  	  
+	  <li class="nav-item">
+		<a class="nav-link" <?php if($flag == 'company_sale') echo 'href="#"'; else echo 'href="../company_sale/list.php"';?>>
+		  <i class="fa fa-bolt <?php if($flag == 'company_sale') echo 'glow';?> aria-hidden="true"></i>
+		  Company Sale
+		</a>
+	  </li>	  	  	  
 	  <li class="nav-item">
 		<a class="nav-link" <?php if($flag == 'reports') echo 'href="#"'; else echo 'href="../reports/salesSummary.php"';?>>
 		  <i class="fa fa-chart-area <?php if($flag == 'reports') echo 'glow';?> aria-hidden="true"></i>
