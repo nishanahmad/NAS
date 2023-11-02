@@ -50,7 +50,10 @@ if(isset($_SESSION["user_name"]))
 		<div style="width:100%;" class="mainbody">
 			<div align="center">
 				<br/><br/>
-				<table class="ratetable table table-hover table-bordered" style="width:50%">
+				<input style="width:10%" type="text" name="date" id="date" onchange="document.location.href = 'list.php?date=' + this.value" class="form-control datepicker col-md-1" autocomplete="off" value="<?php echo date('d-m-Y',strtotime($urlDate)); ?>">
+				<br/><br/>
+				Total sale records : <div id="getCurrentRows"></div>
+				<table id="salesTable" class="ratetable table table-hover table-bordered" style="width:50%">
 					<thead>
 						<tr class="table-info">
 							<th><i class="fa fa-calendar"></i> Date</th>

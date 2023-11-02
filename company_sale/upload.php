@@ -33,7 +33,11 @@ if(isset($_POST["submit"]))
 					{
 						$date = date('Y-m-d',strtotime(trim($row[0])));
 						$arId = $arMap[trim($row[1])];
-						$qty = trim($row[2]);
+						if(empty(trim($row[2])))
+							$qty = '0';
+						else
+							$qty = trim($row[2]);
+						
 						$entered_on = date('Y-m-d H:i:s');
 						
 						$sql="INSERT INTO company_sale (date, ar_id, qty, entered_on)
