@@ -18,6 +18,11 @@ if(isset($_SESSION["user_name"]))
 	$arList = mysqli_query($con, "SELECT * FROM ar_details WHERE id IS NOT NULL") or die(mysqli_error($con));
 	foreach($arList as $ar)
 		$arMap[$ar['id']] = $ar;
+		
+	$productMap = array();
+	$productList = mysqli_query($con, "SELECT * FROM products") or die(mysqli_error($con));
+	foreach($productList as $product)
+		$productMap[$product['id']] = $product['name'];		
 				
 	$sales = mysqli_query($con,"SELECT * FROM company_sale WHERE date = '$date'");		?>
 <html>
@@ -58,8 +63,9 @@ if(isset($_SESSION["user_name"]))
 						<tr class="table-info">
 							<th><i class="fa fa-calendar"></i> Date</th>
 							<th><i class="fa fa-address-card-o"></i> AR</th>
-							<th><i class="fa fa-shield"></i> Child Code</th>
-							<th style="width:90px;"><i class="fa fa-buffer"></i> Qty</th>
+							<th>Child Code</th>
+							<th><i class="fa fa-shield"></i> Product</th>
+							<th style="width:90px;"><i class="fab fa-buffer"></i> Qty</th>
 						</tr>
 					</thead>
 					<tbody><?php				
@@ -69,6 +75,7 @@ if(isset($_SESSION["user_name"]))
 								<td><?php echo date('d-m-Y',strtotime($sale['date']));?></td>								
 								<td><?php echo $arMap[$sale['ar_id']]['name'];?></td>
 								<td><?php echo $arMap[$sale['ar_id']]['child_code'];?></td>
+								<td><?php echo $productMap[$sale['product']];?></td>
 								<td><?php echo $sale['qty'];?></td>
 							</tr>																											<?php
 						}																														?>

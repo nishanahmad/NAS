@@ -33,16 +33,17 @@ if(isset($_POST["submit"]))
 					{
 						$date = date('Y-m-d',strtotime(trim($row[0])));
 						$arId = $arMap[trim($row[1])];
-						if(empty(trim($row[2])))
+						$productId = trim($row[2]);
+						if(empty(trim($row[3])))
 							$qty = '0';
 						else
-							$qty = trim($row[2]);
+							$qty = trim($row[3]);
 						
 						$entered_on = date('Y-m-d H:i:s');
 						
-						$sql="INSERT INTO company_sale (date, ar_id, qty, entered_on)
+						$sql="INSERT INTO company_sale (date, ar_id, product, qty, entered_on)
 							  VALUES
-							 ('$date', '$arId', '$qty', '$entered_on')";
+							 ('$date', '$arId', '$productId', '$qty', '$entered_on')";
 						
 						$result = mysqli_query($con, $sql) or die(mysqli_error($con));						
 					}
@@ -91,9 +92,15 @@ if(isset($_POST["submit"]))
 		  </div>
 		  <div class="card-body">
 			  <ul>
-				<li>Upload CSV with columns - Date, AR Code, Sale Quantity</li>
+				<li>Upload CSV with columns - Date, AR Code, Product Id, Sale Quantity</li>
 				<li>Keep the first row for header. Data should start from row 2</li>
 			  </ul>
+			  
+			  Product Id list is given below
+			  <ul>
+				<li>1 - Suraksha</li>
+				<li>6 - CONCRT+</li>
+			  </ul>			  
 		  </div>
 		</div>	
 	   </div>
