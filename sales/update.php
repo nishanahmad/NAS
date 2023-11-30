@@ -36,6 +36,7 @@ if(isset($_SESSION["user_name"]))
 		
 		$driverName = $_POST['driverName'];
 		$driverPhone = $_POST['driverPhone'];
+		$freight = $_POST['freight'];
 
 		if(isset($_POST['otherPurchase']))
 			$otherPurchase = 1;
@@ -79,7 +80,7 @@ if(isset($_SESSION["user_name"]))
 											bill_no='$bill',order_no = ".var_export($order_no, true).",product='$product',qty='$qty',godown=".var_export($godown, true).",
 											discount=".var_export($discount, true).",remarks='$remarks',address1='$address1',customer_name='$customerName', 
 											customer_phone='$customerPhone',ar_direct=$ar_direct, locked = $locked, driver_name = '$driverName', driver_phone = '$driverPhone', 
-											other_purchase = $otherPurchase, sap = $sap, pending_sale = $pending_sale
+											other_purchase = $otherPurchase, sap = $sap, pending_sale = $pending_sale, freight = $freight
 									 WHERE sales_id='$id'") or die(mysqli_error($con));
 					
 		$resultNew = mysqli_query($con,"SELECT * FROM nas_sale WHERE deleted IS NULL AND sales_id='$id'") or die(mysqli_error($con));	

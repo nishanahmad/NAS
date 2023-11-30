@@ -325,6 +325,15 @@ if(isset($_SESSION["user_name"]) && $_SESSION["role"] != 'marketing')
 								</div>
 							</div>		
 							<div class="row">
+								<div class="col col-md-4 offset-1">
+									<div class="input-group">
+										<span class="input-group-text col-md-5">Freight</span>
+										<input type="text" name="freight" id="freight" value="<?php echo $row['freight'];?>" class="form-control">
+									</div>								
+								</div>
+							</div>
+							<br/>	
+							<div class="row">
 								<div class="form-group row">
 									<div class="col-sm-6 col-md-4 offset-md-1">
 										<div class="input-group mb-3">
