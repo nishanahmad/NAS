@@ -11,7 +11,7 @@ if (strpos($url, 'coveringBlock') !== false)
 	$flag = 'coveringBlock';	
 if (strpos($url, 'trucks') !== false)
 	$flag = 'loading';
-if (strpos($url, 'ar') !== false || strpos($url, 'points') !== false || strpos($url, 'Target') !== false || strpos($url, 'redemption') !== false)
+if (strpos($url, 'ar') !== false || strpos($url, 'points') !== false || strpos($url, 'Target') !== false || strpos($url, 'redemption') !== false || strpos($url, 'custom_pp') !== false)
 	$flag = 'ar';
 if (strpos($url, 'engineers') !== false || strpos($url, 'Engineer') !== false)
 	$flag = 'engineers';

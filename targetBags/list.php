@@ -59,9 +59,9 @@ $(document).ready(function() {
 							Target Bags
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">
-							<li><a href="../list.php?" class="dropdown-item">Monthly Points</a></li>
+							<li><a href="../Target/list.php?" class="dropdown-item">Monthly Points</a></li>
 							<li><a href="../points_full/mainPage.php?" class="dropdown-item">Accumulated Points</a></li>
-							<li><a href="edit.php?" class="dropdown-item">Update Target</a></li>
+							<li><a href="../Target/edit.php?" class="dropdown-item">Update Target</a></li>
 						</ul>
 					</div>
 				</div>					

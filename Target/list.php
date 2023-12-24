@@ -51,15 +51,8 @@ if(isset($_SESSION["user_name"]))
 	//$zeroTargetIds = implode("','",array_keys($zeroTargetMap));	
 
 
-
-	// Dates calculated for Multiplier feature
-	$currentDate = date('Y-m-d',strtotime($year.'-'.$month.'-01'));
-	$startDate = date('Y-m-d',strtotime('2023-03-01'));
-
-
 	// Main calculation	
 	$arMap = array();
-	//$arObjects =  mysqli_query($con,"SELECT * FROM ar_details WHERE id NOT IN ('$zeroTargetIds') AND Type != 'Engineer' ORDER BY name ASC ") or die(mysqli_error($con));
 	$arObjects =  mysqli_query($con,"SELECT * FROM ar_details WHERE Type != 'Engineer' ORDER BY name ASC ") or die(mysqli_error($con));
 	foreach($arObjects as $ar)
 	{
@@ -73,13 +66,12 @@ if(isset($_SESSION["user_name"]))
 	
 	$targetMap = array();
 	$arIds = implode("','",array_keys($arMap));
-	$targetObjects = mysqli_query($con,"SELECT ar_id, target, payment_perc,rate,multiplier FROM target WHERE  month = '$month' AND Year='$year' AND ar_id IN('$arIds')") or die(mysqli_error($con));		 
+	$targetObjects = mysqli_query($con,"SELECT ar_id, target, payment_perc,rate FROM target WHERE  month = '$month' AND Year='$year' AND ar_id IN('$arIds')") or die(mysqli_error($con));		 
 	foreach($targetObjects as $target)
 	{
 		$targetMap[$target['ar_id']]['target'] = $target['target'];
 		$targetMap[$target['ar_id']]['rate'] = $target['rate'];
 		$targetMap[$target['ar_id']]['payment_perc'] = $target['payment_perc'];
-		$targetMap[$target['ar_id']]['multiplier'] = $target['multiplier'];
 	}
 	
 
@@ -102,7 +94,7 @@ if(isset($_SESSION["user_name"]))
 		{
 			$points = round($total * $targetMap[$arId]['rate'],0);
 			$actual_perc = round(($total + $targetBags) * 100 / $targetMap[$arId]['target'],0);
-			$point_perc = getPointPercentage($actual_perc,$year,$month);			 
+			$point_perc = getPointPercentage($arId,$actual_perc,$year,$month,$con);			 
 			$achieved_points = round($points * $point_perc/100,0);
 			
 			if($total > 0)
@@ -117,9 +109,8 @@ if(isset($_SESSION["user_name"]))
 			$mainArray[$arId]['points'] = $points;
 			$mainArray[$arId]['actual_perc'] = $actual_perc;
 			$mainArray[$arId]['point_perc'] = $point_perc;
-			$mainArray[$arId]['achieved_points'] = $achieved_points;
-			$mainArray[$arId]['multiplier'] = $targetMap[$arId]['multiplier'];			
-			$mainArray[$arId]['payment_points'] = $payment_points * $targetMap[$arId]['multiplier'];			
+			$mainArray[$arId]['achieved_points'] = $achieved_points;		
+			$mainArray[$arId]['payment_points'] = $payment_points;			
 			$mainArray[$arId]['whatsapp'] = $arMap[$arId]['whatsapp'];		
 			$mainArray[$arId]['month'] = $month;
 			$mainArray[$arId]['year'] = $year;
@@ -202,7 +193,6 @@ function rerender()
 			</nav>
 		</aside>
 		<div class="container">
-			<div id="snackbar"><i class="fa fa-whatsapp" aria-hidden="true"></i>&nbsp;&nbsp;Message sent successfully !!!</div>
 			<nav class="navbar navbar-light bg-light sticky-top bottom-nav" style="margin-left:12.5%;width:100%">
 				<div class="btn-group" role="group" aria-label="Button group with nested dropdown" style="float:left;margin-left:2%;">
 					<div class="btn-group" role="group">
@@ -243,26 +233,10 @@ function rerender()
 							}																																?>
 						</select>
 					</div>
-				</div>																																		<?php
-				if($whatsapp_status)
-				{																																			?>
-					<div style="width:150px;">
-						<div class="input-group" title="Dear AR, Ur {X} Month Target is {X} Bags. Achieve Ur Target & Earn Full Lakshya Benefits - AR HELP">
-							<form method="post" action="whatsapp_target.php">
-								<input type='hidden' name='input_name' value="<?php echo htmlentities(serialize($mainArray)); ?>" />
-								<button id="whatapp" class="btn" style="width:100px;font-size:18px;background-color:#44C052;color:#F7F7F7" onclick="return confirm('This will send message on whatsapp. Are you sure you want to proceed?')"><i class="fa fa-whatsapp" aria-hidden="true"></i> Target</button>
-							</form>
-						</div>
-					</div>																																	<?php
-				}																																			?>
-				<div style="width:200px;">
-					<div class="input-group" title="DEAR AR, YOUR BALANCE TO ACHIEVE YOUR MONTHLY TARGET OF {MONTH YEAR} IS {X} BAGS. ACHIEVE YOUR TARGET & EARN SPECIAL BENEFITS - AR HELP">
-						<form method="post" action="whatsapp_reamining_bags.php">
-							<input type='hidden' name='input_name' value="<?php echo htmlentities(serialize($mainArray)); ?>" />
-							<button id="whatapp" class="btn" style="width:180px;font-size:18px;background-color:#44C052;color:#F7F7F7" onclick="return confirm('This will send message on whatsapp. Are you sure you want to proceed?')"><i class="fa fa-whatsapp" aria-hidden="true"></i> Remaining Bags</button>
-						</form>
-					</div>
-				</div>																																					
+				</div>
+				<div style="width:250px;">				
+					<a href="../custom_pp/list.php" class="btn btn-sm" style="background-color:#54698D;color:white;"> Custom Point %</a>			
+				</div>	
 			</div>	
 			<br/><br/>
 			<table class="maintable table table-hover table-bordered ui-table-reflow" style="width:92%;margin-left:10%;">
@@ -279,7 +253,6 @@ function rerender()
 					<th>Rate</th>
 					<th>Points</th>
 					<th>Actual%</th>
-					<th style="align:center">X</th>
 					<th>Point%</th>
 					<th>Achieved Pnts</th>
 					<th>Points</th>	
@@ -305,7 +278,6 @@ function rerender()
 						$mainArray[$arId]['actual_perc'] = null;
 						$mainArray[$arId]['point_perc'] = null;
 						$mainArray[$arId]['achieved_points'] = null;
-						$mainArray[$arId]['multiplier'] = null;
 						$mainArray[$arId]['payment_points'] = null;
 					}																																	
 					$totalSale = $totalSale + $mainArray[$arId]['actual_sale'];
@@ -323,7 +295,6 @@ function rerender()
 						<td><?php if($rate > 0) echo $rate;?></td>
 						<td><?php echo $mainArray[$arId]['points'];?></td>
 						<td><?php if($mainArray[$arId]['actual_perc'] != null) echo $mainArray[$arId]['actual_perc'].'%';?></td>
-						<td><?php echo $mainArray[$arId]['multiplier'];?></td>
 						<td><?php if($mainArray[$arId]['point_perc'] != null) echo $mainArray[$arId]['point_perc'].'%';?></td>
 						<td><?php echo $mainArray[$arId]['achieved_points'];?></td>
 						<td><?php echo '<b>'.$mainArray[$arId]['payment_points'].'</b>';?></td>
@@ -344,7 +315,6 @@ function rerender()
 						<th><?php if($totalTarget >0) echo round($totalSale/$totalTarget*100,1)?>%</th>
 						<th></th>
 						<th></th>
-						<th></th>	
 						<th><?php echo $totalPaymentPoints;?></th>						
 					</tr>
 				</tfoot>	

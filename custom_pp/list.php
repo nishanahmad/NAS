@@ -5,17 +5,18 @@ if(isset($_SESSION["user_name"]))
 	require '../connect.php';
 	require '../navbar.php';
 	require 'newModal.php';
+	require '../functions/monthMap.php';
 	
 	$arObjects = mysqli_query($con,"SELECT * FROM ar_details ORDER BY name") or die(mysqli_error($con));
 	
 	foreach($arObjects as $ar)
 		$arMap[$ar['id']] = $ar['name'];
 	
-	$redemptionList = mysqli_query($con,"SELECT * FROM redemption ORDER BY date DESC" ) or die(mysqli_error($con));
+	$ppList = mysqli_query($con,"SELECT * FROM custom_point_perc ORDER BY id DESC" ) or die(mysqli_error($con));
 ?>	
 <!DOCTYPE html>
 <html>
-	<title>Redemption List</title>
+	<title>Custom Point %</title>
 	<head>
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css">
 		<link href="../css/styles.css" rel="stylesheet" type="text/css">
@@ -45,42 +46,53 @@ if(isset($_SESSION["user_name"]))
 			<nav class="nav">
 				<ul>
 					<li><a href="../ar/list.php">AR List</a></li>
-					<li><a href="../Target/list.php">Target</a></li>
+					<li class="active"><a href="#">Target</a></li>
 					<li><a href="../SpecialTarget/list.php?">Special Target</a></li>
 					<li><a href="../gold_points/list.php?">Gold Points</a></li>
-					<li class="active"><a href="#">Redemption</a></li>
+					<li><a href="../redemption/list.php?">Redemption</a></li>
 				</ul>
 			</nav>
 		</aside>						
 		<nav class="navbar navbar-light bg-light sticky-top bottom-nav" style="margin-left:18%">
-			<span class="navbar-brand" style="font-size:25px;margin-left:35%"><i class="fas fa-hand-holding-usd"></i> Redemption</span>
-			<a href="#" class="btn btn-sm" role="button" style="background-color:#54698D;color:white;float:right;margin-right:40px;" data-toggle="modal" data-target="#newModal"><i class="fas fa-hand-holding-usd"></i> New Redemption</a>			
+			<div class="btn-group" role="group" aria-label="Button group with nested dropdown" style="float:left;margin-left:2%;">
+				<div class="btn-group" role="group">
+					<button id="btnGroupDrop1" type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						Point %
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">
+						<li><a href="../Target/list.php?" class="dropdown-item">Monthly Points</a></li>
+						<li><a href="../points_full/mainPage.php?" class="dropdown-item">Accumulated Points</a></li>
+						<li><a href="../Target/edit.php?" class="dropdown-item">Update Target</a></li>
+						<li><a href="../targetBags/list.php" class="dropdown-item">Target Bags</a></li>
+					</ul>
+				</div>
+			</div>							
+			<span class="navbar-brand" style="font-size:25px;">Custom Point %</span>
+			<a href="#" class="btn btn-sm" role="button" style="background-color:#54698D;color:white;float:right;margin-right:40px;" data-toggle="modal" data-target="#newModal"> New Point %</a>			
 		</nav>
 		<div style="width:100%;" class="mainbody">	
 			<div id="snackbar"><i class="fas fa-hand-holding-usd"></i>&nbsp;&nbsp;Redemption inserted successfully !!!</div>		
 			<div align="center" style="margin-left:15%">
 				<br/><br/>
-				<table class="maintable table table-hover table-bordered" style="width:80%">
+				<table class="maintable table table-hover table-bordered" style="width:50%">
 					<thead>
 						<tr class="table-info">
-							<th style="width:120px">Date</th>
-							<th style="width:200px">AR</th>
-							<th style="width:50px">Points</th>	
-							<th>Remarks</th>
-							<th style="width:120px">Entered On</th>
-							<th></th>
+							<th style="width:100px">Year</th>
+							<th style="width:120px">Month</th>
+							<th>AR</th>
+							<th style="width:90px">Point%</th>	
+							<th style="width:150px"></th>
 						</tr>
 					</thead>
 					<tbody>																														<?php
-					foreach($redemptionList as $redemption)
+					foreach($ppList as $pp)
 					{																															?>
 						<tr>
-							<td><?php echo date('d-m-Y',strtotime($redemption['date']));?></td>
-							<td><?php if(isset($arMap[$redemption['ar_id']])) echo $arMap[$redemption['ar_id']]; else echo $redemption['ar_id'];?></td>
-							<td><?php echo $redemption['points'];?></td>
-							<td><?php echo $redemption['remarks'];?></td>
-							<td><?php echo date('d-m-Y',strtotime($redemption['entered_on']));?></td>
-							<td style="text-align:center"><button class="btn" onclick="dlt(<?php echo $redemption['id'];?>)" style="background-color:#E6717C;color:#FFFFFF;"><i class="far fa-trash-alt"></i> Delete</button></td>
+							<td><?php echo $pp['year'];?></td>
+							<td><?php echo getMonth($pp['month']);?></td>
+							<td><?php if(isset($arMap[$pp['ar']])) echo $arMap[$pp['ar']]; else echo $pp['ar'];?></td>
+							<td><?php echo $pp['percentage'].'%';?></td>
+							<td style="text-align:center"><button class="btn" onclick="dlt(<?php echo $pp['id'];?>)" style="background-color:#E6717C;color:#FFFFFF;"><i class="far fa-trash-alt"></i> Delete</button></td>
 						</tr>																													<?php
 					}																															?>
 					</tbody>	

@@ -1,5 +1,5 @@
 <?php
-function getPointPercentage($actual_perc,$year,$month)
+function getPointPercentage($arId,$actual_perc,$year,$month,$con)
 {
 	$point_perc = 0;
 	if($year < 2017 || ($year == 2017 && $month <= 9))
@@ -43,7 +43,11 @@ function getPointPercentage($actual_perc,$year,$month)
 		else if($actual_perc >= 80)		
 			$point_perc = 100;												
 	}
-			
+
+	$custom = mysqli_query($con,"SELECT * FROM custom_point_perc WHERE ar = $arId AND year = $year AND month = $month") or die(mysqli_error($con));
+	if(mysqli_num_rows($custom) > 0 )
+		$point_perc = mysqli_fetch_array($custom, MYSQLI_ASSOC)['percentage'];
+	
 	return $point_perc;
 }
 ?>
