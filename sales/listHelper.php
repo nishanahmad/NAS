@@ -229,13 +229,31 @@ function getWDMap()
 }
 
 
-function getCDMap()
+function getCDMap($range)
 {
 	require '../connect.php';	
 	
 	$cdMap = array();
-
-	$discounts = mysqli_query($con, "SELECT * FROM discounts WHERE type = 'Cash Discount' ORDER BY date") or die(mysqli_error($con));				 	 
+	
+	if($range == '10 Days')
+	{
+		$startDate = date('Y-m-d', strtotime(' - 10 days'));
+		
+		$relevantArMap = array();
+		$relevantArList = mysqli_query($con,"SELECT DISTINCT(ar_id) FROM nas_sale WHERE entry_date >= '$startDate'") or die(mysqli_error($con));		 
+		foreach($relevantArList as $relevantAr)
+		{
+			$relevantArMap[$relevantAr['ar_id']] = null;
+		}
+		
+		$relevantArIds = implode("','",array_keys($relevantArMap));		
+		$discounts = mysqli_query($con, "SELECT * FROM discounts WHERE type = 'Cash Discount' AND client IN ('$relevantArIds') ORDER BY date") or die(mysqli_error($con));
+	}
+	else
+	{
+		$discounts = mysqli_query($con, "SELECT * FROM discounts WHERE type = 'Cash Discount' ORDER BY date") or die(mysqli_error($con));				 	 	
+	}
+	
 	foreach($discounts as $discount)
 	{
 		$cdMap[$discount['product']][$discount['client']][$discount['date']] = $discount['discount'];

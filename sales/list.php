@@ -13,7 +13,7 @@ if(isset($_SESSION["user_name"]))
 	require 'totalModal.php';
 	require 'filterModal.php';
 	require 'billStatus.php';
-
+		
 	$currentRateMap = getCurrentRates($con);
 	$clientNamesMap = getClientNames($con);
 	$clientTypeMap = getClientType($con);
@@ -41,17 +41,22 @@ if(isset($_SESSION["user_name"]))
 	}
 
 	$rateMap = getRateMap();
+	
+	$start = microtime(true);	
+
 	if($range == 'Today')
 		$cdMap = getTodayCDMap();
 	else	
-		$cdMap = getCDMap();
+		$cdMap = getCDMap($range);
+	
+	//var_dump(microtime(true) - $start);
 	
 	$wdMap = getWDMap();
 	
 	$productDates = mysqli_query($con, "SELECT * FROM rate ORDER BY date") or die(mysqli_error($con));				 	 
 	foreach($productDates as $rate)
 		$productDateMap[$rate['product']][] = strtotime($rate['date']);
-
+	
 	$arObjects = mysqli_query($con,"SELECT id,name,type,shop_name,child_code FROM ar_details ORDER BY name") or die(mysqli_error($con));	
 	foreach($arObjects as $ar)
 	{
@@ -83,7 +88,8 @@ if(isset($_SESSION["user_name"]))
 	
 	$driverPhoneArray = json_encode($driverPhoneMap);
 	$driverPhoneArray = str_replace('\n',' ',$driverPhoneArray);
-	$driverPhoneArray = str_replace('\r',' ',$driverPhoneArray);																			?>	
+	$driverPhoneArray = str_replace('\r',' ',$driverPhoneArray);	
+																												?>	
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
