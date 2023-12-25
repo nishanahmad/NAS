@@ -13,7 +13,7 @@ if(isset($_SESSION["user_name"]))
 	$productMap = getProductDetails($con);
 	$clientTypeMap = getClientType($con);
 	$rateMap = getRateMap();
-	$cdMap = getCDMap();
+	$cdMap = getCDMap('Custom');
 	$wdMap = getWDMap();	
 
 
