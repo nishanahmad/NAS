@@ -236,7 +236,7 @@ if(isset($_SESSION["user_name"]) && $_SESSION["role"] != 'marketing')
 								</div>
 								<div class="col col-md-4 offset-2">
 									<div class="input-group mb-3">
-										<span class="input-group-text col-md-4" style="width:120px;"><i class="fa fa-money"></i>&nbsp;Order No</span>
+										<span class="input-group-text col-md-4" style="width:120px;"><i class="fa fa-money"></i>&nbsp;Disc</span>
 										<input type="text" name="order_no" id="order_no" class="form-control" value="<?php echo $row['order_no']; ?>">									
 									</div>
 								</div>

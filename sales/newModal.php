@@ -119,7 +119,7 @@ if(isset($_SESSION["user_name"]))
 							</div>
 							<div class="col-sm-6 col-md-5 offset-md-1" id="content-desktop">
 								<div class="input-group mb-3">
-									<span class="input-group-text" style="width:40%"><i class="fa fa-money"></i></i>&nbsp;Order No</span>
+									<span class="input-group-text" style="width:40%"><i class="fa fa-money"></i></i>&nbsp;Disc</span>
 									<input type="text" name="order_no" id="order_no" class="form-control">
 								</div>
 							</div>
@@ -146,7 +146,7 @@ if(isset($_SESSION["user_name"]))
 						<div class="form-group row">
 							<div class="col-sm-6 col-md-4 offset-md-1">
 								<div class="input-group mb-3">
-									<span class="input-group-text col-md-5"><i class="fa fa-tags"></i>&nbsp;Disc</span>
+									<span class="input-group-text col-md-5"><i class="fa fa-tags"></i>&nbsp;BillDisc</span>
 									<input type="text" name="bd" id="bd" class="form-control">
 								</div>
 							</div>

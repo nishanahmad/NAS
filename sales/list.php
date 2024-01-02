@@ -207,7 +207,8 @@ if(isset($_SESSION["user_name"]))
 							<th style="width:70px;"><i class="fab fa-buffer"></i> QTY</th>																	<?php
 							if($_SESSION['role'] != 'marketing')
 							{																																?>
-								<th style="width:70px;"><i class="fa fa-rupee-sign"></i> RATE</th>															<?php
+								<th style="width:70px;"><i class="fa fa-rupee-sign"></i> RATE</th>
+								<th style="width:70px;">Frieght</th>								<?php
 							}																																?>
 							<th style="width:120px;"><i class="far fa-file-alt"></i> BILL NO</th>
 							<th style="width:95px;"><i class="fas fa-truck-moving"></i> TRUCK</th>
@@ -237,7 +238,7 @@ if(isset($_SESSION["user_name"]))
 							else
 								$wd = 0;
 							
-							$finalRate = $rate - $cd - $wd - $sale['discount'];																					?>	
+							$finalRate = $rate - $cd - $wd - $sale['discount'];																							?>	
 							
 							<tr data-id="<?php echo $sale['id'];?>" data-params="<?php echo explode('?',$_SERVER['REQUEST_URI'])[1];?>" class="saleId" style="cursor:pointer;">
 								<td <?php if($sale['sap']) echo 'style="background-color:#d3fac5;"'?>><?php echo date('d-m-Y',strtotime($sale['date'])).' '; ?></td>
@@ -259,7 +260,8 @@ if(isset($_SESSION["user_name"]))
 								<td><?php echo $sale['qty']; ?></td>																	<?php
 								if($_SESSION['role'] != 'marketing')
 								{																										?>
-									<td><?php if($finalRate > 0 ) echo $finalRate.'/-';?></td>											<?php
+									<td><?php if($finalRate > 0 ) echo $finalRate.'/-';?></td>
+									<td><?php if($sale['freight'] > 0 ) echo $sale['freight'].'/-';?></td>									<?php
 								}																										?>
 								<td><?php echo $sale['bill']; ?></td>
 								<td><?php if(isset($truckNumbersMap[$sale['truck']])) echo $truckNumbersMap[$sale['truck']]; ?></td>

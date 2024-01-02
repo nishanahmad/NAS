@@ -35,6 +35,7 @@ function getSales($con,$sql)
 				$saleArray['address'] = $sale['address1'];
 				$saleArray['direct_order'] = $sale['direct_order'];
 				$saleArray['sap'] = $sale['sap'];
+				$saleArray['freight'] = $sale['order_no'] + $sale['freight'];
 				
 				$mainMap[] = $saleArray;			
 			}			
@@ -60,6 +61,7 @@ function getSales($con,$sql)
 		$saleArray['address'] = $sale['address1'];
 		$saleArray['direct_order'] = $sale['direct_order'];
 		$saleArray['sap'] = $sale['sap'];
+		$saleArray['freight'] = $sale['order_no'] + $sale['freight'];
 		
 		$mainMap[] = $saleArray;
 	}

@@ -99,7 +99,7 @@ if(isset($_SESSION["user_name"]))
 								<th class="header" scope="col"><i class="far fa-file-alt"></i> Bill</th>
 								<th style="max-width:500px;" class="header" scope="col"><i class="fas fa-map-marker-alt"></i> Address</th>
 								<th class="header" scope="col"><i class="fas fa-truck-moving"></i> Truck</th>	
-								<th class="header" scope="col"><i class="fa fa-money"></i> Order No</th>	
+								<th class="header" scope="col"><i class="fa fa-money"></i> Frieght Charges</th>	
 							</tr>
 						</thead>																								
 						<tbody class="tablesorter-no-sort">																																<?php
@@ -107,13 +107,14 @@ if(isset($_SESSION["user_name"]))
 						foreach($salesList as $sale)
 						{
 							if( fnmatch("B*",$sale['bill_no']) || fnmatch("C*",$sale['bill_no']) || fnmatch("D*",$sale['bill_no']) || fnmatch("GB*",$sale['bill_no']) || fnmatch("GC*",$sale['bill_no']) || fnmatch("PB*",$sale['bill_no']) || fnmatch("PC*",$sale['bill_no']))
-							{																																							?>
+							{
+								$freight = $sale['order_no'] + $sale['freight'];	?>
 								<tr>
 									<td style="text-align:left;"><?php echo date('d-m-Y',strtotime($sale['entry_date']));?></td>
 									<td style="text-align:left;"><?php echo $sale['bill_no'];?></td>
 									<td style="width:30%;text-align:left;"><?php echo $sale['address1'];?></td>
 									<td style="text-align:left;"><?php if(isset($truckNumbersMap[$sale['truck']])) echo $truckNumbersMap[$sale['truck']];?></td>
-									<td style="text-align:left;"><?php if($sale['order_no']) echo $sale['order_no']; else echo '0';?></td>
+									<td style="text-align:left;"><?php echo $freight;?></td>
 								</tr>																																				<?php									
 							}							
 						}																																						?>	
