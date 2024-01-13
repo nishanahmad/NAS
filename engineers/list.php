@@ -34,6 +34,7 @@ if(isset($_SESSION["user_name"]))
 	<table class="tablesorter" style="align:center;width:60%;">
 		<thead>
 		<tr>
+			<th>Id</th>
 			<th>Name</th>
 			<th>Shop</th>
 			<th style="width:120px;">Mobile</th>
@@ -48,6 +49,7 @@ if(isset($_SESSION["user_name"]))
 				$shopName = $engineer['shop_name'];
 				$mobile = $engineer['mobile'];																								?>
 				<tr>
+					<td><?php echo $arId; ?></td>	
 					<td><?php echo $arname; ?></td>	
 					<td><?php echo $shopName; ?></td>	
 					<td><?php echo $mobile;?></td>		

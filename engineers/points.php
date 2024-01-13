@@ -115,6 +115,7 @@ if(isset($_SESSION["user_name"]))
 		<table class="maintable table table-hover table-bordered" style="width:70%;margin-left:40px;">
 		<thead>
 			<tr class="table-success">
+				<th>Id</th>
 				<th style="width:20%;text-align:left;">Engineer</th>
 				<th style="width:12%;">Mobile</th>
 				<th style="width:25%;text-align:left;">Shop</th>
@@ -141,6 +142,7 @@ if(isset($_SESSION["user_name"]))
 				
 				
 				<tr align="center">
+					<td><?php echo $arId;?></td>
 					<td style="text-align:left;"><?php echo $detailMap['name'];?></b></td>
 					<td><?php echo $detailMap['mobile'];?></b></td>
 					<td style="text-align:left;"><?php echo $detailMap['shop'];?></b></td>
