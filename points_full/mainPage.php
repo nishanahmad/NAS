@@ -93,7 +93,8 @@ if(isset($_SESSION["user_name"]))
 			{
 				$points = round($total * $targetMap[$arId]['rate'],0);
 				$actual_perc = round(($total + $targetBags) * 100 / $targetMap[$arId]['target'],0);
-				$point_perc = getPointPercentage($actual_perc,$year,$month);			
+				//$point_perc = getPointPercentage($actual_perc,$year,$month);	
+				$point_perc = getPointPercentage($arId,$actual_perc,$year,$month,$con);			 				
 				$achieved_points = round($points * $point_perc/100,0);
 				
 				if($total > 0)		
@@ -419,7 +420,8 @@ function getPrevPoints($arList,$endYear,$endMonth,$dateString)
 
 						$points = round($sale * $detailArray['rate'],0);
 						$actual_perc = round(($sale + $targetExtras)* 100 / $detailArray['target'],0);
-						$point_perc = getPointPercentage($actual_perc,$year,$month);			
+						//$point_perc = getPointPercentage($actual_perc,$year,$month);	
+						$point_perc = getPointPercentage($arId,$actual_perc,$year,$month,$con);			 						
 						$achieved_points = round($points * $point_perc/100,0);
 						
 						if($sale > 0)		
