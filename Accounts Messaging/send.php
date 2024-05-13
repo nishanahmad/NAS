@@ -44,18 +44,18 @@ if(isset($_POST["submit"]))
 					$message = str_replace("[c6]",$row[5],$message);
 				}
 					
-				//sleep(5);
+				sleep(5);
 
 				$chat_id_query = mysqli_query($con, "SELECT chat_id FROM telegram_contacts WHERE phone = '$phone'") or die(mysqli_error($con).'Line 49');
 				if(mysqli_num_rows($chat_id_query) > 0)
 				{
 					$chat_id = mysqli_fetch_array($chat_id_query, MYSQLI_ASSOC)['chat_id'];					
 					$status = sendTelegramMessage($message,$chat_id);
-					var_dump($status);
+					//var_dump($status);
 				}
 				else
 				{
-					echo $phone.' not found any matches in database';
+					echo $phone.' not found any matches in database<br/>';
 				}
 					
 				
