@@ -1,6 +1,6 @@
 <?php
 require '../connect.php';
-require 'sendMessage.php';
+require 'sendTelegramMessage.php';
 ini_set('max_execution_time', '0');
 ini_set('memory_limit', '-1');
 
@@ -20,7 +20,7 @@ if(isset($_POST["submit"]))
 			foreach($csvAsArray as $index => $row)
 			{
 				$message = $_POST['message'];
-				$phone = '91'.$row[0];	
+				$phone = $row[0];	
 				$message = str_replace("[C2]",$row[1],$message);
 				$message = str_replace("[C=c2]",$row[1],$message);
 				if(isset($row[2]))
@@ -44,8 +44,22 @@ if(isset($_POST["submit"]))
 					$message = str_replace("[c6]",$row[5],$message);
 				}
 					
-				sleep(60);
-				$status = sendMessage($message,$phone);
+				//sleep(5);
+
+				$chat_id_query = mysqli_query($con, "SELECT chat_id FROM telegram_contacts WHERE phone = '$phone'") or die(mysqli_error($con).'Line 49');
+				if(mysqli_num_rows($chat_id_query) > 0)
+				{
+					$chat_id = mysqli_fetch_array($chat_id_query, MYSQLI_ASSOC)['chat_id'];					
+					$status = sendTelegramMessage($message,$chat_id);
+					var_dump($status);
+				}
+				else
+				{
+					echo $phone.' not found any matches in database';
+				}
+					
+				
+				
 			}
 		}
 	}
@@ -70,7 +84,7 @@ if(isset($_POST["submit"]))
 		  </div>
 		  <div class="card-body">
 			  <ul>
-				<li>Always keep the Whatsapp number in column 1</li>
+				<li>Always keep the phone number in column 1</li>
 				<li>Add <b>[C2]</b> for second column, <b>[C3]</b> for third column and so on ...</li>
 			  </ul>
 		  </div>
