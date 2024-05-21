@@ -58,7 +58,11 @@ if(isset($_SESSION["user_name"]))
 	}
 	else
 	{
-		$areaIds = implode("','",$driverAreaMap[$_SESSION['user_id']]);
+		if(isset($driverAreaMap[$_SESSION['user_id']]))
+			$areaIds = implode("','",$driverAreaMap[$_SESSION['user_id']]);
+		else
+			$areaIds = '';	
+		
 		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' AND driver_area IN('$areaIds') ORDER BY date ASC" ) or die(mysqli_error($con));
 	}
 	
@@ -174,7 +178,7 @@ if(isset($_SESSION["user_name"]))
 				}
 				else
 				{																									?>
-					<font size="5"><b><?php echo $driverToCollectMap[$_SESSION['user_id']];?></b> sheets on site<br/>
+					<font size="5"><b><?php if(isset($driverToCollectMap[$_SESSION['user_id']])) echo $driverToCollectMap[$_SESSION['user_id']];?></b> sheets on site<br/>
 								   <b><font style="color:#DC143C"><?php if(isset($driverLateMap[$_SESSION['user_id']])) echo $driverLateMap[$_SESSION['user_id']];else echo '0'?></font></b> sheets late to collect<br/>
 					</font>												<?php
 				}																									?>		

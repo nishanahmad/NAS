@@ -22,7 +22,7 @@ if(isset($_POST["submit"]))
 				$message = $_POST['message'];
 				$phone = $row[0];	
 				$message = str_replace("[C2]",$row[1],$message);
-				$message = str_replace("[C=c2]",$row[1],$message);
+				$message = str_replace("[c2]",$row[1],$message);
 				if(isset($row[2]))
 				{
 					$message = str_replace("[C3]",$row[2],$message);
@@ -44,14 +44,26 @@ if(isset($_POST["submit"]))
 					$message = str_replace("[c6]",$row[5],$message);
 				}
 					
-				sleep(5);
+				//sleep(5);
 
 				$chat_id_query = mysqli_query($con, "SELECT chat_id FROM telegram_contacts WHERE phone = '$phone'") or die(mysqli_error($con).'Line 49');
 				if(mysqli_num_rows($chat_id_query) > 0)
 				{
 					$chat_id = mysqli_fetch_array($chat_id_query, MYSQLI_ASSOC)['chat_id'];					
 					$status = sendTelegramMessage($message,$chat_id);
-					//var_dump($status);
+					var_dump($status);
+					foreach($status as $key =>$value)
+					{
+						$json = json_decode($key,true);
+					}
+					var_dump($json);
+					if($json['ok'])
+						$msg_status = 'Success';
+					else
+						$msg_status = 'Failed';
+					echo $json['result']['chat']['id'].'<br/>';
+					echo date('Y-m-d',$json['result']['date']).'<br/>';
+					echo $json['result']['text'].'<br/>';
 				}
 				else
 				{
