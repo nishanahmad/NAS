@@ -19,13 +19,15 @@ if(isset($_SESSION["user_name"]))
 	
 	$arName = $ar['name'];
 	
+	/*
 	$targetMap = getTargets($urlYear,$urlId);
 	$specialTargetMap = getSpecialTargets($urlYear,$urlId);
 	$boosterMap = getBoosters($urlYear);
 	$redemptionMap = getRedemptions($urlYear,$urlId);
 	$saleMap = getSales($urlYear,$urlId);
 	$pointsMap = getPoints($urlYear,$saleMap,$targetMap);
-	$openingPoints = getOpeningPoints($urlYear,$urlId);																									?>
+	$openingPoints = getOpeningPoints($urlYear,$urlId);
+	*/	?>
 	
 <html>
 	<head>

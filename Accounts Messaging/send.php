@@ -20,7 +20,7 @@ if(isset($_POST["submit"]))
 			foreach($csvAsArray as $index => $row)
 			{
 				$message = $_POST['message'];
-				$phone = $row[0];	
+				$phone = trim($row[0]);
 				$message = str_replace("[C2]",$row[1],$message);
 				$message = str_replace("[c2]",$row[1],$message);
 				if(isset($row[2]))
@@ -49,21 +49,39 @@ if(isset($_POST["submit"]))
 				$chat_id_query = mysqli_query($con, "SELECT chat_id FROM telegram_contacts WHERE phone = '$phone'") or die(mysqli_error($con).'Line 49');
 				if(mysqli_num_rows($chat_id_query) > 0)
 				{
-					$chat_id = mysqli_fetch_array($chat_id_query, MYSQLI_ASSOC)['chat_id'];					
+					$chat_id = mysqli_fetch_array($chat_id_query, MYSQLI_ASSOC)['chat_id'];
 					$status = sendTelegramMessage($message,$chat_id);
-					var_dump($status);
+
 					foreach($status as $key =>$value)
 					{
 						$json = json_decode($key,true);
 					}
-					var_dump($json);
+
 					if($json['ok'])
-						$msg_status = 'Success';
+					{
+						$date = date('Y-m-d',$json['result']['date']);
+						$text = $json['result']['text'];						
+						$entered_on = date('Y-m-d H:i:s');	
+
+						$sql="INSERT INTO telegram_sent_msgs (date, chat_id, message, status, entered_on)
+							 VALUES
+							 ('$date', $chat_id, '$text', 'Success', '$entered_on')";
+					}
+						
 					else
-						$msg_status = 'Failed';
-					echo $json['result']['chat']['id'].'<br/>';
-					echo date('Y-m-d',$json['result']['date']).'<br/>';
-					echo $json['result']['text'].'<br/>';
+					{
+						$date = date('Y-m-d');
+						$text = $message;
+						$error_code = $json['error_code'];
+						$error_description = $json['description'];
+						$entered_on = date('Y-m-d H:i:s');
+						
+						$sql="INSERT INTO telegram_sent_msgs (date, chat_id, message, status, error_code, error_description, entered_on)
+							 VALUES
+							 ('$date', $chat_id, '$text', 'Failed', $error_code, '$error_description', '$entered_on')";						
+					}
+						
+					$result = mysqli_query($con, $sql) or die(mysqli_error($con));					
 				}
 				else
 				{
