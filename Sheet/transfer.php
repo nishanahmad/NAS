@@ -23,6 +23,7 @@ if(isset($_SESSION["user_name"]))
 		$from = (int)$_POST['from'];
 		$to = (int)$_POST['to'];
 		$qty = (int)$_POST['qty'];
+		$half_qty = (int)$_POST['half_qty'];
 		$remarks = $_POST['remarks'];
 		$transferred_on = date('Y-m-d H:i:s');
 		$transferred_by = $_SESSION['user_id'];
@@ -55,23 +56,53 @@ if(isset($_SESSION["user_name"]))
 		
 		$toStock = mysqli_fetch_array($queryTo,MYSQLI_ASSOC)['qty'];
 
-		$insertLogs = mysqli_query($con, "INSERT INTO transfer_logs (user_from, user_to, qty, transferred_on, transferred_by, fromStock, toStock, remarks) 
+		$insertLog = mysqli_query($con, "INSERT INTO transfer_logs (user_from, user_to, qty, transferred_on, transferred_by, fromStock, toStock, remarks) 
 															VALUES ('$from', '$to', '$qty', '$transferred_on', '$transferred_by', '$fromStock', '$toStock', '$remarks')");
-		if(!$insertLogs)
+															
+															
+		// Repeat same for half sheets
+		$QuerySheetInHand = mysqli_query($con,"SELECT half_qty FROM sheets_in_hand WHERE user=$from ");
+		$newQty = mysqli_fetch_array($QuerySheetInHand,MYSQLI_ASSOC)['half_qty'] - $half_qty;
+		if($newQty < 0)
+			$commitFlag = false;	
+	
+		$updateFrom = mysqli_query($con,"UPDATE sheets_in_hand SET half_qty = half_qty - '$half_qty' WHERE user=$from ");
+		if(!$updateFrom)
+			$commitFlag = false;		
+
+		$queryFrom = mysqli_query($con,"SELECT half_qty FROM sheets_in_hand WHERE user=$from ");
+		if(!$queryFrom)
+			$commitFlag = false;				
+
+		$fromStock = mysqli_fetch_array($queryFrom,MYSQLI_ASSOC)['half_qty'];
+		
+		$updateTo = mysqli_query($con,"UPDATE sheets_in_hand SET half_qty = half_qty + '$half_qty' WHERE user=$to ");
+		if(!$updateTo)
+			$commitFlag = false;				
+		
+		$queryTo = mysqli_query($con,"SELECT half_qty FROM sheets_in_hand WHERE user=$to ");
+		if(!$queryTo)
 			$commitFlag = false;		
 		
+		$toStock = mysqli_fetch_array($queryTo,MYSQLI_ASSOC)['half_qty'];
+
+		$insertLog = mysqli_query($con, "INSERT INTO half_transfer_logs (user_from, user_to, qty, transferred_on, transferred_by, fromStock, toStock, remarks) 
+															VALUES ('$from', '$to', '$half_qty', '$transferred_on', '$transferred_by', '$fromStock', '$toStock', '$remarks')");
+		if(!$insertLog)
+			$commitFlag = false;
+
 		if($commitFlag)
 		{
 			mysqli_commit($con);	
 			echo '<script type="text/javascript"> 
-			window.location.href="requests.php"; 
+			window.location.href="transfer.php"; 
 			</script>';
 		}
 		else
 		{
 			mysqli_rollback($con);
 			echo '<script type="text/javascript"> 
-			window.location.href="requests.php?error=true"; 
+			window.location.href="transfer.php?error=true"; 
 			</script>';
 		}
 	}
@@ -106,8 +137,11 @@ if(isset($_SESSION["user_name"]))
 				<br/><br/>
 				<div class="form-group">
 					<div class="col-md-4 col-md-offset-3">
-						<input type="text" name="qty" required class="form-control" placeholder="Qty" pattern="[0-9]+" title="Input a valid number"><br/><br/>
+						<input type="text" name="qty" class="form-control" placeholder="Qty" pattern="[0-9]+" title="Input a valid number"><br/><br/>
 					</div>	
+					<div class="col-md-4 col-md-offset-3">
+						<input type="text" name="half_qty" class="form-control" placeholder="Half Qty" pattern="[0-9]+" title="Input a valid number"><br/><br/>
+					</div>						
 				</div>	
 
 				<div class="form-group row">

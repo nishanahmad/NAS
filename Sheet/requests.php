@@ -60,16 +60,24 @@ if(isset($_SESSION["user_name"]))
 	
 	$driverToCollectMap = array();
 	$totalToCollect = 0;
-	$toCollectQuery = mysqli_query($con,"SELECT SUM(qty),driver_area FROM sheets WHERE status ='delivered' GROUP BY driver_area" ) or die(mysqli_error($con));
+	$totalHalfToCollect = 0;
+	$toCollectQuery = mysqli_query($con,"SELECT SUM(qty),SUM(half_qty),driver_area FROM sheets WHERE status ='delivered' GROUP BY driver_area" ) or die(mysqli_error($con));
 	foreach($toCollectQuery as $toCollect)
 	{
 		$driver = $areaDriverMap[$toCollect['driver_area']];
 		if(!isset($driverToCollectMap[$driver]))
-			$driverToCollectMap[$driver] = $toCollect['SUM(qty)'];
+		{
+			$driverToCollectMap[$driver]['full_qty'] = $toCollect['SUM(qty)'];
+			$driverToCollectMap[$driver]['half_qty'] = $toCollect['SUM(half_qty)'];
+		}
 		else
-			$driverToCollectMap[$driver] = $driverToCollectMap[$driver] + $toCollect['SUM(qty)'];
+		{
+			$driverToCollectMap[$driver]['full_qty'] = $driverToCollectMap[$driver]['full_qty'] + $toCollect['SUM(qty)'];
+			$driverToCollectMap[$driver]['half_qty'] = $driverToCollectMap[$driver]['half_qty'] + $toCollect['SUM(half_qty)'];
+		}
 			
 		$totalToCollect = $totalToCollect + $toCollect['SUM(qty)'];
+		$totalHalfToCollect = $totalHalfToCollect + $toCollect['SUM(half_qty)'];
 	}
 	
 	$lateDate = date('Y-m-d',strtotime("-2 days"));
@@ -147,49 +155,107 @@ if(isset($_SESSION["user_name"]))
 		<div align="center">
 			<br/><br/>
 			<h2>Pending Requests</h2><br/>
-			<div class="col-md-4 col-lg-4">
+			<div class="col-md-6 col-lg-6">
 																																		<?php
 				if($designation != 'driver')
 				{																																							?>
-						<table class="stockTable" style="width:100%">
-							<tr>
-								<th></th>
-								<th style="text-align:center">In hand</th>
-								<th style="text-align:center">To collect</th>
-								<th style="text-align:center">Pend Today</th>
-							</tr><?php
-							$totalInHand = 0;
-							$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user != $damageId") or die(mysqli_error($con));
-							foreach($stockQuery as $stock)
-							{	
-								$totalInHand = $totalInHand + $stock['qty'];																	?>
-								<tr>
-									<td><?php echo $drivers[$stock['user']];?></td>
-									<td style="text-align:center"><?php echo $stock['qty'];?></td>
-									<td style="text-align:center"><?php 
-										if(isset($driverToCollectMap[$stock['user']]))
-										{
-											echo '<font style="float:left;margin-left:10px;">'.$driverToCollectMap[$stock['user']].'</font>'; 
-											if(isset($driverLateMap[$stock['user']])) 
-												echo '<font style="float:right;color:#DC143C;margin-right:10px;">'.$driverLateMap[$stock['user']].'</font>';
-										}																										?>
-									</td>
-									<td style="text-align:center"><?php 
-										if(isset($todayPendingMap[$stock['user']])) 
-											echo $todayPendingMap[$stock['user']].' sites'; 													?>
-									</td>
-								</tr>																											<?php					
-							}																													?>
-							<tr>
-								<th></th>
-								<th style="text-align:center"><?php echo $totalInHand;?></th>
-								<th style="text-align:center"><?php echo '<font style="float:left;margin-left:10px;">'.$totalToCollect.'</font>';?></th>
-							</tr>																										
-							<tr>
-								<th>Total</th>
-								<th colspan="2" style="text-align:center"><?php echo $totalInHand + $totalToCollect;?></th>
-							</tr>																																
-						</table>
+					<div class="card">
+						<div class="card-header">
+							<ul class="nav nav-tabs card-header-tabs" id="bologna-list" role="tablist">
+								<li class="nav-item">
+									<a class="nav-link active" href="#fullSheetTab" role="tab" aria-controls="fullSheetTab" aria-selected="true">Full Sheet</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link"  href="#halfSheetTab" role="tab" aria-controls="halfSheetTab" aria-selected="false">Half Sheet</a>
+								</li>
+							</ul>
+						</div>
+						<div class="card-body">
+							<div class="tab-content mt-3">
+								<div class="tab-pane active" id="fullSheetTab" role="tabpanel">
+									<table class="fullSheetTable" style="width:100%">
+										<tr>
+											<th></th>
+											<th style="text-align:center">In hand</th>
+											<th style="text-align:center">To collect</th>
+											<th style="text-align:center">Pend Today</th>
+										</tr><?php
+										$totalInHand = 0;
+										$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user != $damageId") or die(mysqli_error($con));
+										foreach($stockQuery as $stock)
+										{	
+											$totalInHand = $totalInHand + $stock['qty'];																	?>
+											<tr>
+												<td><?php echo $drivers[$stock['user']];?></td>
+												<td style="text-align:center"><?php echo $stock['qty'];?></td>
+												<td style="text-align:center"><?php 
+													if(isset($driverToCollectMap[$stock['user']]))
+													{
+														echo '<font style="float:left;margin-left:10px;">'.$driverToCollectMap[$stock['user']]['full_qty'].'</font>'; 
+														if(isset($driverLateMap[$stock['user']])) 
+															echo '<font style="float:right;color:#DC143C;margin-right:10px;">'.$driverLateMap[$stock['user']].'</font>';
+													}																										?>
+												</td>
+												<td style="text-align:center"><?php 
+													if(isset($todayPendingMap[$stock['user']])) 
+														echo $todayPendingMap[$stock['user']].' sites'; 													?>
+												</td>
+											</tr>																											<?php					
+										}																													?>
+										<tr>
+											<th></th>
+											<th style="text-align:center"><?php echo $totalInHand;?></th>
+											<th style="text-align:center"><?php echo '<font style="float:left;margin-left:10px;">'.$totalToCollect.'</font>';?></th>
+										</tr>																										
+										<tr>
+											<th>Total</th>
+											<th colspan="2" style="text-align:center"><?php echo $totalInHand + $totalToCollect;?></th>
+										</tr>																																
+									</table>											
+								</div>
+								
+								<div class="tab-pane" id="halfSheetTab" role="tabpanel">
+									<table class="halfSheetTable" style="width:100%">
+										<tr>
+											<th></th>
+											<th style="text-align:center">In hand</th>
+											<th style="text-align:center">To collect</th>
+											<th style="text-align:center">Pend Today</th>
+										</tr><?php
+										$totalInHand = 0;
+										$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user != $damageId") or die(mysqli_error($con));
+										foreach($stockQuery as $stock)
+										{	
+											$totalInHand = $totalInHand + $stock['half_qty'];																	?>
+											<tr>
+												<td><?php echo $drivers[$stock['user']];?></td>
+												<td style="text-align:center"><?php echo $stock['half_qty'];?></td>
+												<td style="text-align:center"><?php 
+													if(isset($driverToCollectMap[$stock['user']]))
+													{
+														echo '<font style="float:left;margin-left:10px;">'.$driverToCollectMap[$stock['user']]['half_qty'].'</font>'; 
+													}																										?>
+												</td>
+												<td style="text-align:center"><?php 
+													if(isset($todayPendingMap[$stock['user']])) 
+														echo $todayPendingMap[$stock['user']].' sites'; 													?>
+												</td>
+											</tr>																											<?php					
+										}																													?>
+										<tr>
+											<th></th>
+											<th style="text-align:center"><?php echo $totalInHand;?></th>
+											<th style="text-align:center"><?php echo '<font style="float:left;margin-left:10px;">'.$totalHalfToCollect.'</font>';?></th>
+										</tr>																										
+										<tr>
+											<th>Total</th>
+											<th colspan="2" style="text-align:center"><?php echo $totalInHand + $totalHalfToCollect;?></th>
+										</tr>																																
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
 						<br/><br/>
 						<select name="assigned_to" id="assigned_to" onchange="document.location.href = 'requests.php?assigned_to=' + this.value" class="form-control col-md-6 col-lg-6">
 							<option value = "All" <?php if($assigned_to == 'All') echo 'selected';?> >ALL</option>													    	<?php
@@ -331,7 +397,11 @@ if(isset($_SESSION["user_name"]))
 				$( ".datepicker" ).datepicker(pickeropts);	
 			});
 
-			
+			$('#bologna-list a').on('click', function (e) {
+				e.preventDefault()
+				$(this).tab('show')
+			})		
+		
 			function markRead(sheetId){
 				$.ajax({
 					type: "POST",

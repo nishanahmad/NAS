@@ -24,7 +24,7 @@ if(isset($_SESSION["user_name"]))
 					<div class="col col-md-7 offset-1">
 						<div class="input-group mb-3">
 							<span class="input-group-text" style="width:80px;"><i class="fab fa-buffer"></i>&nbsp;Full</span>
-							<input type="text" required name="qty" id="qty" class="form-control" autocomplete="off" value="0">
+							<input type="text" required name="qty" id="qty" class="form-control" autocomplete="off">
 						</div>
 					</div>																															
 					<div class="col col-md-7 offset-1">

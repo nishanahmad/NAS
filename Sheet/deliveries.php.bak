@@ -208,7 +208,7 @@ if(isset($_SESSION["user_name"]))
 								, <i class="fa fa-mobile"></i> <a href="tel:<?php echo $sheet['mason_phone'];?>"><?php echo $sheet['mason_phone'];?></a></p><?php
 							}?>									
 							<p><i class="fa fa-file"></i> <?php echo $sheet['qty'].' sheets for '.$sheet['bags']. ' bags';?></p><?php
-							if($sheet['half_qty'] > 0)
+							if($sheet['half_qty'])
 							{?>
 								<p><i class="fa fa-file"></i> <?php echo $sheet['half_qty'].' half sheets for '.$sheet['bags']. ' bags';?></p><?php
 							}?>

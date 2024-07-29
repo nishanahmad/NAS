@@ -33,7 +33,8 @@ if(isset($_SESSION["user_name"]))
 		$newQty = mysqli_fetch_array($QuerySheetInHand,MYSQLI_ASSOC)['qty'] - $qty;
 		$QueryHalfSheetInHand = mysqli_query($con,"SELECT half_qty FROM sheets_in_hand WHERE user=$delivered_by");
 		$newHalfQty = mysqli_fetch_array($QueryHalfSheetInHand,MYSQLI_ASSOC)['half_qty'] - $half_qty;
-
+		var_dump($newQty);
+		var_dump($newHalfQty);
 		if($newQty < 0 || $newHalfQty < 0)
 		{
 			$commitFlag = false;	
@@ -72,17 +73,17 @@ if(isset($_SESSION["user_name"]))
 		if($commitFlag)
 		{
 			mysqli_commit($con);	
-			header( "Location: requests.php" );
+			//header( "Location: requests.php" );
 		}
 		else
 		{
 			mysqli_rollback($con);
-			header( "Location: requests.php?error=true" );		
+			//header( "Location: requests.php?error=true" );		
 		}		
 	}
 	else
 	{
-		header( "Location: requests.php" );
+		//header( "Location: requests.php" );
 	}
 
 }
