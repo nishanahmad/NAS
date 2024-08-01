@@ -51,8 +51,15 @@ if(isset($_SESSION["user_name"]))
 		}		
 		else
 		{
-			$areaIds = implode("','",$driverAreaMap[$delivered_by]);
-			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' AND driver_area IN('$areaIds') ORDER BY date ASC" ) or die(mysqli_error($con));		 	 																															
+			if(isset($driverAreaMap[$delivered_by]))
+			{
+				$areaIds = implode("','",$driverAreaMap[$delivered_by]);
+				$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' AND driver_area IN('$areaIds') ORDER BY date ASC" ) or die(mysqli_error($con));		 	 																																			
+			}
+			else
+			{
+				$sheets = [];
+			}
 		}
 			
 	}
