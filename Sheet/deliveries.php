@@ -252,7 +252,7 @@ if(isset($_SESSION["user_name"]))
 							<br/>
 							<div align="center">
 								<a href="edit.php?id=<?php echo $sheet['id'];?>" class="btn" style="color:#ffffff;background-color:e1be5c;width:100px;"><i class="fa fa-pencil"></i> Edit</a>&nbsp;&nbsp;
-								<button class="btn closeId" style="color:#ffffff;background-color:7dc37d;width:100px;" data-id="<?php echo $sheet['id'];?>" data-closeqty="<?php echo $sheet['qty'];?>" data-toggle="modal" data-target="#closeModal"><i class="fas fa-check"></i> Close</button>
+								<button class="btn closeId" style="color:#ffffff;background-color:7dc37d;width:100px;" data-id="<?php echo $sheet['id'];?>" data-closeqty="<?php echo $sheet['qty'];?>" data-closehalfqty="<?php echo $sheet['half_qty'];?>" data-toggle="modal" data-target="#closeModal"><i class="fas fa-check"></i> Close</button>
 							</div>
 						</div>
 					</div>
@@ -280,8 +280,10 @@ if(isset($_SESSION["user_name"]))
 				$('.closeId').click(function(){
 					var closeId = $(this).data('id');
 					var closeqty = $(this).data('closeqty');
+					var closehalfqty = $(this).data('closehalfqty');
 					$("#closeIdhidden").val(closeId);
 					$("#qty").val(closeqty);
+					$("#half_qty").val(closehalfqty);
 				});					
 			});
 

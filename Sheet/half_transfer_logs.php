@@ -23,10 +23,10 @@ if(isset($_SESSION['user_name']))
 
 	$endDateTime = date('Y-m-d H:i:s', strtotime($endDate . ' +1 day'));
 	
-	$logs = mysqli_query($con,"SELECT * FROM transfer_logs WHERE transferred_on >= '$startDate' AND transferred_on <= '$endDateTime' ORDER BY transferred_on DESC") or die(mysqli_error($con));									?>
+	$logs = mysqli_query($con,"SELECT * FROM half_transfer_logs WHERE transferred_on >= '$startDate' AND transferred_on <= '$endDateTime' ORDER BY transferred_on DESC") or die(mysqli_error($con));									?>
 <html>
 	<head>
-		<title>Full Sheet transfer Logs</title>
+		<title>Half Sheet transfer Logs</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">

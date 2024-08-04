@@ -23,15 +23,21 @@ if(isset($_SESSION["user_name"]))
 					<input type="hidden" id="closeIdhidden" name="closeIdhidden">
 					<div class="col col-md-7 offset-1">
 						<div class="input-group mb-3">
-							<span class="input-group-text" style="width:80px;"><i class="fab fa-buffer"></i>&nbsp;Qty</span>
-							<input type="text" required name="qty" id="qty" class="form-control" autocomplete="off">
+							<span class="input-group-text" style="width:100px;"><i class="fab fa-buffer"></i>&nbsp;Full Qty</span>
+							<input type="text" name="qty" id="qty" class="form-control" autocomplete="off">
 						</div>
-					</div>																															<?php
+					</div>
+					<div class="col col-md-7 offset-1">
+						<div class="input-group mb-3">
+							<span class="input-group-text" style="width:100px;"><i class="fab fa-buffer"></i>&nbsp;Half Qty</span>
+							<input type="text" name="half_qty" id="half_qty" class="form-control" autocomplete="off">
+						</div>
+					</div>					<?php
 					if($_SESSION['role'] != 'driver')
 					{																																?>
 						<div class="col col-md-7 offset-1">
 							<div class="input-group mb-3">
-								<span class="input-group-text" style="width:80px;"><i class="fa fa-user"></i>&nbsp;Driver</span>
+								<span class="input-group-text" style="width:100px;"><i class="fa fa-user"></i>&nbsp;Driver</span>
 								<select name="driverId" id="driverId" required class="form-control">
 									<option value = "">---Select---</option>																						<?php
 									foreach($drivers as $id => $name) 

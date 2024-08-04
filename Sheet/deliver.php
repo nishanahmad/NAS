@@ -49,25 +49,31 @@ if(isset($_SESSION["user_name"]))
 			}
 		}		
 
-		// Need to update logs with half qty from here
+		$transferred_on = date('Y-m-d H:i:s');
+		$transferred_by = $_SESSION['user_id'];		
+		
+		// Insert logs with full qty
 		$queryFrom = mysqli_query($con,"SELECT qty FROM sheets_in_hand WHERE user=$delivered_by ");
 		if(!$queryFrom)
-		{
-			$commitFlag = false;	
-			var_dump('Line 48');					
-		}
+			$commitFlag = false;
 			
 		$fromStock = mysqli_fetch_array($queryFrom,MYSQLI_ASSOC)['qty'];	
 
-		$transferred_on = date('Y-m-d H:i:s');
-		$transferred_by = $_SESSION['user_id'];		
-
 		$insertLogs = mysqli_query($con, "INSERT INTO transfer_logs (user_from, qty, transferred_on, transferred_by, fromStock, site) VALUES ('$delivered_by', '$qty', '$transferred_on', '$transferred_by', '$fromStock', '$id')");;
 		if(!$insertLogs)
-		{
 			$commitFlag = false;	
-			var_dump('Line 60');							
-		}
+		
+		// Insert logs with half qty
+		$queryFrom = mysqli_query($con,"SELECT half_qty FROM sheets_in_hand WHERE user=$delivered_by ");
+		if(!$queryFrom)
+			$commitFlag = false;
+			
+		$fromStock = mysqli_fetch_array($queryFrom,MYSQLI_ASSOC)['half_qty'];	
+
+		$insertLogs = mysqli_query($con, "INSERT INTO half_transfer_logs (user_from, qty, transferred_on, transferred_by, fromStock, site) VALUES ('$delivered_by', '$half_qty', '$transferred_on', '$transferred_by', '$fromStock', '$id')");;
+		if(!$insertLogs)
+			$commitFlag = false;	
+
 		
 		if($commitFlag)
 		{
