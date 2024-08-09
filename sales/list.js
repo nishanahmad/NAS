@@ -14,7 +14,10 @@ $(function(){
 		setTimeout(function() {totalModal.hide()}, 5000);		
 	}
 
-	$('#ar,#engineer,#truck,#client-filter,#eng-filter').select2();
+	$('#ar,#engineer,#truck,#client-filter,#eng-filter').select2({
+		selectOnClose: true,
+		scrollAfterSelect: true
+	});
 	
 	var pickeropts = { dateFormat:"dd-mm-yy"}; 
 	$( ".datepicker" ).datepicker(pickeropts);	
