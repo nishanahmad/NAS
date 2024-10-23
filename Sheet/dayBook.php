@@ -9,6 +9,7 @@ if(isset($_SESSION["user_name"]))
 	
 	$urlDate = date('d-m-Y',strtotime($_GET['date']));	
 	$date = date('Y-m-d',strtotime($urlDate));	
+	$dateMode = $_GET['mode'];
 	
 	$mainMap = array();
 	$deliveryMap = array();
@@ -26,8 +27,12 @@ if(isset($_SESSION["user_name"]))
 		
 		$driverId = $driver['user_id'];
 		
-		$agr1 = mysqli_query($con,"SELECT count(id) FROM sheets WHERE date ='$date' AND delivered_by = $driverId" ) or die(mysqli_error($con));
-		$delivered = (int)mysqli_fetch_Array($agr1,MYSQLI_ASSOC)['count(id)'];
+		if($dateMode == 'field')
+			$agr1 = mysqli_query($con,"SELECT count(id) FROM sheets WHERE date ='$date' AND delivered_by = $driverId" ) or die(mysqli_error($con));
+		else
+			$agr1 = mysqli_query($con,"SELECT count(id) FROM sheets WHERE delivered_on ='$date' AND delivered_by = $driverId" ) or die(mysqli_error($con));
+			
+		$delivered = (int)mysqli_fetch_Array($agr1,MYSQLI_ASSOC)['count(id)'];			
 
 		$agr2 = mysqli_query($con,"SELECT count(id) FROM sheets WHERE date ='$date' AND assigned_to = $driverId AND status ='requested'" ) or die(mysqli_error($con));
 		$pending = (int)mysqli_fetch_Array($agr2,MYSQLI_ASSOC)['count(id)'];		
@@ -69,14 +74,20 @@ if(isset($_SESSION["user_name"]))
 	<body>
 		<br/><br/>
 		<div style="margin-left:46%;">
-			<select id="selectbox" name="" onchange="javascript:location.href = this.value;">
+			<select id="selectbox" class="form-control col-2" name="" onchange="javascript:location.href = this.value;">
 				<option value="#" selected>Day Book</option>
 				<option value="monthReport.php">Month Report</option>
 			</select>
 		</div>		
 		<br/><br/>
 		<div align="center">
-			<input type="text" name="date" id="date" onchange="document.location.href = 'dayBook.php?date=' + this.value" class="form-control datepicker col-md-1" autocomplete="off" value="<?php echo date('d-m-Y',strtotime($urlDate)); ?>">
+		    <div class="row">
+				<input type="text" name="date" id="date" onchange="refresh()" style="margin-left:38%;" class="form-control datepicker col-1" autocomplete="off" value="<?php echo date('d-m-Y',strtotime($urlDate)); ?>">
+				<select class="form-control col-2" style="margin-left:1%;" name="dateMode" id="dateMode" onchange="refresh()">
+				  <option <?php if($dateMode =='original') echo 'Selected';?> value="original">Actual Delivery Date</option>
+				  <option <?php if($dateMode =='field') echo 'Selected';?> value="field">Concrete Date</option>
+				</select>
+			</div>
 			<br/><br/>
 			<table class="table table-hover table-bordered" style="width:30%;">
 				<thead>
@@ -249,6 +260,16 @@ if(isset($_SESSION["user_name"]))
 				var pickeropts = { dateFormat:"dd-mm-yy"}; 
 				$( ".datepicker" ).datepicker(pickeropts);					
 			});
+			
+			function refresh()
+			{
+				var hrf = window.location.href;
+				hrf = hrf.slice(0,hrf.indexOf("?"));
+				const urlDate = $("#date").val();
+                const mode = $("#dateMode").val();
+
+				window.location.href = hrf +"?date="+ urlDate + "&mode=" + mode;
+			}
 			
 			function reload(driverId,urlDate)
 			{
