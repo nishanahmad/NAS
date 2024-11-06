@@ -247,11 +247,11 @@ if(isset($_SESSION["user_name"]))
 										  {
 											  if($sale['direct_order'] && !billStatus($sale['bill']))
 											  {									 ?>
-												  <i class="fas fa-asterisk" style="color:red"></i><?php
+												  <img src="../images/red_star.png" alt="Red"><?php
 											  }					
 											  if($sale['direct_order'] && billStatus($sale['bill']))
 											  {									 ?>
-												  <i class="fas fa-asterisk" style="color:green"></i><?php
+												  <img src="../images/green_star.png" alt="Green"></i><?php
 											  }
 										  }?>
 							    </td>
