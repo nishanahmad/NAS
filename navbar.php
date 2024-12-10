@@ -284,7 +284,7 @@ a {
 	  </li>	  	  	  
 	  <li class="nav-item">
 		<a class="nav-link" <?php if($flag == 'gate_pass') echo 'href="#"'; else echo 'href="../gate_pass/list.php"';?>>
-		  <i class="fa fa-bolt <?php if($flag == 'gate_pass') echo 'glow';?> aria-hidden="true"></i>
+		  <i class="fa fa-key <?php if($flag == 'gate_pass') echo 'glow';?> aria-hidden="true"></i>
 		  Gate Pass
 		</a>
 	  </li>	  	  	  	  

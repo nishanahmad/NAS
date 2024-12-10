@@ -9,7 +9,14 @@ if(isset($_SESSION["user_name"]))
 	require '../navbar.php';
 	require 'newModal.php';	
 
-	$passes = mysqli_query($con,"SELECT * FROM gate_pass") or die(mysqli_error($con));																							?>	
+	$passes = mysqli_query($con,"SELECT * FROM gate_pass WHERE deleted = 0") or die(mysqli_error($con));	
+	
+	$consignorMap = array();
+	$consignors = mysqli_query($con,"SELECT * FROM consignors") or die(mysqli_error($con));	
+	foreach($consignors as $consignor)
+	{
+		$consignorMap[$consignor['id']] = $consignor['name'];
+	}																																		?>	
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,19 +52,7 @@ if(isset($_SESSION["user_name"]))
 	</head>
 	<body>
 		<nav class="navbar navbar-light bg-light sticky-top bottom-nav">
-			<!--div class="btn-group" role="group" style="float:left;margin-left:2%;">
-				<div class="btn-group" role="group">
-					<button id="btnGroupDrop1" type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-						<i class="far fa-calendar-alt"></i> <?php echo $range;?>
-					</button>
-					<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">									
-						<li id="todayFilter"><a class="dropdown-item">Today</a></li>							
-						<li id="10DaysFilter"><a class="dropdown-item">10 Days</a></li>
-						<li id="customFilter" class="dropdown-item">Custom Filter</a></li>				
-					</ul>
-				</div>
-			</div-->
-			<span class="navbar-brand" style="font-size:25px;"><i class="fa fa-bolt"></i> passs</span><?php
+			<span class="navbar-brand" style="font-size:25px;margin-left:45%"><i class="fa fa-key"></i> Pass</span><?php
 			if($_SESSION['role'] != 'marketing')
 			{																							?>				
 				<a href="#" class="btn btn-sm" role="button" style="background-color:#54698D;color:white;float:right;margin-right:3%;" data-toggle="modal" data-target="#passModal"><i class="fa fa-bolt"></i> New pass</a><?php
@@ -80,7 +75,7 @@ if(isset($_SESSION["user_name"]))
 						<tr style="background-color:#5ca1bf">
 							<th>LR No</th>
 							<th>Date</th>
-							<th>Time</th>
+							<th>Paticulars</th>
 							<th>Vehicle</th>
 							<th>Consignor</th>
 							<th>Driver</th>
@@ -90,11 +85,14 @@ if(isset($_SESSION["user_name"]))
 						foreach($passes as $pass) 
 						{																																										?>	
 							<tr>
-								<td><a href="edit.php?id=<?php echo $pass['id'];?>"><?php echo $pass['id']; ?></td>
-								<td><?php echo $pass['date']; ?></td>
-								<td><?php echo $pass['time']; ?></td>
+								<td><a href="edit.php?id=<?php echo $pass['id'];?>"><?php echo 'KNR/24-25/'.$pass['id']; ?></td>
+								<td><?php echo date('d-m-Y',strtotime($pass['date'])).' '.$pass['time']; ?></td>
+								<td>																																<?php 
+									if($pass['ut_qty'] > 0) echo 'UT : '.$pass['ut_qty'].'<br/>';
+									if($pass['super_qty'] > 0) echo 'UT SUPER : '.$pass['super_qty'];									?>
+								</td>
 								<td><?php echo $pass['vehicle']; ?></td>
-								<td><?php echo $pass['consignor_id']; ?></td>
+								<td><?php echo $consignorMap[$pass['consignor_id']]; ?></td>
 								<td><?php echo $pass['driver']; ?></td>
 							</tr>																																		<?php				
 						}																																				?>
