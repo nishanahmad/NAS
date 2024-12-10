@@ -10,7 +10,7 @@ if(isset($_SESSION["user_name"]))
 	$token_no = $_POST['token'];
 	$sqlDate = date("Y-m-d", strtotime($_POST["date"])); 
 	$sl_no = $_POST['sl_no'];
-	$vehicle = $_POST['vehicle'];
+	$vehicle_id = $_POST['vehicle_id'];
 	$order_no = $_POST['order_no'];
 	$time = $_POST['time'];
 	$consignor_id = $_POST['consignor'];
@@ -33,11 +33,11 @@ if(isset($_SESSION["user_name"]))
 	if(empty($order_no))
 		$order_no = null;				
 									
-	$insert = mysqli_query($con,"INSERT into gate_pass (token_no, sl_no, date, order_no, consignor_id, from_godown, time, vehicle,
+	$insert = mysqli_query($con,"INSERT into gate_pass (token_no, sl_no, date, order_no, consignor_id, from_godown, time, vehicle_id,
 														delivery_at, driver, driver_phone, driver_license_no, ut_qty, super_qty, entered_by, entered_on)
 								 VALUES
 								(".var_export($token_no, true).", ".var_export($sl_no, true).",'$sqlDate', ".var_export($order_no, true).",
-								'$consignor_id', '$from_godown', '$time', '$vehicle', '$delivery_at', '$driver', '$driver_phone', '$driver_license_no', $ut_qty, $super_qty, 
+								'$consignor_id', '$from_godown', '$time', '$vehicle_id', '$delivery_at', '$driver', '$driver_phone', '$driver_license_no', $ut_qty, $super_qty, 
 								'$entered_by', '$entered_on')") or die(mysqli_error($con));
 
 	header('Location: list.php?success');

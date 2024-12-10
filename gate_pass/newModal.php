@@ -6,6 +6,7 @@ if(isset($_SESSION["user_name"]))
 // Populate maps for SAP CODE and SHOP NAME
 	$consignors = mysqli_query($con,"SELECT * FROM consignors") or die(mysqli_error($con));	
 	$godowns = mysqli_query($con,"SELECT * FROM consignors") or die(mysqli_error($con));	
+	$vehicles = mysqli_query($con,"SELECT * FROM vehicles") or die(mysqli_error($con));	
 ?>
 
 	<style>
@@ -48,8 +49,14 @@ if(isset($_SESSION["user_name"]))
 											</div>
 											<div class="col col-md-4">
 												<div class="input-group mb-3">
-													<span class="input-group-text">;Vehicle</span>
-													<input type="vehicle" name="vehicle" id="dateId" class="form-control">
+													<span class="input-group-text">Vehicle</span>
+													<select name="vehicle_id" id="vehicle_id" class="form-control" style="width:60%">
+														<option value = "">---Select---</option>																						<?php
+														foreach($vehicles as $vehicle) 
+														{																							?>
+															<option value="<?php echo $vehicle['id'];?>"><?php echo $vehicle['number'];?></option>			<?php	
+														}																							?>
+													</select>
 												</div>
 											</div>											
 										</div>

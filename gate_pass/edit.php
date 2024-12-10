@@ -6,6 +6,7 @@ if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
 	require '../navbar.php';
+	require 'newVehicleModal.php';
 	require 'deleteModal.php';
 	
 	$id = $_GET['id'];
@@ -15,6 +16,7 @@ if(isset($_SESSION["user_name"]))
 	
 	$consignors = mysqli_query($con,"SELECT * FROM consignors") or die(mysqli_error($con));	
 	$godowns = mysqli_query($con,"SELECT * FROM consignors") or die(mysqli_error($con));	
+	$vehicles = mysqli_query($con,"SELECT * FROM vehicles") or die(mysqli_error($con));	
 	
 	?>
 		
@@ -157,7 +159,14 @@ if(isset($_SESSION["user_name"]))
 								<div class="col col-md-4 offset-1">
 									<div class="input-group mb-3">
 										<span class="input-group-text">Vehicle</span>
-										<input type="text" name="vehicle" id="vehicle" class="form-control" value="<?php echo $pass['vehicle'];?>">
+										<select name="vehicle_id" id="vehicle_id" class="form-control" style="width:60%">
+											<option value = "">---Select---</option>																						<?php
+											foreach($vehicles as $vehicle) 
+											{																							?>
+												<option value="<?php echo $vehicle['id'];?>" <?php if($vehicle['id'] == $pass['vehicle_id']) echo 'selected';?>><?php echo $vehicle['number'];?></option>			<?php	
+											}																							?>
+										</select>
+										&nbsp;&nbsp;<a data-toggle="modal" data-target="#newVehicleModal" style="color:limegreen;cursor:pointer">New</a>										
 									</div>
 								</div>																					
 						</div>												

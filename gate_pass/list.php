@@ -14,9 +14,13 @@ if(isset($_SESSION["user_name"]))
 	$consignorMap = array();
 	$consignors = mysqli_query($con,"SELECT * FROM consignors") or die(mysqli_error($con));	
 	foreach($consignors as $consignor)
-	{
 		$consignorMap[$consignor['id']] = $consignor['name'];
-	}																																		?>	
+		
+	$vehiclesMap = array();
+	$vehicles = mysqli_query($con,"SELECT * FROM vehicles") or die(mysqli_error($con));	
+	foreach($vehicles as $vehicle)
+		$vehiclesMap[$vehicle['id']] = $vehicle['number'];		
+																																		?>	
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -91,7 +95,7 @@ if(isset($_SESSION["user_name"]))
 									if($pass['ut_qty'] > 0) echo 'UT : '.$pass['ut_qty'].'<br/>';
 									if($pass['super_qty'] > 0) echo 'UT SUPER : '.$pass['super_qty'];									?>
 								</td>
-								<td><?php echo $pass['vehicle']; ?></td>
+								<td><?php echo $vehiclesMap[$pass['vehicle_id']]; ?></td>
 								<td><?php echo $consignorMap[$pass['consignor_id']]; ?></td>
 								<td><?php echo $pass['driver']; ?></td>
 							</tr>																																		<?php				

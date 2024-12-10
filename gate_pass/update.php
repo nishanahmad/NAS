@@ -18,7 +18,7 @@ if(isset($_SESSION["user_name"]))
 		$sl_no = $_POST['sl_no'];
 		$order_no = $_POST['order_no'];
 		$time = $_POST['time'];
-		$vehicle = $_POST['vehicle'];
+		$vehicle_id = $_POST['vehicle_id'];
 		$consignor_id = $_POST['consignor'];
 		$from_godown = $_POST['from_godown'];
 		$delivery_at = $_POST['delivery_at'];
@@ -39,7 +39,7 @@ if(isset($_SESSION["user_name"]))
 		if(empty($order_no))
 			$order_no = null;				
 		
-		$update = mysqli_query($con,"UPDATE gate_pass SET token_no = ".var_export($token_no, true).", sl_no=".var_export($sl_no, true).", vehicle = '$vehicle', 
+		$update = mysqli_query($con,"UPDATE gate_pass SET token_no = ".var_export($token_no, true).", sl_no=".var_export($sl_no, true).", vehicle_id = '$vehicle_id', 
 											date='$sqlDate',order_no = ".var_export($order_no, true).",consignor_id='$consignor_id',from_godown='$from_godown',
 											time='$time',delivery_at='$delivery_at',driver='$driver',driver_phone='$driver_phone',
 											driver_license_no='$driver_license_no',ut_qty=$ut_qty,super_qty=$super_qty
