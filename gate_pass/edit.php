@@ -6,6 +6,7 @@ if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
 	require '../navbar.php';
+	require 'deleteModal.php';
 	
 	$id = $_GET['id'];
 	$passQuery = mysqli_query($con, "SELECT * FROM gate_pass WHERE id = '$id'") or die(mysqli_error($con).'Line 11');

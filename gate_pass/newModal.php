@@ -141,7 +141,7 @@ if(isset($_SESSION["user_name"]))
 											<div class="col col-md-6 offset-1">
 												<div class="input-group mb-3">
 													<span class="input-group-text" style="width:280px;">ULTRATECH PPC LAMINATED</span>
-													<input type="text" name="ut_qty" class="form-control">
+													<input type="text" name="ut_qty" class="form-control" value="<?php echo '0';?>">
 												</div>
 											</div>
 										</div>
@@ -149,7 +149,7 @@ if(isset($_SESSION["user_name"]))
 											<div class="col col-md-6 offset-1">
 												<div class="input-group mb-4">
 													<span class="input-group-text" style="width:280px;">ULTRATECH SUPER PPC LAMINATED</span>
-													<input type="text" name="super_qty" class="form-control">
+													<input type="text" name="super_qty" class="form-control" value="<?php echo '0';?>">
 												</div>
 											</div>
 										</div>						
