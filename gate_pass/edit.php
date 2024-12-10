@@ -134,13 +134,13 @@ if(isset($_SESSION["user_name"]))
 						</div>
 						<div class="row">					
 							<div class="form-group row">						
-								<div class="col col-md-3 offset-1">
+								<div class="col col-md-4 offset-1">
 									<div class="input-group mb-3">
 										<span class="input-group-text" style="width:100px;">Driver</span>
 										<input type="text" name="driver" id="driver" class="form-control" value="<?php echo $pass['driver'];?>">
 									</div>
 								</div>																					
-								<div class="col col-md-4">
+								<div class="col col-md-3">
 									<div class="input-group mb-3">
 										<span class="input-group-text" style="width:100px;">Phone</span>
 										<input type="text" name="driver_phone" id="driver_phone" class="form-control" autocomplete="off" value="<?php echo $pass['driver_phone'];?>">
