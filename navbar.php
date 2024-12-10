@@ -23,6 +23,8 @@ if (strpos($url, 'Sheet') !== false)
 	$flag = 'Sheet';
 if (strpos($url, 'company_sale') !== false)
 	$flag = 'company_sale';
+if (strpos($url, 'gate_pass') !== false)
+	$flag = 'gate_pass';
 if (strpos($url, 'reports') !== false)
 	$flag = 'reports';
 
@@ -280,6 +282,12 @@ a {
 		  Company Sale
 		</a>
 	  </li>	  	  	  
+	  <li class="nav-item">
+		<a class="nav-link" <?php if($flag == 'gate_pass') echo 'href="#"'; else echo 'href="../gate_pass/list.php"';?>>
+		  <i class="fa fa-bolt <?php if($flag == 'gate_pass') echo 'glow';?> aria-hidden="true"></i>
+		  Gate Pass
+		</a>
+	  </li>	  	  	  	  
 	  <li class="nav-item">
 		<a class="nav-link" <?php if($flag == 'reports') echo 'href="#"'; else echo 'href="../reports/salesSummary.php"';?>>
 		  <i class="fa fa-chart-area <?php if($flag == 'reports') echo 'glow';?> aria-hidden="true"></i>
