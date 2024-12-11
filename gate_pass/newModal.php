@@ -113,7 +113,7 @@ if(isset($_SESSION["user_name"]))
 												<div class="input-group mb-3">
 													<span class="input-group-text" style="width:100px;">Delivery At</span>
 													<select name="delivery_at" id="delivery_at" class="form-control">
-														<option value = "Kannur">Kannur</option>
+														<option value = "KANNUR">KANNUR</option>
 													</select>
 												</div>
 											</div>							
