@@ -41,7 +41,8 @@ if(isset($_SESSION["user_name"]))
 					</button>				
 				</form>
 			</div>	
-			<span class="navbar-brand" style="font-size:25px;margin-right:45%"><i class="fas fa-key"></i> LR-<?php echo $pass['id']; ?></span>
+			<span class="navbar-brand" style="font-size:25px;margin-right:5%"><i class="fas fa-key"></i> LR-<?php echo $pass['id']; ?></span>
+			<div style="float:right;margin-right:5%"><button onclick="location.href = 'print.php?id=<?php echo $pass['id'];?>';" id="myButton"><img src="../images/pdfIcon.png"></button></div>
 		</nav>
 		<br/><br/>
 		<div id="snackbar"><i class="fa fa-check"></i>&nbsp;&nbsp;Updated successfull !!!</div>
@@ -199,7 +200,7 @@ if(isset($_SESSION["user_name"]))
 		</form>
 		<br/><br/>		
 		<button type="button" class="btn" style="float:right;margin-right:150px;background-color:#E6717C;color:#FFFFFF" data-toggle="modal" data-target="#deleteModal">
-		<i class="far fa-trash-alt"></i>&nbsp;&nbsp;Delete</button>	
+		<i class="far fa-trash-alt"></i>&nbsp;&nbsp;Cancel</button>	
 		<br/><br/>		
 		<script src="edit.js"></script>
 	</body>
