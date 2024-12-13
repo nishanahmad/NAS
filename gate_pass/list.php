@@ -9,7 +9,7 @@ if(isset($_SESSION["user_name"]))
 	require '../navbar.php';
 	require 'newModal.php';	
 
-	$passes = mysqli_query($con,"SELECT * FROM gate_pass WHERE deleted = 0") or die(mysqli_error($con));	
+	$passes = mysqli_query($con,"SELECT * FROM gate_pass WHERE deleted = 0 ORDER BY date DESC") or die(mysqli_error($con));	
 	
 	$consignorMap = array();
 	$consignors = mysqli_query($con,"SELECT * FROM consignors") or die(mysqli_error($con));	

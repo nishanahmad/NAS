@@ -79,7 +79,7 @@ if(isset($_SESSION["user_name"]))
 						<td>Time : <strong><?php echo $pass['time'];?></strong></td>
 					</tr>		
 					<tr>
-						<td>TRANSPORTER CODE : <strong><?php echo $pass['time'];?></strong>
+						<td>Receipient Code : <strong>641376N020</strong>
 						</td>
 						<td>Vehicle No : <strong><?php echo $vehiclesMap[$pass['vehicle_id']]['number'];?></strong>
 						</td>	
