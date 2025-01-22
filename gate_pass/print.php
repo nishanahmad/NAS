@@ -95,7 +95,7 @@ if(isset($_SESSION["user_name"]))
 					</tr>
 					<tr>	
 						<td>
-							LICENSE CODE : <strong>2/392383</strong>
+							LICENSE CODE : <strong><?php echo $pass['license_code'];?></strong>
 						</td>
 						<td>
 							MOBILE : <strong></strong>

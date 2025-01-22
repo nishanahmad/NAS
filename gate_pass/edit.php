@@ -170,7 +170,14 @@ if(isset($_SESSION["user_name"]))
 										&nbsp;&nbsp;<a data-toggle="modal" data-target="#newVehicleModal" style="color:limegreen;cursor:pointer">New</a>										
 									</div>
 								</div>																					
-						</div>												
+								<div class="col col-md-3">
+									<div class="input-group mb-3">
+										<span class="input-group-text" style="width:120px;">License Code</span>
+										<input type="text" name="license_code" id="license_code" class="form-control" autocomplete="off" value="<?php echo $pass['license_code'];?>">
+									</div>
+								</div>																						
+							</div>	
+						</div>
 						<br/><br/>
 						<h3 style="margin-left:10%">Particulars</h3>
 						<div class="row">					

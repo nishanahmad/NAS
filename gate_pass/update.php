@@ -25,6 +25,7 @@ if(isset($_SESSION["user_name"]))
 		$driver = $_POST['driver'];
 		$driver_phone = $_POST['driver_phone'];
 		$driver_license_no = $_POST['driver_license_no'];
+		$license_code = $_POST['license_code'];
 		$ut_qty = $_POST['ut_qty'];	
 		$super_qty = $_POST['super_qty'];
 
@@ -38,11 +39,14 @@ if(isset($_SESSION["user_name"]))
 			$sl_no = null;	
 		if(empty($order_no))
 			$order_no = null;				
+		if(empty($license_code))
+			$license_code = null;						
 		
 		$update = mysqli_query($con,"UPDATE gate_pass SET token_no = ".var_export($token_no, true).", sl_no=".var_export($sl_no, true).", vehicle_id = '$vehicle_id', 
 											date='$sqlDate',order_no = ".var_export($order_no, true).",consignor_id='$consignor_id',from_godown='$from_godown',
 											time='$time',delivery_at='$delivery_at',driver='$driver',driver_phone='$driver_phone',
-											driver_license_no='$driver_license_no',ut_qty=$ut_qty,super_qty=$super_qty
+											driver_license_no='$driver_license_no', license_code = ".var_export($license_code, true).",
+											ut_qty=$ut_qty,super_qty=$super_qty
 									 WHERE id='$id'") or die(mysqli_error($con));
 					
 		//$resultNew = mysqli_query($con,"SELECT * FROM nas_sale WHERE deleted IS NULL AND sales_id='$id'") or die(mysqli_error($con));	
