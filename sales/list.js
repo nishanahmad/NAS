@@ -1,3 +1,17 @@
+$(document).ready(function(){
+	
+	$('#ar,#engineer,#truck,#client-filter,#eng-filter').select2({
+		dropdownParent: $('#saleModal .modal-content')
+	});
+	/*
+	$('#ar,#engineer,#truck,#client-filter,#eng-filter').select2({
+		selectOnClose: true,
+		scrollAfterSelect: true
+	});
+	*/	
+});
+
+
 let rateMap = new Map();
 let discountMap = new Map();
 
@@ -13,11 +27,6 @@ $(function(){
 		totalModal.show();
 		setTimeout(function() {totalModal.hide()}, 5000);		
 	}
-
-	$('#ar,#engineer,#truck,#client-filter,#eng-filter').select2({
-		selectOnClose: true,
-		scrollAfterSelect: true
-	});
 	
 	var pickeropts = { dateFormat:"dd-mm-yy"}; 
 	$( ".datepicker" ).datepicker(pickeropts);	
