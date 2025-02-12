@@ -3,12 +3,7 @@ $(document).ready(function(){
 	$('#ar,#engineer,#truck,#client-filter,#eng-filter').select2({
 		dropdownParent: $('#saleModal .modal-content')
 	});
-	/*
-	$('#ar,#engineer,#truck,#client-filter,#eng-filter').select2({
-		selectOnClose: true,
-		scrollAfterSelect: true
-	});
-	*/	
+	$('#client-filter,#eng-filter').select2();	
 });
 
 
