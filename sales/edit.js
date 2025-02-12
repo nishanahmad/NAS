@@ -13,7 +13,10 @@ $(document).ready(function()
 		setTimeout(function(){ x.className = x.className.replace("show", ""); }, 2000);					
 	}
 	
-	$("#ar,#engineer,#truck,#driver_area").select2();
+	$("#ar,#engineer,#truck").select2();
+	$('#driver_area').select2({
+		dropdownParent: $('#sheetModal .modal-content')
+	});	
 	
 	var pickerOpts = { dateFormat:"dd-mm-yy"}; 
 	$( "#date" ).datepicker(pickerOpts);	
