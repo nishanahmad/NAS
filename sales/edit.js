@@ -22,10 +22,11 @@ $(document).ready(function()
 	$( "#date" ).datepicker(pickerOpts);	
 	$( "#sheetDate" ).datepicker(pickerOpts);	
 	
+	/*
 	var arId = $('#ar').val();
 	var shopName = shopNameArray[arId];
 	$('#shopName').val(shopName);	
-		
+	*/	
 
 	var date = $("#date").val();
 	var product = $("#product").val();
