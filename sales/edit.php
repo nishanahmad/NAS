@@ -294,7 +294,7 @@ if(isset($_SESSION["user_name"]) && $_SESSION["role"] != 'marketing')
 								<div class="col col-md-5 offset-2">
 									<div class="input-group mb-3">
 										<span class="input-group-text col-md-3"><i class="fa fa-address-card-o"></i>&nbsp;Shop</span>
-										<input type="text" readonly name="shopName" id="shopName" class="form-control">
+										<input type="text" readonly name="shopName" id="shopName" value="<?php echo $shopNameMap[$row['ar_id']];?>" class="form-control">
 									</div>
 								</div>
 							</div>

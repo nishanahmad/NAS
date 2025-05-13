@@ -333,6 +333,7 @@ $(function(){
 		});
 
 		var arId = $('#ar').val();
+		console.log(shopNameArray[arId]);
 		var shopName = shopNameArray[arId];
 		$('#shopName').val(shopName);	
 		

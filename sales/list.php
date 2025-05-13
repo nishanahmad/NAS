@@ -89,7 +89,7 @@ if(isset($_SESSION["user_name"]))
 	$driverPhoneArray = json_encode($driverPhoneMap);
 	$driverPhoneArray = str_replace('\n',' ',$driverPhoneArray);
 	$driverPhoneArray = str_replace('\r',' ',$driverPhoneArray);	
-																												?>	
+?>	
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -333,7 +333,8 @@ if(isset($_SESSION["user_name"]))
 		<script>	
 			var shopNameList = '<?php echo $shopNameArray;?>';
 			var shopName_array = JSON.parse(shopNameList);
-			var shopNameArray = shopName_array;											
+			var shopNameArray = shopName_array;
+			console.log(shopNameArray);	
 			
 			var driverNameList = '<?php echo $driverNameArray;?>';
 			var driverName_array = JSON.parse(driverNameList);
