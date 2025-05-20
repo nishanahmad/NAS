@@ -5,59 +5,29 @@ if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
 	require '../navbar.php';
-  	
-	if(isset($_GET['from']))
-		$fromDate = date("Y-m-d", strtotime($_GET['from']));		
-	else
-		$fromDate = date("Y-m-d");		
 
-	if(isset($_GET['to']))		
-		$toDate = date("Y-m-d", strtotime($_GET['to']));		
-	else
-		$toDate = date("Y-m-d");		
-	
-	if(isset($_GET['product']))		
-		$product = (float)$_GET['product'];
-	else
-		$product = 'all';
-	
-	if(isset($_GET['type']))		
-		$type = $_GET['type'];
-	else
-		$type = 'all';	
-	
-	if($product == 'all')
-	{
-		if($type == 'all')
-			$salesList = mysqli_query($con, "SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' GROUP BY ar_id" ) or die(mysqli_error($con));
-		else
-		{
-			if($type == 'AR')
-				$salesList = mysqli_query($con, "SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' AND ar_id IN (SELECT id FROM ar_details WHERE type = 'AR' OR type = 'SR') GROUP BY ar_id" ) or die(mysqli_error($con));
-			else if(($type == 'Engineer'))
-				$salesList = mysqli_query($con, "SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' AND ar_id IN (SELECT id FROM ar_details WHERE type = 'Engineer') GROUP BY ar_id" ) or die(mysqli_error($con));
-		}			
-	}		
-	else
-	{
-		if($type == 'all')
-			$salesList = mysqli_query($con, "SELECT ar_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' AND product = $product GROUP BY ar_id,product" ) or die(mysqli_error($con));
-		else
-		{
-			if($type == 'AR')
-				$salesList = mysqli_query($con, "SELECT ar_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' AND product = $product AND ar_id IN (SELECT id FROM ar_details WHERE type = 'AR' OR type = 'SR') GROUP BY ar_id,product" ) or die(mysqli_error($con));			
-			else if(($type == 'Engineer'))			
-				$salesList = mysqli_query($con, "SELECT ar_id,product,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' AND product = $product AND ar_id IN (SELECT id FROM ar_details WHERE type = 'Engineer') GROUP BY ar_id,product" ) or die(mysqli_error($con));			
-		}
-	}
-		
-
-
-	$products = mysqli_query($con, "SELECT * FROM products" ) or die(mysqli_error($con));	
+	$products = mysqli_query($con, "SELECT * FROM products WHERE name = 'ULTRA' OR name='ULTRA SUPER'" ) or die(mysqli_error($con));	
 	foreach($products as $pro)
 	{
 		$productMap[$pro['id']] = $pro['name'];
 	}
+  	
+	if(isset($_GET['from']))
+		$fromDate = date("Y-m-d", strtotime($_GET['from']));		
+	else
+		$fromDate = date("Y-m-1");		
+
+	if(isset($_GET['to']))		
+		$toDate = date("Y-m-d", strtotime($_GET['to']));		
+	else
+		$toDate = date("Y-m-t");		
+	
+	if(isset($_GET['product']))		
+		$product = (float)$_GET['product'];
+	else
+		$product = 10;
+	
+	$salesList = mysqli_query($con, "SELECT ar_id,SUM(qty),SUM(return_bag) FROM nas_sale WHERE deleted IS NULL AND entry_date >= '$fromDate' AND entry_date <= '$toDate' AND product = $product GROUP BY ar_id" ) or die(mysqli_error($con));	
 	
 	$activeList = array();
 	$arObjects = mysqli_query($con, "SELECT * FROM ar_details order by name ASC" ) or die(mysqli_error($con));	
@@ -72,25 +42,9 @@ if(isset($_SESSION["user_name"]))
 			$activeList[] = $ar['id'];	
 	}
 	
-	if (in_array(33290, $activeList))
-		echo "INARRAY";
-	
-	$tallyFlag = false;
-	if($fromDate == $toDate && $product == 'All')
-	{
-		$tallyFlag = true;
-		$tallyObjects = mysqli_query($con, "SELECT * FROM tally_day_check WHERE date = '$toDate'" ) or die(mysqli_error($con));
-		foreach($tallyObjects as $tally)
-			$tallyMap[$tally['ar']] = $tally['checked_by'];
-	}
-	
-	$userObjects = mysqli_query($con, "SELECT * FROM users" ) or die(mysqli_error($con));
-	foreach($userObjects as $user)
-		$userMap[$user['user_id']] = $user['user_name'];	
-		
 	if($_POST)
 	{
-		$URL='salesSummary.php?from='.$_POST['fromDate'].'&to='.$_POST['toDate'].'&product='.$_POST['product'].'&type='.$_POST['type'];
+		$URL='priceReport.php?from='.$_POST['fromDate'].'&to='.$_POST['toDate'].'&product='.$_POST['product'];
 		echo "<script type='text/javascript'>document.location.href='{$URL}';</script>";
 		echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';				
 	}	
@@ -133,21 +87,21 @@ if(isset($_SESSION["user_name"]))
 				<div class="btn-group" role="group" style="float:left;margin-left:2%;">
 					<div class="btn-group" role="group">
 						<button id="btnGroupDrop1" type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-							Summary Report
+							Price Report
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">									
+							<li><a href="salesSummary.php" class="dropdown-item">Summary Report</a></li>							
 							<li><a href="truckReport.php" class="dropdown-item">Truck Report</a></li>							
-							<li><a href="monthlyPriceSummary.php" class="dropdown-item">Price Report</a></li>							
 						</ul>
 					</div>
 				</div>								
-				<span class="navbar-brand" style="font-size:25px;margin-right:45%"><i class="fa fa-line-chart"></i> Summary Report</span>
+				<span class="navbar-brand" style="font-size:25px;margin-right:45%"><i class="fa fa-line-chart"></i> Price Report</span>
 			</nav>
 			<div style="width:100%;" class="mainbody">	
 				<br/><br/>
 				<div align="center">
 					<form method="post" action="" autocomplete="off">
-						<div class="row" style="margin-left:20%">
+						<div class="row" style="margin-left:33%">
 							<div style="width:220px;">
 								<div class="input-group">
 									<span class="input-group-text col-md-5"><i class="far fa-calendar-alt"></i>&nbsp;From</span>
@@ -160,11 +114,10 @@ if(isset($_SESSION["user_name"]))
 									<input type="text" required name="toDate" id="toDate" class="form-control" value="<?php echo date('d-m-Y',strtotime($toDate)); ?>">
 								</div>
 							</div>
-							<div style="width:220px;">
+							<div style="width:300px;">
 								<div class="input-group">
-									<span class="input-group-text col-md-6"><i class="fa fa-shield"></i>&nbsp;Product</span>
-										<select name="product" id="product" required class="form-control">
-											<option value="all">ALL</option>																<?php
+									<span class="input-group-text col-md-4"><i class="fa fa-shield"></i>&nbsp;Product</span>
+										<select name="product" id="product" required class="form-control">																<?php
 											foreach($products as $pro) 
 											{																								?>
 												<option <?php if($product == $pro['id']) echo 'selected';?> value="<?php echo $pro['id'];?>"><?php echo $pro['name'];?></option>		<?php	
@@ -172,16 +125,6 @@ if(isset($_SESSION["user_name"]))
 										</select>					
 								</div>
 							</div>
-							<div style="width:220px;">
-								<div class="input-group">
-									<span class="input-group-text col-md-5"><i class="fa fa-address-card-o"></i>&nbsp;Type</span>
-										<select name="type" id="type" required class="form-control">
-											<option <?php if($type == 'all') echo 'selected';?> value="all">ALL</option>
-											<option <?php if($type == 'AR') echo 'selected';?> value="AR">AR</option>
-											<option <?php if($type == 'Engineer') echo 'selected';?> value="Engineer">Engineers</option>
-										</select>					
-								</div>
-							</div>		
 						</div>
 						<br/>
 						<div class="justify-content-center">
@@ -189,12 +132,6 @@ if(isset($_SESSION["user_name"]))
 						</div>			
 					</form>																													
 					<br/>
-					<div id="content-desktop">																									<?php 
-						if($tallyFlag)
-						{																															?>
-							<a href="tallyVerification.php?date=<?php echo $toDate;?>" class="btn" style="background-color:#228B22;color:white;float:right;margin-right:30px;">Verify Individual Sale</a><?php
-						}																																												  ?>
-					</div>
 					<br/>
 					<div class="col-md-8 table-responsive-sm">
 					<table class="maintable table table-hover table-bordered table-responsive">
@@ -205,11 +142,7 @@ if(isset($_SESSION["user_name"]))
 								<th style="text-align:left;" class="header" scope="col"><i class="fas fa-store"></i> Shop Name</th>	
 								<th style="text-align:left;" class="header" scope="col"> Child Code</th>	
 								<th style="text-align:left;" class="header" scope="col"> Parent Code</th>	
-								<th style="width:15%;" class="header" scope="col"><i class="fa fa-mobile"></i> Phone</th>	<?php
-								if($tallyFlag)
-								{																								?>
-									<th id="content-desktop" class="header" scope="col">VerifiedBy</th>												<?php
-								}																								?>
+								<th style="width:15%;" class="header" scope="col"><i class="fa fa-mobile"></i> Phone</th>
 							</tr>
 						</thead>																								
 						<tbody class="tablesorter-no-sort">																		<?php
@@ -222,19 +155,7 @@ if(isset($_SESSION["user_name"]))
 								<td style="text-align:left;"><?php echo $arShopMap[$arSale['ar_id']];?></td>			
 								<td style="text-align:left;"><?php echo $arChildCodeMap[$arSale['ar_id']];?></td>
 								<td style="text-align:left;"><?php echo $arParentCodeMap[$arSale['ar_id']];?></td>
-								<td><?php echo $arPhoneMap[$arSale['ar_id']];?></td>										<?php
-								if($tallyFlag == true)
-								{		
-									if(isset($tallyMap[$arSale['ar_id']]))
-									{		
-										$userId = $tallyMap[$arSale['ar_id']];																									?>
-										<td id="content-desktop"><font style="font-weight:bold;font-style:italic;"><?php echo $userMap[$userId];?></font></td>										<?php
-									}
-									else
-									{																																			?>
-										<td id="content-desktop"><button class="btn btn-sm" value="<?php echo $arSale['ar_id'];?>" style="background-color:#228B22;color:white;" onclick="callAjax(this.value)"><i class="fas fa-check"></i> Verify</button></td>																											<?php			
-									}
-								}																																				?>																																
+								<td><?php echo $arPhoneMap[$arSale['ar_id']];?></td>
 							</tr>																																				<?php	
 							$total = $total + $arSale['SUM(qty)'] - $arSale['SUM(return_bag)'];
 						}																																						?>	

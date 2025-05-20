@@ -263,12 +263,12 @@ a {
 			  Rate
 			</a>
 		  </li>	  
-		  <li class="nav-item">
-			<a class="nav-link" <?php if($flag == 'discounts') echo 'href="#"'; else echo 'href="../discounts/list.php"';?>>
-			  <i class="fa fa-tags <?php if($flag == 'discounts') echo 'glow';?> aria-hidden="true"></i>
+		  <!--li class="nav-item">
+			<a class="nav-link" <?php //if($flag == 'discounts') echo 'href="#"'; else echo 'href="../discounts/list.php"';?>>
+			  <i class="fa fa-tags <?php //if($flag == 'discounts') echo 'glow';?> aria-hidden="true"></i>
 			  Discounts
 			</a>
-		  </li>																																		<?php
+		  </li-->																																		<?php
 	  }																																				?>
 	  <li class="nav-item">
 		<a class="nav-link" <?php if($flag == 'Sheet') echo 'href="#"'; else echo 'href="../Sheet/requests.php"';?>>
