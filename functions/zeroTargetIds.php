@@ -4,7 +4,7 @@ function getZeroTargetIds($year,$month,$con)
 	$arIds = null;	
 	$tempIds = null;
 	
-	$targetObjects = mysqli_query($con, "SELECT ar_id FROM target WHERE year = $year AND month = $month") or die(mysqli_error($con));
+	$targetObjects = mysqli_query($con, "SELECT ar_id FROM target_ultra WHERE year = $year AND month = $month") or die(mysqli_error($con));
 	foreach($targetObjects as $target)
 	{
 		$tempIds[] = $target['ar_id'];
@@ -17,7 +17,7 @@ function getZeroTargetIds($year,$month,$con)
 		$arIds[] = $ar['id'];
 	}		
 
-	$zeroTargetObjects = mysqli_query($con, "SELECT ar_id FROM target t LEFT JOIN ar_details a ON t.ar_id = a.id WHERE t.year = $year AND t.month = $month AND t.target = 0 ORDER BY a.name") or die(mysqli_error($con));
+	$zeroTargetObjects = mysqli_query($con, "SELECT ar_id FROM target_ultra t LEFT JOIN ar_details a ON t.ar_id = a.id WHERE t.year = $year AND t.month = $month AND t.target = 0 ORDER BY a.name") or die(mysqli_error($con));
 	foreach($zeroTargetObjects as $target)
 	{
 		$arIds[] = $target['ar_id'];
