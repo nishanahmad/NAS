@@ -66,6 +66,7 @@ if(isset($_SESSION["user_name"]))
 		$arNameMap[$ar['id']] = $ar['name'];
 		$arParentCodeMap[$ar['id']] = $ar['parent_code'];
 		$arChildCodeMap[$ar['id']] = $ar['child_code'];
+		$arUltraCodeMap[$ar['id']] = $ar['ultra_code'];
 		$arShopMap[$ar['id']] = $ar['shop_name'];
 		$arPhoneMap[$ar['id']] = $ar['mobile'];
 		if($ar['status'] == 'Active')
@@ -204,7 +205,8 @@ if(isset($_SESSION["user_name"]))
 								<th style="width:12%;text-align:center" class="header" scope="col"><i class="fab fa-buffer"></i> Qty</th>
 								<th style="text-align:left;" class="header" scope="col"><i class="fas fa-store"></i> Shop Name</th>	
 								<th style="text-align:left;" class="header" scope="col"> Child Code</th>	
-								<th style="text-align:left;" class="header" scope="col"> Parent Code</th>	
+								<th style="text-align:left;" class="header" scope="col"> Parent Code</th>
+								<th style="text-align:left;" class="header" scope="col"> Ultra Code</th>
 								<th style="width:15%;" class="header" scope="col"><i class="fa fa-mobile"></i> Phone</th>	<?php
 								if($tallyFlag)
 								{																								?>
@@ -222,6 +224,7 @@ if(isset($_SESSION["user_name"]))
 								<td style="text-align:left;"><?php echo $arShopMap[$arSale['ar_id']];?></td>			
 								<td style="text-align:left;"><?php echo $arChildCodeMap[$arSale['ar_id']];?></td>
 								<td style="text-align:left;"><?php echo $arParentCodeMap[$arSale['ar_id']];?></td>
+								<td style="text-align:left;"><?php echo $arUltraCodeMap[$arSale['ar_id']];?></td>
 								<td><?php echo $arPhoneMap[$arSale['ar_id']];?></td>										<?php
 								if($tallyFlag == true)
 								{		
