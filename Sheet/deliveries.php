@@ -143,24 +143,27 @@ if(isset($_SESSION["user_name"]))
 						$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user != $damageId") or die(mysqli_error($con));
 						foreach($stockQuery as $stock)
 						{	
-							$totalInHand = $totalInHand + $stock['qty'];																	?>
-							<tr>
-								<td><?php echo $drivers[$stock['user']];?></td>
-								<td style="text-align:center"><?php echo $stock['qty'];?></td>
-								<td style="text-align:center"><?php 
-									if(isset($driverToCollectMap[$stock['user']]))
-									{
-										echo '<font style="float:left;margin-left:10px;">'.$driverToCollectMap[$stock['user']].'</font>'; 
-										if(isset($driverLateMap[$stock['user']])) 
-											echo '<font style="float:right;color:#DC143C;margin-right:10px;">'.$driverLateMap[$stock['user']].'</font>';
-									}																										?>
-								</td>
-								<td style="text-align:center"><?php 
-									if(isset($todayPendingMap[$stock['user']])) 
-										echo $todayPendingMap[$stock['user']].' sites'; 													?>
-								</td>
-							</tr>																											<?php					
-						}																													?>
+							$totalInHand = $totalInHand + $stock['qty'];
+							if($stock['qty'] > 0)
+							{																																			?>
+								<tr>
+									<td><?php echo $drivers[$stock['user']];?></td>
+									<td style="text-align:center"><?php echo $stock['qty'];?></td>
+									<td style="text-align:center"><?php 
+										if(isset($driverToCollectMap[$stock['user']]))
+										{
+											echo '<font style="float:left;margin-left:10px;">'.$driverToCollectMap[$stock['user']].'</font>'; 
+											if(isset($driverLateMap[$stock['user']])) 
+												echo '<font style="float:right;color:#DC143C;margin-right:10px;">'.$driverLateMap[$stock['user']].'</font>';
+										}																										?>
+									</td>
+									<td style="text-align:center"><?php 
+										if(isset($todayPendingMap[$stock['user']])) 
+											echo $todayPendingMap[$stock['user']].' sites'; 													?>
+									</td>
+								</tr>																											<?php													
+							}								
+						}																														?>
 						<tr>
 							<th></th>
 							<th style="text-align:center"><?php echo $totalInHand;?></th>
