@@ -109,13 +109,7 @@ if(isset($_SESSION["user_name"]))
 								<span class="input-group-text col-md-4"><i class="fab fa-buffer"></i>&nbsp;Sheets</span>
 								<input name="qty" type="text" class="form-control" value="<?php echo $request['qty'];?>"/>
 							</div>
-						</div>
-						<div class="col col-md-10">
-							<div class="input-group mb-3">
-								<span class="input-group-text col-md-4"><i class="fab fa-buffer"></i>&nbsp;Half Sheets</span>
-								<input name="half_qty" type="text" class="form-control" value="<?php echo $request['half_qty'];?>"/>
-							</div>
-						</div>						<?php
+						</div>																												<?php
 					}																														?>							
 					<div class="col col-md-10">
 						<div class="input-group mb-3">

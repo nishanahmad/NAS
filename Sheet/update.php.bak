@@ -57,16 +57,16 @@ if(isset($_SESSION["user_name"]))
 
 		if(isset($_POST['half_qty']))
 		{
-			$half_qty = (int)$_POST['half_qty'];
+			$qty = (int)$_POST['half_qty'];
 			$oldQuery = mysqli_query($con,"SELECT * FROM sheets WHERE id=$id") or die(mysqli_error($con));
 			$old = mysqli_fetch_array($oldQuery,MYSQLI_ASSOC);
-			$old_half_Qty = (int)$old['half_qty'];
+			$oldQty = (int)$old['half_qty'];
 			$driver = $old['delivered_by'];
-			if($old_half_Qty != $half_qty)
+			if($oldQty != $qty)
 			{
-				$diff = $half_qty - $old_half_Qty;
-				$updateInHand = mysqli_query($con,"UPDATE sheets_in_hand SET half_qty = half_qty - $diff WHERE user = $driver") or die(mysqli_error($con));
-				$update = mysqli_query($con,"UPDATE sheets SET half_qty=$half_qty WHERE id=$id") or die(mysqli_error($con));			
+				$diff = $qty - $oldQty;
+				$updateInHand = mysqli_query($con,"UPDATE sheets_in_hand SET half_qty = qty - $diff WHERE user = $driver") or die(mysqli_error($con));
+				$update = mysqli_query($con,"UPDATE sheets SET half_qty=$qty WHERE id=$id") or die(mysqli_error($con));			
 			}
 		}	
 		
