@@ -23,7 +23,7 @@ if(isset($_SESSION['user_name']))
 
 	$endDateTime = date('Y-m-d H:i:s', strtotime($endDate . ' +1 day'));
 	
-	$logs = mysqli_query($con,"SELECT * FROM transfer_logs WHERE transferred_on >= '$startDate' AND transferred_on <= '$endDateTime' AND qty > 0 ORDER BY transferred_on DESC") or die(mysqli_error($con));									?>
+	$logs = mysqli_query($con,"SELECT * FROM half_transfer_logs WHERE transferred_on >= '$startDate' AND transferred_on <= '$endDateTime' AND qty > 0 ORDER BY transferred_on DESC") or die(mysqli_error($con));									?>
 <html>
 	<head>
 		<title>Transfer Logs</title>
@@ -55,8 +55,8 @@ if(isset($_SESSION['user_name']))
 				<h2><i class="fa fa-file-text"></i> Transfer Logs</i></h2><br/>
 				<div>
 					<select id="selectbox" class="form-control col-2" name="" onchange="javascript:location.href = this.value;">
-						<option value="#" selected>Full Sheet</option>
-						<option value="transfer_logs_half.php">Half Sheet</option>
+						<option value="transfer_logs.php">Full Sheet</option>
+						<option selected value="#">Half Sheet</option>
 					</select>
 				</div>
 				<br/>				
@@ -90,7 +90,7 @@ if(isset($_SESSION['user_name']))
 							<th style="width:120px;">Date</th>
 							<th style="width:120px;">Time</th>
 							<th></th>
-							<th style="width:50px;">Qty</th>
+							<th style="width:50px;">Half Qty</th>
 							<th style="width:120px;">Transfrd By</th>
 							<th style="width:140px;">Stock</th>
 							<th style="width:250px;">Remarks</th>

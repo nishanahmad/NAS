@@ -23,7 +23,7 @@ if(isset($_SESSION['user_name']))
 
 	$endDateTime = date('Y-m-d H:i:s', strtotime($endDate . ' +1 day'));
 	
-	$logs = mysqli_query($con,"SELECT * FROM transfer_logs WHERE transferred_on >= '$startDate' AND transferred_on <= '$endDateTime' AND qty > 0 ORDER BY transferred_on DESC") or die(mysqli_error($con));									?>
+	$logs = mysqli_query($con,"SELECT * FROM transfer_logs WHERE transferred_on >= '$startDate' AND transferred_on <= '$endDateTime' ORDER BY transferred_on DESC") or die(mysqli_error($con));									?>
 <html>
 	<head>
 		<title>Transfer Logs</title>
