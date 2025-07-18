@@ -50,7 +50,7 @@ if(isset($_POST["submit"]))
 				if(mysqli_num_rows($chat_id_query) > 0)
 				{
 					$chat_id = mysqli_fetch_array($chat_id_query, MYSQLI_ASSOC)['chat_id'];
-					$status = sendTelegramMessage($message,$chat_id);
+					$status = sendTelegramMessage($message,$chat_id,$con);
 
 					foreach($status as $key =>$value)
 					{

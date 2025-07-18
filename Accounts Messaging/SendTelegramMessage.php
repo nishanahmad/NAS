@@ -1,9 +1,11 @@
 <?php
 require '../vendor/autoload.php';
 
-function sendTelegramMessage($message,$bot_chatID)
+function sendTelegramMessage($message,$bot_chatID,$con)
 {
-	$bot_token = '6810686140:AAHqEQImO03bocclIzYwpv0Qwl1q7oT6bn0';
+	$credentails = mysqli_query($con,"SELECT * FROM telegram_credentials") or die(mysqli_error($con));
+	$bot_token = mysqli_fetch_array($credentails, MYSQLI_ASSOC)['bot_token'];
+	
 	$uri =  'https://api.telegram.org/bot'.$bot_token.'/sendMessage';
 	
 	$response = \Httpful\Request::post($uri)
