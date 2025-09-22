@@ -4,13 +4,8 @@
 	require '../connect.php';
 	require 'navbar.php';
 	require 'displayCard.php';
-	
-	if(isset($_GET['date']))
-		$date = date("Y-m-d", strtotime($_GET['date']));
-	else
-		$date = date("Y-m-d");
-	
-	$drivers = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role = 'driver' AND active=1 AND user_name != 'Damage' ORDER BY assign_order ASC") or die(mysqli_error($con));	
+		
+	$drivers = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role = 'driver' AND active=1 AND user_name != 'Damage' AND user_name != 'GODOWN' ORDER BY assign_order ASC") or die(mysqli_error($con));	
 	
 	$areas = mysqli_query($con,"SELECT id,name FROM sheet_area") or die(mysqli_error($con));
 	foreach($areas as $area)
@@ -18,7 +13,7 @@
 ?>
 <html>
 <head>
-	<title><?php echo date("d M", strtotime($date)).' driver assign';?></title>
+	<title>Collection Re-Assign</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">	
@@ -32,7 +27,7 @@
 		font-weight: normal;
 	}
 	.task-board {
-		background: #2c7cbc;
+		background: #855439;
 		display: inline-block;
 		padding: 12px;
 		border-radius: 3px;
@@ -114,30 +109,16 @@
 	<div align="center">
 	<br/><br/>
 	<select class="form-select" onchange="javascript:handleSelect(this)">
-	  <option selected value="#">Delivery</option>
-	  <option value="plan_pickup">Pickup</option>
+	  <option value="plan">Delivery</option>
+	  <option selected value="#">Pickup</option>
 	</select>
-	<br/><br/>	
-	<input name="date" type="text" id="datepicker" onchange="document.location.href = 'plan.php?date=' + this.value" value="<?php echo date('d-m-Y',strtotime($date));?>"/>
-	<br/><br/><br/>
-	<div class="task-board">
-		<div class="status-card">
-			<div class="card-header">
-				<span class="card-header-text">UNASSIGNED</span>
-			</div>
-			<ul class="sortable ui-sortable" id="sort0" data-driver-id="0"><?php
-			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE assigned_to = 0 AND date = '$date' AND status = 'requested' ORDER BY requested_by") or die(mysqli_error($con));
-			foreach ($sheets as $sheet) 
-			{
-				$card = displayCard($sheet,$areaMap)																									?>
-				<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet['id']; ?>"><?php echo $card;?></li>				<?php
-			}																																?>
-			</ul>
-		</div>																																<?php	
+	<br/><br/>		
+	<br/><br/>
+	<div class="task-board"><?php	
 		foreach($drivers as $driver)
 		{
 			$driverId = $driver["user_id"];
-			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE assigned_to = '$driverId' AND date = '$date' AND status = 'requested' ORDER BY assign_order") or die(mysqli_error($con));?>
+			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE delivered_by = '$driverId' AND status = 'delivered' ORDER BY assign_order") or die(mysqli_error($con));?>
 			<div class="status-card">
 				<div class="card-header">
 					<span class="card-header-text"><?php echo $driver['user_name']; ?></span>
@@ -155,10 +136,7 @@
 	<br/><br/><br/>	
 	</div>
 	<script>
-		$(function() {
-			var pickerOpts = { dateFormat:"dd-mm-yy"}; 
-			$( "#datepicker" ).datepicker(pickerOpts);
-			
+		$(function() {			
 			var oldDriver,newDriver,oldOrder,newOrder,sheet;
 			var date;
 			$('ul[id^="sort"]').sortable({
@@ -167,7 +145,7 @@
 					var driver = $(ui.item).parent(".sortable").data("driver-id");
 					sheet = $(ui.item).data("sheet-id");
 					$.ajax({
-						url : 'assignment.php?driver=' + driver + '&sheet=' + sheet,
+						url : 'assignment_pickup.php?driver=' + driver + '&sheet=' + sheet,
 						success : function(response){}
 					});
 				},
@@ -189,8 +167,7 @@
 	  function handleSelect(elm)
 	  {
 		 window.location = elm.value+".php";
-	  }
-		
+	  }		
 	</script>
 </body>
 </html>
