@@ -118,7 +118,7 @@
 		foreach($drivers as $driver)
 		{
 			$driverId = $driver["user_id"];
-			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE delivered_by = '$driverId' AND status = 'delivered' ORDER BY assign_order") or die(mysqli_error($con));?>
+			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE delivered_by = '$driverId' AND status = 'delivered' ORDER BY delivered_on") or die(mysqli_error($con));?>
 			<div class="status-card">
 				<div class="card-header">
 					<span class="card-header-text"><?php echo $driver['user_name']; ?></span>
@@ -126,7 +126,7 @@
 				<ul class="sortable ui-sortable" id="sort<?php echo $driverId; ?>" data-driver-id="<?php echo $driver['user_id']; ?>"><?php
 				foreach ($sheets as $sheet) 
 				{
-					$card = displayCard($sheet,$areaMap)																									?>
+					$card = displayCardPickup($sheet,$areaMap)																									?>
 					<li class="text-row ui-sortable-handle" data-sheet-id="<?php echo $sheet['id']; ?>"><?php echo $card;?></li>				<?php
 				}																																?>
 				</ul>
