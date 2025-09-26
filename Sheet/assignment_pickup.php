@@ -5,8 +5,5 @@ require  '../connect.php';
 $driver = $_GET['driver'];
 $sheet = $_GET['sheet'];
 
-$update = mysqli_query($con,"UPDATE sheets SET delivered_by='$driver' WHERE id='$sheet'") or die(mysqli_error($con));
-
-if($driver == 0)
-	$zeroUpdate = mysqli_query($con,"UPDATE sheets SET assign_order=0 WHERE id='$sheet'") or die(mysqli_error($con));
+$update = mysqli_query($con,"UPDATE sheets SET delivered_by='$driver', pickup_reassigned = 1 WHERE id='$sheet'") or die(mysqli_error($con));
 ?>

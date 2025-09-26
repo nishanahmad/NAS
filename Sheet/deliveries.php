@@ -65,12 +65,21 @@ if(isset($_SESSION["user_name"]))
 	}
 	else
 	{
-		if(isset($driverAreaMap[$_SESSION['user_id']]))
-			$areaIds = implode("','",$driverAreaMap[$_SESSION['user_id']]);
-		else
-			$areaIds = '';	
-		
-		$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' AND driver_area IN('$areaIds') ORDER BY date ASC" ) or die(mysqli_error($con));
+		$driverId = $_SESSION['user_id'];
+		if(isset($driverAreaMap[$driverId]))
+		{	
+			$areaIds = implode("','",$driverAreaMap[$driverId]);
+			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' AND 
+															        (  
+																		(pickup_reassigned = 0 AND driver_area IN('$areaIds')) OR 
+																		(pickup_reassigned = 1 AND delivered_by = $driverId) 
+																    )
+																	ORDER BY date ASC" ) or die(mysqli_error($con));
+		}
+		else		
+		{
+			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' AND delivered_by = $driverId AND pickup_reassigned = 1 ORDER BY date ASC" ) or die(mysqli_error($con));
+		}
 	}
 	
 	$driverToCollectMap = array();

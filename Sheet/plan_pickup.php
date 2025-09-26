@@ -6,6 +6,14 @@
 	require 'displayCard.php';
 		
 	$drivers = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role = 'driver' AND active=1 AND user_name != 'Damage' AND user_name != 'GODOWN' ORDER BY assign_order ASC") or die(mysqli_error($con));	
+
+	$mainAreaQuery = mysqli_query($con,"SELECT id,name,driver FROM sheet_area ORDER BY name") or die(mysqli_error($con));
+	foreach($mainAreaQuery as $mainArea)
+	{
+		$mainAreaMap[$mainArea['id']] = $mainArea['name'];		
+		$areaDriverMap[$mainArea['id']] = $mainArea['driver'];
+		$driverAreaMap[$mainArea['driver']][] = $mainArea['id'];
+	}
 	
 	$areas = mysqli_query($con,"SELECT id,name FROM sheet_area") or die(mysqli_error($con));
 	foreach($areas as $area)
@@ -118,7 +126,17 @@
 		foreach($drivers as $driver)
 		{
 			$driverId = $driver["user_id"];
-			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE delivered_by = '$driverId' AND status = 'delivered' ORDER BY delivered_on") or die(mysqli_error($con));?>
+			if(isset($driverAreaMap[$driverId]))
+				$areaIds = implode("','",$driverAreaMap[$driverId]);
+			else
+				$areaIds = '';
+			
+			$sheets = mysqli_query($con,"SELECT * FROM sheets WHERE status ='delivered' AND 
+															        (  
+																		(pickup_reassigned = 0 AND driver_area IN('$areaIds')) OR 
+																		(pickup_reassigned = 1 AND delivered_by = $driverId) 
+																    )
+																	ORDER BY date ASC" ) or die(mysqli_error($con));?>
 			<div class="status-card">
 				<div class="card-header">
 					<span class="card-header-text"><?php echo $driver['user_name']; ?></span>
