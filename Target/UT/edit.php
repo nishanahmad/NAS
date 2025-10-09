@@ -4,9 +4,9 @@
 session_start();
 if(isset($_SESSION["user_name"]))
 {
-	require '../connect.php';
-	require '../functions/monthMap.php';
-	require '../navbar.php';
+	require '../../connect.php';
+	require '../../functions/monthMap.php';
+	require '../../navbar.php';
 	require 'functions/latestYear.php';
 	require 'functions/latestMonth.php';
 	

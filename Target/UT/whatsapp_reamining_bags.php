@@ -1,26 +1,25 @@
 <?php
-require '../connect.php';
+require '../../connect.php';
 require 'sendMessage.php';
 
 $month;
 $year;
 $targetArray = unserialize($_POST['input_name']);
+//var_dump($targetArray);
+
 foreach($targetArray as $target)
 {
 	$dateObj   = DateTime::createFromFormat('!m', $target['month']);
 	$monthName = $dateObj->format('F');
 	$month = $target['month'];
 	$year = $target['year'];
+	$balance = $target['target'] - $target['actual_sale'];
 	if($target['whatsapp'] != null)
 	{
 		$phone = '91'.$target['whatsapp'];
-		$text = 'Dear AR, Ur '.$monthName.' Month Target is '.$target['target'].' Bags. Achieve Ur Target & Earn Full Lakshya Benefits - AR HELP';
+		$text = 'Dear AR, Your balance to achieve your monthly target of '.$monthName.' '.$year.' is '.$balance.' bags. Achieve your target & earn special benefits - AR HELP';
 		$status = sendMessage($text,$phone);
 	}	
 }
 
-$statusSql = "INSERT INTO whatsapp_status (type, year, month) VALUES ('target', '$year', '$month')";
-$insertStatus = mysqli_query($con, $statusSql) or die(mysqli_error($con));
-
-header("Location:list.php?");
-
+header("Location:list.php?success");

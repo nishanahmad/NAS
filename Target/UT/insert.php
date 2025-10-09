@@ -2,18 +2,15 @@
 //ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
-require '../connect.php';
+require '../../connect.php';
 session_start();
 if(isset($_SESSION["user_name"]))
 {
 	$month = (int)$_POST['month'];
 	$year = (int)$_POST['year'];	
 	
-	var_dump($month);
-	var_dump($year);
-	
 	foreach($_POST as $key => $value)
-	{
+	{	
 		$arr = explode("-",$key);
 		$arId = (int)str_replace('_',' ',$arr[0]);
 		
@@ -21,7 +18,7 @@ if(isset($_SESSION["user_name"]))
 		{
 			if($arr[1] == 'target')
 			{
-				$sql="UPDATE target SET target = '$value' WHERE ar_id = '$arId' AND month = '$month' AND year = '$year' ";
+				$sql="INSERT INTO target (target,ar_id,month,year,rate,payment_perc) VALUES ('$value','$arId','$month','$year',0,100)";
 				$result = mysqli_query($con, $sql) or die(mysqli_error($con));				   
 			}
 			else if($arr[1] == 'rate')	
@@ -29,11 +26,11 @@ if(isset($_SESSION["user_name"]))
 				$sql="UPDATE target SET rate = '$value' WHERE ar_id = '$arId' AND month = '$month' AND year = '$year' ";
 				$result = mysqli_query($con, $sql) or die(mysqli_error($con));				   			
 			}	
-			else if($arr[1] == 'mult')	
+			else if($arr[1] == 'pp')	
 			{
-				$sql="UPDATE target SET multiplier = '$value' WHERE ar_id = '$arId' AND month = '$month' AND year = '$year' ";
+				$sql="UPDATE target SET payment_perc = '$value' WHERE ar_id = '$arId' AND month = '$month' AND year = '$year' ";
 				$result = mysqli_query($con, $sql) or die(mysqli_error($con));				   			
-			}									
+			}						
 		}
 	}
 	

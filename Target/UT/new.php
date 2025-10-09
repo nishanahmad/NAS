@@ -5,11 +5,11 @@
 session_start();
 if(isset($_SESSION["user_name"]))
 {
-	require '../connect.php';
-	require '../navbar.php';
-	require '../functions/monthMap.php';
-	require '../functions/targetIds.php';
-	require '../functions/zeroTargetIds.php';
+	require '../../connect.php';
+	require '../../navbar.php';
+	require '../../functions/monthMap.php';
+	require '../../functions/targetIds.php';
+	require '../../functions/zeroTargetIds.php';
 	
 	$year = $_GET['year'];
 	$month = $_GET['month'];
@@ -34,7 +34,7 @@ if(isset($_SESSION["user_name"]))
 	$targetIds = getTargetIds($lastTargetYear,$lastTargetMonth,$con);
 	$targetIds = implode("','",$targetIds);
 	
-	$zeroTargetIds = getZeroTargetIds($lastTargetYear,$lastTargetMonth,$con);
+	$zeroTargetIds = getZeroTargetIdsUltra($lastTargetYear,$lastTargetMonth,$con);
 	
 ?>
 <head>

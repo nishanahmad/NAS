@@ -2,10 +2,12 @@
 session_start();
 if(isset($_SESSION["user_name"]))
 {
-	require '../connect.php';
-	require '../functions/monthMap.php';
-	require '../functions/targetFormula.php';
-	require '../navbar.php';
+	echo $_SERVER['DOCUMENT_ROOT'];
+	
+	require '../../connect.php';
+	require '../../functions/monthMap.php';
+	require '../../functions/targetFormula.php';
+	require '../../navbar.php';
 	require 'functions/latestYear.php';
 	require 'functions/latestMonth.php';
 	
