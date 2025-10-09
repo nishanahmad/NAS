@@ -1,4 +1,5 @@
 <?php
+
 $flag = null;
 $url = $_SERVER['REQUEST_URI'];
 if (strpos($url, 'home') !== false)

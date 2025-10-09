@@ -2,9 +2,14 @@
 session_start();
 if(isset($_SESSION["user_name"]))
 {
-	echo $_SERVER['DOCUMENT_ROOT'];
+	require  '../../loadenv.php';
+	loadEnv('../../.env');
+
+	define('ROOT_PATH', getenv('PROJECT_ROOT'));
 	
-	require '../../connect.php';
+	var_dump(ROOT_PATH); 
+	
+	require ROOT_PATH.'/connect.php';
 	require '../../functions/monthMap.php';
 	require '../../functions/targetFormula.php';
 	require '../../navbar.php';
