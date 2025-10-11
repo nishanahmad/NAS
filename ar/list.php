@@ -6,6 +6,8 @@ if(isset($_SESSION["user_name"]))
 {
 	require '../connect.php';
 	require '../navbar.php';
+	
+	$brand = $_GET['brand'] ;
 ?>
 
 <html>
@@ -28,17 +30,7 @@ if(isset($_SESSION["user_name"]))
 </head>
 <body>
 <div id="main" class="main">
-	<aside class="sidebar">
-		<nav class="nav">
-			<ul>
-				<li class="active"><a href="#">AR List</a></li>
-				<li><a href="../TargetUltra/list.php?">Target</a></li>
-				<li><a href="../SpecialTargetUltra/list.php?">Special Target</a></li>
-				<li><a href="../gold_pointsUltra/list.php?">Gold Points</a></li>
-				<li><a href="../redemptionUltra/list.php?">Redemption</a></li>
-			</ul>
-		</nav>
-	</aside>
+	<?php if($brand == 'ut'){include '../sidebar_ut.php';} else {include '../sidebar_acc.php';} ?>
     <div class="container">
 		<nav class="navbar navbar-light bg-light sticky-top bottom-nav" style="margin-left:13%;width:100%">
 			<span class="navbar-brand" style="font-size:25px;margin-left:40%;"><i class="fa fa-address-card-o"></i> AR List</span>
