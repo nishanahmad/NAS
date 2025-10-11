@@ -244,7 +244,7 @@ a {
 		  </li>																																		<?php
 	  }																																				?>	  	  
 	  <li class="nav-item">
-		<a class="nav-link" <?php if($flag == 'ar') echo 'href="#"'; else echo 'href="../ar/list.php"';?>>
+		<a class="nav-link" <?php if($flag == 'ar') echo 'href="#"'; else echo 'href="../ar/list.php?brand=ut"';?>>
 		  <i class="fa fa-address-card-o <?php if($flag == 'ar') echo 'glow';?> aria-hidden="true"></i>
 		  AR
 		</a>
