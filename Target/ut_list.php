@@ -195,9 +195,9 @@ function rerender()
 							Monthly Points
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">
-							<li><a href="../points_full/acc_mainPage.php?" class="dropdown-item">Accumulated Points</a></li>
+							<li><a href="../points_full/ut_mainPage.php?" class="dropdown-item">Accumulated Points</a></li>
 							<li><a href="ut_edit.php?" class="dropdown-item">Update Target</a></li>
-							<li><a href="../targetBags/list.php" class="dropdown-item">Target Bags</a></li>
+							<li><a href="../targetBags/ut_list.php" class="dropdown-item">Target Bags</a></li>
 						</ul>
 					</div>
 				</div>					

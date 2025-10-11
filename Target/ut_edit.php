@@ -84,16 +84,7 @@ function rerender()
 </head>
 <body>
 	<div id="main" class="main">
-		<aside class="sidebar">
-			<nav class="nav">
-				<ul>
-					<li><a href="../ar/list.php">AR List</a></li>
-					<li class="active"><a href="#">Target</a></li>
-					<li><a href="../SpecialTarget/list.php?">Special Target</a></li>
-					<li><a href="../redemption/list.php?">Redemption</a></li>
-				</ul>
-			</nav>
-		</aside>
+		<?php include '../sidebar_ut.php'; ?>
 		<div class="container">		
 			<nav class="navbar navbar-light bg-light sticky-top bottom-nav" style="margin-left:12.5%;width:100%">
 				<div class="btn-group" role="group" aria-label="Button group with nested dropdown" style="float:left;margin-left:2%;">
@@ -103,7 +94,7 @@ function rerender()
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">
 							<li><a href="ut_list.php?" class="dropdown-item">Monthly Points</a></li>
-							<li><a href="../points_full/acc_mainPage.php?" class="dropdown-item">Accumulated Points</a></li>
+							<li><a href="../points_full/ut_mainPage.php?" class="dropdown-item">Accumulated Points</a></li>
 						</ul>
 					</div>
 				</div>								
