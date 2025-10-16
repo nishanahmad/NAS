@@ -216,7 +216,7 @@ if(isset($_SESSION["user_name"]) && $_SESSION["role"] != 'marketing')
 												<option value="<?php echo $truck['id'];?>" <?php if($truck['id'] == $row['truck']) echo 'selected';?>><?php echo $truck['number'];?></option>								<?php	
 											}																																											?>
 										</select>
-										&nbsp;&nbsp;<a data-toggle="modal" data-target="#newTruckModal" style="color:limegreen;cursor:pointer">New</a>										
+										&nbsp;&nbsp;<!--a data-toggle="modal" data-target="#newTruckModal" style="color:limegreen;cursor:pointer">New</a-->										
 									</div>
 								</div>
 							</div>														

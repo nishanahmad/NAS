@@ -11,7 +11,7 @@ if (strpos($url, 'loading') !== false)
 if (strpos($url, 'coveringBlock') !== false)
 	$flag = 'coveringBlock';	
 if (strpos($url, 'trucks') !== false)
-	$flag = 'loading';
+	$flag = 'trucks';
 if (strpos($url, 'ar') !== false || strpos($url, 'points') !== false || strpos($url, 'Target') !== false || strpos($url, 'redemption') !== false || strpos($url, 'custom_pp') !== false)
 	$flag = 'ar';
 if (strpos($url, 'engineers') !== false || strpos($url, 'Engineer') !== false)
@@ -228,9 +228,9 @@ a {
 	  if($_SESSION['role'] != 'marketing')
 	  {																																				?>	  
 		  <li class="nav-item">
-			<a class="nav-link" <?php if($flag == 'loading') echo 'href="#"'; else echo 'href="../loading/list.php"';?>>
-			  <i class="fa fas fa-dolly <?php if($flag == 'loading') echo 'glow';?> aria-hidden="true"></i>
-			  Loading
+			<a class="nav-link" <?php if($flag == 'trucks') echo 'href="#"'; else echo 'href="../trucks/list.php"';?>>
+			  <i class="fa fas fa-truck <?php if($flag == 'trucks') echo 'glow';?> aria-hidden="true"></i>
+			  Trucks
 			</a>
 		  </li>																																		<?php
 	  }																																					  

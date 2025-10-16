@@ -8,7 +8,18 @@ if(isset($_SESSION["user_name"]))
 	require 'newModal.php';
 	
 
-	$trucks = mysqli_query($con,"SELECT * FROM truck_details ORDER BY driver") or die(mysqli_error($con));																												?>	
+	$trucks = mysqli_query($con,"SELECT * FROM truck_details ORDER BY driver") or die(mysqli_error($con));					
+
+	$typeMap = array();
+	$vehicle_types = mysqli_query($con,"SELECT * FROM vehicle_type") or die(mysqli_error($con));		
+	foreach($vehicle_types as $vehicle_type)
+		$typeMap[$vehicle_type['id']] = $vehicle_type['type'];
+	
+	$areaMap = array();
+	$vehicle_areas = mysqli_query($con,"SELECT * FROM vehicle_area") or die(mysqli_error($con));		
+	foreach($vehicle_areas as $vehicle_area)
+		$areaMap[$vehicle_area['id']] = $vehicle_area['area'];
+																																															?>	
 <html>
 	<head>
     	<meta charset="utf-8">
@@ -30,8 +41,8 @@ if(isset($_SESSION["user_name"]))
 					</ul>
 				</div>
 			</div>		
-			<span class="navbar-brand" style="font-size:25px;"><i class="fa fa-truck"></i> Trucks</span>
-			<a href="#" class="btn btn-sm" role="button" style="background-color:#54698D;color:white;float:right;margin-right:40px;" data-toggle="modal" data-target="#newModal"><i class="fa fa-truck"></i> New Truck</a>
+			<span class="navbar-brand" style="font-size:25px;margin-right:50%"><i class="fa fa-truck"></i> Trucks</span>
+			<!--a href="#" class="btn btn-sm" role="button" style="background-color:#54698D;color:white;float:right;margin-right:40px;" data-toggle="modal" data-target="#newModal"><i class="fa fa-truck"></i> New Truck</a-->
 		</nav>
 		<div style="width:100%;" class="mainbody">	
    			<div id="snackbar"><i class="fas fa-dolly"></i>&nbsp;&nbsp;New truck details inserted successfully !!!</div>		
@@ -40,18 +51,26 @@ if(isset($_SESSION["user_name"]))
 				<table class="table table-hover table-bordered" style="width:30%">
 					<thead>
 						<tr style="background-color:#F2CF5B">
+							<th></th>
 							<th><i class="fa fa-truck"></i> Number</th>
 							<th><i class="fa fa-user"></i> Driver</th>
 							<th><i class="fa fa-mobile"></i> Phone</th>
+							<th><i class="fa fa-address-card"></i> License No</th>
+							<th><i class="fa fa-square"></i> Vehicle Type</th>
+							<th><i class="fa fa-map"></i> Vehicle Area</th>
 						</tr>
 					</thead>
 					<tbody><?php				
 						foreach($trucks as $truck)
 						{																														?>
 							<tr>
+								<td><a href="edit.php?id=<?php echo $truck['id'];?>">Edit</a></td>
 								<td><?php echo $truck['number'];?></td>
 								<td><?php echo $truck['driver'];?></td>
 								<td><?php echo $truck['phone'];?></td>
+								<td><?php echo $truck['license_no'];?></td>
+								<td><?php if(isset($typeMap[$truck['vehicle_type']])) echo $typeMap[$truck['vehicle_type']];?></td>
+								<td><?php if(isset($areaMap[$truck['vehicle_area']])) echo $areaMap[$truck['vehicle_area']];?></td>
 							</tr>																												<?php
 						}																														?>
 					</tbody>																														
