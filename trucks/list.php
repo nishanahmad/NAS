@@ -48,7 +48,7 @@ if(isset($_SESSION["user_name"]))
    			<div id="snackbar"><i class="fas fa-dolly"></i>&nbsp;&nbsp;New truck details inserted successfully !!!</div>		
 			<div align="center">
 				<br/><br/>
-				<table class="table table-hover table-bordered" style="width:30%">
+				<table class="table table-hover table-bordered" style="width:35%">
 					<thead>
 						<tr style="background-color:#F2CF5B">
 							<th></th>
@@ -58,6 +58,7 @@ if(isset($_SESSION["user_name"]))
 							<th><i class="fa fa-address-card"></i> License No</th>
 							<th><i class="fa fa-square"></i> Vehicle Type</th>
 							<th><i class="fa fa-map"></i> Vehicle Area</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody><?php				
@@ -71,6 +72,12 @@ if(isset($_SESSION["user_name"]))
 								<td><?php echo $truck['license_no'];?></td>
 								<td><?php if(isset($typeMap[$truck['vehicle_type']])) echo $typeMap[$truck['vehicle_type']];?></td>
 								<td><?php if(isset($areaMap[$truck['vehicle_area']])) echo $areaMap[$truck['vehicle_area']];?></td>
+								<td><a class="btn" style="background-color:#E6717C;color:#FFFFFF;width:120px;margin-left:20px;margin-right:20px;" 
+									   href="delete.php?id=<?php echo $truck['id'];?>"
+									   onclick="return confirm('Are you sure you want to delete?')">
+									   <i class="far fa-trash-alt"></i>&nbsp;&nbsp;Delete
+								     </a>
+								 </td>
 							</tr>																												<?php
 						}																														?>
 					</tbody>																														
