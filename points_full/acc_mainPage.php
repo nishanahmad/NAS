@@ -18,6 +18,23 @@ if(isset($_SESSION["user_name"]))
 	$latestYear = getLatestYearAcc($con);
 	$latestMonth = getLatestMonthAcc($con);
 	
+	$latestYearRedemptionQuery = mysqli_query($con, "SELECT DISTINCT YEAR(date) FROM redemption ORDER BY YEAR(date) DESC LIMIT 1") or die(mysqli_error($con));		
+	$latestYearRedemption = (int)mysqli_fetch_array($latestYearRedemptionQuery, MYSQLI_ASSOC)['YEAR(date)'];
+	if($latestYearRedemption > $latestYear)
+	{
+		$latestYear = $latestYearRedemption;
+		$latestMonthRedemptionQuery = mysqli_query($con, "SELECT DISTINCT MONTH(date) FROM redemption WHERE YEAR(date) = $latestYear ORDER BY date DESC LIMIT 1") or die(mysqli_error($con));		
+		$latestMonth = (int)mysqli_fetch_array($latestMonthRedemptionQuery, MYSQLI_ASSOC)['MONTH(date)'];			
+	}
+	else if($latestYearRedemption == $latestYear)
+	{
+		$latestMonthRedemptionQuery = mysqli_query($con, "SELECT DISTINCT MONTH(date) FROM redemption WHERE YEAR(date) = $latestYear ORDER BY date DESC LIMIT 1") or die(mysqli_error($con));		
+		$latestMonthRedemption = (int)mysqli_fetch_array($latestMonthRedemptionQuery, MYSQLI_ASSOC)['MONTH(date)'];					
+		if($latestMonthRedemption > $latestMonth)
+			$latestMonth = $latestMonthRedemption;
+	}
+	
+	
 	if($latestMonth == 12)
 	{
 		$nextMonth = 1;
@@ -28,8 +45,7 @@ if(isset($_SESSION["user_name"]))
 		$nextMonth = $latestMonth + 1;
 		$nextYear = $latestYear;		
 	}	
-	
-	
+
 	$mainArray = array();
 	if(isset($_GET['year']) && isset($_GET['month']) && isset($_GET['dateString']))
 	{
@@ -44,7 +60,39 @@ if(isset($_SESSION["user_name"]))
 		$dateString = 'FULL';
 	}
 	
-	if($year == $latestYear && $month > $latestMonth)
+	// Populate yearList and monthlist for the picklist
+	$yearList1 = mysqli_query($con, "SELECT DISTINCT year FROM target ORDER BY year DESC") or die(mysqli_error($con));	
+	$yearList2 = mysqli_query($con, "SELECT DISTINCT YEAR(date) FROM redemption ORDER BY YEAR(date) DESC") or die(mysqli_error($con));	
+
+	$yearList = array();
+	$yearMonthsMap = array();
+	foreach($yearList1 as $yearObj)
+			$yearList[] = $yearObj['year']; 
+	foreach($yearList2 as $yearObj)
+	{
+		if(!in_array($yearObj['YEAR(date)'], $yearList))
+			$yearList[] = $yearObj['YEAR(date)']; 
+	}
+	rsort($yearList);
+	foreach($yearList as $yearObj)
+	{
+		$months = array();
+		$monthList1 = mysqli_query($con, "SELECT DISTINCT month FROM target WHERE year = $yearObj ORDER BY month ASC" );
+		foreach($monthList1 as $monthObj)
+			$months[] = $monthObj['month'];
+
+		$monthList2 = mysqli_query($con, "SELECT DISTINCT MONTH(date) FROM redemption WHERE YEAR(date) = $yearObj ORDER BY MONTH(date) ASC" );
+		foreach($monthList2 as $monthObj)
+		{
+			if(!in_array($monthObj['MONTH(date)'], $months))
+				$months[] = $monthObj['MONTH(date)'];		
+		}
+			
+		sort($months);
+		$yearMonthsMap[$yearObj] = $months;
+	}
+	
+	if(($year == $latestYear && $month > $latestMonth) || !in_array($month,$yearMonthsMap[$year]))
 	{
 		$URL='acc_mainPage.php?';
 		echo "<script type='text/javascript'>document.location.href='{$URL}';</script>";
@@ -176,6 +224,7 @@ if(isset($_SESSION["user_name"]))
 	{
 		$redemptionMap[$redemption['ar_id']] = $redemption['SUM(points)'];
 	}
+
 ?>
 <head>
 	<link href="../css/styles.css" rel="stylesheet" type="text/css">	
@@ -256,10 +305,9 @@ if(isset($_SESSION["user_name"]))
 					<div style="width:120px;margin-left:42%">
 						<div class="input-group">
 							<select id="jsYear" name="jsYear" class="form-select" onchange="return rerender();">																				<?php	
-								$yearList = mysqli_query($con, "SELECT DISTINCT year FROM target ORDER BY year DESC") or die(mysqli_error($con));	
 								foreach($yearList as $yearObj) 
 								{																																								?>
-									<option value="<?php echo $yearObj['year'];?>" <?php if($yearObj['year'] == $year) echo 'selected';?>><?php echo $yearObj['year'];?></option>																			<?php	
+									<option value="<?php echo $yearObj;?>" <?php if($yearObj == $year) echo 'selected';?>><?php echo $yearObj;?></option>																			<?php	
 								}																																								?>
 							</select>
 						</div>
@@ -267,10 +315,10 @@ if(isset($_SESSION["user_name"]))
 					<div style="width:150px;">
 						<div class="input-group">
 							<select id="jsMonth" name="jsMonth" class="form-select" onchange="return rerender();">																				<?php	
-								$monthList = mysqli_query($con, "SELECT DISTINCT month FROM target WHERE year = $year ORDER BY month ASC" ) or die(mysqli_error($con));	
+								$monthList = $yearMonthsMap[$year];
 								foreach($monthList as $monthObj) 
 								{																																		?>
-									<option value="<?php echo $monthObj['month'];?>" <?php if($monthObj['month'] == $month) echo 'selected';?>><?php echo getMonth($monthObj['month']);?></option>															<?php	
+									<option value="<?php echo $monthObj;?>" <?php if($monthObj == $month) echo 'selected';?>><?php echo getMonth($monthObj);?></option>															<?php	
 								}																																		?>	
 							</select>					
 						</div>
