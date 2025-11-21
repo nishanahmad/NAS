@@ -37,7 +37,7 @@ if(isset($_SESSION["user_name"]))
 		</nav>	
 		<div align="center" id="tableDiv">
 		<br/><br/>
-		<table class="maintable table table-hover table-bordered" style="width:85%;margin-left:15%;">
+		<table class="maintable table table-hover table-bordered" style="width:90%;margin-left:10%;">
 		<?php
 			$sql = "SELECT * FROM ar_details WHERE type != 'Engineer' ORDER BY name ASC";
 			$result = mysqli_query($con, $sql) or die(mysqli_error($con));																					?>
@@ -51,6 +51,7 @@ if(isset($_SESSION["user_name"]))
 					<th>Whatsapp</th>
 					<th>Type</th>
 					<th>Child/Parent</th>
+					<th>Ultra Code</th>
 					<th>Status</th>
 				</tr>
 			</thead>
@@ -67,6 +68,7 @@ if(isset($_SESSION["user_name"]))
 				$type = $row['type'];
 				$parentCode = $row['parent_code'];
 				$childCode = $row['child_code'];
+				$ultra_code = $row['ultra_code'];
 				$status = $row['status'];
 			?>	
 			<tr>
@@ -78,6 +80,7 @@ if(isset($_SESSION["user_name"]))
 				<td style="text-align:center;width:10%"><?php echo $whatsapp;?></td>		
 				<td><?php echo $type;?></td>
 				<td><?php echo $childCode.'<br/>'.$parentCode;?></td>
+				<td><?php echo $ultra_code;?></td>
 				<td><?php echo $status;?></td>
 			</tr>																																			<?php
 			}																																																										?>

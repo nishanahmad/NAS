@@ -74,6 +74,12 @@ if(isset($_SESSION["user_name"]))
 							</div>
 							<div class="col-8">
 								<div class="input-group mb-3">
+									<span class="input-group-text col-md-4">Ultra Code</span>
+									<input type="text" name="ultra_code" class="form-control" value="<?php if(isset($ar['ultra_code'])) echo $ar['ultra_code'];?>">
+								</div>
+							</div>							
+							<div class="col-8">
+								<div class="input-group mb-3">
 								<span class="input-group-text col-md-4">Type</span>
 									<select name="type" id="type" class="form-control" style="width:60%">
 										<option <?php if($ar['type'] == 'AR') echo 'selected';?> value = "AR">AR</option>

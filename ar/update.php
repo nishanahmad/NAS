@@ -13,6 +13,7 @@ if(isset($_SESSION["user_name"]))
 		$whatsapp = $_POST['whatsapp'];
 		$child_code = $_POST['child_code'];
 		$parent_code = $_POST['parent_code'];
+		$ultra_code = $_POST['ultra_code'];
 		$type = $_POST['type'];
 		
 		if(empty($shop_name))
@@ -23,10 +24,12 @@ if(isset($_SESSION["user_name"]))
 			$child_code = null;			
 		if(empty($parent_code))
 			$parent_code = null;					
+		if(empty($ultra_code))
+			$ultra_code = null;							
 		
 		$sql = "UPDATE ar_details SET shop_name=".var_export($shop_name, true).",whatsapp=".var_export($whatsapp, true).",
 									  child_code=".var_export($child_code, true).",parent_code=".var_export($parent_code, true).",
-									  type = '$type' WHERE id = $arId";
+									  ultra_code=".var_export($ultra_code, true).",type = '$type' WHERE id = $arId";
 		$update = mysqli_query($con,$sql) or die(mysqli_error($con));
 							
 		$url = 'edit.php?success&id='.$arId;
