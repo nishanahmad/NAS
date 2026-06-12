@@ -204,6 +204,8 @@ a {
   color: inherit; /* blue colors for links too */
   text-decoration: inherit; /* no underline */
 }
+
+
 </style>
 <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark sticky-top top-nav" id="content-desktop">
   <a class="navbar-brand main-brand" href="#"><img src="../images/logo.png"></img></a>
@@ -215,14 +217,14 @@ a {
 	<ul class="navbar-nav mr-auto">
 	  <li class="nav-item">
 		<a class="nav-link" <?php if($flag == 'home') echo 'href="#"'; else echo 'href="../index/home.php"';?>>
-		  <i class="fa fa-home <?php if($flag == 'home') echo 'glow';?> aria-hidden="true"></i>
+		  <i class="bi bi-house-fill h3 <?php if($flag == 'home') echo 'glow';?>" aria-hidden="true" ></i><br/>
 		  Home
 		</a>
 	  </li>	  
 	  <li class="nav-item">
 		<a class="nav-link" 
 		  <?php if($flag == 'sales') echo 'href="#"'; else echo 'href="../sales/list.php?sql='.$sql.'&range=Today"';?>>
-		  <i class="fa fa-bolt <?php if($flag == 'sales') echo 'glow';?> aria-hidden="true"></i>
+		  <i class="bi bi-cart-fill h3 <?php if($flag == 'sales') echo 'glow';?> aria-hidden="true"></i><br/>
 		  Sales
 		</a>
 	  </li>	  
@@ -231,7 +233,7 @@ a {
 	  {																																				?>	  
 		  <li class="nav-item">
 			<a class="nav-link" <?php if($flag == 'trucks') echo 'href="#"'; else echo 'href="../trucks/list.php"';?>>
-			  <i class="fa fas fa-truck <?php if($flag == 'trucks') echo 'glow';?> aria-hidden="true"></i>
+			  <i class="bi bi-truck h3 <?php if($flag == 'trucks') echo 'glow';?> aria-hidden="true"></i><br/>
 			  Trucks
 			</a>
 		  </li>																																		<?php
@@ -240,20 +242,20 @@ a {
 	  {																																				?>	  
 		  <li class="nav-item">
 			<a class="nav-link" <?php if($flag == 'coveringBlock') echo 'href="#"'; else echo 'href="../coveringBlock/list.php"';?>>
-			  <i class="fa fa-th <?php if($flag == 'coveringBlock') echo 'glow';?> aria-hidden="true"></i>
-			  Covering Block
+			  <i class="bi bi-box-fill h3 <?php if($flag == 'coveringBlock') echo 'glow';?> aria-hidden="true"></i><br/>
+			  CoverBlock
 			</a>
 		  </li>																																		<?php
 	  }																																				?>	  	  
 	  <li class="nav-item">
 		<a class="nav-link" <?php if($flag == 'ar') echo 'href="#"'; else echo 'href="../ar/list.php?brand=ut"';?>>
-		  <i class="fa fa-address-card-o <?php if($flag == 'ar') echo 'glow';?> aria-hidden="true"></i>
+		  <i class="bi bi-person-vcard-fill h3 <?php if($flag == 'ar') echo 'glow';?> aria-hidden="true"></i><br/>
 		  AR
 		</a>
 	  </li>	  
 	  <li class="nav-item">
 		<a class="nav-link" <?php if($flag == 'engineers') echo 'href="#"'; else echo 'href="../engineers/points.php?"';?>>
-		  <i class="fa fa-hard-hat <?php if($flag == 'engineers') echo 'glow';?> aria-hidden="true"></i>
+		  <i class="bi bi-person-bounding-box h3 <?php if($flag == 'engineers') echo 'glow';?> aria-hidden="true"></i><br/>
 		  Engineers
 		</a>
 	  </li>
@@ -262,7 +264,7 @@ a {
 	  {																																				?>
 		  <li class="nav-item">
 			<a class="nav-link" <?php if($flag == 'rate') echo 'href="#"'; else echo 'href="../rate/list.php"';?>>
-			  <i class="fa fa-rupee-sign <?php if($flag == 'rate') echo 'glow';?> aria-hidden="true"></i>
+			  <i class="bi bi-currency-rupee h3 <?php if($flag == 'rate') echo 'glow';?> aria-hidden="true"></i><br/>
 			  Rate
 			</a>
 		  </li>	  
@@ -275,25 +277,25 @@ a {
 	  }																																				?>
 	  <li class="nav-item">
 		<a class="nav-link" <?php if($flag == 'Sheet') echo 'href="#"'; else echo 'href="../Sheet/requests.php"';?>>
-		  <i class="fa fa-clone <?php if($flag == 'Sheet') echo 'glow';?> aria-hidden="true"></i>
+		  <i class="bi bi-layers-fill h3<?php if($flag == 'Sheet') echo 'glow';?> aria-hidden="true"></i><br/>
 		  Sheets
 		</a>
 	  </li>	  	  
-	  <li class="nav-item">
-		<a class="nav-link" <?php if($flag == 'company_sale') echo 'href="#"'; else echo 'href="../company_sale/list.php"';?>>
-		  <i class="fa fa-bolt <?php if($flag == 'company_sale') echo 'glow';?> aria-hidden="true"></i>
+	  <!--li class="nav-item">
+		<a class="nav-link" <?php //if($flag == 'company_sale') echo 'href="#"'; else echo 'href="../company_sale/list.php"';?>>
+		  <i class="fa fa-bolt <?php //if($flag == 'company_sale') echo 'glow';?> aria-hidden="true"></i><br/>
 		  Company Sale
-		</a>
+		</a-->
 	  </li>	  	  	  
 	  <li class="nav-item">
 		<a class="nav-link" <?php if($flag == 'gate_pass') echo 'href="#"'; else echo 'href="../gate_pass/list.php"';?>>
-		  <i class="fa fa-key <?php if($flag == 'gate_pass') echo 'glow';?> aria-hidden="true"></i>
+		  <i class="bi bi-passport-fill h3 <?php if($flag == 'gate_pass') echo 'glow';?> aria-hidden="true"></i><br/>
 		  Gate Pass
 		</a>
 	  </li>	  	  	  	  
 	  <li class="nav-item">
 		<a class="nav-link" <?php if($flag == 'reports') echo 'href="#"'; else echo 'href="../reports/salesSummary.php"';?>>
-		  <i class="fa fa-chart-area <?php if($flag == 'reports') echo 'glow';?> aria-hidden="true"></i>
+		  <i class="bi bi-bar-chart-line-fill h3 <?php if($flag == 'reports') echo 'glow';?> aria-hidden="true"></i><br/>
 		  Reports
 		</a>
 	  </li>	  	  		
