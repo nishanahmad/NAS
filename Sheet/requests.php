@@ -52,7 +52,10 @@ if(isset($_SESSION["user_name"]))
 	$damageQuery = mysqli_query($con,"SELECT user_id FROM users WHERE user_name = 'Damage'" ) or die(mysqli_error($con));
 	$damageId = (int)mysqli_fetch_array($damageQuery,MYSQLI_ASSOC)['user_id'];
 	
-	$inHandQuery = mysqli_query($con,"SELECT SUM(qty) FROM sheets_in_hand WHERE user != $damageId" ) or die(mysqli_error($con));
+	$newSheetQuery = mysqli_query($con,"SELECT user_id FROM users WHERE user_name = 'New Sheet Inventory'" ) or die(mysqli_error($con));
+	$newId = (int)mysqli_fetch_array($newSheetQuery,MYSQLI_ASSOC)['user_id'];	
+	
+	$inHandQuery = mysqli_query($con,"SELECT SUM(qty) FROM sheets_in_hand WHERE user != $damageId AND user != $newId") or die(mysqli_error($con));
 	$stockInHand = (int)mysqli_fetch_array($inHandQuery,MYSQLI_ASSOC)['SUM(qty)'];
 	
 	//$agr = mysqli_query($con,"SELECT SUM(qty) FROM sheets WHERE status ='delivered' " ) or die(mysqli_error($con));
@@ -181,7 +184,7 @@ if(isset($_SESSION["user_name"]))
 											<th style="text-align:center">Pend Today</th>
 										</tr><?php
 										$totalInHand = 0;
-										$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user != $damageId") or die(mysqli_error($con));
+										$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user != $damageId AND user != $newId") or die(mysqli_error($con));
 										foreach($stockQuery as $stock)
 										{	
 											$totalInHand = $totalInHand + $stock['qty'];																		?>
@@ -223,7 +226,7 @@ if(isset($_SESSION["user_name"]))
 											<th style="text-align:center">Pend Today</th>
 										</tr><?php
 										$totalInHand = 0;
-										$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user != $damageId") or die(mysqli_error($con));
+										$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user != $damageId AND user != $newId") or die(mysqli_error($con));
 										foreach($stockQuery as $stock)
 										{
 											if($stock['half_qty'] > 0)
