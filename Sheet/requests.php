@@ -184,9 +184,7 @@ if(isset($_SESSION["user_name"]))
 										$stockQuery = mysqli_query($con,"SELECT * FROM sheets_in_hand WHERE user != $damageId") or die(mysqli_error($con));
 										foreach($stockQuery as $stock)
 										{	
-											$totalInHand = $totalInHand + $stock['qty'];																	
-											if($stock['qty'] > 0)
-											{																													?>
+											$totalInHand = $totalInHand + $stock['qty'];																		?>
 												<tr>
 													<td><?php echo $drivers[$stock['user']];?></td>
 													<td style="text-align:center"><?php echo $stock['qty'];?></td>
@@ -202,8 +200,7 @@ if(isset($_SESSION["user_name"]))
 														if(isset($todayPendingMap[$stock['user']])) 
 															echo $todayPendingMap[$stock['user']].' sites'; 													?>
 													</td>
-												</tr>																											<?php																	
-											}
+												</tr>																										<?php
 										}																													?>
 										<tr>
 											<th></th>
