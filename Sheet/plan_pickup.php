@@ -5,7 +5,7 @@
 	require 'navbar.php';
 	require 'displayCard.php';
 		
-	$drivers = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role = 'driver' AND active=1 AND user_name != 'Damage' AND user_name != 'GODOWN' ORDER BY assign_order ASC") or die(mysqli_error($con));	
+	$drivers = mysqli_query($con,"SELECT user_id,user_name FROM users WHERE role = 'driver' AND active=1 AND user_name != 'Damage' AND user_name != 'New Sheet Inventory' ORDER BY assign_order ASC") or die(mysqli_error($con));	
 
 	$mainAreaQuery = mysqli_query($con,"SELECT id,name,driver FROM sheet_area ORDER BY name") or die(mysqli_error($con));
 	foreach($mainAreaQuery as $mainArea)
