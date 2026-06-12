@@ -28,7 +28,7 @@ if(isset($_SESSION["user_name"]))
 			<div class="modal-body">
 				<br/>
 				<p id="insertError" style="color:red;"></p>
-				<form name="newItemForm" id="newItemForm" method="post" action="insertItem.php">
+				<form name="newItemForm" id="newItemForm" method="post" action="insert.php">
 					<div class="card" id="holding-card" style="width:50%;margin-left:30%;margin-bottom:50px;">
 					</div>				
 					<div class="row">					
