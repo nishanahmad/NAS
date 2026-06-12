@@ -11,7 +11,7 @@ if(isset($_SESSION["user_name"]))
 	else
 		$error = 'false';	
 	
-	$users = mysqli_query($con,"SELECT * FROM users WHERE role ='driver' ORDER BY user_name ASC" ) or die(mysqli_error($con));
+	$users = mysqli_query($con,"SELECT * FROM users WHERE role ='driver' AND active = 1 ORDER BY user_name ASC" ) or die(mysqli_error($con));
 	foreach($users as $user)
 	{
 		if($user['user_name'] == 'Damage')
