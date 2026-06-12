@@ -26,7 +26,7 @@ if(isset($_SESSION["user_name"]))
 	foreach($shopsQuery as $shop)
 		$shops[$shop['id']] = $shop['shop_name'];		
 		
-	$users = mysqli_query($con,"SELECT * FROM users WHERE role ='driver' AND active = 1 ORDER BY user_name ASC" ) or die(mysqli_error($con));
+	$users = mysqli_query($con,"SELECT * FROM users WHERE role ='driver' ORDER BY user_name ASC" ) or die(mysqli_error($con));
 	foreach($users as $user)
 		$userMap[$user['user_id']] = $user['user_name']; 
 	
