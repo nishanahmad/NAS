@@ -138,7 +138,7 @@ if(isset($_SESSION["user_name"]))
 		<br/><br/>
 		<div align="center">
 			<h2><i class="fa fa-exchange"></i>&nbsp;&nbsp;Tranfer Sheets</h2><br/>
-			<form action="" method="post" style="width:400px;border:1px solid black">
+			<form action="" method="post" style="width:600px;border:1px solid black">
 				<br/><br/>
 				<div class="form-group">
 					<div class="col-md-4 col-md-offset-3">
@@ -150,7 +150,7 @@ if(isset($_SESSION["user_name"]))
 				</div>	
 
 				<div class="form-group row">
-					<div style="margin-left:30px;">
+					<div style="margin-left:100px;">
 						<select required name="from" id="from" class="form-control">
 							<option value="">--- FROM ---</option><?php
 							foreach($userMap as $userId => $userName)
@@ -160,7 +160,7 @@ if(isset($_SESSION["user_name"]))
 						</select>
 					</div>
 					<div>
-						<span class="input-group-text"><i class="fa fa-angle-double-right"></i><i class="fa fa-angle-double-right"></i></span>
+						<span class="input-group-text"><i class="bi bi-box-arrow-in-right"></i></span>
 					</div>						
 					<div>
 						<select required name="to" id="to" class="form-control">
