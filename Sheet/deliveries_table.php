@@ -60,6 +60,7 @@ if(isset($_SESSION["user_name"]))
 					<th>Mason</th>
 					<th>Customer</th>
 					<th>Shop</th>
+					<th style="width:12%">Req</th>
 					<th>Delv By</th>
 					<th style="width:12%">Delv On</th>
 					<th>Remarks</th>
@@ -81,6 +82,7 @@ if(isset($_SESSION["user_name"]))
 						else
 							echo $sheet['shop'];?>
 					</td>
+					<td><?php echo $sheet['requested_by'].'<br/>'.date('d M, h:i A', strtotime($sheet['created_on']));?></td>
 					<td><?php echo $drivers[$sheet['delivered_by']];?></td>
 					<td><?php echo date('d-m-Y h:i A',strtotime($sheet['delivered_on']));?></td>
 					<td><?php echo $sheet['remarks'];?></td>
