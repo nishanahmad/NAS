@@ -119,8 +119,7 @@ $(function(){
 	
 	
 			
-	// Navigate to edit page	
-	/*
+	// AJAX to navigate to edit page	
 	$('.saleId').click(function(){
 		var saleId = $(this).data('id');
 		var params = $(this).data('params');
@@ -129,31 +128,7 @@ $(function(){
 		if(userRole != 'marketing')
 			window.location.href = 'edit.php?sales_id='+saleId + '&' + params;
 	});
-	*/
-	$('.saleId').on('mousedown click', function(e) {
-		var saleId = $(this).data('id');
-		var params = $(this).data('params');
-		var userRole = $('#userRole').val();
 
-		if (userRole === 'marketing') {
-			return;
-		}
-
-		params = params.replace('success&', '');
-		var url = 'edit.php?sales_id=' + saleId + '&' + params;
-
-		// Middle mouse button or Ctrl/Cmd + Left Click
-		if (e.type === 'mousedown' && e.which === 2 ||
-			e.type === 'click' && (e.ctrlKey || e.metaKey)) {
-			window.open(url, '_blank');
-			return false;
-		}
-
-		// Normal left click
-		if (e.type === 'click' && e.which === 1) {
-			window.location.href = url;
-		}
-	});	
 				
 
 		
