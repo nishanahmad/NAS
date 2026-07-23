@@ -279,6 +279,7 @@ if(isset($_SESSION["user_name"]))
 						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">
 							<li><a href="../Target/ut_list.php?" class="dropdown-item">Monthly Points</a></li>
 							<li><a href="../Target/ut_edit.php?" class="dropdown-item">Update Target</a></li>
+							<li><a href="../targetBags/ut_list.php" class="dropdown-item">Target Bags</a></li>
 						</ul>
 					</div>
 				</div>					

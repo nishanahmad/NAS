@@ -95,7 +95,6 @@ function rerender()
 						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">
 							<li><a href="ut_list.php?" class="dropdown-item">Monthly Points</a></li>
 							<li><a href="../points_full/ut_mainPage.php?" class="dropdown-item">Accumulated Points</a></li>
-							<li><a href="../targetBags/ut_list.php" class="dropdown-item">Target Bags</a></li>
 						</ul>
 					</div>
 				</div>								

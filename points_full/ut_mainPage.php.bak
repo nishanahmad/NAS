@@ -277,8 +277,8 @@ if(isset($_SESSION["user_name"]))
 							Accumulated Points
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">
-							<li><a href="../Target/acc_list.php?" class="dropdown-item">Monthly Points</a></li>
-							<li><a href="../Target/acc_edit.php?" class="dropdown-item">Update Target</a></li>
+							<li><a href="../Target/ut_list.php?" class="dropdown-item">Monthly Points</a></li>
+							<li><a href="../Target/ut_edit.php?" class="dropdown-item">Update Target</a></li>
 						</ul>
 					</div>
 				</div>					
