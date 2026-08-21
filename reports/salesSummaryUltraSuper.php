@@ -64,7 +64,7 @@ if(isset($_SESSION["user_name"]))
 		
 	if($_POST)
 	{
-		$URL='salesSummaryUltra.php?from='.$_POST['fromDate'].'&to='.$_POST['toDate'];
+		$URL='salesSummaryUltraSuper.php?from='.$_POST['fromDate'].'&to='.$_POST['toDate'];
 		echo "<script type='text/javascript'>document.location.href='{$URL}';</script>";
 		echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';				
 	}	
