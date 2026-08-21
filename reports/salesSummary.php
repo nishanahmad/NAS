@@ -137,6 +137,7 @@ if(isset($_SESSION["user_name"]))
 							Summary Report
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="cursor:pointer">									
+							<li><a href="salesSummaryUltra.php" class="dropdown-item">Ultra Report</a></li>							
 							<li><a href="truckReport.php" class="dropdown-item">Truck Report</a></li>							
 							<li><a href="monthlyPriceSummary.php" class="dropdown-item">Price Report</a></li>							
 						</ul>
